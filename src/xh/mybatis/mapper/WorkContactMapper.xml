@@ -14,6 +14,9 @@
 		 <if test="type!=null and type!=''">
          and a.type=#{type}
          </if>
+         <if test="status!=null and status!=''">
+         and a.status=#{status}
+         </if>
          <if test="roleType==3">
          and((a.user_type=2 and a.status>=1) or a.user_type=3 or a.user_type=0)
          </if>
@@ -37,6 +40,9 @@
           <if test="roleType==2">
          and(((user_type=3 or user_type=0) and status>=1) or user_type=2)
          </if>
+          <if test="status!=null and status!=''">
+         and status=#{status}
+         </if>
 	</select>
 	<select id="codeNum" resultType="int" parameterType="map">
         select count(*) from xhgmnet_operations_workcontact where 1=1
@@ -50,7 +56,7 @@
 	</insert>
 	<update id="update" parameterType="xh.mybatis.bean.WorkContactBean">
 	update xhgmnet_operations_workcontact set copyUnit=#{copyUnit},recvUnit=#{recvUnit},
-	content=#{content},time=#{time} where taskId=#{taskId}
+	content=#{content},time=#{time},status=#{status} where taskId=#{taskId}
 	</update>
 	<insert id="addFile" parameterType="java.util.List">
 	insert into xhgmnet_operations_workcontact_file(taskId,filePath,fileName)values
@@ -58,16 +64,29 @@
 	(#{x.taskId},#{x.filePath},#{x.fileName})
 	</foreach>
 	</insert>
+	
+	<delete id="delFile" parameterType="int">
+	delete from xhgmnet_operations_workcontact_file where id=#{id}
+	</delete>
 	<select id="searchFile" parameterType="String" resultType="map">
 	select * from xhgmnet_operations_workcontact_file where taskId=#{taskId}
 	</select>
+	<select id="isFileExistis" parameterType="map" resultType="int">
+    select count(*) from xhgmnet_operations_workcontact_file where taskId=#{taskId}
+      and fileName=#{fileName}
+    </select>
 	<update id="sign" parameterType="xh.mybatis.bean.WorkContactBean">
-	update xhgmnet_operations_workcontact set status=2,checkTime=#{checkTime},checkUser=#{checkUser}
+	update xhgmnet_operations_workcontact set status=2,checkTime=#{checkTime},
+	checkUser=#{checkUser},reply=#{reply}
 	where taskId=#{taskId}
 	</update>
 	   <update id="check" parameterType="xh.mybatis.bean.WorkContactBean">
     update xhgmnet_operations_workcontact set status=#{status},check_person=#{check_person},check_time=#{check_time},note=#{note}
     where taskId=#{taskId}
+    </update>
+    <update id="cancel" parameterType="int">
+    update xhgmnet_operations_workcontact set status=-2
+    where id=#{id}
     </update>
 	
 	<delete id="del" parameterType="java.util.List">

@@ -255,3 +255,42 @@ xh.refresh = function() {
 	$scope.refresh();
 
 };
+xh.excel = function() {
+	var $scope = angular.element(appElement).scope();
+	var time=$("#excel").find("input[name='time']").val();
+	$("#excel-btn").button('loading');
+	xh.maskShow("数据导出中");
+	$.ajax({
+		url : '../../contacts/excel_contacts',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data : {
+			time:time
+		},
+		success : function(data) {
+			xh.maskHide();
+			$("#excel-btn").button('reset');
+			if (data.success) {
+				$('#excel').modal('hide');
+				//window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
+				swal({
+					title : "提示",
+					text : "文件生成成功",
+					type : "info"
+				});
+
+			} else {
+				swal({
+					title : "提示",
+					text : data.message,
+					type : "error"
+				});
+			}
+		},
+		error : function() {
+			xh.maskHide();
+			$("#excel-two-btn").button('reset');
+		}
+	});
+};

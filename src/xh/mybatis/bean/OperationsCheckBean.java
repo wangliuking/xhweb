@@ -33,6 +33,11 @@ public class OperationsCheckBean {
 	private String checkTime7;
 	private String checkTime8;
 	
+	private int isMeetDocSign;
+	private String writeMeetUser;
+	private int writeMeetRoleType;
+	
+	
 	private String note1;
 	private int status;
 	
@@ -47,6 +52,9 @@ public class OperationsCheckBean {
 	
 	private String money4_fileName;
 	private String money4_filePath;
+	
+	private String score_header;
+	private String money_header;
 	
 	
 	
@@ -251,8 +259,26 @@ public class OperationsCheckBean {
 		this.checkTime5 = checkTime5;
 	}
 	
+	public int getIsMeetDocSign() {
+		return isMeetDocSign;
+	}
+	public void setIsMeetDocSign(int isMeetDocSign) {
+		this.isMeetDocSign = isMeetDocSign;
+	}
 	public String getCheckUser5() {
 		return checkUser5;
+	}
+	public String getWriteMeetUser() {
+		return writeMeetUser;
+	}
+	public void setWriteMeetUser(String writeMeetUser) {
+		this.writeMeetUser = writeMeetUser;
+	}
+	public int getWriteMeetRoleType() {
+		return writeMeetRoleType;
+	}
+	public void setWriteMeetRoleType(int writeMeetRoleType) {
+		this.writeMeetRoleType = writeMeetRoleType;
 	}
 	public void setCheckUser5(String checkUser5) {
 		this.checkUser5 = checkUser5;
@@ -293,6 +319,18 @@ public class OperationsCheckBean {
 				+ ", score4_filePath=" + score4_filePath + ", money4_fileName="
 				+ money4_fileName + ", money4_filePath=" + money4_filePath
 				+ ", files=" + files + "]";
+	}
+	public String getScore_header() {
+		return score_header;
+	}
+	public String getMoney_header() {
+		return money_header;
+	}
+	public void setScore_header(String score_header) {
+		this.score_header = score_header;
+	}
+	public void setMoney_header(String money_header) {
+		this.money_header = money_header;
 	}
 	
 	

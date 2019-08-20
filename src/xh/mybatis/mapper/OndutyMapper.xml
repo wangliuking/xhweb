@@ -20,7 +20,7 @@
          and dutyDate>=#{time}
      </if>
     </select> 
-    <!--写入东信基站呼叫统计数据 -->
+    <!--写入运维值班记录-->
 	<insert id="write_data" parameterType="java.util.List">
 		replace into xhgmnet_operations_onduty(dutyDate,onePerson,twoPerson)
 		values

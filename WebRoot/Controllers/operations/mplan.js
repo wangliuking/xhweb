@@ -301,9 +301,13 @@ xh.excelOne = function() {
 			xh.maskHide();
 			$("#excel-one-btn").button('reset');
 			if (data.success) {
-				$('#edit-one').modal('hide');
-				window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
-				
+				$('#excel-one').modal('hide');
+				//window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
+				swal({
+					title : "提示",
+					text : "文件生成成功",
+					type : "info"
+				});
 
 			} else {
 				swal({
@@ -336,9 +340,13 @@ xh.excelTwo = function() {
 			xh.maskHide();
 			$("#excel-two-btn").button('reset');
 			if (data.success) {
-				$('#edit-two').modal('hide');
-				window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
-				
+				$('#excel-two').modal('hide');
+				//window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
+				swal({
+					title : "提示",
+					text : "文件生成成功",
+					type : "info"
+				});
 
 			} else {
 				swal({

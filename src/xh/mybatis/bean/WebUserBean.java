@@ -1,5 +1,7 @@
 package xh.mybatis.bean;
 
+import java.util.List;
+
 public class WebUserBean {
 	private int userId;
 	private int roleId;
@@ -19,8 +21,17 @@ public class WebUserBean {
 	
 	private int roleType;
 	private int parentId;
+	private List<UserZoneBean> userZone;
 	
 	
+	public List<UserZoneBean> getUserZone() {
+		return userZone;
+	}
+
+	public void setUserZone(List<UserZoneBean> userZone) {
+		this.userZone = userZone;
+	}
+
 	public WebUserBean(){}
 	
 	public int getUserId() {

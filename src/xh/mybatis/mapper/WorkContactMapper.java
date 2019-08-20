@@ -18,8 +18,14 @@ public interface WorkContactMapper {
 	
 	int check(WorkContactBean bean) throws Exception;
 	
+	int cancel(int id) throws Exception;
+	
+	int delFile(int id) throws Exception;
+	
 	int del(List<String> list) throws Exception;
 	
 	int codeNum(Map<String,Object> map) throws Exception;
+	
+	int isFileExistis(Map<String,Object> map) throws Exception;
 
 }

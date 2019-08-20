@@ -47,7 +47,7 @@
 				var bRet = document.getElementById("PageOfficeCtrl1").ZoomSeal
 						.AddSealByName("shangxu", null, null);
 				if (bRet) {
-					alert("盖章成功！");
+					//alert("盖章成功！");
 				} else {
 					alert("盖章失败！");
 				}

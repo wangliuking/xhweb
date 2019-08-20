@@ -34,6 +34,11 @@ xh.load = function() {
 		$scope.time = $location.search().checkMonth;
 		$scope.doc_name="成都市应急指挥调度无线通信网四期工程服务项目\r\n服务扣款表";
 		var files=$location.search().files;
+		var docName=$location.search().docName;
+		if(docName!=null && docName!=""){
+			$scope.doc_name=docName;
+		}
+		
 		$scope.sum_money4=function(){
 			var a=0;
 			a+=parseFloat($("#money4Form").find("input[name='m_a1']").val()==""?0:$("#money4Form").find("input[name='m_a1']").val());
@@ -65,12 +70,23 @@ xh.load = function() {
 				$scope.money_sum3=response.sum3;
 				$scope.money_data4 = response.items4;
 				$scope.money_sum4=response.sum4;
+				if(JSON.stringify($scope.money_data4).length<=2){
+					$scope.autoMoney(time);
+				}
 				
 				
 			});
 		}
+		$scope.autoMoney=function(time){
+			$http.get("../../check/show_money_detail?period=4&time="+time).
+			success(function(response){
+				xh.maskHide();
+				$scope.money_data4 = response.items;
+				$scope.money_sum4=response.sum;
+			});
+		}
 		$scope.searchFile=function(fileName){
-			var filesStr=JSON.parse(files);
+			/*var filesStr=JSON.parse(files);
 			var path="";
 			if(files.indexOf(fileName)==-1){
 				alert("参考资料不存在");
@@ -79,6 +95,24 @@ xh.load = function() {
 			for(var i=0;i<filesStr.length;i++){
 				if(filesStr[i].fileName.indexOf(fileName)!=-1){
 					path=filesStr[i].filePath;
+				}
+			}*/
+			var filesStr=files.split(",");
+			var path="";
+			if(files.indexOf(fileName)==-1){
+				if(fileName=="成都市应急通信网应急通信保障预案"){
+					path="/doc/成都市应急通信网应急通信保障预案.docx"
+				}else if(fileName=="成都市应急通信网运维管理制度"){
+					path="/doc/成都市应急通信网运维管理制度.doc"
+				}else{
+					alert("参考资料不存在");
+					return;
+				}
+			}
+			for(var i=0;i<filesStr.length;i++){
+				if(filesStr[i].indexOf(fileName)!=-1){
+					path="/upload/check/"+$scope.time.split("-")[0]
+					+"/"+$scope.time.split("-")[1]+"/4/"+filesStr[i];
 				}
 			}
 			if(path.toLowerCase().indexOf("doc")!=-1){

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
@@ -50,12 +52,14 @@ public class WorkContactController {
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
 		String time=request.getParameter("time");
 		String type=request.getParameter("type");
+		String status=request.getParameter("status");
 		
 		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("start", start);
 		map.put("limit",limit);
 		map.put("time",time);
 		map.put("type",type);
+		map.put("status",status);
 		map.put("roleType",FunUtil.loginUserInfo(request).get("roleType"));
 		HashMap result = new HashMap();
 		result.put("totals",WorkContactService.list_count(map));
@@ -205,9 +209,11 @@ public class WorkContactController {
 	@RequestMapping("/update")
 	public void update(HttpServletRequest request, HttpServletResponse response){
 		String data=request.getParameter("formData");
+		String files=request.getParameter("files");
 		WorkContactBean bean=GsonUtil.json2Object(data, WorkContactBean.class);
 		bean.setContent(bean.getContent().replaceAll("(\r\n|\r|\n|\n\r)", "<br>"));
 		bean.setContent(bean.getContent().replaceAll(" ", "&nbsp;"));
+		bean.setTime(bean.getTime().split(" ")[0]);
 		bean.setStatus(0);
 		int rst=WorkContactService.update(bean);
 		if(rst>0){
@@ -216,8 +222,25 @@ public class WorkContactController {
 		
 			FunUtil.WriteLog(request, ConstantLog.UPDATE, "修改工作联系单");
 			FunUtil.sendMsgToOneUser(bean.getCheck_person(), "工作联系单", "工作联系单已经修改，请审核", request);
+			Type type = new TypeToken<ArrayList<Map<String,Object>>>() {}.getType(); 
 			
-			
+			List<Map<String,Object>> filelist=new ArrayList<Map<String,Object>>();
+			filelist=GsonUtil.json2Object(files, type);
+			if(filelist.size()>0){
+				for(int i=0;i<filelist.size();i++){
+					Map<String,Object> map=filelist.get(i);
+					map.put("taskId", bean.getTaskId());										
+				}
+				Iterator<Map<String,Object>> it = filelist.iterator();
+				while (it.hasNext()) {
+					if(WorkContactService.isFileExistis(it.next())>0){
+						it.remove();
+					}						
+				}	
+			}
+			if(filelist.size()>0){
+				WorkContactService.addFile(filelist);
+			}
 			
 		}else{
 			this.message="修改失败";
@@ -241,23 +264,31 @@ public class WorkContactController {
 	public Map<String,Object> sign(HttpServletRequest request, HttpServletResponse response){
 		String taskId=request.getParameter("taskId");
 		String addUser=request.getParameter("addUser");
+		String check_person=request.getParameter("check_person");
+		String reply=request.getParameter("reply");
 		WorkContactBean bean=new WorkContactBean();
 		bean.setTaskId(taskId);
 		bean.setAddUser(addUser);
 		bean.setCheckUser(FunUtil.loginUser(request));
 		bean.setCheckTime(FunUtil.nowDateNoTime());
+		bean.setReply(reply);
 		int rst=WorkContactService.sign(bean);
 		if(rst>0){
-			this.message="确认工作联系单成功";
+			this.message="回复工作联系单成功";
 			this.success=true;
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(2);
-			webLogBean.setContent("确认工作联系单信息，data=" + bean.getTaskId());
+			webLogBean.setContent("回复工作联系单信息，data=" + bean.getTaskId());
 			WebLogService.writeLog(webLogBean);
-			FunUtil.sendMsgToOneUser(addUser, "工作联系单","服务提供方已经确认收到了工作联系单", request);
+			if(Integer.parseInt(FunUtil.loginUserInfo(request).get("roleType").toString())==2){
+			  FunUtil.sendMsgToOneUser(addUser, "工作联系单","管理方已经回复了工作联系单", request);
+			}else{
+		      FunUtil.sendMsgToOneUser(addUser, "工作联系单","服务提供方已经回复了工作联系单", request);
+			}
+			
 		}else{
-			this.message="工作联系单确认失败";
+			this.message="工作联系单回复失败";
 			this.success=false;
 		}
 		
@@ -309,6 +340,43 @@ public class WorkContactController {
 		result.put("success",success);
 		result.put("message", message);
 		result.put("bean",bean);
+		return result;
+	}	
+	@RequestMapping("/cancel")
+	@ResponseBody
+	public Map<String,Object> cancel(@RequestParam("id") int id,HttpServletRequest request, HttpServletResponse response){
+
+		int rst=WorkContactService.cancel(id);
+		int type=Integer.parseInt(FunUtil.loginUserInfo(request).get("roleType").toString());
+		if(rst>0){
+			this.message="撤销工作联系单成功";
+			this.success=true;
+			FunUtil.sendMsgToUserByGroupPower("recv_work_contact", type, "工作联系单", "工作联系单被撤销", request);
+			
+		}else{
+			this.message="工作联系单撤销失败";
+			this.success=false;
+		}
+		
+		HashMap result = new HashMap();
+		result.put("success",success);
+		result.put("message", message);
+		return result;
+	}	
+	@RequestMapping("/delFile")
+	@ResponseBody
+	public Map<String,Object> delFile(@RequestParam("id") int id,HttpServletRequest request, HttpServletResponse response){
+		int rst=WorkContactService.delFile(id);
+		if(rst>0){
+			
+			this.success=true;
+			
+		}else{
+			this.success=false;
+		}		
+		HashMap result = new HashMap();
+		result.put("success",success);
+		result.put("message", message);
 		return result;
 	}	
 	@RequestMapping("/del")

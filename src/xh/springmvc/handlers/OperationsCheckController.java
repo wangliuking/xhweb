@@ -1,16 +1,22 @@
 package xh.springmvc.handlers;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -76,6 +83,42 @@ public class OperationsCheckController {
 		try {
 			response.getWriter().write(jsonstr);
 		} catch (IOException e) {
+			// TODO Auto-generated catch blocksearchFile
+			e.printStackTrace();
+		}
+
+	}
+	@RequestMapping(value = "/searchFile", method = RequestMethod.GET)
+	public void searchFile(@RequestParam("applyId") String applyId,
+			HttpServletRequest request, HttpServletResponse response) {
+		HashMap result = new HashMap();
+		result.put("items", OperationsCheckService.searchFile(applyId));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch blocksearchFile
+			e.printStackTrace();
+		}
+
+	}
+	@RequestMapping(value = "/search_checkcut_count", method = RequestMethod.GET)
+	public void search_checkcut_count(
+			@RequestParam("month") String month,
+			@RequestParam("period") int period,
+			HttpServletRequest request, 
+			HttpServletResponse response) {
+		this.success = true;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("month", month);
+		map.put("period", period);
+		HashMap result = new HashMap();
+		result.put("count", OperationsCheckService.search_checkcut_count(map));
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -126,10 +169,10 @@ public class OperationsCheckController {
 
 	}
 	@RequestMapping(value = "/show_money_detail", method = RequestMethod.GET)
-	public void show_money_detail(HttpServletRequest request, HttpServletResponse response) {
+	public void show_money_detail(@RequestParam("period") int period,HttpServletRequest request, HttpServletResponse response) {
 		String time=request.getParameter("time");
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<CheckMoneyBean> list=OperationsCheckService.show_money_detail(time);
+		List<CheckMoneyBean> list=OperationsCheckService.show_money_detail(time,period);
 		float sum=0;
 		HashMap<String,Object> rs=new HashMap<String, Object>();
 		for(int i=0;i<list.size();i++){
@@ -139,6 +182,119 @@ public class OperationsCheckController {
 			rs.put("n_"+bean.getCheck_tag(), bean.getCheck_note());
 			sum+=bean.getMoney();
 		}
+		
+		Map<String, Object> map_year = new HashMap<String, Object>();
+		Map<String, Object> map_month = new HashMap<String, Object>();
+		String start_time="",end_time="";
+		if(period==3){
+			int month=FunUtil.StringToInt(time.split("-")[1]);
+			if(month<=7){
+				start_time=(FunUtil.StringToInt(time.split("-")[0])-1)+"-08";
+				end_time=time.split("-")[0]+"-07";
+			}else{
+				start_time=time.split("-")[0]+"-08";
+				end_time=(FunUtil.StringToInt(time.split("-")[0])+1)+"-07";
+				
+			}
+		}
+		//5-4
+		if(period==4){
+			int month=FunUtil.StringToInt(time.split("-")[1]);
+			if(month<=5){
+				start_time=(FunUtil.StringToInt(time.split("-")[0])-1)+"-05";
+				end_time=time.split("-")[0]+"-04";
+			}else{
+				start_time=time.split("-")[0]+"-05";
+				end_time=(FunUtil.StringToInt(time.split("-")[0])+1)+"-04";
+				
+			}
+		}
+		map_month.put("start_time", start_time);
+		map_month.put("end_time", end_time);
+		map_month.put("time", time);
+		map_month.put("period", period);
+		List<Map<String,Object>> search_month_bs_break=OperationsCheckService.search_month_bs_break(map_month);
+		int a2=0,a3=0,a4=0;
+		for (Map<String, Object> map2 : search_month_bs_break) {
+			if(map2.get("level").toString().equals("1")){
+				int x1=FunUtil.StringToInt(map2.get("break_time_total"));
+				int x2=FunUtil.StringToInt(map2.get("break_time"));
+				int y1=FunUtil.StringToInt(map2.get("checkcut_time_total"));
+				int y2=FunUtil.StringToInt(map2.get("checkcut_time"));
+				
+				int total1=x1-y1;
+				int total2=x2-y2;
+				
+				
+				
+				int a=((total1-total2)%60+total2)%60==0?((total1-total2)%60+total2-60)/60:(((total1-total2)%60+total2-60)/60+1);
+				if((total1-total2)%60>0){
+					a-=1;
+				}
+				if(a>0){
+					if(map2.get("period").toString().equals(3)){
+						a2+=a*300;
+					}else{
+						a2+=a*1000;
+					}
+					
+					
+				}
+			}
+			if(map2.get("level").toString().equals("2")){
+				int x1=FunUtil.StringToInt(map2.get("break_time_total"));
+				int x2=FunUtil.StringToInt(map2.get("break_time"));
+				int y1=FunUtil.StringToInt(map2.get("checkcut_time_total"));
+				int y2=FunUtil.StringToInt(map2.get("checkcut_time"));
+				
+				int total1=x1-y1;
+				int total2=x2-y2;
+				
+				int a=((total1-total2)%60+total2)%60==0?((total1-total2)%60+total2-60*5)/60:(((total1-total2)%60+total2-60*5)/60+1);
+				if((total1-total2)%60>0){
+					a-=1;
+				}
+				if(a>0){
+					if(map2.get("period").toString().equals(3)){
+						a3+=a*300;
+					}else{
+						a3+=a*1000;
+					}
+					
+				}
+			}
+			
+			if(map2.get("level").toString().equals("3")){
+				int x1=FunUtil.StringToInt(map2.get("break_time_total"));
+				int x2=FunUtil.StringToInt(map2.get("break_time"));
+				int y1=FunUtil.StringToInt(map2.get("checkcut_time_total"));
+				int y2=FunUtil.StringToInt(map2.get("checkcut_time"));
+				
+				int total1=x1-y1;
+				int total2=x2-y2;
+				
+				int a=((total1-total2)%60+total2)%60==0?((total1-total2)%60+total2-60*9)/60:(((total1-total2)%60+total2-60*9)/60+1);
+				if((total1-total2)%60>0){
+					a-=1;
+				}
+				if(a>0){
+					if(map2.get("period").toString().equals(3)){
+						a4+=a*300;
+					}else{
+						a4+=a*1000;
+					}
+					
+					
+				}
+			}	
+		}
+		rs.put("m_a2", a2);
+		rs.put("m_a3", a3);
+		rs.put("m_a4", a4);
+		sum+=(a2+a3+a4);
+		
+		
+		
 		
 		HashMap result = new HashMap();
 		result.put("items",rs);
@@ -196,20 +352,43 @@ public class OperationsCheckController {
 
 	}
 	@RequestMapping(value = "/show_score_detail", method = RequestMethod.GET)
-	public void show_score_detail(HttpServletRequest request, HttpServletResponse response) {
+	public void show_score_detail(@RequestParam("period") int period,HttpServletRequest request, HttpServletResponse response) {
 		String time=request.getParameter("time");
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<OperationsCheckScoreBean> list=OperationsCheckService.show_score_detail(time);
+		List<OperationsCheckScoreBean> list=OperationsCheckService.show_score_detail(time,period);
 		log.info("list:"+list);
 		float sum=0;
 		HashMap<String,Object> rs=new HashMap<String, Object>();
+		rs.put("s_a1", 20);
+		rs.put("s_b1", 3);
+		rs.put("s_b2", 1);
+		rs.put("s_b3", 9);
+		rs.put("s_b4", 2);
+		rs.put("s_c1", 10);
+		rs.put("s_c2", 10);
+		rs.put("s_d1", 25);
+		rs.put("s_d2", 5);
+		rs.put("s_e1", 5);
+		rs.put("s_f1", 3);
+		rs.put("s_f2", 2);
+		rs.put("s_g1", 5);
 		for(int i=0;i<list.size();i++){
 			OperationsCheckScoreBean bean=list.get(i);
 			log.info("bean:"+bean);
-			rs.put("s_"+bean.getCheck_tag(), bean.getScore());
-			rs.put("n_"+bean.getCheck_tag(), bean.getCheck_note());
-			sum+=bean.getScore();
+			//(rs.get("s_"+bean.getCheck_tag()).toString())-bean.getScore())
+			int ss=FunUtil.StringToInt(rs.get("s_"+bean.getCheck_tag()));
+			String sx=String.format("%.1f",(ss-bean.getScore()));
+			rs.put("s_"+bean.getCheck_tag(),Float.parseFloat(String.format("%.1f",(ss-bean.getScore()))));
+			
 		}
+		Iterator it=rs.entrySet().iterator();
+		while(it.hasNext()){
+			Map.Entry<String, Object> entry=(Entry<String, Object>) it.next();
+			Object ket=entry.getKey();
+			Object value=entry.getValue();
+			sum+=Float.parseFloat(value.toString());
+		}
+		
 		HashMap result = new HashMap();
 		result.put("items",rs);
 		result.put("sum",sum);
@@ -247,7 +426,31 @@ public class OperationsCheckController {
 			for(int i=0;i<filelist.size();i++){
 				Map<String,Object> map=filelist.get(i);
 				map.put("applyId", checkBean.getApplyId());
-				filelist.set(i, map);
+				filelist.set(i, map);				
+				String srcDir=request.getSession().getServletContext().getRealPath("/upload/checksource");
+				srcDir=srcDir+"/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+typestr;
+				String destDir1=request.getSession().getServletContext()
+						.getRealPath("/upload/check");
+				destDir1=destDir1+"/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+typestr;
+				File Path1 = new File(destDir1);
+				if (!Path1.exists()) {
+					Path1.mkdirs();
+				}
+				File src=new File(srcDir+"/"+map.get("fileName"));
+				File file1 = new File(destDir1+"/"+map.get("fileName"));
+				try {
+					if(!file1.exists()){
+						FunUtil.copyFile(src, file1);
+					}else{
+						file1.delete();
+						FunUtil.copyFile(src, file1);
+						//log.info("文件："+map.get("fileName")+"已经存在考核目录中，禁止覆盖");
+					}
+					
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			OperationsCheckService.addFile(filelist);
 		}
@@ -278,6 +481,72 @@ public class OperationsCheckController {
 		}else{
 			this.success=false;
 			this.message="提交文件失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message",message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	@RequestMapping(value = "/addFile", method = RequestMethod.POST)
+	public void addFile(@RequestParam("applyId") String applyId,HttpServletRequest request, HttpServletResponse response) {
+		OperationsCheckBean checkBean=new OperationsCheckBean();
+		checkBean.setApplyId(applyId);
+		
+		String month=request.getParameter("time");
+		int typestr=Integer.parseInt(request.getParameter("type"));
+		String files=request.getParameter("files");
+		List<Map<String,Object>> filelist=new ArrayList<Map<String,Object>>();
+		Type type = new TypeToken<ArrayList<Map<String,Object>>>() {}.getType(); 
+		filelist=GsonUtil.json2Object(files, type);
+		if(filelist.size()>0){
+			for(int i=0;i<filelist.size();i++){
+				Map<String,Object> map=filelist.get(i);
+				map.put("applyId", checkBean.getApplyId());
+				filelist.set(i, map);				
+				String srcDir=request.getSession().getServletContext().getRealPath("/upload/checksource");
+				srcDir=srcDir+"/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+typestr;
+				String destDir1=request.getSession().getServletContext()
+						.getRealPath("/upload/check");
+				destDir1=destDir1+"/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+typestr;
+				File Path1 = new File(destDir1);
+				if (!Path1.exists()) {
+					Path1.mkdirs();
+				}
+				File src=new File(srcDir+"/"+map.get("fileName"));
+				File file1 = new File(destDir1+"/"+map.get("fileName"));
+				try {
+					if(!file1.exists()){
+						FunUtil.copyFile(src, file1);
+					}else{
+						log.info("文件："+map.get("fileName")+"已经存在考核目录中，禁止覆盖");
+					}
+					
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(OperationsCheckService.addFile(filelist)>0){
+				this.success=true;
+				this.message="提交文件成功";
+				webLogBean.setOperator(FunUtil.loginUser(request));
+				webLogBean.setOperatorIp(FunUtil.getIpAddr(request));
+				webLogBean.setStyle(1);
+				webLogBean.setContent("运维考核，data=" + checkBean.getApplyId());
+				WebLogService.writeLog(webLogBean);
+				FunUtil.sendMsgToUserByPower("o_check_operations_check", 3, "运维考核", "考核月份("+month+")新增了考核文件", request);	
+			}else{
+				this.success=false;
+				this.message="没有新增文件";
+			}
 		}
 		HashMap result = new HashMap();
 		result.put("success", success);
@@ -369,7 +638,7 @@ public class OperationsCheckController {
 		
 		String month=request.getParameter("time");
 		String applyId=request.getParameter("applyId");
-		String doc_name=request.getParameter("doc_name");
+		
 		Float score_total=(float) 0;
 		if(request.getParameter("score_total")!=null){
 			score_total=Float.parseFloat(request.getParameter("score_total"));
@@ -380,7 +649,8 @@ public class OperationsCheckController {
 		score4.setTime(month);
 		score4.setPeriod(4);
 		score4.setScore_total(score_total);
-		score4.setDoc_name(doc_name);
+		//score4.setDoc_name(doc_name);
+		//score4.setDoc_name(score4.getDoc_name().replaceAll("(\r\n|\r|\n|\n\r)", "<br>"));
 
 		int a=OperationsCheckService.addScore(score4);
 		String savePath="doc/check/"+month.split("-")[0];	
@@ -396,6 +666,8 @@ public class OperationsCheckController {
 			map.put("applyId", applyId);
 			map.put("fileNamestr", "score4_fileName");
 			map.put("filePathstr", "score4_filePath");
+			map.put("docNamestr", "score_header");
+			map.put("docName", score4.getDoc_name());
 			map.put("fileName", fileName);
 			map.put("filePath", filePath);
 			OperationsCheckService.update_file_info(map);
@@ -457,6 +729,8 @@ public class OperationsCheckController {
 			map.put("applyId", applyId);
 			map.put("fileNamestr", "score3_fileName");
 			map.put("filePathstr", "score3_filePath");
+			map.put("docNamestr", "score_header");
+			map.put("docName", doc_name);
 			map.put("fileName", fileName);
 			map.put("filePath", filePath);
 			OperationsCheckService.update_file_info(map);
@@ -518,6 +792,8 @@ public class OperationsCheckController {
 			map.put("applyId", applyId);
 			map.put("fileNamestr", "money3_fileName");
 			map.put("filePathstr", "money3_filePath");
+			map.put("docNamestr", "money_header");
+			map.put("docName", doc_name);
 			map.put("fileName", fileName);
 			map.put("filePath", filePath);
 			OperationsCheckService.update_file_info(map);
@@ -579,6 +855,8 @@ public class OperationsCheckController {
 			map.put("applyId", applyId);
 			map.put("fileNamestr", "money4_fileName");
 			map.put("filePathstr", "money4_filePath");
+			map.put("docNamestr", "money_header");
+			map.put("docName", doc_name);
 			map.put("fileName", fileName);
 			map.put("filePath", filePath);
 			OperationsCheckService.update_file_info(map);
@@ -616,7 +894,7 @@ public class OperationsCheckController {
 		if(b>=1){
 			this.success=true;
 			this.message="成功";	
-			FunUtil.sendMsgToUserByPower("o_check_operations_check", 2, "运维考核", "服务提供方提交了考核扣分扣款信息，请确认", request);	
+			//FunUtil.sendMsgToUserByPower("o_check_operations_check", 2, "运维考核", "服务提供方提交了考核扣分扣款信息，请确认", request);	
 		}else{
 			this.success=false;
 			this.message="失败";
@@ -669,6 +947,210 @@ public class OperationsCheckController {
 		}
 
 	}
+	@RequestMapping(value = "/allcheckfile", method = RequestMethod.GET)
+	public void allcheckfile(@RequestParam("month") String month,
+			@RequestParam("period") String period,
+			HttpServletRequest request, HttpServletResponse response) {
+		
+		String rootDir = request.getSession().getServletContext().getRealPath("/upload/checksource");
+		String hz="/upload/checksource/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period;
+		rootDir=rootDir+"/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period;
+		File file=new File(rootDir);
+		System.out.println(rootDir);
+		File[] files=file.listFiles(new FileFilter() {
+			
+			@Override
+			public boolean accept(File pathname) {
+				if(pathname.isFile()){
+					return true;
+				}
+				return false;
+			}
+		});
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		for (File file2 : files) {
+			Map<String,Object> map=new HashMap<String, Object>();
+			map.put("fileName", file2.getName());
+			map.put("filePath", hz+"/"+file2.getName());
+			map.put("doc", file2.getName().substring(file2.getName().indexOf(".")+1));
+			list.add(map);
+			
+		}
+		
+		HashMap result = new HashMap();
+		result.put("files", list);
+		result.put("totals", list.size());
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	@RequestMapping(value = "/bscheckfile", method = RequestMethod.GET)
+	public void bscheckfile(@RequestParam("month") String month,
+			@RequestParam("period") String period,
+			HttpServletRequest request, HttpServletResponse response) {
+		
+		String rootDir = request.getSession().getServletContext().getRealPath("/upload/check");
+		String hz="/upload/check/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period+"/故障核减申请书";
+		rootDir=rootDir+"/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period+"/故障核减申请书";
+		File file=new File(rootDir);
+		File[] files=file.listFiles(new FileFilter() {
+			
+			@Override
+			public boolean accept(File pathname) {
+				if(pathname.isFile()){
+					return true;
+				}
+				return false;
+			}
+		});
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		if(files!=null){
+			for (File file2 : files) {
+				Map<String,Object> map=new HashMap<String, Object>();
+				map.put("fileName", file2.getName());
+				map.put("filePath", hz+"/"+file2.getName());
+				list.add(map);				
+			}
+		}
+		HashMap result = new HashMap();
+		result.put("files", list);
+		result.put("totals", list.size());
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	@RequestMapping(value = "/bs_ensure_file", method = RequestMethod.GET)
+	public void bs_ensure_file(@RequestParam("month") String month,
+			@RequestParam("period") String period,
+			HttpServletRequest request, HttpServletResponse response) {
+		
+		String rootDir = request.getSession().getServletContext().getRealPath("/upload/check");
+		String hz="/upload/check/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period+"/通信保障报告";
+		rootDir=rootDir+"/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period+"/通信保障报告";
+		File file=new File(rootDir);
+		File[] files=file.listFiles(new FileFilter() {
+			
+			@Override
+			public boolean accept(File pathname) {
+				if(pathname.isFile()){
+					return true;
+				}
+				return false;
+			}
+		});
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		if(files!=null){
+			for (File file2 : files) {
+				Map<String,Object> map=new HashMap<String, Object>();
+				map.put("fileName", file2.getName());
+				map.put("filePath", hz+"/"+file2.getName());
+				list.add(map);				
+			}
+		}
+		HashMap result = new HashMap();
+		result.put("files", list);
+		result.put("totals", list.size());
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	@RequestMapping(value = "/bs_app_file", method = RequestMethod.GET)
+	public void bs_app_file(@RequestParam("month") String month,
+			@RequestParam("period") String period,
+			HttpServletRequest request, HttpServletResponse response) {
+		
+		String rootDir = request.getSession().getServletContext().getRealPath("/upload/check");
+		String hz="/upload/check/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period+"/基站月度巡检表";
+		rootDir=rootDir+"/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period+"/基站月度巡检表";
+		File file=new File(rootDir);
+		File[] files=file.listFiles();
+		/*Collections.sort(files, new Comparator<File>() {
+		    @Override
+		    public int compare(File o1, File o2) {
+		        if (o1.isDirectory() && o2.isFile())
+		            return -1;
+		        if (o1.isFile() && o2.isDirectory())
+		            return 1;
+		        return o2.getName().compareTo(o1.getName());
+		    }
+		});
+
+		Arrays.sort(files, new Comparator<File>() {
+			 
+			@Override
+			public int compare(File f1, File f2) {
+				return f1.compareTo(f2);
+			}
+ 
+		});*/
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		if(files!=null){
+			for (File file2 : files) {
+				Map<String,Object> map=new HashMap<String, Object>();
+				map.put("fileName", file2.getName());
+				map.put("filePath", hz+"/"+file2.getName());
+				
+				//System.out.println("文件-》"+file2.getName());
+				
+				list.add(map);				
+			}
+		}
+		HashMap result = new HashMap();
+		result.put("files", list);
+		result.put("totals", list.size());
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	@RequestMapping(value = "/checkFiles", method = RequestMethod.GET)
+	public void checkFiles(@RequestParam("month") String month,
+			@RequestParam("period") String period,
+			HttpServletRequest request, HttpServletResponse response) {
+		
+		String rootDir = request.getSession().getServletContext().getRealPath("/upload/check");
+		String hz="/upload/check/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period;
+		rootDir=rootDir+"/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period;
+
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		list=OperationsCheckService.readFileTree(rootDir);
+		HashMap result = new HashMap();
+		result.put("files", list);
+		result.put("totals", list.size());
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
 	
 	@RequestMapping(value = "/check2", method = RequestMethod.POST)
 	public void check2(HttpServletRequest request, HttpServletResponse response) {
@@ -717,7 +1199,7 @@ public class OperationsCheckController {
 		int id=FunUtil.StringToInt(request.getParameter("id"));
 		int check=FunUtil.StringToInt(request.getParameter("check"));
 		String user=request.getParameter("user");
-		String note1=request.getParameter("comment");
+		String note1=request.getParameter("note1");
 		OperationsCheckBean checkBean=new OperationsCheckBean();
 		checkBean.setId(id);
 		checkBean.setCheckTime(FunUtil.nowDateNoTime());
@@ -1052,43 +1534,91 @@ public class OperationsCheckController {
 			@RequestParam("pathName") MultipartFile[] file,
 			@RequestParam("type") int type,
 			@RequestParam("month") String month,
+			@RequestParam("files") String files,
 			HttpServletRequest request, HttpServletResponse response) {
 		
 		System.out.println("month:"+month);
+		List<Map<String,Object>> filelist=new ArrayList<Map<String,Object>>();
 		// 获取当前时间
 		/*Date d = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");*/
 		String date=month;
-		String savePath="/upload/check/"+date.split("-")[0]+"/"+date.split("-")[1]+"/"+type;
+		String savePath="/upload/checksource/"+date.split("-")[0]+"/"+date.split("-")[1]+"/"+type;
 		String path = request.getSession().getServletContext().getRealPath("")
-				+ "/upload/check/"+date.split("-")[0]+"/"+date.split("-")[1]+"/"+type;
+				+ "/upload/checksource/"+date.split("-")[0]+"/"+date.split("-")[1]+"/"+type;
 		List<Map<String,Object>> rs=new ArrayList<Map<String,Object>>();
+		String mastUploadFiles="'运维人员通讯录','运维资源配置表',"
+				+ "'本月计划维护作业完成情况','下月计划维护作业','系统运行维护服务月报',"
+				+ "'基站信息表','运维故障统计','通信保障报告','备品备件表','定期维护报告-交换中心月维护',"
+				+ "'定期维护报告-基站月维护','系统日常维护表','巡检汇总表','故障处理报告','年度健康检查报告'";
+		String error1="";
+		String error2="";
 		if(!(file.length==0)){
 			
+			
 			for(int i=0;i<file.length;i++){
+				boolean x=false;
 				String fileName = file[i].getOriginalFilename();
-				System.out.println("文件名："+fileName);
-				File targetFile = new File(path, fileName);
-				if (!targetFile.exists()) {
-					targetFile.mkdirs();
-
+				String[] srcFiles=files.split(",");
+				if(srcFiles.length>0){
+					/*for (String string : srcFiles) {
+						if(string.split("\\.")[0].equals(fileName.split("\\.")[0])){
+							x=true;
+							log.info("文件存在不上传");
+						}
+					}*/
+					System.out.println(fileName);
+					if(!mastUploadFiles.contains(fileName.split("\\.")[0])){
+						x=true;
+						error1+=fileName+";";
+						log.info("该文件不在必传列表中");
+					}
 				}
-				// 保存
-				try {
-					file[i].transferTo(targetFile);
-					this.success = true;
-					this.message = "文件上传成功";
-					Map<String,Object> map=new HashMap<String, Object>();
-					map.put("fileName", fileName);
-					map.put("filePath", savePath + "/" + fileName);
-					map.put("index", i+1);
-					map.put("size", file[i].getSize());
-					rs.add(map);
+				File isExists1=new File(path+"/"+fileName.split("\\.")[0]+".xls");
+				File isExists2=new File(path+"/"+fileName.split("\\.")[0]+".xlsx");
+				if(isExists1.exists() || isExists2.exists()){
+					
+					if(isExists1.exists()){
+						isExists1.delete();
+					}
+					if(isExists2.exists()){
+						isExists2.delete();
+					}
+					
+					/*if(!new File(path+"/"+fileName).exists()){
+						x=true;
+						error2+=fileName+";";
+						
+						log.info("包含相同文件名,且文件格式不一致的文件存在");
+					}else{
+						log.info("包含相同文件名,且文件格式一致的文件存在");
+					}	*/									
+				}				
+				if(!x){
+					File targetFile = new File(path, fileName);
+					if (!targetFile.exists()) {
+						targetFile.mkdirs();
 
-				} catch (Exception e) {
-					e.printStackTrace();
-					this.message = "文件上传失败";
+					}
+					// 保存
+					try {
+						file[i].transferTo(targetFile);
+						this.success = true;
+						this.message = "文件上传成功";
+						Map<String,Object> map=new HashMap<String, Object>();
+						map.put("fileName", fileName);
+						map.put("filePath", savePath + "/" + fileName);
+						map.put("index", i+1);
+						map.put("size", file[i].getSize());
+						rs.add(map);
+
+					} catch (Exception e) {
+						e.printStackTrace();
+						this.message = "文件上传失败";
+					}
 				}
+
+				
 			}
 			
 			
@@ -1097,6 +1627,8 @@ public class OperationsCheckController {
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("message", message);
+		result.put("error1", error1);
+		result.put("error2", error2);
 		result.put("rs", rs);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
@@ -1167,18 +1699,39 @@ public class OperationsCheckController {
 		String user=request.getParameter("user");
 		String checkUser=request.getParameter("checkUser");
 		String checkUser2=request.getParameter("checkUser2");
+		String checkUser3=request.getParameter("checkUser3");
 		OperationsCheckBean bean=new OperationsCheckBean();
+		int roleType=Integer.parseInt(FunUtil.loginUserInfo(request).get("roleType").toString());
 		bean.setId(id);
 		bean.setStatus(status);
+		bean.setWriteMeetRoleType(roleType);
+		bean.setWriteMeetUser(FunUtil.loginUser(request));
+		if(status==9){
+			bean.setIsMeetDocSign(1);
+		}else{
+			bean.setIsMeetDocSign(2);
+		}
+		
 		int rs=OperationsCheckService.signMeet(bean);
 		if(rs>0){
 			this.message="会议纪要提交成功";
 			this.success=true;
 			if(status==9){
-				FunUtil.sendMsgToOneUser(user, "运维考核", "管理方提交了考核会议纪要", request);
-				FunUtil.sendMsgToOneUser(checkUser, "运维考核", "管理方提交了考核会议纪要，请签字", request);
+				
+				
+				if(roleType==2){
+					FunUtil.sendMsgToOneUser(user, "运维考核", "管理方提交了考核会议纪要", request);
+					FunUtil.sendMsgToOneUser(checkUser, "运维考核", "管理方提交了考核会议纪要，请签字", request);
+				}else{
+					FunUtil.sendMsgToOneUser(checkUser2, "运维考核", "服务提供方提交了考核会议纪要，请签字", request);
+				}
+				
 			}else if(status==10){
-				FunUtil.sendMsgToOneUser(user, "运维考核", "服务提供方已经对会议纪要签字了，本次考核结束", request);
+				if(roleType==2){				
+					FunUtil.sendMsgToOneUser(user, "运维考核", "服务提供方已经对会议纪要签字了，本次考核结束", request);
+				}else{
+					FunUtil.sendMsgToOneUser(checkUser3, "运维考核", "服务提供方已经对会议纪要签字了，本次考核结束", request);
+				}			
 			}
 			
 		}else{
@@ -1226,12 +1779,16 @@ public class OperationsCheckController {
 		poCtrl.setSaveFilePage(request.getContextPath() +"/office/save_page?path="+name);
 		//设置页面的显示标题
 		poCtrl.setCaption("");
-		poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit, "");
+		//设置并发控制时间
+		//poCtrl.setTimeSlice(0);
+		poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit,"");
 		poCtrl.setTagId("PageOfficeCtrl1");
+		
 		ModelAndView mv = new ModelAndView("Views/jsp/edit_meet_word");
 		mv.addObject("sealName1",WebUserServices.sealName(FunUtil.loginUser(request),"1"));
 		mv.addObject("sealName2",WebUserServices.sealName(FunUtil.loginUser(request),"2"));
 		mv.addObject("type",type);
+		mv.addObject("userName",FunUtil.loginUser(request));
 		mv.addObject("pageoffice", poCtrl.getHtmlCode("PageOfficeCtrl1"));
 		return mv;
 	}

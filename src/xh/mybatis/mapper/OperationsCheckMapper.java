@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import xh.mybatis.bean.CheckMoneyBean;
+import xh.mybatis.bean.CheckMonthBsBreakBean;
 import xh.mybatis.bean.CheckRoomEquBean;
 import xh.mybatis.bean.MoneyBean;
 import xh.mybatis.bean.OperationsCheckBean;
@@ -19,11 +20,11 @@ public interface OperationsCheckMapper {
 	
 	List<CheckMoneyBean> searchDetail(Map<String, Object> map)throws Exception;
 	
-	List<CheckMoneyBean> show_money_detail(String time)throws Exception;
+	List<CheckMoneyBean> show_money_detail(Map<String, Object> map)throws Exception;
 	
 	List<OperationsCheckScoreBean> searchScore(Map<String, Object> map)throws Exception;
 	
-	List<OperationsCheckScoreBean> show_score_detail(String time)throws Exception;
+	List<OperationsCheckScoreBean> show_score_detail(Map<String,Object> map)throws Exception;
 	
 	int detailExists(String time)throws Exception;
 	
@@ -76,7 +77,10 @@ public interface OperationsCheckMapper {
 	/*<!--基站故障 -->*/
 	List<Map<String,Object>> bs_error(String time) throws Exception;
 	
+	/**(特别)重大故障
+	 */
 	
+	List<Map<String,Object>> tb_zd_fault(Map<String, Object> map)throws Exception;
 	/*<!--基站故障 -->*/
 	List<Map<String,Object>> bs_error_money(String time) throws Exception;
 	
@@ -105,8 +109,17 @@ public interface OperationsCheckMapper {
 	
 	/*	查询考核扣款明细数量*/
 	int search_money_detail_count(Map<String,Object> map) throws Exception;
+	/*查询核减数量*/
+	int search_checkcut_count(Map<String,Object> map) throws Exception;
 	
-
+	/*写入每月基站断站时长*/
+	int insert_check_month_bs_break(CheckMonthBsBreakBean bean) throws Exception;
+	
+	/*查询统计年的断站时长*/
+	List<Map<String,Object>> search_year_bs_break(Map<String,Object> map) throws Exception;
+	
+	/*查询统计月的断站时长*/
+	List<Map<String,Object>> search_month_bs_break(Map<String,Object> map) throws Exception;
 	
 
 }

@@ -349,9 +349,6 @@ public class BsAlarmService {
 
 					if (compare.get("ups5") == null
 							&& compare.get("ups6") == null) {// 未整改
-						System.out.println("未整改：bsId-" + bean.getBsId()
-								+ ";;;;map->" + compare +";;;no_d_on="+no_d_on+";;");/*
-						System.out.println("未整改：bean->" + bean.toString());*/
 						if (no_a_off) {
 
 							bean.setDescription("市电中断");
@@ -388,7 +385,7 @@ public class BsAlarmService {
 							bean.setDescription("市电中断");
 							
 							if (bs_emh_eps(bean) > 0) {
-								System.out.println("记录已经存在：更新-》" + bean);
+								//System.out.println("记录已经存在：更新-》" + bean);
 								del_bs_emh_eps(bean);
 							}
 
@@ -396,18 +393,18 @@ public class BsAlarmService {
 						if (no_c_on) {
 
 							bean.setDescription("市电电压过高");
-							System.out.println("记录已经存在：更新-》" + bean);
+							//System.out.println("记录已经存在：更新-》" + bean);
 							if (bs_emh_eps(bean) > 0) {
-								System.out.println("记录已经存在：更新-》" + bean);
+								//System.out.println("记录已经存在：更新-》" + bean);
 								del_bs_emh_eps(bean);
 							}
 						}
 						if (no_d_on) {
 
 							bean.setDescription("市电电压过低");
-							System.out.println("记录已经存在：更新-》" + bean);
+							//System.out.println("记录已经存在：更新-》" + bean);
 							if (bs_emh_eps(bean) > 0) {
-								System.out.println("记录已经存在：更新-》" + bean);
+								//System.out.println("记录已经存在：更新-》" + bean);
 								del_bs_emh_eps(bean);
 							}
 						}
@@ -415,14 +412,12 @@ public class BsAlarmService {
 
 							bean.setDescription("电池电压过低");
 							if (bs_emh_eps(bean) > 0) {
-								System.out.println("记录已经存在：更新-》" + bean);
+								//System.out.println("记录已经存在：更新-》" + bean);
 								del_bs_emh_eps(bean);
 							}
 						}
 
 					} else {// 已整改
-						System.out.println("已整改：bsId-" + bean.getBsId()
-								+ ";;;;map->" + compare);
 						if (yes_a_off) {
 							bean.setDescription("市电中断");
 							eps = bs_emh_eps(bean);
@@ -435,7 +430,7 @@ public class BsAlarmService {
 							bean.setDescription("市电中断");
 							eps = bs_emh_eps(bean);
 							if (eps > 0) {
-								System.out.println("记录已经存在：更新-》" + bean);
+								//System.out.println("记录已经存在：更新-》" + bean);
 								del_bs_emh_eps(bean);
 							}
 						}
@@ -450,7 +445,7 @@ public class BsAlarmService {
 							bean.setDescription("电池电压过低");
 							eps = bs_emh_eps(bean);
 							if (eps > 0) {
-								System.out.println("记录已经存在：更新-》" + bean);
+								//System.out.println("记录已经存在：更新-》" + bean);
 								del_bs_emh_eps(bean);
 							}
 						}

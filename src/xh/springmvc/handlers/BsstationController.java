@@ -34,6 +34,7 @@ import org.apache.poi.hssf.record.PageBreakRecord.Break;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import xh.func.plugin.FlexJSON;
@@ -1254,13 +1255,65 @@ public class BsstationController {
 		
 	}
 	@RequestMapping(value = "/excel_bs_info", method = RequestMethod.GET)
-	public void excel_bs_info(HttpServletRequest request,HttpServletResponse response) throws Exception{
+	public void excel_bs_info(@RequestParam("period") int period,HttpServletRequest request,HttpServletResponse response) throws Exception{
 		String time=request.getParameter("time");
 		Map<String,Object> map=new HashMap<String, Object>();
 		map.put("time", time);
+		map.put("period", period);
+		
+		excel_bs_info_period(time,0,request);
+		excel_bs_info_period(time,3,request);
+		excel_bs_info_period(time,4,request);
+		
+		
+		String rootDir = request.getSession().getServletContext().getRealPath("/upload/checksource");
+		String sourceFilePath=rootDir + "/基站信息表["+time+"].xls";
+		
+		String destDir3=request.getSession().getServletContext().getRealPath("/upload/checksource");
+		destDir3=destDir3+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/3";
+		String destDir4=request.getSession().getServletContext().getRealPath("/upload/checksource");
+		destDir4=destDir4+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/4";
+		File Path3 = new File(destDir3);
+		if (!Path3.exists()) {
+			Path3.mkdirs();
+		}
+		File Path4 = new File(destDir4);
+		if (!Path4.exists()) {
+			Path4.mkdirs();
+		}
+		File file3 = new File(destDir3+"/基站信息表.xls");
+		File file4 = new File(destDir4+"/基站信息表.xls");
+		File srcFile3 = new File(rootDir + "/基站信息表["+time+"](三期).xls");
+		File srcFile4 = new File(rootDir + "/基站信息表["+time+"](四期).xls");
+		FunUtil.copyFile(srcFile3, file3);
+		FunUtil.copyFile(srcFile4, file4);
+
+		 HashMap<String, Object> result = new HashMap<String, Object>();
+		 result.put("success", true);
+		 if(period==0){
+			 result.put("pathName", sourceFilePath);
+		 }else if(period==3){
+			 result.put("pathName", rootDir + "/基站信息表["+time+"](三期).xls");
+		 }else{
+			 result.put("pathName", rootDir + "/基站信息表["+time+"](四期).xls");
+		 }
+		 
+		 response.setContentType("application/json;charset=utf-8"); 
+		 String jsonstr = json.Encode(result); 
+		 response.getWriter().write(jsonstr);
+	}
+	public void excel_bs_info_period(String time,int period,HttpServletRequest request) throws Exception{
+		
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("time", time);
 		try {
-			String saveDir = request.getSession().getServletContext().getRealPath("/upload/");
-			String pathname = saveDir + "/基站信息表-"+time+".xls";
+			String saveDir = request.getSession().getServletContext().getRealPath("/upload/checksource");			
+			String pathname = "";
+			if(period==0){
+				pathname = saveDir + "/基站信息表["+time+"].xls";
+			}else{
+				pathname = saveDir + "/基站信息表["+time+"]("+(period==3?'三':'四')+"期).xls";
+			}
 			File Path = new File(saveDir);
 			if (!Path.exists()) {
 				Path.mkdirs();
@@ -1300,7 +1353,7 @@ public class BsstationController {
 			WritableSheet sheet3 = book.createSheet("基站信息表-供配电", 3);
 			WritableSheet sheet4 = book.createSheet("基站信息表-机房配套", 4);
 			
-			List<ExcelBsInfoBean> list = BsstationService.excel_bs_info();
+			List<ExcelBsInfoBean> list = BsstationService.excel_bs_info(period);
 			
 			excel_bs_info(sheet0,list,fontFormat_h,fontFormat_Content);
 			excel_bs_check(sheet1,list,fontFormat_h,fontFormat_Content);
@@ -1311,14 +1364,6 @@ public class BsstationController {
 			
 			book.write();
 			book.close();
-			/*DownExcelFile(response, pathname);*/
-			 this.success=true;
-			 HashMap<String, Object> result = new HashMap<String, Object>();
-			 result.put("success", success);
-			 result.put("pathName", pathname);
-			 response.setContentType("application/json;charset=utf-8"); 
-			 String jsonstr = json.Encode(result); 
-			 response.getWriter().write(jsonstr);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1328,7 +1373,7 @@ public class BsstationController {
 	}
 	public  void excel_bs_info(WritableSheet sheet,List<ExcelBsInfoBean> list,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content) {
 		try {
-			sheet.addCell(new Label(0,0,"成都市应急指挥调度无线通信网四期基站信息统计表",fontFormat_h));
+			sheet.addCell(new Label(0,0,"基站信息表",fontFormat_h));
 			sheet.mergeCells(0, 0, 10, 0);
 			sheet.addCell(new Label(0, 1, "基站ID", fontFormat_h));
 			sheet.addCell(new Label(1, 1, "基站名称", fontFormat_h));
@@ -1584,7 +1629,7 @@ public class BsstationController {
 	}
 	public  void excel_bs_check(WritableSheet sheet,List<ExcelBsInfoBean> list,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content) {
 		try {
-			sheet.addCell(new Label(0,0,"成都市应急指挥调度无线通信网四期基站信息统计表",fontFormat_h));
+			sheet.addCell(new Label(0,0,"基本信息考核表",fontFormat_h));
 			sheet.mergeCells(0, 0, 10, 0);
 			sheet.addCell(new Label(0, 1, "基站ID", fontFormat_h));
 			sheet.addCell(new Label(1, 1, "基站名称", fontFormat_h));
@@ -1656,7 +1701,7 @@ public class BsstationController {
 	}
 	public  void excel_bs_transfer(WritableSheet sheet,List<ExcelBsInfoBean> list,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content) {
 		try {
-			sheet.addCell(new Label(0,0,"成都市应急指挥调度无线通信网四期基站信息统计表",fontFormat_h));
+			sheet.addCell(new Label(0,0,"站信息表-传输链路",fontFormat_h));
 			sheet.mergeCells(0, 0, 10, 0);
 			sheet.addCell(new Label(0, 1, "基站ID", fontFormat_h));
 			sheet.addCell(new Label(1, 1, "基站名称", fontFormat_h));
@@ -1731,7 +1776,7 @@ public class BsstationController {
 
 	public  void excel_bs_elect(WritableSheet sheet,List<ExcelBsInfoBean> list,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content) {
 		try {
-			sheet.addCell(new Label(0,0,"成都市应急指挥调度无线通信网四期基站信息统计表",fontFormat_h));
+			sheet.addCell(new Label(0,0,"基站信息表-供配电",fontFormat_h));
 			sheet.mergeCells(0, 0, 10, 0);
 			sheet.addCell(new Label(0, 1, "基站ID", fontFormat_h));
 			sheet.addCell(new Label(1, 1, "基站名称", fontFormat_h));
@@ -1832,7 +1877,7 @@ public class BsstationController {
     
 	public  void excel_bs_room(WritableSheet sheet,List<ExcelBsInfoBean> list,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content) {
 		try {
-			sheet.addCell(new Label(0,0,"成都市应急指挥调度无线通信网四期基站信息统计表",fontFormat_h));
+			sheet.addCell(new Label(0,0,"基站信息表-机房配套",fontFormat_h));
 			sheet.mergeCells(0, 0, 10, 0);
 			sheet.addCell(new Label(0, 1, "基站ID", fontFormat_h));
 			sheet.addCell(new Label(1, 1, "基站名称", fontFormat_h));

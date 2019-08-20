@@ -6,13 +6,13 @@
 		resultType="xh.mybatis.bean.OperationsCheckBean">
 		select * from xhgmnet_operations_check where 1=1
 		<if test="roleType==2">
-		and status>1
-		</if> 
-		
+			and status>1
+		</if>
+
 		<if test="time!=null and time!=''">
 			and checkMonth=#{time}
 		</if>
-		
+
 		order by id desc limit #{start},#{limit}
 	</select>
 	<insert id="addFile" parameterType="java.util.List">
@@ -23,17 +23,18 @@
 		</foreach>
 	</insert>
 	<select id="searchFile" parameterType="String" resultType="map">
-    select * from xhgmnet_operations_check_file where applyId=#{applyId}
-    </select>
-   <update id="sealFile" parameterType="int">
-    update xhgmnet_operations_check_file set isSeal=1 where id=#{id}
-    </update>
+		select * from xhgmnet_operations_check_file where applyId=#{applyId}
+	</select>
+	<update id="sealFile" parameterType="int">
+		update
+		xhgmnet_operations_check_file set isSeal=1 where id=#{id}
+	</update>
 
 	<select id="count" parameterType="map" resultType="int">
 		select count(*) from xhgmnet_operations_check where 1=1
 		<if test="roleType==2">
-        and status>1
-        </if>  
+			and status>1
+		</if>
 		<if test="time!=null and time!=''">
 			and checkMonth=#{time}
 		</if>
@@ -49,17 +50,24 @@
 		#{filePath},#{comment},#{checkMonth},#{type})
 	</insert>
 	<update id="update_file_info" parameterType="map">
-	update xhgmnet_operations_check set ${fileNamestr}=#{fileName},${filePathstr}=#{filePath}
-	where applyId=#{applyId}
+		update
+		xhgmnet_operations_check set
+		${fileNamestr}=#{fileName},${filePathstr}=#{filePath},${docNamestr}=#{docName}
+		where
+		applyId=#{applyId}
 	</update>
 	<update id="up_score_money" parameterType="xh.mybatis.bean.OperationsCheckBean">
-    update xhgmnet_operations_check set status=#{status},checkUser4=#{checkUser4},checkTime5=#{checkTime5}
-    where applyId=#{applyId}
-    </update>
-        <update id="sure_score_money" parameterType="xh.mybatis.bean.OperationsCheckBean">
-    update xhgmnet_operations_check set status=#{status},checkUser5=#{checkUser5},checkTime6=#{checkTime6}
-    where applyId=#{applyId}
-    </update>
+		update
+		xhgmnet_operations_check set
+		status=#{status},checkUser4=#{checkUser4},checkTime5=#{checkTime5}
+		where applyId=#{applyId}
+	</update>
+	<update id="sure_score_money" parameterType="xh.mybatis.bean.OperationsCheckBean">
+		update
+		xhgmnet_operations_check set
+		status=#{status},checkUser5=#{checkUser5},checkTime6=#{checkTime6}
+		where applyId=#{applyId}
+	</update>
 
 	<!-- 查询考核明细信息 -->
 	<select id="searchDetail" parameterType="map"
@@ -69,42 +77,22 @@
 			and period=#{period}
 		</if>
 	</select>
-	<select id="show_money_detail" parameterType="String"
+	<select id="show_money_detail" parameterType="map"
 		resultType="xh.mybatis.bean.CheckMoneyBean">
-		select x.* FROM(select
-		CASE `level`
-		WHEN 1 THEN "a2"
-		WHEN 2
-		THEN "a3"
-		WHEN
-		3 THEN "a4" END as check_tag,period,SUM(timeout)*1000 as
-		money,check_date,SUM(timeout) as timeout
-		from (select
-		a.*,b.`level`,b.period from check_month_timeout as a
-		LEFT JOIN
-		xhgmnet_bs_station as b on a.bsId=b.bsId
-		where check_date=#{time} AND
-		timeout>0) as x where period=4 GROUP BY
-		LEVEL
-
-		UNION
-
-		select
-		CASE `level`
-		WHEN 1 THEN "a2"
-		WHEN 2 THEN "a3"
-		WHEN
-		3 THEN "a4" END as
-		check_tag,period,SUM(timeout)*300 as
-		money,check_date,SUM(timeout) as
-		timeout
-		from (select a.*,b.`level`,b.period from check_month_timeout as
-		a
-		LEFT JOIN xhgmnet_bs_station as b on a.bsId=b.bsId
-		where
-		check_date=#{time} AND timeout>0) as x where period=3 GROUP BY
-		LEVEL)
-		as x GROUP BY x.check_tag
+		<!-- select x.* FROM(select CASE `level` WHEN 1 THEN "a2" WHEN 2 THEN "a3" 
+			WHEN 3 THEN "a4" END as check_tag,period,SUM(timeout)*1000 as money,check_date,SUM(timeout) 
+			as timeout from (select a.*,b.`level`,b.period from check_month_timeout as 
+			a LEFT JOIN xhgmnet_bs_station as b on a.bsId=b.bsId where check_date=#{time} 
+			AND timeout>0) as x where period=4 GROUP BY LEVEL UNION select CASE `level` 
+			WHEN 1 THEN "a2" WHEN 2 THEN "a3" WHEN 3 THEN "a4" END as check_tag,period,SUM(timeout)*300 
+			as money,check_date,SUM(timeout) as timeout from (select a.*,b.`level`,b.period 
+			from check_month_timeout as a LEFT JOIN xhgmnet_bs_station as b on a.bsId=b.bsId 
+			where check_date=#{time} AND timeout>0) as x where period=3 GROUP BY LEVEL) 
+			as x GROUP BY x.check_tag -->
+		select SUM(money) as money,check_tag,period FROM
+		check_month_money_detail
+		WHERE check_date=#{time} AND period=#{period}
+		GROUP BY check_tag
 
 
 	</select>
@@ -146,7 +134,7 @@
 		</if>
 	</select>
 
-	<select id="show_score_detail" parameterType="String"
+	<select id="show_score_detail" parameterType="map"
 		resultType="xh.mybatis.bean.OperationsCheckScoreBean">
 		SELECT
 		check_type,
@@ -182,6 +170,7 @@
 		check_month_detail
 		WHERE
 		check_date = #{time}
+		AND(period=#{period} OR period IS NULL OR period='')
 		GROUP BY
 		check_tag;
 	</select>
@@ -258,31 +247,34 @@
 		where id=#{id}
 	</update>
 	<update id="signMeet" parameterType="xh.mybatis.bean.OperationsCheckBean">
-        update
-        xhgmnet_operations_check set
-        status=#{status}
-        where id=#{id}
-    </update>
+		update
+		xhgmnet_operations_check set
+		isMeetDocSign=#{isMeetDocSign}
+		<if test="status==9">
+			,writeMeetUser=#{writeMeetUser},writeMeetRoleType=#{writeMeetRoleType}
+		</if>
+		where id=#{id}
+	</update>
 	<update id="sealScoreMoneyComplete" parameterType="xh.mybatis.bean.OperationsCheckBean">
-        update
-        xhgmnet_operations_check set status=#{status}
-        <if test="type==2">,checkTime8=#{checkTime8}</if>
-        <if test="type==0 || type==3">,checkTime7=#{checkTime7}</if>
-        where id=#{id}
-    </update>
+		update
+		xhgmnet_operations_check set status=#{status}
+		<if test="type==2">,checkTime8=#{checkTime8}</if>
+		<if test="type==0 || type==3">,checkTime7=#{checkTime7}</if>
+		where id=#{id}
+	</update>
 	<update id="check4" parameterType="xh.mybatis.bean.OperationsCheckBean">
 		update
 		xhgmnet_operations_check set
 		checkTime3=#{checkTime3},status=#{status},comment=#{comment},checkUser2=#{checkUser2}
 		where id=#{id}
 	</update>
-<!-- 	确认文件 -->
-	   <update id="check5" parameterType="xh.mybatis.bean.OperationsCheckBean">
-        update
-        xhgmnet_operations_check set
-        checkTime4=#{checkTime4},status=#{status},checkUser3=#{checkUser3}
-        where id=#{id}
-    </update>
+	<!-- 确认文件 -->
+	<update id="check5" parameterType="xh.mybatis.bean.OperationsCheckBean">
+		update
+		xhgmnet_operations_check set
+		checkTime4=#{checkTime4},status=#{status},checkUser3=#{checkUser3}
+		where id=#{id}
+	</update>
 	<!-- 考核机房配套设施 OR c.generatorConfig = 0 -->
 	<select id="check_room_equ" resultType="map">
 		SELECT
@@ -321,7 +313,7 @@
 	</select>
 	<insert id="insert_check_month_detail" useGeneratedKeys="true"
 		parameterType="xh.mybatis.bean.CheckRoomEquBean">
-		replace into
+		insert into
 		check_month_detail(check_type,check_child,check_tag,bsId,score,period,detail,check_date,fault_time)
 		values(#{check_type},#{check_child},#{check_tag},#{bsId},#{score},#{period},#{detail},#{check_date},#{fault_time})
 	</insert>
@@ -366,7 +358,7 @@
 	</select>
 	<insert id="insert_check_month_money_detail" useGeneratedKeys="true"
 		parameterType="xh.mybatis.bean.CheckMoneyBean">
-		replace into
+		insert into
 		check_month_money_detail(check_type,check_child,check_tag,bsId,money,period,check_date,fault_time,
 		check_time,level,check_datetime,timeout_standard)
 		values(#{check_type},#{check_child},#{check_tag},#{bsId},#{money},#{period},#{check_date},
@@ -384,71 +376,30 @@
 	</delete>
 	<!--基站 故障 -->
 	<select id="bs_error" resultType="map" parameterType="String">
-		SELECT
-		(
-		CASE
-		WHEN a.bsId > 1200
-		AND a.bsId &lt; 2000 THEN
-		a.bsId % 1000
-		ELSE
-		a.bsId
-		END
-		) AS bsId,
-		a.time,
-		a.faultRecoveryTime,
-		a.faultTimeTotal,
-		a.severity,
-		b.level,
-		TIMESTAMPDIFF(
-		MINUTE,
-		a.time,
-		a.faultRecoveryTime
-		) AS
-		timeout,
-		b.period
-		FROM
-		xhgmnet_operations_bsfault AS a
+		select
+		a.bsId,sum(a.faultTimeTotal) as faultTimeTotal,b.`level`,b.period,
+		CASE WHEN sum(c.checkCutTime) is NULL THEN 0
+		ELSE sum(c.checkCutTime)
+		END as checkCutTime
+		FROM xhgmnet_operations_bsfault_three as a
 		LEFT JOIN
-		xhgmnet_bs_station AS b ON CASE
-		WHEN a.bsId > 1200
-		AND a.bsId &lt; 2000
-		THEN
-		a.bsId % 1000 = b.bsId
-		ELSE
-		a.bsId = b.bsId
-		END
+		xhgmnet_bs_station as b on a.bsId=b.bsId
+		LEFT JOIN xhgmnet_bs_checkcut
+		as c on a.fault_id=c.id
+		WHERE DATE_FORMAT(a.time,"%Y-%m")=#{time} AND
+		a.faultTimeTotal is NOT
+		NULL GROUP BY a.bsId
+	</select>
+	<!-- (特别)重大故障 -->
+	<select id="tb_zd_fault" parameterType="map" resultType="map">
+		select TIMESTAMPDIFF(MINUTE,produce_time,recovery_time) as usetime,
+		(TIMESTAMPDIFF(MINUTE,produce_time,recovery_time)-60) timeout,
+		fault_type,type,period from xhgmnet_operations_fault_one
 		WHERE
-		a.neType = 4
-		AND
-		a.modType = 3
-		AND (a.bsId &lt; 1000 OR a.bsId > 1200)
-		AND CASE
-		WHEN
-		a.bsId > 1200
-		AND a.bsId &lt; 2000 THEN
-		(a.bsId % 1000) NOT IN (
-		SELECT
-		bsIds
-		FROM
-		xhgmnet_stationalarm
-		)
-		ELSE
-		a.bsId NOT IN (
-		SELECT
-		bsIds
-		FROM
-		xhgmnet_stationalarm
-		)
-		END
-		AND a.faultRecoveryTime IS NOT NULL
-		AND
-		TIMESTAMPDIFF(
-		MINUTE,
-		a.time,
-		a.faultRecoveryTime
-		)> 60
-		and
-		DATE_FORMAT(faultRecoveryTime,"%Y-%m")=#{time}
+		DATE_FORMAT(produce_time,"%Y-%m")=#{time}
+		<if test="period!=0">
+			and period=#{period}
+		</if>
 	</select>
 
 
@@ -767,6 +718,51 @@
 		a.severity
 		="重大故障"
 		group by b.period
+	</select>
+	<select id="search_checkcut_count" parameterType="map"
+		resultType="int">
+		select count(*) from xhgmnet_bs_checkcut WHERE checked=2
+		AND DATE_FORMAT(breakTime,"%Y-%m")=#{month} AND breakTime &lt;NOW()
+		AND bsId in ( select bsId FROM xhgmnet_bs_station WHERE
+		period=#{period})
+
+	</select>
+	<!-- 写入每月基站断站时长 -->
+	<insert id="insert_check_month_bs_break" useGeneratedKeys="false"
+		parameterType="xh.mybatis.bean.CheckMonthBsBreakBean">
+		replace into
+		check_month_bs_break(bsId,level,period,break_time,checkcut_time,check_date)
+		values(#{bsId},#{level},#{period},#{break_time},#{checkcut_time},#{check_date})
+	</insert>
+
+	<select id="search_year_bs_break" parameterType="map"
+		resultType="map">
+		select bsId,`level`,period,SUM(break_time) as
+		break_time,SUM(checkcut_time)
+		as checkcut_time FROM
+		check_month_bs_break
+		WHERE DATE_FORMAT(check_date,"%Y-%m") BETWEEN
+		#{start_time} AND #{end_time}
+		and period=#{period} GROUP BY bsId
+	</select>
+	<select id="search_month_bs_break" parameterType="map"
+		resultType="map">
+		<!-- select * FROM check_month_bs_break WHERE DATE_FORMAT(check_date,"%Y-%m")= 
+			#{time} and period=#{period} -->
+
+		select a.*,
+		(SELECT SUM(break_time) FROM check_month_bs_break
+		WHERE DATE_FORMAT(check_date,"%Y-%m") BETWEEN #{start_time} AND #{end_time}
+		and period=#{period} AND bsId=a.bsId) as break_time_total,
+		(SELECT SUM(checkcut_time) FROM check_month_bs_break
+		WHERE DATE_FORMAT(check_date,"%Y-%m") BETWEEN #{start_time} AND #{end_time}
+		and period=#{period} AND bsId=a.bsId) as checkcut_time_total
+
+		FROM check_month_bs_break as a
+		WHERE
+		DATE_FORMAT(check_date,"%Y-%m") =#{time} AND period=#{period}
+
+
 	</select>
 
 

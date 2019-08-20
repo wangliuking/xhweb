@@ -2,6 +2,7 @@ package xh.springmvc.handlers;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -329,8 +330,8 @@ public class AttachmentController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("time", time);
 		String saveDir = req.getSession().getServletContext()
-				.getRealPath("/upload/attachment");
-		String pathname = saveDir + "/"+time+"备品备件表.xls";
+				.getRealPath("/upload/checksource");
+		String pathname = saveDir + "/备品备件表["+time+"].xls";
 		File Path = new File(saveDir);
 		if (!Path.exists()) {
 			Path.mkdirs();
@@ -346,7 +347,7 @@ public class AttachmentController {
 		fontFormat.setWrap(true); // 自动换行
 		fontFormat.setBackground(Colour.WHITE);// 背景颜色
 		fontFormat.setBorder(Border.ALL, BorderLineStyle.THIN,
-				Colour.DARK_GREEN);
+				Colour.BLACK);
 		fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
 
 		// 设置头部字体格式
@@ -359,7 +360,7 @@ public class AttachmentController {
 		fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
 		fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
 		fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
-		fontFormat_h.setBackground(Colour.LIGHT_GREEN);// 背景色
+		fontFormat_h.setBackground(Colour.WHITE);// 背景色
 		fontFormat_h.setWrap(true);// 不自动换行
 
 		// 设置主题内容字体格式
@@ -377,11 +378,29 @@ public class AttachmentController {
 		fontFormat_Content.setWrap(true);// 自动换行
 
 		WritableSheet sheet0 = book.createSheet("维护作业备品备件表", 0);
-
 		excel_one(map, sheet0, fontFormat, fontFormat_h, fontFormat_Content);
 
 		book.write();
 		book.close();
+		String destDir1=req.getSession().getServletContext()
+				.getRealPath("/upload/checksource");
+		destDir1=destDir1+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/3";
+		File Path1 = new File(destDir1);
+		if (!Path1.exists()) {
+			Path1.mkdirs();
+		}
+		
+		String destDir2=req.getSession().getServletContext()
+				.getRealPath("/upload/checksource");
+		destDir2=destDir2+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/4";
+		File Path2 = new File(destDir2);
+		if (!Path2.exists()) {
+			Path2.mkdirs();
+		}
+		File file1 = new File(destDir1+"/备品备件表.xls");
+		File file2 = new File(destDir2+"/备品备件表.xls");
+		FunUtil.copyFile(file, file1);
+		FunUtil.copyFile(file, file2);
 		Map<String, Object> rmap = new HashMap<String, Object>();
 		rmap.put("success", true);
 		rmap.put("pathName", pathname);
@@ -396,17 +415,17 @@ public class AttachmentController {
 			WritableCellFormat fontFormat_Content) {
 		String time = map.get("time").toString();
 		try {
-			sheet.setRowView(0, 300);
+			sheet.setRowView(0, 500);
 			sheet.setColumnView(0, 7); 
 			sheet.setColumnView(1, 20);
 			sheet.setColumnView(2, 30); 
 			sheet.setColumnView(3, 25); 
-			sheet.setColumnView(4, 30); 
-			sheet.setColumnView(5, 10);
-			sheet.setColumnView(6, 15); 
-			sheet.setColumnView(7, 15);
+			sheet.setColumnView(4, 28); 
+			sheet.setColumnView(5, 8);
+			sheet.setColumnView(6, 12); 
+			sheet.setColumnView(7, 12);
 			sheet.setColumnView(8, 15);
-			sheet.setColumnView(9, 30);
+			sheet.setColumnView(9, 15);
 			sheet.setColumnView(10, 30);
 			
 			sheet.addCell(new Label(0, 0, "备品备件表", fontFormat_h));
@@ -425,7 +444,7 @@ public class AttachmentController {
 			sheet.addCell(new Label(9, 2, "存放位置", fontFormat_h));
 			sheet.addCell(new Label(10, 2, "备注", fontFormat_h));
 
-			List<AttachmentBean> list=AttachmentService.attachmentList_month_one(time);
+			List<AttachmentBean> list=AttachmentService.attachmentList_month_one("");
 			for (int i = 0; i < list.size(); i++) {
 				AttachmentBean bean = list.get(i);
 				sheet.addCell(new jxl.write.Number(0, i + 3, (i+1), fontFormat_Content));

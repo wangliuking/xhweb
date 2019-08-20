@@ -201,7 +201,7 @@ xh.add = function() {
 			if (data.success) {
 				$('#addWin').modal('hide');
 				xh.refresh();
-				$("#addForm")[0].reset();
+				//$("#addForm")[0].reset();
 				$("#addForm").data('bootstrapValidator').resetForm();
 				toastr.success(data.message, '提示');
 			} else {

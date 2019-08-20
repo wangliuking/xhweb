@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>月度考核</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<script type="text/javascript"
+	src="../../Resources/js/xhbootstrap-css.js"></script>
+	<script type="text/javascript" src="../../jquery.min.js"></script>  
+<script type="text/javascript" src="../../pageoffice.js" id="po_js_main"></script>
+<!--[if lte IE 9]>
+<script src="../../Resources/js/jquery-1.8.3.min.js"></script>
+<script src="../../Resources/js/respond.min.js"></script>
+<script src="../../Resources/js/html5shiv.js"></script>
+<![endif]-->
+<script language="javascript" src="../../Resources/js/LodopFuncs.js"></script>
+<object id="LODOP_OB"
+    classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0>
+    <embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0></embed>
+</object>
+<style type="text/css">
+.td-span{
+background:green;
+color:#fff;
+margin:0px;
+}
+</style>
+</head>
+<body ng-app="app" ng-controller="xhcontroller" class="fixed-iframe">
+	<!-- splash screen-->
+	<div class="splash">
+		<div class="splash-title">
+			<h1>系统正在努力加载中，请耐心等待</h1>
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 中间内容体 -->
+	<div id="wrapper">
+		<div class="small-header transition animated fadeIn">
+			<div class="title-panel">
+				<div class="panel-body">
+					<div id="hbreadcrumb" class="pull-left">
+						<ol class="hbreadcrumb breadcrumb">
+							<li><span>当前位置：</span></li>
+							<li><span>运维管理</span></li>
+							<li><a href="../menu/menu_operations.html" target="_self"><span>服务监管</span></a></li>
+							<li class="active"><span>月度考核</span></li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="content animate-panel">
+			
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hpanel">
+						<div class="panel-heading hbuilt">
+							<div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a>
+							</div>
+							<i class="fa fa-search"></i> 查询数据
+						</div>
+						<div class="panel-body">
+							<div id="search-div">
+								<form class="form-inline" role="form">
+									<div class="form-group">
+										<label>月份</label>
+										<div>
+											<input type="text" class="form-control" id="time"
+												placeholder="月份" ng-model="time"
+												onfocus="WdatePicker({dateFmt:'yyyy-MM'})">
+										</div>
+									</div>
+
+
+									<div class="form-group">
+										<div class="col-sm-offset-2" style="padding-top:22px">
+											<button type="submit" class="btn btn-sm btn-success"
+												ng-click="search(1)">
+												<i class="fa fa-search"></i>&nbsp;查询
+											</button>
+										</div>
+									</div>
+
+
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- row -->
+			<div class="row">
+                <div class="col-md-12">
+                    <div class="btn-group"
+                        style="padding-top:10px;padding-bottom:10px;">
+                        <a class="btn btn-success btn-sm" href="operations_check_add.html"
+                            ng-if="loginUserRoleType==0 
+                        || (loginUserRoleType==3 )">
+                            <i class="fa fa-plus-circle"></i>&nbsp;提交文件
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+            <!-- row -->
+			<!-- row -->
+			<div class="row">
+
+				<div class="col-md-12">
+					<div class="hpanel">
+						<div class="panel-heading hbuilt">申请列表</div>
+						<div class="panel-body">
+
+							<table id="tb-info" class="xh-table table-hover"
+								ng-model="loginUser">
+								<thead>
+									<tr class="tr-gray">
+										<th>申请人</th>
+										<th>联系方式</th>
+										
+										<th width="90px">考核月份</th>
+										<th width="90px">考核期数</th>
+										<th width="170px">申请时间</th>
+										<th>状态</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-if="totals==0">
+										<td colspan="7" class="text-center">没有记录！</td>
+									</tr>
+									<tr ng-repeat="x in data">
+										<td>{{x.userName}}</td>
+										<td>{{x.tel}}</td>
+										
+							
+										<td>{{x.checkMonth}}</td>
+										<td>{{x.type}}</td>
+										<td>{{x.createTime}}</td>
+										<td ng-class="{ 'td-danger': x.status==-1, 'td-success': x.status==8,'td-primary': x.status!=-1 && x.status!=8 }">
+                                        <span ng-if="x.status==-1">考核文件被拒绝了</span>
+                                        <span ng-if="x.status==0">等待领导审核文件</span>
+                                        <span ng-if="x.status==1">文件审核通过，等待文件签章</span>
+                                        <span ng-if="x.status==2">文件已签章，等待管理方确认并通知会议时间</span>
+                                        <span ng-if="x.status==3">已通知服务提供方会议安排</span>
+                                        <span ng-if="x.status==4">服务提供方确认已经收到会议通知</span>
+                                        <span ng-if="x.status==5">等待管理方确认扣分扣款信息</span>
+                                        <span ng-if="x.status==6">等待服务提供方对扣分款文件签章</span>
+                                        <span ng-if="x.status==7">等待管理方对扣分扣款文件签章</span>
+                                        <span ng-if="x.status==8">
+                                        <span ng-if="x.isMeetDocSign==1">等待会议纪要签章</span>
+                                        <span ng-if="x.isMeetDocSign==2">本次运维考核工作圆满完成</span>
+                                        </span>
+                                        <span ng-if="x.status==9">等待服务提供方对会议纪要签字</span>
+                                        <span ng-if="x.status==10">本次运维考核工作圆满完成</span>
+                                        </td>
+										<td style="text-align:center">
+										<!-- o_check_operations_check -->
+										<a href="#"
+                                            ng-click="toProgress($index)"><i
+                                                class="fa fa-file-text-o text-success"> </i>&nbsp;进度&nbsp;</a>
+										<a href="#" ng-click="showFileWin($index)">&nbsp;<img src="../../Resources/images/icon/eye.png">查看考核文件</a>
+										<a href="#" ng-click="showFile($index,1)" ng-if="x.status>=5">|&nbsp;<img src="../../Resources/images/icon/file.png">查看扣分</a>
+										<a href="#" ng-click="showFile($index,2)" ng-if="x.status>=5">|&nbsp;<img src="../../Resources/images/icon/file.png">查看扣款</a>
+										<a href="#" ng-click="showFile($index,3)" ng-if="x.isMeetDocSign>=1">|&nbsp;<img src="../../Resources/images/icon/file.png">查看会议纪要</a>
+										<a href="#" ng-click="addFile($index)" ng-if="userL.roleType==0 ||(up.o_add=='on' && userL.roleType==3 && x.status<8)">|&nbsp;<img src="../../Resources/images/icon/add.png"><span style="color:red;">增加考核文件</span></a>
+										<a href="#" ng-click="showCheckWin($index)" ng-if="userL.roleType==0 ||(up.o_check_operations_check=='on' && userL.roleType==3 && x.status==0)">|&nbsp;<img src="../../Resources/images/icon/check.png"><span style="color:red;">审核文件</span></a>
+										<a href="#" ng-click="showSignWin($index)"  ng-if="userL.roleType==0 ||(up.o_check_operations_check=='on' && userL.roleType==3 && x.status==1)">|&nbsp;<img src="../../Resources/images/icon/seal.png"><span style="color:red;">考核文件签章</span></a>
+										<a href="#" ng-click="sealComplete($index)" ng-if="userL.roleType==0 ||(up.o_check_operations_check=='on' && userL.roleType==3 && x.status==1)">|&nbsp;<img src="../../Resources/images/icon/seal.png"><span style="color:red;">完成签章</span></a>
+										<a href="#" ng-click="showSureFileWin($index)" ng-if="userL.roleType==0 ||(up.o_check_operations_check=='on' && userL.roleType==2 && x.status==2)">|&nbsp;<img src="../../Resources/images/icon/sure.png"><span style="color:red;">通知例会时间</span></a>
+										<a href="#" ng-click="sureMeet($index)" ng-if="userL.roleType==0 ||(userL.roleType==3 && x.status==3)">|&nbsp;<img src="../../Resources/images/icon/sure.png"><span style="color:red;">确认例会通知</span></a>
+										<a href="#" ng-click="recordScore($index)" ng-if="userL.roleType==0 ||(userL.roleType==3 && x.status==4)">|&nbsp;<img src="../../Resources/images/icon/record.png"><span style="color:red;">记录扣分</span></a>
+										<a href="#" ng-click="recordMoney($index)" ng-if="userL.roleType==0 ||(userL.roleType==3 && x.status==4)">|&nbsp;<img src="../../Resources/images/icon/record.png"><span style="color:red;">记录扣款</span></a>
+										  <a href="#" ng-click="write_meet($index,1)" ng-if="userL.roleType==0 ||
+                                        (up.o_check_operations_check=='on' && (userL.roleType==2 || userL.roleType==3) && x.status>=4 && x.isMeetDocSign==0)">
+                                        |&nbsp;<img src="../../Resources/images/icon/edit.png"><span style="color:red;">填写会议纪要</span>
+                                        </a>
+										<a href="#" ng-click="upScoreAndMoney($index)" ng-if="userL.roleType==0 ||(userL.roleType==3 && x.status==4)">|&nbsp;<img src="../../Resources/images/icon/tijiao.png"><span style="color:red;">提交扣分扣款</span></a>
+										<a href="#" ng-click="sureScoreAndMoney($index)" ng-if="userL.roleType==0 ||(up.o_check_operations_check=='on' && userL.roleType==2 && x.status==5)">|&nbsp;<img src="../../Resources/images/icon/sure.png"><span style="color:red;">确认扣分扣款信息</span></a>
+										<a href="#" ng-click="showScoreMoneySignWin($index)"  ng-if="userL.roleType==0 ||
+										(up.o_check_operations_check=='on' && userL.roleType==3 && x.status==6)">
+										|&nbsp;<img src="../../Resources/images/icon/seal.png"><span style="color:red;">扣分扣款文件签章</span>
+										</a>
+                                       <!--  <a href="#" ng-click="sealScoreMoneyComplete($index)" ng-if="userL.roleType==0 ||
+                                        (up.o_check_operations_check=='on' && userL.roleType==3 && x.status==6)">
+                                        |&nbsp;<img src="../../Resources/images/icon/seal.png">完成签章
+                                        </a> -->
+                                        <a href="#" ng-click="showScoreMoneySignWin($index)"  ng-if="userL.roleType==0 ||
+                                        (up.o_check_operations_check=='on' && userL.roleType==2 && x.status==7)">
+                                        |&nbsp;<img src="../../Resources/images/icon/seal.png"><span style="color:red;">扣分扣款文件签章</span>
+                                        </a>
+                                          <a href="#" ng-click="write_meet($index,2)" ng-if="userL.roleType==0 ||
+                                        (up.o_check_operations_check=='on' && (userL.roleType!=x.writeMeetRoleType) && (x.status>=6) && x.isMeetDocSign==1)">
+                                        |&nbsp;<img src="../../Resources/images/icon/edit.png"><span style="color:red;">会议纪要签章</span>
+                                        </a>
+                                       <!--  <a href="#" ng-click="sealScoreMoneyComplete($index)" ng-if="userL.roleType==0 ||
+                                        (up.o_check_operations_check=='on' && userL.roleType==2 && x.status==7)">
+                                        |&nbsp;<img src="../../Resources/images/icon/seal.png">完成签章
+                                        </a> -->
+                                       
+                                        <!--  <a href="#" ng-click="signMeet($index,1)" ng-if="userL.roleType==0 ||
+                                        (up.o_check_operations_check=='on' && userL.roleType==2 && x.status==8)">
+                                        |&nbsp;<img src="../../Resources/images/icon/edit.png">提交会议纪要
+                                        </a> -->
+                                       
+                                        <!--  <a href="#" ng-click="signMeet($index,2)" ng-if="userL.roleType==0 ||
+                                        (up.o_check_operations_check=='on' && userL.roleType==3 && x.status==9)">
+                                        |&nbsp;<img src="../../Resources/images/icon/edit.png">确认已经签字
+                                        </a> -->
+										<!-- <a href="#"
+											ng-click="toProgress($index)"><i
+												class="fa fa-file-text-o text-success"> </i>&nbsp;资料及进度&nbsp;</a>
+											<a href="#" ng-click="checkWin2($index)"
+											ng-if="x.status==0 &&((loginUserRoleType==2 && up.o_check_operations_check=='on') || loginUserRoleType==0)">|<i
+												class="fa fa-hand-o-down text-danger"></i>审核
+										</a> <a ng-if="loginUser==x.checkUser && x.status==1 && up.o_check_operations_check=='on'" ng-click="toDeal($index)"
+											href="javascript:(0)" title="点击按钮填写考核结果">|<i
+												class="fa fa-hand-o-down text-danger"></i>填写考核结果
+										</a>  <a
+											ng-if="x.status==1 && (loginUserRoleType==3 || loginUserRoleType==0)"
+											href="#" ng-click="check4($index)">| <i
+												class="fa fa-hand-o-down text-danger"></i>确认
+										</a> --></td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="page">
+								<div class="page-info">
+									<span>每页显示</span> <select id="page-limit" ng-change="refresh()"
+										ng-model="count">
+										<option value="15">15</option>
+										<option value="20">20</option>
+										<option value="30">30</option>
+										<option value="40">40</option>
+										<option value="50">50</option>
+									</select> <span>条,</span><span ng-model="index">显示{{start}}-</span><span
+										ng-model="lastIndex">{{lastIndex}}条,</span> <span
+										ng-model="totals">总计{{totals}}条</span> <i
+										class="fa fa-refresh page-refresh" title="刷新数据"
+										ng-click="refresh()"></i>
+								</div>
+								<div class="page-paging"></div>
+							</div>
+							<!-- row -->
+							<div class="row">
+								<div class="col-md-12"></div>
+							</div>
+							<!-- row -->
+						</div>
+						<!-- panel-body--end -->
+						<!-- hpanel --end-->
+					</div>
+					<!-- col-md-12--end -->
+				</div>
+				<!-- row/ -->
+			</div>
+		</div>
+	</div>
+	<!-- 中间内容体 /-->
+
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
+
+	<!-- 进度-->
+	<div ng-include="'operations_check_progress.html'"></div>
+	<div ng-include="'operations_check_files.html'"></div>
+	   <div ng-include="'operations_check_sign.html'"></div>
+	<div ng-include="'operations_check_checked.html'"></div>
+
+	<div ng-include="'operations_check_examine.html'"></div>
+
+
+
+
+
+	<script type="text/javascript"
+		src="../../Resources/js/xhbootstrap-js.js"></script>
+	<script type="text/javascript"
+		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
+	<script type="text/javascript"
+		src="../../Resources/js/ajaxfileupload.js"></script>
+	<script type="text/javascript"
+		src="../../Controllers/business/operations_check.js"></script>
+	<script type="text/javascript">
+		xh.load();
+		$("#addbtn").click(function() {
+			xh.add();
+		});
+	</script>
+	<script>
+		$("#uploadfile").click(function() {
+			if ($('#filePath').val() == "") {
+				alert("请选择需要上传的文件！");
+				return false;
+			}
+			$("input[name='result']").val(2);
+			$.ajaxFileUpload({
+				url : '../../check/upload/file', //用于文件上传的服务器端请求地址
+				secureuri : false, //是否需要安全协议，一般设置为false
+				fileElementId : 'filePath', //文件上传域的ID
+				dataType : 'json', // 返回值类型 一般设置为json
+				type : 'POST',
+				success : function(data, status) //服务器成功响应处理函数
+				{
+					if (data.success) {
+						$("input[name='result']").val(1);
+						$("input[name='fileName']").val(data.fileName);
+						$("input[name='path']").val(data.filePath);
+						$("#uploadResult").html("文件上传成功");
+						toastr.success("文件上传成功", '提示');
+					} else {
+						$("input[name='result']").val(0);
+						toastr.error("文件上传失败", '提示');
+						$("#uploadResult").html("文件上传失败");
+					}
+
+				},
+				error : function(data, status, e)//服务器响应失败处理函数
+				{
+					alert(e);
+				}
+			});
+		});
+	</script>
+</body>
+</html>

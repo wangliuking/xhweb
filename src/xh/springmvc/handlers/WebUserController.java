@@ -27,6 +27,7 @@ import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
 import xh.mybatis.bean.BsstationBean;
 import xh.mybatis.bean.UserPowerBean;
+import xh.mybatis.bean.UserZoneBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.bean.WebUserBean;
 import xh.mybatis.bean.WebUserRoleBean;
@@ -257,7 +258,9 @@ public class WebUserController {
 		String unitType=request.getParameter("unitType");
 		String userType=request.getParameter("userType");
 		String vpnId=request.getParameter("vpnId");
+		String zone=request.getParameter("zone");
 		WebUserBean bean=new WebUserBean();
+		
 		WebUserRoleBean webUserRoleBean=new WebUserRoleBean();
 		
 		bean.setUser(user);
@@ -272,7 +275,17 @@ public class WebUserController {
 		bean.setVpnId(vpnId);
 		int flag=WebUserServices.insertUser(bean);
 		if (flag==1) {
-			
+			if(zone!=null && !zone.equals("")){
+				List<UserZoneBean> ll=new ArrayList<UserZoneBean>();
+				String[] zones=zone.split(",");
+				for(int i=0;i<zones.length;i++){
+					UserZoneBean b=new UserZoneBean();
+					b.setUser(user);
+					b.setZone(zones[i]);
+					ll.add(b);
+				}
+				WebUserServices.addUserZone(ll);
+			}			
 			int userId=WebUserServices.userIdByUser(user);
 			if (userId>0) {
 				webUserRoleBean.setRoleId(funUtil.StringToInt(roleId));
@@ -333,6 +346,7 @@ public class WebUserController {
 		String unitType=request.getParameter("unitType");
 		String userType=request.getParameter("userType");
 		String vpnId=request.getParameter("vpnId");
+		String zone=request.getParameter("zone");
 		WebUserBean bean=new WebUserBean();
 		bean.setUser(user);
 		bean.setUserPass(userPass);
@@ -348,8 +362,23 @@ public class WebUserController {
 		boolean tag=userPass==""?true:FunUtil.userpass_check(request.getParameter("userPass"));
 		if(tag){
 			int flag=WebUserServices.updateUser(bean);
+			
 			if (flag==1) {
 				this.success=true;
+				if(zone.equals("")){
+					WebUserServices.delUserZone(user);
+				}else{
+					WebUserServices.delUserZone(user);
+					List<UserZoneBean> ll=new ArrayList<UserZoneBean>();
+					String[] zones=zone.split(",");
+					for(int i=0;i<zones.length;i++){
+						UserZoneBean b=new UserZoneBean();
+						b.setUser(user);
+						b.setZone(zones[i]);
+						ll.add(b);
+					}
+					WebUserServices.addUserZone(ll);
+				}		
 				WebUserRoleBean webUserRoleBean=new WebUserRoleBean();
 				int userId=WebUserServices.userIdByUser(user);
 				if (userId>0) {

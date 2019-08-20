@@ -1,5 +1,6 @@
 package xh.mybatis.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 
 import xh.mybatis.bean.CheckMoneyBean;
+import xh.mybatis.bean.CheckMonthBsBreakBean;
 import xh.mybatis.bean.CheckRoomEquBean;
 import xh.mybatis.bean.MoneyBean;
 import xh.mybatis.bean.OperationsCheckBean;
@@ -63,14 +65,15 @@ public class OperationsCheckService {
 		}
 		return list;
 	}
-	public static List<OperationsCheckScoreBean> show_score_detail(String time) {
-		SqlSession session = MoreDbTools
-				.getSession(MoreDbTools.DataSourceEnvironment.slave);
-		OperationsCheckMapper mapper = session
-				.getMapper(OperationsCheckMapper.class);
+	public static List<OperationsCheckScoreBean> show_score_detail(String time,int period) {
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		OperationsCheckMapper mapper = session.getMapper(OperationsCheckMapper.class);
 		List<OperationsCheckScoreBean> list = new ArrayList<OperationsCheckScoreBean>();
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("time", time);
+		map.put("period", period);
 		try {
-			list = mapper.show_score_detail(time);
+			list = mapper.show_score_detail(map);
 			session.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -94,7 +97,30 @@ public class OperationsCheckService {
 		}
 		return count;
 	}
-
+	public static List<Map<String,Object>> readFileTree(String path){
+		File dir = new File(path);
+		File[] files=dir.listFiles();
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		if(files!=null){
+			for(int i=0;i<files.length;i++){
+				Map<String,Object> map=new HashMap<String, Object>();
+				if(files[i].isDirectory()){
+					map.put("isDir", true);
+					map.put("file", files[i].getName());				
+					map.put("children", readFileTree(files[i].getPath()));
+				}else{
+					map.put("isDir", false);
+					map.put("file", files[i].getName());
+					map.put("path", files[i].getPath());
+				}
+				list.add(map);
+			}
+		}else{
+			System.out.println("当前目录为空");
+		}
+		return list;
+		
+	}
 	public static int  sealFile(int id) {
 		SqlSession session = MoreDbTools
 				.getSession(MoreDbTools.DataSourceEnvironment.master);
@@ -352,14 +378,17 @@ public class OperationsCheckService {
 		return list;
 	}
 	
-	public static List<CheckMoneyBean> show_money_detail(String time) {
+	public static List<CheckMoneyBean> show_money_detail(String time,int period) {
 		SqlSession session = MoreDbTools
 				.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		OperationsCheckMapper mapper = session
 				.getMapper(OperationsCheckMapper.class);
 		List<CheckMoneyBean> list= new ArrayList<CheckMoneyBean>();
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("time", time);
+		map.put("period", period);
 		try {
-			list = mapper.show_money_detail(time);
+			list = mapper.show_money_detail(map);
 			session.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -749,6 +778,8 @@ public class OperationsCheckService {
 		return list;
 	}
 	
+	
+	
 	/*<!-- 考核运维人员是否达到20人 -->*/
 	public static int check_phone_book() {
 		SqlSession session = MoreDbTools
@@ -920,15 +951,58 @@ public class OperationsCheckService {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		OperationsCheckMapper mapper = sqlSession.getMapper(OperationsCheckMapper.class);
 		List<Map<String,Object>> list= new ArrayList<Map<String,Object>>();
+		List<Map<String,Object>> list2= new ArrayList<Map<String,Object>>();
+		String[] files={
+				"本月计划维护作业完成情况",
+				"下月计划维护作业",
+				"系统运行维护服务月报",
+				"基站信息表",
+				"运维资源配置表",
+				"运维人员通讯录",
+				"运维故障统计",
+				/*"故障核减申请书",*/
+				/*"应急通信保障报告",*/
+				"故障处理报告",
+				"备品备件表",
+				"定期维护报告-交换中心月维护",
+				"定期维护报告-基站月维护",
+				"巡检汇总表",
+				/*"基站月度巡检表",*/
+				"年度健康检查报告"};
+		
+				
+				
+				
+				/*"'运维服务团队通讯录','运维资源配置表',"
+				+ "'本月计划维护作业完成情况','下月计划维护作业','系统运行维护服务月报',"
+				+ "'基站信息表','运维故障统计','通信保障报告','备品备件表','定期维护报告-交换中心月维护',"
+				+ "'定期维护报告-基站月维护','系统日常维护表','巡检记录汇总表','话务统计'";*/
 		try {
 			list=mapper.searchFile(applyId);
+			for (String string : files) {
+				Map<String,Object> xx=new HashMap<String, Object>();
+				xx.put("fileName", string);
+				xx.put("ishas", false);
+				boolean is=false;
+				for (Map<String,Object> map : list) {
+					if(map.get("fileName").toString().contains(string)){
+						is=true;
+						map.put("ishas", true);
+						xx=map;
+					}
+				}
+				list2.add(xx);
+			}
+			
+			
+			
 			sqlSession.close();
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return list;
+		return list2;
 	}
 	public static int update_file_info(Map<String,Object> map) {
 		SqlSession session = MoreDbTools
@@ -1012,6 +1086,26 @@ public class OperationsCheckService {
 		return count;
 	}
 	
+	
+	/*	<!-- (特别)重大故障 -->*/
+	public static List<Map<String,Object>> tb_zd_fault(String time,int period)  {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+		Map<String, Object> map =new HashMap<String, Object>();
+		map.put("time", time);
+		map.put("period", period);
+		try {
+			list=mapper.tb_zd_fault(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 	
 	
 	
@@ -1162,6 +1256,70 @@ public class OperationsCheckService {
 			e.printStackTrace();
 		}
 		return count;
+	}
+	public static int search_checkcut_count(Map<String,Object> map)  {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		int count=0;
+		try {
+			count=mapper.search_checkcut_count(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	/*写入每月基站断站时长*/
+	public static int insert_check_month_bs_break(CheckMonthBsBreakBean bean) {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.master);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		int count=0;
+		try {
+			count=mapper.insert_check_month_bs_break(bean);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	public static List<Map<String,Object>> search_year_bs_break(Map<String,Object> map)  {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.search_year_bs_break(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public static List<Map<String,Object>> search_month_bs_break(Map<String,Object> map)  {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.search_month_bs_break(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
 	}
 	
 

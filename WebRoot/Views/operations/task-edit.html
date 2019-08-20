@@ -86,15 +86,27 @@
 									</td>
 								</tr>
 								<tr>
-                                    <td width="130px"><a href="#" ng-click="showFileWin()">附件</a> </td>
+                                    <td width="130px"><a href="#" ng-click="showUpdateFileWin()">新增附件</a> </td>
                                      
                                    <td colspan="3">
-                                    <p ng-repeat="x in editData.files">
+                                   <div class="file-div">
+                                   <input  class="form-control" type="file" id="pathName2" name="pathName2" onchange="upFile2()" ng-show="false"/>
+                                   <ul>
+                                    <li ng-repeat="x in editData.files">
                                     <a href="#" ng-click="download(x.filePath)">{{x.fileName}}</a>
+                                    <a href="#" ng-show="false" class="path">{{x.filePath}}</a>
                                     &nbsp;&nbsp;
                                     <a href="#" ng-click="download(x.filePath)">| 下载</a> 
                                     &nbsp;&nbsp;<a href="#" ng-click="previewDoc(x.filePath)"> | 预览</a>
-                                    </p>
+                                    &nbsp;&nbsp;<a href="#" ng-click="delTaskFile(x.id)" class='del-file'> | 删除</a>
+                                    </li>
+                                   
+                                   
+                                   </ul>
+                                   </div>
+                                   
+                                   
+                                   
                                     </td>
                                   
                                     </tr>
@@ -158,5 +170,63 @@
 		$("#edit_btn").button('loading');
 		xh.edit();
 	});
+function upFile2(){
+        
+        var name=$("input[name=pathName2]").val();
+        var mm=$("input[name=pathName2]").get(0).files;
+        var size=0;
+        if (mm[0].size > 1024 * 1024) {
+            size = (Math.round(mm[0].size / (1024 * 1024))).toString()
+                    + 'MB';
+        } else {
+            size = (Math.round(mm[0].size / 1024)).toString() + 'KB';
+        }
+        
+        var str="";
+        str+="<li>";
+        str+="<span>"+mm[0].name+"</span>";
+        str+="<span class='path' style='display:none;' id='filepath"+fileNum+"'></span>";
+        str+="<span>("+size+")</span>"
+        str+="<span style='color:red;margin-left:20px' id='upresult"+fileNum+"'></span>"
+        str+="<span style='color:blue;margin-left:20px;cursor:pointer' class='del-file' >删除</span>"
+        str+="</li>"
+        $(".file-div ul").append(str);
+        upload2("upresult"+fileNum,"filepath"+fileNum);
+        fileNum++;
+    }
+    function upload2(r,p){
+         if ($('#pathName2').val() == "") {
+            alert("请选择需要上传的文件！");
+            return false;
+        } 
+        xh.maskShow("正在上传文件，请耐心等待");
+        $.ajaxFileUpload({
+            url : '../../uploadFile/upload2', //用于文件上传的服务器端请求地址
+            secureuri : false, //是否需要安全协议，一般设置为false
+            fileElementId : 'pathName2', //文件上传域的ID
+            dataType : 'json', // 返回值类型 一般设置为json
+            type : 'POST',
+            success : function(data, status) //服务器成功响应处理函数
+            {
+                xh.maskHide();
+                if (data.success) {
+                    $("#"+r).html("文件上传成功");
+                    $("#"+p).html(data.filePath);
+                    fileNum=0;
+                    
+                    toastr.success("文件上传成功", '提示');
+                } else {
+                    toastr.error("文件上传失败", '提示');
+                    $("#"+r).html("文件上传失败");
+                }
+
+            },
+            error : function(data, status, e)//服务器响应失败处理函数
+            {
+                alert(e);
+                xh.maskHide();
+            }
+        });
+    }
 	
 </script>

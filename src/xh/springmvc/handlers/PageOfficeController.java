@@ -190,14 +190,14 @@ public class PageOfficeController {
 		poCtrl.addCustomToolButton("打印","PrintFile()",6);
 		poCtrl.addCustomToolButton("全屏/还原", "IsFullScreen()", 4);
 		poCtrl.addCustomToolButton("关闭", "CloseFile()", 21);
-		poCtrl.setTitlebar(false); //隐藏标题栏
+		poCtrl.setTitlebar(true); //隐藏标题栏
 		poCtrl.setMenubar(true); //隐藏菜单栏
 		poCtrl.setOfficeToolbars(false);//隐藏Office工具条
 		poCtrl.setCustomToolbar(true);//隐藏自定义工具栏
+		poCtrl.setCaption(path.substring(path.lastIndexOf("/")+1));
 		poCtrl.setJsFunction_AfterDocumentOpened("IsFullScreen()");
 		//设置页面的显示标题
-		poCtrl.setCaption(request.getContextPath() +"/"+path);
-		System.out.println(request.getContextPath() +"/"+path);
+		poCtrl.setCaption(path.substring(path.lastIndexOf("/")+1));
 		poCtrl.webOpen(request.getContextPath() +"/"+path, OpenModeType.docReadOnly, "");
 		poCtrl.setTagId("PageOfficeCtrl1");
 		ModelAndView mv = new ModelAndView("Views/jsp/preview_word");
@@ -218,14 +218,14 @@ public class PageOfficeController {
 		poCtrl.addCustomToolButton("打印","PrintFile()",6);
 		poCtrl.addCustomToolButton("全屏/还原", "IsFullScreen()", 4);
 		poCtrl.addCustomToolButton("关闭", "CloseFile()", 21);
-		poCtrl.setTitlebar(false); //隐藏标题栏
+		poCtrl.setTitlebar(true); //隐藏标题栏
 		poCtrl.setMenubar(true); //隐藏菜单栏
 		poCtrl.setOfficeToolbars(false);//隐藏Office工具条
 		poCtrl.setCustomToolbar(true);//隐藏自定义工具栏
 		poCtrl.setJsFunction_AfterDocumentOpened("IsFullScreen()");
-		poCtrl.setJsFunction_AfterDocumentOpened("IsFullScreen()");
+		poCtrl.setCaption(path.substring(path.lastIndexOf("/")+1));
 		//设置页面的显示标题
-		poCtrl.setCaption("");
+		poCtrl.setCaption(path.substring(path.lastIndexOf("/")+1));
 		poCtrl.webOpen(request.getSession().getServletContext().getRealPath(path), OpenModeType.xlsReadOnly, "");
 		poCtrl.setTagId("PageOfficeCtrl1");
 		ModelAndView mv = new ModelAndView("Views/jsp/preview_excel");
@@ -258,14 +258,82 @@ public class PageOfficeController {
 		pdfCtrl1.addCustomToolButton("-", "", 0);
 		pdfCtrl1.addCustomToolButton("向左旋转90度", "SetRotateLeft()", 12);
 		pdfCtrl1.addCustomToolButton("向右旋转90度", "SetRotateRight()", 13);
-		pdfCtrl1.setTitlebar(false); //隐藏标题栏
+		pdfCtrl1.setTitlebar(true); //隐藏标题栏
+		pdfCtrl1.setCaption(path.substring(path.lastIndexOf("/")+1));
 		pdfCtrl1.setTagId("PDFCtrl1");
 		pdfCtrl1.webOpen(request.getContextPath() +"/"+path, PDFOpenModeType.pdfViewOnly);
 		ModelAndView mv = new ModelAndView("Views/jsp/preview_pdf");
 		mv.addObject("pageoffice", pdfCtrl1.getHtmlCode("PDFCtrl1"));
 		return mv;
 	}
-	
+	@RequestMapping("/editWord")
+	public ModelAndView editWord(HttpServletRequest request,
+			HttpServletResponse response) {
+		PageOfficeCtrl poCtrl = new PageOfficeCtrl(request);
+		String path=request.getParameter("path");	
+		poCtrl.setServerPage(request.getContextPath() +"/poserver.zz");// 设置授权程序servlet
+		poCtrl.addCustomToolButton("保存", "Save()", 1); // 添加自定义按钮
+		poCtrl.addCustomToolButton("全屏/还原", "IsFullScreen()", 4);
+		poCtrl.addCustomToolButton("关闭", "CloseFile()", 21);
+		poCtrl.setTitlebar(true); //隐藏标题栏
+		poCtrl.setMenubar(true); //隐藏菜单栏
+		poCtrl.setOfficeToolbars(true);//隐藏Office工具条
+		poCtrl.setCustomToolbar(true);//隐藏自定义工具栏
+		poCtrl.setJsFunction_AfterDocumentOpened("IsFullScreen()");
+		String name="";
+		try {
+			name=URLEncoder.encode(path,"utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(path.indexOf("/")==0){
+			path=path.substring(1);
+		}
+		poCtrl.setSaveFilePage(request.getContextPath() +"/office/save_page?path="+name);
+		//设置页面的显示标题
+		poCtrl.setCaption(path.substring(path.lastIndexOf("/")+1));
+		poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit, "");
+		poCtrl.setTagId("PageOfficeCtrl1");
+		ModelAndView mv = new ModelAndView("Views/jsp/edit_word");
+		mv.addObject("poCtrl", poCtrl);
+		mv.addObject("pageoffice", poCtrl.getHtmlCode("PageOfficeCtrl1"));
+		return mv;
+	}
+	@RequestMapping("/editExcel")
+	public ModelAndView editExcel(HttpServletRequest request,
+			HttpServletResponse response) {
+		PageOfficeCtrl poCtrl = new PageOfficeCtrl(request);
+		String path=request.getParameter("path");	
+		poCtrl.setServerPage(request.getContextPath() +"/poserver.zz");// 设置授权程序servlet
+		poCtrl.addCustomToolButton("保存", "Save()", 1); // 添加自定义按钮
+		poCtrl.addCustomToolButton("全屏/还原", "IsFullScreen()", 4);
+		poCtrl.addCustomToolButton("关闭", "CloseFile()", 21);
+		poCtrl.setTitlebar(true); //隐藏标题栏
+		poCtrl.setMenubar(true); //隐藏菜单栏
+		poCtrl.setOfficeToolbars(true);//隐藏Office工具条
+		poCtrl.setCustomToolbar(true);//隐藏自定义工具栏
+		poCtrl.setJsFunction_AfterDocumentOpened("IsFullScreen()");
+		String name="";
+		try {
+			name=URLEncoder.encode(path,"utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(path.indexOf("/")==0){
+			path=path.substring(1);
+		}
+		poCtrl.setSaveFilePage(request.getContextPath() +"/office/save_page?path="+name);
+		//设置页面的显示标题
+		poCtrl.setCaption(path.substring(path.lastIndexOf("/")+1));
+		poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.xlsNormalEdit, "");
+		poCtrl.setTagId("PageOfficeCtrl1");
+		ModelAndView mv = new ModelAndView("Views/jsp/edit_excel");
+		mv.addObject("poCtrl", poCtrl);
+		mv.addObject("pageoffice", poCtrl.getHtmlCode("PageOfficeCtrl1"));
+		return mv;
+	}
 	@RequestMapping("/seal")
 	public ModelAndView seal(HttpServletRequest request,
 			HttpServletResponse response) {
@@ -279,20 +347,21 @@ public class PageOfficeController {
 		System.out.println("签章文件->"+path);	
 		poCtrl.setServerPage(request.getContextPath() +"/poserver.zz");// 设置授权程序servlet
 		poCtrl.addCustomToolButton("保存", "Save()", 1); // 添加自定义按钮
-		if(type.equals("1")){
+		/*if(type.equals("1")){
 			poCtrl.addCustomToolButton("加盖印章", "Seal()", 2);
 			//poCtrl.addCustomToolButton("删除印章", "DeleteSeal()", 21);
 		}else{
 			poCtrl.addCustomToolButton("签字", "Seal()", 2);
 			//poCtrl.addCustomToolButton("删除签字", "DeleteSeal()", 21);
-		}
+		}*/
+		poCtrl.addCustomToolButton("签章", "Seal()", 2);
 		if(path.indexOf("/")==0){
 			path=path.substring(1);
 		}
 		
 		poCtrl.addCustomToolButton("全屏/还原", "IsFullScreen()", 4);
 		poCtrl.addCustomToolButton("关闭", "CloseFile()", 21);
-		poCtrl.setTitlebar(false); //隐藏标题栏
+		poCtrl.setTitlebar(true); //隐藏标题栏
 		poCtrl.setMenubar(true); //隐藏菜单栏
 		poCtrl.setOfficeToolbars(false);//隐藏Office工具条
 		poCtrl.setCustomToolbar(true);//隐藏自定义工具栏
@@ -306,7 +375,7 @@ public class PageOfficeController {
 		}
 		poCtrl.setSaveFilePage(request.getContextPath() +"/office/save_page?path="+name);
 		//设置页面的显示标题
-		poCtrl.setCaption("");
+		poCtrl.setCaption(path.substring(path.lastIndexOf("/")+1));
 		if(doc.contains("doc")){
 			poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit, "");
 		}else{
@@ -318,6 +387,7 @@ public class PageOfficeController {
 		mv.addObject("type", type);
 		mv.addObject("fileId", Integer.parseInt(fileId));
 		mv.addObject("sealName",WebUserServices.sealName(FunUtil.loginUser(request),type));
+		mv.addObject("userName",FunUtil.loginUserInfo(request).get("userName"));
 		mv.addObject("pageoffice", poCtrl.getHtmlCode("PageOfficeCtrl1"));
 		return mv;
 	}
@@ -336,7 +406,7 @@ public class PageOfficeController {
 	
 		poCtrl.addCustomToolButton("全屏/还原", "IsFullScreen()", 4);
 		poCtrl.addCustomToolButton("关闭", "CloseFile()", 21);
-		poCtrl.setTitlebar(false); //隐藏标题栏
+		poCtrl.setTitlebar(true); //隐藏标题栏
 		poCtrl.setMenubar(true); //隐藏菜单栏
 		poCtrl.setOfficeToolbars(false);//隐藏Office工具条
 		poCtrl.setCustomToolbar(true);//隐藏自定义工具栏
@@ -353,7 +423,7 @@ public class PageOfficeController {
 		}
 		poCtrl.setSaveFilePage(request.getContextPath() +"/office/save_page?path="+name);
 		//设置页面的显示标题
-		poCtrl.setCaption("");
+		poCtrl.setCaption(path.substring(path.lastIndexOf("/")+1));
 		if(doc.contains("doc")){
 			poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit, "");
 		}else{
@@ -383,7 +453,7 @@ public class PageOfficeController {
 		//poCtrl.addCustomToolButton("删除印章", "DeleteSeal()", 21);
 		poCtrl.addCustomToolButton("全屏/还原", "IsFullScreen()", 4);
 		poCtrl.addCustomToolButton("关闭", "CloseFile()", 21);
-		poCtrl.setTitlebar(false); //隐藏标题栏
+		poCtrl.setTitlebar(true); //隐藏标题栏
 		poCtrl.setMenubar(true); //隐藏菜单栏
 		poCtrl.setOfficeToolbars(false);//隐藏Office工具条
 		poCtrl.setCustomToolbar(true);//隐藏自定义工具栏
@@ -400,7 +470,7 @@ public class PageOfficeController {
 		}
 		poCtrl.setSaveFilePage(request.getContextPath() +"/office/save_page?path="+name);
 		//设置页面的显示标题
-		poCtrl.setCaption("");
+		poCtrl.setCaption(path.substring(path.lastIndexOf("/")+1));
 		poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit, "");
 		poCtrl.setTagId("PageOfficeCtrl1");
 		ModelAndView mv = new ModelAndView("Views/jsp/seal_word");
@@ -423,7 +493,7 @@ public class PageOfficeController {
 		//poCtrl.addCustomToolButton("删除印章", "DeleteSeal()", 21);
 		poCtrl.addCustomToolButton("全屏/还原", "IsFullScreen()", 4);
 		poCtrl.addCustomToolButton("关闭", "CloseFile()", 21);
-		poCtrl.setTitlebar(false); //隐藏标题栏
+		poCtrl.setTitlebar(true); //隐藏标题栏
 		poCtrl.setMenubar(true); //隐藏菜单栏
 		poCtrl.setOfficeToolbars(false);//隐藏Office工具条
 		poCtrl.setCustomToolbar(true);//隐藏自定义工具栏
@@ -440,7 +510,7 @@ public class PageOfficeController {
 		}
 		poCtrl.setSaveFilePage(request.getContextPath() +"/office/save_page?path="+name);
 		//设置页面的显示标题
-		poCtrl.setCaption("");
+		poCtrl.setCaption(path.substring(path.lastIndexOf("/")+1));
 		poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.xlsNormalEdit, "");
 		poCtrl.setTagId("PageOfficeCtrl1");
 		ModelAndView mv = new ModelAndView("Views/jsp/seal_excel");

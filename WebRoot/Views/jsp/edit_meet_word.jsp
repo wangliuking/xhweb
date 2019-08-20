@@ -36,15 +36,15 @@
 			var iCount = document.getElementById("PageOfficeCtrl1").ZoomSeal.Count;//获取加盖的印章数量
             if(type==2){
                 if(!getSeal()){               	
-                	alert("你还没有签字");
+                	//alert("你还没有签字");
                 }else{
-                	window.external.CallParentFunc("xh.signMeet2()");
+                	//window.external.CallParentFunc("xh.signMeet2()");
                 }
             }else{
             	if(!getSeal()){                
-                    alert("你还没有签字");
+                    //alert("你还没有签字");
                 }else{
-                	window.external.CallParentFunc("xh.signMeetVertical()");
+                	//window.external.CallParentFunc("xh.signMeetVertical()");
                 }
             }
 		}
@@ -79,7 +79,7 @@
                         .AddSealByName(searName2, null, null);
                 
                 if (bRet) {
-                    alert("签字成功！");
+                    //alert("签字成功！");
                 } else {
                     alert("签字失败！");
                 }
@@ -92,7 +92,7 @@
                         .AddSealByName(searName1, null, null);
                 
                 if (bRet) {
-                    alert("盖章成功！");
+                    //alert("盖章成功！");
                 } else {
                     alert("盖章失败！");
                 }

@@ -1,0 +1,88 @@
+
+<div class="modal fade" id="addWin" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+				<form action="#" onsubmit="return false" id="addForm">
+					<div class="row">
+						
+						 <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>车牌号</label> <input type="text" class="form-control"
+                                    name="carNumber" required="required">
+                            </div>
+                        </div>
+						<div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>型号</label> <input type="text" class="form-control"
+                                    name="model" required="required">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>停放位置</label> <input type="text" class="form-control"
+                                    name="location" required="required">
+                            </div>
+                        </div>
+                       
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>状态</label>
+                                <select class="form-control" name="state">
+                                <option value="0" selected="selected">备用</option>
+                                <option value="1">在用</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>载波数量</label>
+                                <input type="number" min="1" class="form-control"
+                                    name="frequency" required="required" value="2">
+                            </div>
+                        </div>
+                        
+						
+					</div>
+
+
+
+				</form>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-group">
+					<button type="button" class="btn btn-danger btn-sm"
+						data-dismiss="modal">
+						<i class="fa fa-remove"></i>&nbsp;关闭
+					</button>
+					<button type="button" class="btn btn-success btn-sm" id="add_btn">
+						<i class="fa fa-plus"></i>&nbsp;新增
+					</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$("#add_btn").click(function() {
+		$('#addForm').submit();
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#addForm').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		feedbackIcons : faIcon,
+		fields : {
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.add();
+	});
+</script>

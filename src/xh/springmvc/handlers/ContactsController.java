@@ -172,12 +172,11 @@ public class ContactsController {
 		
 	}
 	@RequestMapping(value = "/excel_contacts", method = RequestMethod.POST)
-	public void excel_contacts(HttpServletRequest request, HttpServletResponse response) {
+	public void excel_contacts(@RequestParam("time") String time,HttpServletRequest request, HttpServletResponse response) {
 
 		try {
-			String saveDir = request.getSession().getServletContext()
-					.getRealPath("/upload");
-			String pathname = saveDir + "/运维人员通讯录.xls";
+			String saveDir = request.getSession().getServletContext().getRealPath("/upload/checksource");
+			String pathname = saveDir + "/运维人员通讯录["+time+"].xls";
 			File Path = new File(saveDir);
 			if (!Path.exists()) {
 				Path.mkdirs();
@@ -207,13 +206,13 @@ public class ContactsController {
 			fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
 			fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
 			fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
-			fontFormat_h.setBackground(Colour.BRIGHT_GREEN);// 背景色
+			fontFormat_h.setBackground(Colour.WHITE);// 背景色
 			fontFormat_h.setWrap(false);// 不自动换行
 
 			// 设置主题内容字体格式
-			WritableFont font_Content = new WritableFont(WritableFont.TIMES,
-					13, WritableFont.BOLD, false,
-					UnderlineStyle.NO_UNDERLINE, Colour.GRAY_80);
+			WritableFont font_Content = new WritableFont(WritableFont.TIMES, 12,
+					WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE,
+					Colour.GRAY_80);
 			// 应用字体
 
 
@@ -224,10 +223,10 @@ public class ContactsController {
 			fontFormat_Content.setBackground(Colour.WHITE);// 背景色
 			fontFormat_Content.setWrap(true);// 自动换行
 
-			WritableSheet sheet = book.createSheet("运维人员通讯录", 0);
+			WritableSheet sheet = book.createSheet("运维服务团队通讯录", 0);
 
 			// 第1行
-			Label title = new Label(0, 0, "运维人员通讯录", fontFormat);
+			Label title = new Label(0, 0, "成都市应急通信网运维服务团队通讯录", fontFormat);
 			sheet.mergeCells(0, 0, 4, 0);
 			sheet.addCell(title);
 			sheet.setRowView(0, 600, false); // 设置行高
@@ -244,27 +243,50 @@ public class ContactsController {
 
 			sheet.addCell(new Label(0, 1, "序号", fontFormat_h));
 			sheet.addCell(new Label(1, 1, "姓名", fontFormat_h));
-			sheet.addCell(new Label(2, 1, "电话号码", fontFormat_h));
-			sheet.addCell(new Label(3, 1, "分组", fontFormat_h));
+			sheet.addCell(new Label(2, 1, "职位", fontFormat_h));
+			sheet.addCell(new Label(3, 1, "电话号码", fontFormat_h));
 			sheet.addCell(new Label(4, 1, "备注", fontFormat_h));
 			List<ContactsBean> list=ContactsService.phone_list();
 			for(int i=0;i<list.size();i++){
 				ContactsBean bean=list.get(i);
 				sheet.addCell(new jxl.write.Number(0, i+2, (i+1), fontFormat_Content));
 				sheet.addCell(new Label(1, i+2, bean.getName(), fontFormat_Content));
+				sheet.addCell(new Label(2, i+2, bean.getJob(), fontFormat_Content));
 				if(FunUtil.is_numberic(bean.getPhoneNumber())){
-					sheet.addCell(new jxl.write.Number(2, i+2, FunUtil.StringToLong(bean.getPhoneNumber()), fontFormat_Content));
+					sheet.addCell(new jxl.write.Number(3, i+2, FunUtil.StringToLong(bean.getPhoneNumber()), fontFormat_Content));
 				}else{
-					sheet.addCell(new Label(2, i+2, bean.getPhoneNumber(), fontFormat_Content));
+					sheet.addCell(new Label(3, i+2, bean.getPhoneNumber(), fontFormat_Content));
 				}
 				
-				sheet.addCell(new Label(3, i+2, bean.getGroupName(), fontFormat_Content));
 				sheet.addCell(new Label(4, i+2, "", fontFormat_Content));
 			}
 
 			
 			book.write();
 			book.close();
+			
+			String destDir1=request.getSession().getServletContext()
+					.getRealPath("/upload/checksource");
+			destDir1=destDir1+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/3";
+			File Path1 = new File(destDir1);
+			if (!Path1.exists()) {
+				Path1.mkdirs();
+			}
+			
+			String destDir2=request.getSession().getServletContext()
+					.getRealPath("/upload/checksource");
+			destDir2=destDir2+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/4";
+			File Path2 = new File(destDir2);
+			if (!Path2.exists()) {
+				Path2.mkdirs();
+			}
+			File file1 = new File(destDir1+"/运维人员通讯录.xls");
+			File file2 = new File(destDir2+"/运维人员通讯录.xls");
+			FunUtil.copyFile(file, file1);
+			FunUtil.copyFile(file, file2);
+			
+			
+			
 			// DownExcelFile(response, pathname);
 			this.success = true;
 			HashMap<String, Object> result = new HashMap<String, Object>();

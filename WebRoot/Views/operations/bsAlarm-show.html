@@ -42,6 +42,8 @@
 									ng-if="bsAlarmData.neType==29">以太网E1网桥</span> <span
 									ng-if="bsAlarmData.neType==30">桥接中心</span> <span
 									ng-if="bsAlarmData.neType==32">媒体服务器</span>
+									<span ng-if="bsAlarmData.neType==100">动环网</span>
+									<span ng-if="bsAlarmData.neType==200">大数据预警告警</span>
 							</div>
 						</div>
 						<div class="form-group col-md-6">
@@ -71,15 +73,34 @@
 								class="form-control" name="bsId" ng-model="bsAlarmData.reason"
 								readonly="readonly">
 						</div>
-						<div class="form-group col-md-12">
+						<div class="form-group col-md-12" ng-if="bsAlarmData.neType!=200">
 							<label>故障原因</label><input type="text" value=""
 								class="form-control" name="bsId" ng-model="bsAlarmData.reason2"
 								readonly="readonly">
 						</div>
-						<div class="form-group col-md-12">
+						<div class="form-group col-md-12" ng-if="bsAlarmData.neType!=200">
 							<label style="color:red">处理建议</label>
 							<div style="color:green">{{bsAlarmData.suggestion2}}</div>
+	
+						</div>
+						<div ng-if="bsAlarmData.neType==200 
+						&& (bsAlarmData.modType==1 || 
+						bsAlarmData.modType==2)">
+						<label>原因</label>
+						<table id="tb-info">
+                  
+                         <tbody>
+                       
+                        <tr ng-repeat="x in sfalarm_detail">
+                            
 
+                            <td>{{x.zbdlmc}}</td>
+                            <td width="120px">{{x.czzbmc}}</td>
+                            <td>{{x.czzbfw}}</td>
+                           
+                        </tr>
+                    </tbody>
+                </table>
 						</div>
 					</div>
 				</div>
@@ -127,6 +148,10 @@
 								<input type="radio" id="sysType3" value="2" name="sysType">
 								<label for="sysType3">动环网</label>
 							</div>
+							<div class="radio radio-info  radio-inline">
+                                <input type="radio" id="sysType4" value="10" name="sysType">
+                                <label for="sysType4">大数据告警预警</label>
+                            </div>
 						</div>
 					</div>
 					<div class="col-md-12">

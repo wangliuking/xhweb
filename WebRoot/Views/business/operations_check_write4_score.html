@@ -63,6 +63,7 @@
 					<div class="hpanel">
 						<!-- <div class="panel-heading hbuilt">扣分</div> -->
 						<div class="panel-body">
+						<form action="#" id="score4Form" onsubmit="return false">
 						<div class="row">
                                 <div class="col-md-12">
                                     <label>表名称（<span style="color:red;">描述:多行名称，请换行填写，生成的文件中的头部名称默认居中显示。</span>）</label>
@@ -73,7 +74,7 @@
 							<!--  row -->
 							<div class="row">
 								<div class="col-md-12">
-									<form action="#" id="score4Form" onsubmit="return false">
+									
                     <table id="tb-info" class="xh-table-primary table-hover">
                         <thead>
                             <tr class="tr-gray">
@@ -94,7 +95,7 @@
                             </tr>
                             <tr>
                                 <td rowspan="4">运维团队及设施配置（15分）</td>
-                                <td>运维团队（3）<a href="#" ng-click="searchFile('运维服务团队通讯录')">资料</a></td>
+                                <td>运维团队（3）<a href="#" ng-click="searchFile('运维人员通讯录')">资料</a></td>
                                 <td><input class="form-control" name="s_b1"
                                     ng-model="score_data4.s_b1" ng-change="change4Input()" type="number" min="0"/></td>
                                 <td><input class="form-control" name="n_b1"
@@ -108,7 +109,8 @@
                                     ng-model="score_data4.n_b2" /></td>
                             </tr>
                             <tr>
-                                <td>运维响应机制（9）<a href="#" ng-click="searchFile('成都市应急通信网应急通信保障预案')">资料</a></td>
+                                <td>运维响应机制（9）<a href="#"
+                                                        ng-click="showInfoWin('运维响应机制')">资料</a></td>
                                 <td><input class="form-control" name="s_b3"
                                     ng-model="score_data4.s_b3" ng-change="change4Input()" type="number" min="0"/></td>
                                 <td><input class="form-control" name="n_b3"
@@ -216,9 +218,10 @@
                         </tbody>
                     </table>
 
-                </form>
+          
 								</div>
 							</div>
+							      </form>
 							<!--  row -->
 						</div>
 						<!-- panel-body--end -->

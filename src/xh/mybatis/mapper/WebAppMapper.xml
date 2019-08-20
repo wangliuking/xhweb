@@ -18,12 +18,12 @@
 	
 	<select id="app_portable" resultType="map" useCache="true">
 		select
-		count(state=0 OR NULL) as num1, count(state=1 OR NULL) as num2 from
-		xhgmnet_bs_station_portable
+		count(state=0 OR NULL) as num1, count(state=1 OR NULL) as num2,count(*) as num  from
+		xhgmnet_bs_station_portable where type=1
 	</select>
 	<select id="app_movebus" resultType="map" useCache="true">
 		select
-		count(state=0 OR NULL) as num1, count(state=1 OR NULL) as num2 from
+		count(state=0 OR NULL) as num1, count(state=1 OR NULL) as num2,count(*) as num from
 		xhgmnet_operations_move_bus
 	</select>
 	<select id="app_subway" resultType="map" useCache="true">
@@ -38,7 +38,7 @@
 		count(*) as num from xhgmnet_user_access_list
 	</select>
 	<select id="app_vpn_count" resultType="int" useCache="true">
-		select count(*) as num from xhgmnet_vpn WHERE vpnId>1
+		select count(*) as num from xhgmnet_vpn WHERE vpnId>1 and type is NOT NULL AND type!=""
 	</select>
 </mapper>	
 	

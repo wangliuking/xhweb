@@ -27,14 +27,20 @@ loader.define(function(require,exports,module){
             mask: false,
             effect: "fadeInRight"
         });
-        console.log("dd->"+(userL.roleType!=params.user_type && params.status==1))
+        var updateDialog = bui.dialog({
+            id: "#check-dg",
+            fullscreen: true,
+            mask: false,
+            effect: "fadeInRight"
+        });
         var bs=bui.store({
             scope:'page',
             data:{
                 list:params,
                 showCheckBtn:(userL.roleType=params.user_type && up.o_task=='on' && params.status==0)?true:false,
                 showSignBtn:(userL.roleType!=params.user_type && params.status==1)?true:false,
-                showUpdateBtn:(roleType=params.user_type && params.status==-1)?true:false,
+                showUpdateBtn:(userL.user=params.addUser && (params.status==-1 || params.status==-2))?true:false,
+                showCancelBtn:(userL.user=params.addUser && params.status==0)?true:false
             },
             methods:{
             	sure:function(e){
@@ -70,6 +76,52 @@ loader.define(function(require,exports,module){
         				}
         			});
             	},
+            	/*撤销*/
+        		cancelTask:function() {
+        			var id = params.id;
+        			bui.confirm({
+        		           content:"确定要撤销工作联系单吗？撤销后可以修改再次提交",
+        		           title:"",
+        		           buttons:["取消","确定"],
+        		           callback:function(e){
+        		               var text = $(e.target).text();
+        		               if( text == "确定"){
+        		            	   $.ajax({
+        								url : xh.getUrl()+'WorkContact/cancel',
+        								type : 'post',
+        								dataType : "json",
+        								data : {
+        									id:id
+        								},				
+        								async : false,
+        								success : function(data) {
+        									xh.maskHide();
+        									if (data.success) {
+        										toastr.success(data.message, '提示');
+        										bui.back({
+        		        							callback:function(){
+        		        								loader.require(["pages/workcontact/table"],function(res){
+        		        									res.refresh();
+        		        									res.init();
+        		        			                    })
+        		        							}
+        		        						});
+        									} else {
+        										toastr.error(data.message, '提示');
+        									}
+        								},
+        								error : function() {
+        									xh.maskHide();
+        									toastr.error("系统错误", '提示');
+        								}
+        							});
+
+        		               }
+        		               this.close();
+        		           }
+        		       })
+        			
+        		},
             	download:function(path1){
             		var path=params.files[path1].filePath;
             		if(path!=null && path!=""){

@@ -1,6 +1,7 @@
 package xh.mybatis.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +43,28 @@ public class OrderService {
 		}
 		return list;
 	}
+	//郊县维护组用户列表
+	public static List<Map<String,Object>> jxuserList(){
+			SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+			OrderMapper mapper=sqlSession.getMapper(OrderMapper.class);
+			List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+			List<Map<String,Object>> list2=new ArrayList<Map<String,Object>>();
+			try{
+				list=mapper.userList();
+				if(list.size()>0){
+					for (Map<String, Object> map : list) {
+						if(map.get("role").toString().contains("郊县维护组")){
+							list2.add(map);
+						}
+					}
+				}
+				sqlSession.close();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return list2;
+		}
 	//派单列表中暑
 	public static int orderListCount(Map<String,Object> map){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);

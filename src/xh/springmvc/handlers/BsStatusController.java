@@ -444,7 +444,7 @@ public class BsStatusController {
 			sheet.setColumnView(11, 50);
 
 			
-			List<BsStatusBean> list = BsStatusService.excelToBsStatus();
+			List<BsStatusBean> list = BsStatusService.excelToBsStatus(null);
 			for (int i = 0; i < list.size(); i++) {
 				BsStatusBean bean = (BsStatusBean) list.get(i);
 				sheet.addCell(new jxl.write.Number(0, i + 1,Double.parseDouble(String.valueOf(bean.getPeriod())),wcfN));
@@ -1639,6 +1639,22 @@ public class BsStatusController {
 
 			HashMap<String, Object> result = new HashMap<String, Object>();
 			result.put("data",BsStatusService.linkStatus());
+			response.setContentType("application/json;charset=utf-8");
+			String jsonstr = json.Encode(result);
+			response.getWriter().write(jsonstr);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+	}
+	@RequestMapping(value = "/sfalarm_detail", method = RequestMethod.GET)
+	public void sfalarm_detail(@RequestParam("bsId") int bsId,@RequestParam("type") int type,HttpServletRequest request, HttpServletResponse response) {
+		try {
+			
+
+			HashMap<String, Object> result = new HashMap<String, Object>();
+			result.put("data",BsStatusService.sfalarm_detail(bsId,type));
 			response.setContentType("application/json;charset=utf-8");
 			String jsonstr = json.Encode(result);
 			response.getWriter().write(jsonstr);
