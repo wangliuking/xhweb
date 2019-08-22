@@ -115,6 +115,81 @@ public class CheckCutController {
         }
     }
 
+    /**
+     * 查询所有流程(app)
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/selectAll2", method = RequestMethod.GET)
+    public void selectAll2(HttpServletRequest request,
+                          HttpServletResponse response) {
+        this.success = true;
+        int start = funUtil.StringToInt(request.getParameter("start"));
+        int limit = funUtil.StringToInt(request.getParameter("limit"));
+        String bsId = request.getParameter("bsId");
+        String name = request.getParameter("bsName");
+        String status = request.getParameter("checked");
+        String bsPeriod = request.getParameter("bsPeriod");
+        String bsRules = request.getParameter("bsRules");
+        String startTime = request.getParameter("startTime");
+        String endTime = request.getParameter("endTime");
+        String checkCutType = request.getParameter("checkCutType");
+        String user=funUtil.loginUser(request);
+        //unit = WebUserServices.selectUnitByUser(user);
+        WebUserBean userbean=WebUserServices.selectUserByUser(user);
+        int roleId=userbean.getRoleId();
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("start", (start-1)*limit);
+        map.put("limit", limit);
+        map.put("user", user);
+        map.put("roleId", roleId);
+        System.out.println("user:"+user);
+        System.out.println("roleId:"+roleId);
+        map.put("bsId", bsId);
+        map.put("name", name);
+        map.put("status", status);
+        map.put("bsPeriod", bsPeriod);
+        map.put("bsRules", bsRules);
+        map.put("checkCutType", checkCutType);
+
+        if(startTime == null || "".equals(startTime)){
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            //获取前一月第一天：
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.MONTH, -1);
+            c.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天
+            String first = format.format(c.getTime());
+            //System.out.println("===============first:"+first);
+
+            //获取当前月最后一天
+            Calendar ca = Calendar.getInstance();
+            ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));
+            String last = format.format(ca.getTime());
+            //System.out.println("===============last:"+last);
+
+            map.put("startTime", first+" 00:00:00");
+            map.put("endTime", last+" 23:59:59");
+        }else{
+            map.put("startTime", startTime);
+            map.put("endTime", endTime);
+        }
+
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("items", CheckCutService.selectAll(map));
+        result.put("totals", CheckCutService.dataCount(map));
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
 
 
     @RequestMapping(value = "/applyProgress", method = RequestMethod.GET)
@@ -829,9 +904,9 @@ public class CheckCutController {
         bean.setPersion2("sign/"+funUtil.loginUser(request)+".png");
         int rst = CheckCutService.checkedOne(bean);
         if (checked == 1)
-            this.message = "审核通过，已自动保存";
+            this.message = "复核通过，已自动保存";
         else
-            this.message = "审核不通过";
+            this.message = "复核不通过";
         if (checked == 1) {
             //----给管理方发送通知邮件
             FunUtil.sendMsgToUserByGroupPower("r_cut",2,"核减流程","有核减申请，请查阅!",request);
@@ -900,6 +975,79 @@ public class CheckCutController {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
+    }
+
+    /**
+     * app审核核减
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/appCheck", method = RequestMethod.POST)
+    public void appCheck(HttpServletRequest request,
+                           HttpServletResponse response) {
+        this.success = true;
+        int rst = 0;
+        int id = funUtil.StringToInt(request.getParameter("id"));
+        int checked = funUtil.StringToInt(request.getParameter("checked"));
+        if(checked == 1 || checked == -2){
+            String note2 = request.getParameter("note2");
+            CheckCutBean bean = new CheckCutBean();
+            bean.setId(id);
+            bean.setChecked(checked);
+            bean.setUser2(funUtil.loginUser(request));
+            bean.setTime2(FunUtil.nowDate());
+            bean.setNote2(note2);
+            bean.setPersion2("sign/"+funUtil.loginUser(request)+".png");
+            rst = CheckCutService.checkedOne(bean);
+            if (checked == 1)
+                this.message = "复核通过，已自动保存";
+            else
+                this.message = "复核不通过";
+            if (checked == 1) {
+                //----给管理方发送通知邮件
+                FunUtil.sendMsgToUserByGroupPower("r_cut",2,"核减流程","有核减申请，请查阅!",request);
+                //----END
+            }else{
+                //通知网管组审核不通过
+                FunUtil.sendMsgToUserByGroupPower("r_cut",3,"核减流程","核减申请不通过",request);
+            }
+
+        }else if(checked == 2 || checked == -1){
+            String note3 = request.getParameter("note3");
+            CheckCutBean bean = new CheckCutBean();
+            bean.setId(id);
+            bean.setChecked(checked);
+            bean.setUser3(funUtil.loginUser(request));
+            bean.setTime3(FunUtil.nowDate());
+            bean.setNote3(note3);
+            bean.setPersion3("sign/"+funUtil.loginUser(request)+".png");
+            rst = CheckCutService.appCheckedTwo(bean);
+            if (checked == 2)
+                this.message = "审核通过，已自动保存";
+            else
+                this.message = "审核不通过";
+            if (rst == 1) {
+                //----给运维人员发送通知邮件
+                FunUtil.sendMsgToUserByGroupPower("r_cut",3,"核减流程","管理方已审核核减申请",request);
+                //----END
+            }
+        }
+
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("result", rst);
+        result.put("message", message);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
 
     }
 

@@ -92,6 +92,14 @@ public interface CheckCutMapper {
      * @return
      * @throws Exception
      */
+    public int appCheckedTwo(CheckCutBean bean)throws Exception;
+
+    /**
+     *
+     * @param bean
+     * @return
+     * @throws Exception
+     */
     public int checkedThree(CheckCutBean bean)throws Exception;
 
     public int checkedFour(CheckCutBean bean)throws Exception;

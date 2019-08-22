@@ -249,6 +249,28 @@ public class CheckCutService {
      * @param bean
      * @return
      */
+    public static int appCheckedTwo(CheckCutBean bean){
+        SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
+        int result=0;
+        try {
+            result=mapper.appCheckedTwo(bean);
+            sqlSession.commit();
+            result=1;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally {
+            sqlSession.close();
+        }
+        return result;
+    }
+
+    /**
+     *
+     * @param bean
+     * @return
+     */
     public static int checkedThree(CheckCutBean bean){
         SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
         CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);

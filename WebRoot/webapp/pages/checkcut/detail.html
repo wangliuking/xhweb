@@ -1,0 +1,150 @@
+<div class="bui-page">
+    <header class="bui-bar">
+        <div class="bui-bar-left"> <a class="bui-btn btn-back"><i class="icon-back"></i></a> </div>
+        <div class="bui-bar-main">核减信息</div>
+        <div class="bui-bar-right"> </div>
+    </header>
+    <main>
+     <!--    <h3 class="section-title">基本信息</h3> -->
+        <ul class="bui-list">
+            <li class="bui-btn bui-box ">
+                <label class="bui-label">基站名称:</label>
+                <div class="span1">
+                    <div class="bui-value" id="bsId"></div>
+                </div>
+            </li>
+            <li class="bui-btn bui-box ">
+                <label class="bui-label">机房类型:</label>
+                <div class="span1">
+                    <div class="bui-value" id="hometype"></div>
+                </div>
+            </li>
+            <li class="bui-btn bui-box ">
+                <label class="bui-label">第一传输:</label>
+                <div class="span1">
+                    <div class="bui-value" id="transferOne"></div>
+                </div>
+            </li>
+            <li class="bui-btn bui-box ">
+                <label class="bui-label">第二传输:</label>
+                <div class="span1">
+                    <div class="bui-value" id="transferTwo"></div>
+                </div>
+            </li>
+            <li class="bui-btn bui-box ">
+                <label class="bui-label">主设备:</label>
+                <div class="span1">
+                    <div class="bui-value" id="powerOne"></div>
+                </div>
+            </li>
+            <li class="bui-btn bui-box ">
+                <label class="bui-label">网络设备:</label>
+                <div class="span1">
+                    <div class="bui-value" id="powerTwo"></div>
+                </div>
+            </li>
+            <li class="bui-btn bui-box ">
+                <label class="bui-label">发电时间:</label>
+                <div class="span1">
+                    <div class="bui-value" b-text="page.list.isPowerTime"></div>
+                </div>
+            </li>
+            <li class="bui-btn bui-box ">
+                <label class="bui-label">上站时间:</label>
+                <div class="span1">
+                    <div class="bui-value" b-text="page.list.maintainTime"></div>
+                </div>
+            </li>
+        </ul>
+        <h3 class="section-title">说明</h3>
+        <ul class="bui-list">
+            <li class="bui-btn ">
+                <div class="span1">
+                    <div class="bui-value" id="content"></div>
+                </div>
+            </li>
+        </ul>
+        <h3 class="section-title">依据</h3>
+            <div class="container-y">
+                <div class="bui-box-space">
+                    <div class="span1" id="file-div">
+                       
+                        
+                    </div>
+
+                </div>
+            </div> 
+           <div class="container-y">
+                <div class="bui-box-space">
+                    <div class="span1" b-show="page.showCheck1Btn">
+                        <div class="bui-btn primary" id="check1">复核</div>
+                    </div>
+                    <div class="span1" b-show="page.showCheck2Btn">
+                        <div class="bui-btn primary" id="check2">审核</div>
+                    </div>
+                </div>
+            </div>
+    </main>
+</div>
+
+<div id="check1-dg" class="bui-dialog" style="display:none;">
+    <div class="bui-bar">
+        <header class="bui-bar">
+            <div class="bui-bar-left"> <a class="bui-btn btn-back"><i class="icon-back"></i></a> </div>
+            <div class="bui-bar-main">复核核减</div>
+            <div class="bui-bar-right"> </div>
+        </header>
+    </div>
+    <div class="bui-dialog-main">
+        <ul class="bui-list">
+            <li class="bui-btn ">
+                <div class="span1 bui-input">
+                     <textarea class="bui-input" name="note2" cols="30" rows="10"
+                               placeholder="请输入备注信息"></textarea>
+                </div>
+            </li>
+        </ul>
+        <div class="container-y">
+            <div class="bui-box-space">
+                <div class="span1">
+                    <div class="bui-btn success" onclick="check(1)">通过</div>
+                </div>
+                <div class="span1">
+                    <div class="bui-btn danger" onclick="check(-2)">拒绝</div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="check2-dg" class="bui-dialog" style="display:none;">
+    <div class="bui-bar">
+         <header class="bui-bar">
+        <div class="bui-bar-left"> <a class="bui-btn btn-back"><i class="icon-back"></i></a> </div>
+        <div class="bui-bar-main">审核核减</div>
+        <div class="bui-bar-right"> </div>
+    </header>
+    </div>
+    <div class="bui-dialog-main">
+        <ul class="bui-list">
+            <li class="bui-btn ">
+                <div class="span1 bui-input">
+                     <textarea class="bui-input" name="note3" cols="30" rows="10"
+                            placeholder="请输入备注信息"></textarea>
+                </div>
+            </li>
+        </ul>
+        <div class="container-y">
+                <div class="bui-box-space">
+                    <div class="span1">
+                        <div class="bui-btn success" onclick="check(2)">通过</div>
+                    </div>
+                    <div class="span1">
+                        <div class="bui-btn danger" onclick="check(-1)">拒绝</div>
+                    </div>
+
+                </div>
+            </div>
+    </div>
+</div>

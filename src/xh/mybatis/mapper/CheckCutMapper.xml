@@ -119,6 +119,12 @@
         user3=#{user3},time3=#{time3},note3=#{note3},checked=#{checked},persion3=#{persion3} where id=#{id}
     </update>
 
+    <!--管理方app审核核减(自动填充意见) -->
+    <update id="appCheckedTwo" parameterType="xh.mybatis.bean.CheckCutBean">
+        update xhgmnet_bs_checkcut set
+        user3=#{user3},time3=#{time3},note3=#{note3},checked=#{checked},persion3=#{persion3},suggest=#{note3} where id=#{id}
+    </update>
+
     <!--运维人员提交相关资料-->
     <update id="checkedThree" parameterType="xh.mybatis.bean.CheckCutBean">
         update xhgmnet_bs_checkcut set
