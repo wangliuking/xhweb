@@ -12,7 +12,7 @@
 <meta http-equiv="Expires" content="-1">
 <script type="text/javascript"
 	src="../../Resources/js/xhbootstrap-css.js"></script>
-	<script type="text/javascript" src="../../jquery.min.js"></script>  
+<script type="text/javascript" src="../../jquery.min.js"></script>
 <script type="text/javascript" src="../../pageoffice.js" id="po_js_main"></script>
 <!--[if lte IE 9]>
 <script src="../../Resources/js/jquery-1.8.3.min.js"></script>
@@ -21,14 +21,14 @@
 <![endif]-->
 <script language="javascript" src="../../Resources/js/LodopFuncs.js"></script>
 <object id="LODOP_OB"
-    classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0>
-    <embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0></embed>
+	classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0>
+	<embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0></embed>
 </object>
 <style type="text/css">
-.td-span{
-background:green;
-color:#fff;
-margin:0px;
+.td-span {
+	background: green;
+	color: #fff;
+	margin: 0px;
 }
 </style>
 </head>
@@ -64,7 +64,7 @@ margin:0px;
 			</div>
 		</div>
 		<div class="content animate-panel">
-			
+
 			<div class="row">
 				<div class="col-md-12">
 					<div class="hpanel">
@@ -95,7 +95,16 @@ margin:0px;
 											</button>
 										</div>
 									</div>
-
+									<div class="form-group">
+                                        <div class="col-sm-offset-2" style="padding-top:22px">
+                                            <a type="submit" class="btn btn-sm btn-success"
+                                                href="operations_check_add.html" ng-if="loginUserRoleType==0 
+                                            || (loginUserRoleType==3 )">
+                                                <i class="fa fa-plus-circle"></i>&nbsp;提交文件
+                                            </a>
+                                        </div>
+                                    </div>
+									
 
 								</form>
 							</div>
@@ -104,132 +113,32 @@ margin:0px;
 				</div>
 			</div>
 			<!-- row -->
-			<div class="row">
-                <div class="col-md-12">
-                    <div class="btn-group"
-                        style="padding-top:10px;padding-bottom:10px;">
-                        <a class="btn btn-success btn-sm" href="operations_check_add.html"
-                            ng-if="loginUserRoleType==0 
-                        || (loginUserRoleType==3 )">
-                            <i class="fa fa-plus-circle"></i>&nbsp;提交文件
-                        </a>
-
-                    </div>
-                </div>
-            </div>
-            <!-- row -->
+			
 			<!-- row -->
-			<div class="row">
 
+			<div ng-if="totals>10" ng-include="'operations_check_view_table.html'"></div>
+			<div ng-if="totals<=10"
+				ng-include="'operations_check_view_panel.html'"></div>
+			<div class="row" ng-show="totals>10">
 				<div class="col-md-12">
-					<div class="hpanel">
-						<div class="panel-heading hbuilt">申请列表</div>
-						<div class="panel-body">
-
-							<table id="tb-info" class="xh-table table-hover"
-								ng-model="loginUser">
-								<thead>
-									<tr class="tr-gray">
-										<th>申请人</th>
-										<th>联系方式</th>
-										
-										<th width="90px">考核月份</th>
-										<th width="90px">考核期数</th>
-										<th width="170px">申请时间</th>
-										<th>状态</th>
-										<th>操作</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-if="totals==0">
-										<td colspan="7" class="text-center">没有记录！</td>
-									</tr>
-									<tr ng-repeat="x in data">
-										<td>{{x.userName}}</td>
-										<td>{{x.tel}}</td>
-										
-							
-										<td>{{x.checkMonth}}</td>
-										<td>{{x.type}}</td>
-										<td>{{x.createTime}}</td>
-										<td ng-class="{ 'td-danger': x.status==-1, 'td-success': x.status==5,'td-primary': x.status!=-1 && x.status!=5 }">
-                                        <span ng-if="x.status==-1">考核文件被拒绝了</span>
-                                        <span ng-if="x.status==0">等待领导审核文件</span>
-                                        <span ng-if="x.status==1">文件审核通过，等待文件签章</span>
-                                        <span ng-if="x.status==2">文件已签章，等待管理方确认并通知会议时间</span>
-                                        <span ng-if="x.status==3">已通知服务提供方会议安排</span>
-                                        <span ng-if="x.status==4">服务提供方确认已经收到会议通知</span>
-                                        <span ng-if="x.status==5">本次运维考核工作圆满完成</span>
-                                        </td>
-										<td style="text-align:center">
-										<!-- o_check_operations_check -->
-										<a href="#"
-                                            ng-click="toProgress($index)"><i
-                                                class="fa fa-file-text-o text-success"> </i>&nbsp;进度&nbsp;</a>
-										<a href="#" ng-click="showFileWin($index)">&nbsp;<img src="../../Resources/images/icon/eye.png">查看考核文件</a>
-										<a href="#" ng-click="showFile($index,1)" ng-if="(x.type==3 && x.score3_fileName!=null) || (x.type==4 && x.score4_fileName!=null)">|&nbsp;<img src="../../Resources/images/icon/file.png">查看扣分</a>
-										<a href="#" ng-click="showFile($index,2)" ng-if="(x.type==3 && x.money3_fileName!=null) || (x.type==4 && x.money4_fileName!=null)">|&nbsp;<img src="../../Resources/images/icon/file.png">查看扣款</a>
-										<a href="#" ng-click="showFile($index,3)" >|&nbsp;<img src="../../Resources/images/icon/file.png">查看会议纪要</a>
-										<a href="#" ng-click="addFile($index)" ng-if="userL.roleType==0 ||(up.o_add=='on' && userL.roleType==3 && x.status<5)">|&nbsp;<img src="../../Resources/images/icon/add.png"><span style="color:red;">增加考核文件</span></a>
-										<a href="#" ng-click="sealComplete($index)" ng-if="userL.roleType==0 ||(up.o_check_operations_check=='on' && userL.roleType==3 && x.status==0)">|&nbsp;<img src="../../Resources/images/icon/seal.png"><span style="color:red;">通知管理方</span></a>
-										                                      <a href="#" ng-click="showSureFileWin($index)" ng-if="userL.roleType==0 ||(up.o_check_operations_check=='on' && userL.roleType==2 && x.status==2)">|&nbsp;<img src="../../Resources/images/icon/sure.png"><span style="color:red;">通知例会时间</span></a>
-                                        <a href="#" ng-click="sureMeet($index)" ng-if="userL.roleType==0 ||(userL.roleType==3 && x.status==3)">|&nbsp;<img src="../../Resources/images/icon/sure.png"><span style="color:red;">确认例会通知</span></a>
-										<a href="#" ng-click="recordScore($index)" ng-if="userL.roleType==0 ||(x.status<5 && up.o_check_operations_check=='on')">|&nbsp;<img src="../../Resources/images/icon/record.png"><span style="color:red;">记录扣分</span></a>
-                                        <a href="#" ng-click="recordMoney($index)" ng-if="userL.roleType==0 ||(x.status<5 && up.o_check_operations_check=='on')">|&nbsp;<img src="../../Resources/images/icon/record.png"><span style="color:red;">记录扣款</span></a>
-                                         <a href="#" ng-click="write_meet($index,1)" ng-if="userL.roleType==0 ||
-                                        (up.o_check_operations_check=='on' && x.status<5 && x.isMeetDocSign==0)">
-                                        |&nbsp;<img src="../../Resources/images/icon/edit.png"><span style="color:red;">填写会议纪要</span>
-                                        </a>
-										<!-- <a href="#" ng-click="showCheckWin($index)" ng-if="userL.roleType==0 ||(up.o_check_operations_check=='on' && userL.roleType==3 && x.status==0)">|&nbsp;<img src="../../Resources/images/icon/check.png"><span style="color:red;">审核文件</span></a> -->
-										<a href="#" ng-click="showSignWin($index)"  ng-if="userL.roleType==0 ||(up.o_check_operations_check=='on' && userL.roleType==3 && x.status<5)">|&nbsp;<img src="../../Resources/images/icon/seal.png"><span style="color:red;">考核文件签章</span></a>
-										
-										 
-										<!-- <a href="#" ng-click="upScoreAndMoney($index)" ng-if="userL.roleType==0 ||(x.status==4)">|&nbsp;<img src="../../Resources/images/icon/tijiao.png"><span style="color:red;">提交扣分扣款</span></a>
-										<a href="#" ng-click="sureScoreAndMoney($index)" ng-if="userL.roleType==0 ||(up.o_check_operations_check=='on' && userL.roleType==2 && x.status==5)">|&nbsp;<img src="../../Resources/images/icon/sure.png"><span style="color:red;">确认扣分扣款信息</span></a> -->
-										<a href="#" ng-click="showScoreMoneySignWin($index)"  ng-if="userL.roleType==0 ||
-										(up.o_check_operations_check=='on' && x.status<5)">
-										|&nbsp;<img src="../../Resources/images/icon/seal.png"><span style="color:red;">扣分扣款文件签章</span>
-										</a>
-                                      
-                                          <a href="#" ng-click="write_meet($index,2)" ng-if="userL.roleType==0 ||
-                                        (up.o_check_operations_check=='on' && x.status<5)">
-                                        |&nbsp;<img src="../../Resources/images/icon/seal.png"><span style="color:red;">会议纪要签章</span>
-                                    
-                                        </a>
-                                             <a href="#" ng-click="upScoreAndMoney($index)" ng-if="up.o_check_operations_check=='on' && x.status<5">|&nbsp;<img src="../../Resources/images/icon/tijiao.png"><span style="color:red;">考核结束</span></a>
-                                      </td>
-									</tr>
-								</tbody>
-							</table>
-							<div class="page">
-								<div class="page-info">
-									<span>每页显示</span> <select id="page-limit" ng-change="refresh()"
-										ng-model="count">
-										<option value="15">15</option>
-										<option value="20">20</option>
-										<option value="30">30</option>
-										<option value="40">40</option>
-										<option value="50">50</option>
-									</select> <span>条,</span><span ng-model="index">显示{{start}}-</span><span
-										ng-model="lastIndex">{{lastIndex}}条,</span> <span
-										ng-model="totals">总计{{totals}}条</span> <i
-										class="fa fa-refresh page-refresh" title="刷新数据"
-										ng-click="refresh()"></i>
-								</div>
-								<div class="page-paging"></div>
-							</div>
-							<!-- row -->
-							<div class="row">
-								<div class="col-md-12"></div>
-							</div>
-							<!-- row -->
+					<div class="page">
+						<div class="page-info">
+							<span>每页显示</span> <select id="page-limit" ng-change="refresh()"
+								ng-model="count">
+								<option value="15">15</option>
+								<option value="20">20</option>
+								<option value="30">30</option>
+								<option value="40">40</option>
+								<option value="50">50</option>
+							</select> <span>条,</span><span ng-model="index">显示{{start}}-</span><span
+								ng-model="lastIndex">{{lastIndex}}条,</span> <span
+								ng-model="totals">总计{{totals}}条</span> <i
+								class="fa fa-refresh page-refresh" title="刷新数据"
+								ng-click="refresh()"></i>
 						</div>
-						<!-- panel-body--end -->
-						<!-- hpanel --end-->
+						<div class="page-paging"></div>
 					</div>
-					<!-- col-md-12--end -->
 				</div>
-				<!-- row/ -->
 			</div>
 		</div>
 	</div>
@@ -242,7 +151,7 @@ margin:0px;
 	<!-- 进度-->
 	<div ng-include="'operations_check_progress.html'"></div>
 	<div ng-include="'operations_check_files.html'"></div>
-	   <div ng-include="'operations_check_sign.html'"></div>
+	<div ng-include="'operations_check_sign.html'"></div>
 	<div ng-include="'operations_check_checked.html'"></div>
 
 	<div ng-include="'operations_check_examine.html'"></div>

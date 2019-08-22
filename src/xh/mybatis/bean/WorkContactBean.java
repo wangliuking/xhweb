@@ -8,6 +8,7 @@ public class WorkContactBean {
 	private String taskId;
 	private String reason;
 	private String type;
+	private String level;
 	private String sendUnit;
 	private String recvUnit;
 	private String copyUnit;
@@ -155,6 +156,12 @@ public class WorkContactBean {
 		this.fileName = fileName;
 	}
 	
+	public String getLevel() {
+		return level;
+	}
+	public void setLevel(String level) {
+		this.level = level;
+	}
 	public String getReply() {
 		return reply;
 	}

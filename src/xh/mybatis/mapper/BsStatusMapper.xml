@@ -365,6 +365,9 @@
 		select
 		count(case when subModType='80200000000001' or (subModType=51 and
 		subModId=1003) then id end) as ups,
+		
+		count(case when (subModType='80200000000001' and reason !="市电中断") or (subModType=51 and
+        subModId=1003 AND reason !="交流供电断开") then id end) as ups_ignore,
 
 		count(case when
 		subModType='170300000000001' or(subModType=11 and subModId=1003)

@@ -76,6 +76,19 @@ loader.define(function(require,exports,module){
         				}
         			});
             	},
+            	/*复制*/
+            	copy:function(e){
+            		console.log(JSON.stringify(gl_para.userL))
+            		bui.load({ url: "pages/workcontact/add", param:params });
+            		/*bui.back({
+						callback:function(){
+							loader.require(["pages/workcontact/add"],function(res){
+								res.refresh();
+								res.init();
+		                    })
+						}
+					});*/
+            	},
             	/*撤销*/
         		cancelTask:function() {
         			var id = params.id;

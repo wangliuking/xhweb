@@ -292,8 +292,9 @@ public class PageOfficeController {
 		}
 		poCtrl.setSaveFilePage(request.getContextPath() +"/office/save_page?path="+name);
 		//设置页面的显示标题
+		poCtrl.setTimeSlice(30);
 		poCtrl.setCaption(path.substring(path.lastIndexOf("/")+1));
-		poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit, "");
+		poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit, FunUtil.loginUserInfo(request).get("userName").toString());
 		poCtrl.setTagId("PageOfficeCtrl1");
 		ModelAndView mv = new ModelAndView("Views/jsp/edit_word");
 		mv.addObject("poCtrl", poCtrl);
@@ -326,8 +327,9 @@ public class PageOfficeController {
 		}
 		poCtrl.setSaveFilePage(request.getContextPath() +"/office/save_page?path="+name);
 		//设置页面的显示标题
+		poCtrl.setTimeSlice(30);
 		poCtrl.setCaption(path.substring(path.lastIndexOf("/")+1));
-		poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.xlsNormalEdit, "");
+		poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.xlsNormalEdit, FunUtil.loginUserInfo(request).get("userName").toString());
 		poCtrl.setTagId("PageOfficeCtrl1");
 		ModelAndView mv = new ModelAndView("Views/jsp/edit_excel");
 		mv.addObject("poCtrl", poCtrl);
@@ -363,7 +365,7 @@ public class PageOfficeController {
 		poCtrl.addCustomToolButton("关闭", "CloseFile()", 21);
 		poCtrl.setTitlebar(true); //隐藏标题栏
 		poCtrl.setMenubar(true); //隐藏菜单栏
-		poCtrl.setOfficeToolbars(false);//隐藏Office工具条
+		poCtrl.setOfficeToolbars(true);//隐藏Office工具条
 		poCtrl.setCustomToolbar(true);//隐藏自定义工具栏
 		poCtrl.setJsFunction_AfterDocumentOpened("IsFullScreen()");
 		String name="";
@@ -376,10 +378,13 @@ public class PageOfficeController {
 		poCtrl.setSaveFilePage(request.getContextPath() +"/office/save_page?path="+name);
 		//设置页面的显示标题
 		poCtrl.setCaption(path.substring(path.lastIndexOf("/")+1));
+		poCtrl.setTimeSlice(60);
 		if(doc.contains("doc")){
-			poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit, "");
+			//设置并发控制时间
+			
+			poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit, FunUtil.loginUserInfo(request).get("userName").toString());
 		}else{
-			poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.xlsNormalEdit, "");
+			poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.xlsNormalEdit, FunUtil.loginUserInfo(request).get("userName").toString());
 		}
 		
 		poCtrl.setTagId("PageOfficeCtrl1");
@@ -424,8 +429,9 @@ public class PageOfficeController {
 		poCtrl.setSaveFilePage(request.getContextPath() +"/office/save_page?path="+name);
 		//设置页面的显示标题
 		poCtrl.setCaption(path.substring(path.lastIndexOf("/")+1));
+		poCtrl.setTimeSlice(5);
 		if(doc.contains("doc")){
-			poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit, "");
+			poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit, FunUtil.loginUserInfo(request).get("userName").toString());
 		}else{
 			poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.xlsNormalEdit, "");
 		}
@@ -470,8 +476,9 @@ public class PageOfficeController {
 		}
 		poCtrl.setSaveFilePage(request.getContextPath() +"/office/save_page?path="+name);
 		//设置页面的显示标题
+		poCtrl.setTimeSlice(5);
 		poCtrl.setCaption(path.substring(path.lastIndexOf("/")+1));
-		poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit, "");
+		poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit, FunUtil.loginUserInfo(request).get("userName").toString());
 		poCtrl.setTagId("PageOfficeCtrl1");
 		ModelAndView mv = new ModelAndView("Views/jsp/seal_word");
 		mv.addObject("poCtrl", poCtrl);

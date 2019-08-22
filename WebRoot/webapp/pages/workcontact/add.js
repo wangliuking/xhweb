@@ -1,12 +1,22 @@
 // 默认已经定义了main模块
 loader.define(function(require,exports,module) {
     var pageview = {};
+    var params = router.getPageParams();
+    var content="";
+    if(params.content!=null){
+    	content=params.content.replace(/<br>/g,"\r\n");
+        content=content.replace(/" "/g," ")
+    }
+    //$("#content").html(content);
     // 主要业务初始化
     pageview.init = function() {
+    	
         var bs=bui.store({
             scope:'page',
             data:{
             	No:code(),
+            	content:content,
+            	select:select_data(),
             	sendUnit:gl_para.sendUnit
             },
             methods:{
@@ -21,6 +31,12 @@ loader.define(function(require,exports,module) {
             }
             
         });
+       /* if(params!=null){
+        	 var content=params.content.replace(/<br>/g,"<br />");
+             content=content.replace(/" "/g,"&nbsp;")
+             $("#content").html(content);
+        }*/
+       
         
         setInterval(function(){
         	bs.No=code();
@@ -49,6 +65,27 @@ function code(){
         console.log(status);
     });
 	return codestr;
+}
+function select_data(){
+	var str="";
+	bui.ajax({
+        url: xh.getUrl()+"select/workcontact",
+        async:false,
+        data: {}
+    }).then(function(res){
+    	str = res.items;
+    	if(str.length>0){
+    		for(var i=0;i<str.length;i++){
+    			var a="<option value='"+str[i].name+"'>"+str[i].name+"</option>";
+    			//console.log(str[i].name);
+    			$("#add-select").append(a);
+    		}
+    	}
+    
+    },function(res,status){
+        console.log(status);
+    });
+	return str;
 }
 function add(){
 	var files=[];
@@ -79,7 +116,6 @@ function add(){
 		    			fileName:name,
 		    			filePath:path
 		    	}
-		    	console.log("aa->"+JSON.stringify(a))
 		    	files.push(a);
 		    }
 		   

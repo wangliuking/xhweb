@@ -19,6 +19,12 @@
                     <div class="bui-value" b-text="page.list.type"></div>
                 </div>
             </li>
+             <li class="bui-btn bui-box ">
+                <label class="bui-label">级别:</label>
+                <div class="span1">
+                    <div class="bui-value" b-text="page.list.level"></div>
+                </div>
+            </li>
             <li class="bui-btn bui-box ">
                 <label class="bui-label">发文单位:</label>
                 <div class="span1">
@@ -78,6 +84,9 @@
                     <!-- <div class="span1" b-show="page.showUpdateBtn">
                         <div class="bui-btn primary" id="update" b-click="page.update">修改</div>
                     </div> -->
+                    <div class="span1">
+                        <div class="bui-btn primary" id="copy" b-click="page.copy">复制到新的工单</div>
+                    </div>
                     <div class="span1" b-show="page.showCheckBtn">
                         <div class="bui-btn primary" id="check">审核</div>
                     </div>

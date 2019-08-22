@@ -53,12 +53,14 @@ public class WorkContactController {
 		String time=request.getParameter("time");
 		String type=request.getParameter("type");
 		String status=request.getParameter("status");
+		String key=request.getParameter("key");
 		
 		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("start", start);
 		map.put("limit",limit);
 		map.put("time",time);
 		map.put("type",type);
+		map.put("key",key);
 		map.put("status",status);
 		map.put("roleType",FunUtil.loginUserInfo(request).get("roleType"));
 		HashMap result = new HashMap();

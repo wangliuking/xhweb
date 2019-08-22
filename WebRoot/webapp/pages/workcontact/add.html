@@ -22,8 +22,8 @@
 					class="bui-label">类型:</label>
 					<div class="span1">
 						<div class="bui-input">
-							<select name="type" class="bui-input">
-								<option value="通信保障">通信保障</option>
+							<select name="type" class="bui-input" id="add-select">
+								<!-- <option value="通信保障">通信保障</option>
 								<option value="应急处置演练">应急处置演练</option>
 								<option value="服务抽检">服务抽检</option>
 								<option value="网络优化与整改">网络优化与整改</option>
@@ -31,7 +31,18 @@
 								<option value="频率干扰排查">频率干扰排查</option>
 								<option value="信号覆盖测试">信号覆盖测试</option>
 								<option value="支持与配合工作">支持与配合工作</option>
-								<option value="其他事项" selected="selected">其他事项</option>
+								<option value="其他事项" selected="selected">其他事项</option> -->
+							</select>
+						</div>
+					</div></li>
+				<li class="bui-btn bui-box clearactive"><label
+					class="bui-label">级别:</label>
+					<div class="span1">
+						<div class="bui-input">
+							<select name="level" class="bui-input">
+								<option value="一般" selected="selected">一般</option>
+								<option value="重大">重大</option>
+								<option value="特别重大">特别重大</option>
 							</select>
 						</div>
 					</div></li>
@@ -82,8 +93,8 @@
 			<ul class="bui-list">
 				<li class="bui-btn clearactive">
 					<div class="bui-input">
-						<textarea class="bui-input" name="content" cols="30" rows="10"
-							placeholder="请输入内容"></textarea>
+						<textarea class="bui-input" id="content" name="content" cols="30" rows="10"
+							placeholder="请输入内容" b-model="page.content"></textarea>
 					</div>
 				</li>
 			</ul>
@@ -91,8 +102,10 @@
 			<div class="container-y">
 				<div class="bui-box-space">
 					<div class="span3">
-						<span b-click="page.showFileWin" style="color:blue;text-decoration: underline;">添加附件</span> <input
-							name="pathName" id="pathName" type="file" onchange="upFile()" style="display:none">
+						<span b-click="page.showFileWin"
+							style="color:blue;text-decoration: underline;">添加附件</span> <input
+							name="pathName" id="pathName" type="file" onchange="upFile()"
+							style="display:none">
 					</div>
 					<!-- <div class="span1">
 						<div id="uploadfile" class="bui-btn large success"
@@ -133,7 +146,7 @@
 	</main>
 </div>
 <script type="text/javascript">
-var fileNum=0;
+	var fileNum = 0;
 	$(document).on("click", ".del-file", function() {
 		$(this).parent().remove();
 	});
@@ -161,12 +174,12 @@ var fileNum=0;
 		fileNum++;
 	}
 	function upload(r, p) {
-		
+
 		$("input[name='result']").val(2);
-		 var uiLoading = bui.loading({
-	            text:'文件中传中，请耐心等待'
-	     });
-		 uiLoading.show();
+		var uiLoading = bui.loading({
+			text : '文件中传中，请耐心等待'
+		});
+		uiLoading.show();
 		$.ajaxFileUpload({
 			url : xh.getUrl() + 'uploadFile/upload', //用于文件上传的服务器端请求地址
 			secureuri : false, //是否需要安全协议，一般设置为false
@@ -176,7 +189,7 @@ var fileNum=0;
 			success : function(data, status) //服务器成功响应处理函数
 			{
 				uiLoading.hide();
-				 if (data.success) {
+				if (data.success) {
 					$("#" + r).html("文件上传成功");
 					$("#" + p).html(data.filePath);
 
@@ -184,7 +197,7 @@ var fileNum=0;
 				} else {
 					toastr.error("文件上传失败", '提示');
 					$("#" + r).html("文件上传失败");
-				} 
+				}
 
 			},
 			error : function(data, status, e)//服务器响应失败处理函数

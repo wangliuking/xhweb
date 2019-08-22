@@ -53,11 +53,12 @@ xh.load = function() {
 
 		
 		/*获取记录表*/
-		$http.get("../../check/data?time="+$scope.time+"&start=0&limit=" + pageSize).
+		$http.get("../../check/data?time="+$scope.time+"&start=0&limit=" + $scope.count).
 		success(function(response){
 			xh.maskHide();
 			$scope.data = response.items;
 			$scope.totals = response.totals;
+			
 			
 			
 			xh.pagging(1, parseInt($scope.totals), $scope);
@@ -206,6 +207,7 @@ xh.load = function() {
 				url+="&docName="+data.score_header;
 			}
 			//console.log(data.score_header.replace(/\r\n/g,"|"));
+			window.localStorage.setItem("docName", data.score_header);
 			window.location.href=url;
 	    };
 	    $scope.recordMoney = function (id) {
@@ -219,13 +221,14 @@ xh.load = function() {
 				url+="operations_check_write4_money.html?applyId="+data.applyId;
 				url+="&checkMonth="+data.checkMonth;
 				url+="&files="+a.join(",");
-				url+="&docName="+data.score_header;
+				url+="&docName="+data.money_header;
 			}else if(data.type==3){
 				url+="operations_check_write3_money.html?applyId="+data.applyId;
 				url+="&checkMonth="+data.checkMonth;
 				url+="&files="+a.join(",");
-				url+="&docName="+data.score_header;
+				url+="&docName="+data.money_header;
 			}
+			window.localStorage.setItem("docName", data.money_header);
 			window.location.href=url;
 	    };
 		$scope.showFileWin = function (id) {
@@ -724,6 +727,54 @@ xh.load = function() {
 			});
 			
 		}
+		$scope.editDoc=function(index,tag){
+			var data=$scope.data[index];
+			var path="";
+			if(data.type==3){
+				if(tag==1){
+					path=data.score3_filePath
+				}else if(tag==2){
+					path=data.money3_filePath
+				}
+				else if(tag==3){
+					path=data.filePath
+				}
+			}else if(data.type==4){
+				if(tag==1){
+					path=data.score4_filePath
+				}else if(tag==2){
+					path=data.money4_filePath
+				}else if(tag==3){
+					path=data.filePath
+				}
+			}
+			
+			if(path.toLowerCase().indexOf("doc")!=-1){
+				console.log("doc")
+				POBrowser.openWindowModeless(xh.getUrl()+'/office/editWord?path='+
+						path,'width=1200px;height=800px;');
+			}else if(path.toLowerCase().indexOf("xls")!=-1){
+				console.log("xls")
+				POBrowser.openWindowModeless(xh.getUrl()+'/office/editExcel?path='+
+						path,'width=1200px;height=800px;');
+			}else if(path.toLowerCase().indexOf("pdf")!=-1){
+				console.log("pdf")
+				POBrowser.openWindowModeless(xh.getUrl()+'/office/previewPDF?path='+
+						path,'width=1200px;height=800px;');
+			}/*else if(path.toLowerCase().indexOf("jpeg")!=-1){
+				$("#showPicWin").modal('show');
+				$scope.img_src=xh.getUrl()+"/"+path;
+			}else if(path.toLowerCase().indexOf("jpg")!=-1){
+				$("#showPicWin").modal('show');
+				$scope.img_src=xh.getUrl()+"/"+path;
+			}else if(path.toLowerCase().indexOf("png")!=-1){
+				$("#showPicWin").modal('show');
+				$scope.img_src=xh.getUrl()+"/"+path;
+			}*/else{
+				alert("该文件类型不支持在线预览")
+			}
+			
+		}
 		/*显示审核窗口*/
 		$scope.checkWin = function (id) {
 			$scope.checkData=$scope.data[id];			
@@ -1009,6 +1060,9 @@ xh.signMeet2=function(){
 /* 数据分页 */
 xh.pagging = function(currentPage, totals, $scope) {
 	var pageSize = $("#page-limit").val();
+	if(pageSize==undefined){
+		pageSize=15;
+	}
 	var totalPages = (parseInt(totals, 10) / pageSize) < 1 ? 1 : Math
 			.ceil(parseInt(totals, 10) / pageSize);
 	var start = (currentPage - 1) * pageSize + 1;

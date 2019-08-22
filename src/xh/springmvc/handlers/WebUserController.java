@@ -122,6 +122,7 @@ public class WebUserController {
 		String e=funUtil.readXml("alarm", "link");
 		String f=funUtil.readXml("alarm", "bs_check");
 		String g=funUtil.readXml("alarm", "bs_order");
+		String ignore=funUtil.readXml("alarm", "bs_ups_ignore");
 		HashMap result = new HashMap();
 		result.put("a", a);
 		result.put("b", b);
@@ -130,6 +131,7 @@ public class WebUserController {
 		result.put("e", e);
 		result.put("f", f);
 		result.put("g", g);
+		result.put("ignore", ignore);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -160,6 +162,8 @@ public class WebUserController {
 				funUtil.updateXML("alarm", "bs_check",value);
 			}else if(name.equals("bs_order")){
 				funUtil.updateXML("alarm", "bs_order",value);
+			}else if(name.equals("ups_ignore")){
+				funUtil.updateXML("alarm", "bs_ups_ignore",value);
 			}else{}
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block

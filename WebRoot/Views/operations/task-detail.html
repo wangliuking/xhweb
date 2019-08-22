@@ -3,50 +3,60 @@
 	aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
-			<div class="color-line"></div>
-			<div class="modal-header ">
+			<!-- <div class="color-line"></div> -->
+			<!-- <div class="modal-header ">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
-			</div>
+			</div> -->
 			<div class="modal-body pad-0">
 					<div class="row">
 						<div class="col-md-12">
-							<h3 class="text-center">工作联系单</h3>
-							<p>项目名称：成都市应急指挥调度无线通信网</p>
+							<h3 class=" w-title">工作联系单</h3>
 						</div>
 					</div>
 					<div class="row">
 
 						<div class="col-md-12">
-							<table class="form-table">
+							<table class="form-table w-table" >
+							<tr>
+                                    <td width="130px" class="w-tag">项目名称</td>
+                                    <td colspan="3">成都市应急指挥调度无线通信网</td>
+                                </tr>
 								<tr>
-									<td width="100px">事由</td>
+									<td width="100px" class="w-tag">事&nbsp;&nbsp;&nbsp;&nbsp;由</td>
 									<td colspan="3">{{detailData.reason}}</td>
 								</tr>
 								<tr>
-									<td width="100px">类型</td>
-									<td colspan="3">{{detailData.type}}</td>
+									<td width="100px" class="w-tag">类&nbsp;&nbsp;&nbsp;&nbsp;型</td>
+									<td colspan="1">{{detailData.type}}</td>
+									<td width="100px" class="w-tag">级&nbsp;&nbsp;&nbsp;&nbsp;别</span></td>
+                                    <td colspan="1">{{detailData.level}}
+                                    </td>
 								</tr>
 								<tr>
-									<td width="100px">发文单位</td>
+                                    
+                                    
+                                </tr>
+								<tr>
+									<td width="100px" class="w-tag">发文单位</td>
 									<td colspan="3">{{detailData.sendUnit}}</td>
 								</tr>
 								<tr>
-									<td width="100px">收文单位</td>
+									<td width="100px" class="w-tag">收文单位</td>
 									<td colspan="3">{{detailData.recvUnit}}</td>
 								</tr>
 								<tr>
-									<td width="100px">抄送</td>
+									<td width="100px" class="w-tag">抄&nbsp;&nbsp;&nbsp;&nbsp;送</td>
 									<td colspan="3">{{detailData.copyUnit}}</td>
 								</tr>
 								<tr>
-									<td width="100px">时间</td>
+									<td width="100px" class="w-tag">时&nbsp;&nbsp;&nbsp;&nbsp;间</td>
 									<td>{{detailData.time |weekly}}</td>
-									<td width="100px">编号</td>
+									<td width="100px" class="w-tag">编&nbsp;&nbsp;&nbsp;&nbsp;号</td>
 									<td>{{detailData.code}}</td>
 								</tr>
 
-								<tr style="height:140px; text-align: left;">
+								<tr class="w-content">
 									<td colspan="4" style="word-wrap:break-word;word-break:break-all;" id="df"></td>
 								</tr>
 								<tr>

@@ -45,6 +45,9 @@ public class BsStatusService {
 		}
 		if(FunUtil.readXml("alarm", "bs_ups").equals("on")){
 			ups_count=Integer.parseInt(map.get("ups").toString());
+			if(FunUtil.readXml("alarm", "bs_ups_ignore").equals("on")){
+				ups_count-=Integer.parseInt(map.get("ups_ignore").toString());
+			}
 		}
 		if(FunUtil.readXml("alarm", "dispatch").equals("on")){
 			dispatch=BsAlarmService.dispatch_alarm();
