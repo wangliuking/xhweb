@@ -5,12 +5,6 @@ if (!("xh" in window)) {
 	window.xh = {};
 };
 
-require.config({
-    paths : {
-        echarts : '../../lib/echarts'
-    }
-});
-
 var frist = 0;
 toastr.options = {
 	"debug" : false,
@@ -335,15 +329,29 @@ function dataEchartsView(dataEcharts,timeList) {
 	var ups4=[];
 	var e1=[];
 	var createTimeList=[];
-    for(var j=0;j<dataEcharts.length;j++){
-        var tempUps1 = parseInt(dataEcharts[j]["ups1"]);
-        var tempUps4 = parseInt(dataEcharts[j]["ups4"]);
-        var tempE1 = parseInt(dataEcharts[j]["e1"]);
-        var createTime = dataEcharts[j]["createTime"];
-        ups1.push(tempUps1);
-        ups4.push(tempUps4);
-        e1.push(tempE1)
-        createTimeList.push(createTime);
+	for(var i=0;i<timeList.length;i++){
+	    var status = true;
+        for(var j=0;j<dataEcharts.length;j++){
+            var timeTemp = timeList[i];
+            var createTime = dataEcharts[j]["createTime"];
+            if(timeTemp == createTime){
+                var tempUps1 = dataEcharts[j]["ups1"]?parseInt(dataEcharts[j]["ups1"]):"";
+                var tempUps4 = dataEcharts[j]["ups4"]?parseInt(dataEcharts[j]["ups4"]):"";
+                var tempE1 = dataEcharts[j]["e1"]?parseInt(dataEcharts[j]["e1"]):"";
+                ups1.push(tempUps1);
+                ups4.push(tempUps4);
+                e1.push(tempE1);
+                createTimeList.push(createTime);
+                status = false;
+                break;
+            }
+        }
+        if(status){
+            ups1.push("");
+            ups4.push("");
+            e1.push("")
+            createTimeList.push(timeList[i]);
+        }
     }
     // 设置容器宽高
     var resizeBarContainer = function() {
@@ -360,112 +368,97 @@ function dataEchartsView(dataEcharts,timeList) {
         chart.clear();
         chart.dispose();
     }
-    require([ 'echarts', 'echarts/chart/line', 'echarts/chart/bar' ], function(ec) {
-        chart = ec.init(document.getElementById('alarmPie'));
-        chart.showLoading({
-            text : '正在努力的读取数据中...'
-        });
-        var option = {
-            title : {
-                text: 'EPS电压变化情况图',
-                subtext: '历史数据'
-            },
-            tooltip : {
-                trigger: 'axis'
-            },
-            legend: {
-                data:['EPS输入相电压','电池组电压','电表电压']
-            },
-            toolbox: {
-                show : true,
-                feature : {
-                    mark : {show: true},
-                    dataView : {show: true, readOnly: false},
-                    magicType : {show: true, type: ['line', 'bar']},
-                    restore : {show: true},
-                    saveAsImage : {show: true}
-                }
-            },
-            calculable : true,
-            xAxis : [
-                {
-                    type : 'category',
-                    boundaryGap : false,
-                    data : createTimeList
-                }
-            ],
-            dataZoom: [
-                {
-                    type: 'slider',
-                    show: true,
-                    yAxisIndex: [0],
-                    left: '96%',
-                    bottom: '5%',
-                    start: 0,
-                    end: 100
-                }],
-            yAxis : [
-                {
-                    type : 'value',
-                    axisLabel : {
-                        formatter: '{value} V'
-                    }
-                }
-            ],
-            series : [
-                {
-                    name:'EPS输入相电压',
-                    type:'line',
-                    data:ups1,
-                    markPoint : {
-                        data : [
-                            {type : 'max', name: '最大值'},
-                            {type : 'min', name: '最小值'}
-                        ]
-                    }/*,
-                    markLine : {
-                        data : [
-                            {type : 'average', name: '平均值'}
-                        ]
-                    }*/
-                },
-                {
-                    name:'电池组电压',
-                    type:'line',
-                    data:ups4,
-                    markPoint : {
-                        data : [
-                            {type : 'max', name: '最大值'},
-                            {type : 'min', name: '最小值'}
-                        ]
-                    }/*,
-                    markLine : {
-                        data : [
-                            {type : 'average', name : '平均值'}
-                        ]
-                    }*/
-                },
-                {
-                    name:'电表电压',
-                    type:'line',
-                    data:e1,
-                    markPoint : {
-                        data : [
-                            {type : 'max', name: '最大值'},
-                            {type : 'min', name: '最小值'}
-                        ]
-                    }/*,
-                    markLine : {
-                        data : [
-                            {type : 'average', name : '平均值'}
-                        ]
-                    }*/
-                }
-            ]
-        };
-        chart.hideLoading();
-        chart.setOption(option);
+    chart = echarts.init(document.getElementById('alarmPie'));
+    chart.showLoading({
+        text : '正在努力的读取数据中...'
     });
+    var option = {
+        title : {
+            text: 'EPS电压变化情况图',
+            subtext: '历史数据'
+        },
+        tooltip : {
+            trigger: 'axis'
+        },
+        legend: {
+            data:['EPS输入相电压','电池组电压','电表电压']
+        },
+        toolbox: {
+            show : true,
+            feature : {
+                mark : {show: true},
+                dataView : {show: true, readOnly: false},
+                magicType : {show: true, type: ['line', 'bar']},
+                restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        calculable : true,
+        xAxis : [
+            {
+                type : 'category',
+                boundaryGap : false,
+                data : createTimeList
+            }
+        ],
+        dataZoom: [{
+            type: 'slider',
+            start: 0,
+            end: 100
+        },{
+            type: 'inside',
+            start: 0,
+            end: 100
+        }],
+        yAxis : [
+            {
+                type : 'value',
+                axisLabel : {
+                    formatter: '{value} V'
+                }
+            }
+        ],
+        series : [
+            {
+                name:'EPS输入相电压',
+                type:'line',
+                data:ups1,
+                markPoint : {
+                    data : [
+                        {type : 'max', name: '最大值'},
+                        {type : 'min', name: '最小值'}
+                    ]
+                }
+            },
+            {
+                name:'电池组电压',
+                type:'line',
+                data:ups4,
+                markPoint : {
+                    data : [
+                        {type : 'max', name: '最大值'},
+                        {type : 'min', name: '最小值'}
+                    ]
+                }/*,
+                lineStyle: {
+                    color: '#3ac0ff'
+                }*/
+            },
+            {
+                name:'电表电压',
+                type:'line',
+                data:e1,
+                markPoint : {
+                    data : [
+                        {type : 'max', name: '最大值'},
+                        {type : 'min', name: '最小值'}
+                    ]
+                }
+            }
+        ]
+    };
+    chart.setOption(option);
+    chart.hideLoading();
     // 用于使chart自适应高度和宽度
     window.onresize = function() {
         // 重置容器高宽

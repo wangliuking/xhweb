@@ -764,6 +764,22 @@ public class GosuncnController {
 
 		List<HashMap<String, String>> list = GosuncnService.emhHistoryForBsId(map);
 
+		//处理历史数据，把电表停电时刻电压置为零
+		if(list.size()>6){
+			for(int i=5;i<list.size();i++){
+				String temp1 = list.get(i-5).get("e4")==null?"":list.get(i-5).get("e4");
+				String temp2 = list.get(i-4).get("e4")==null?"":list.get(i-4).get("e4");
+				String temp3 = list.get(i-3).get("e4")==null?"":list.get(i-3).get("e4");
+				String temp4 = list.get(i-2).get("e4")==null?"":list.get(i-2).get("e4");
+				String temp5 = list.get(i-1).get("e4")==null?"":list.get(i-1).get("e4");
+				String temp6 = list.get(i).get("e4")==null?"":list.get(i).get("e4");
+				if(!"".equals(temp1) && temp1.equals(temp2) && temp2.equals(temp3) && temp3.equals(temp4) && temp4.equals(temp5) && temp5.equals(temp6)){
+					Map<String,String> tempMap = list.get(i-5);
+					tempMap.put("e1","0");
+				}
+			}
+		}
+
 		result.put("success", success);
 		result.put("items", list);
 		result.put("timeList",timeList);

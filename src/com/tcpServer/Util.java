@@ -244,12 +244,10 @@ public class Util {
 			}else if("getallbslist".equals(cmdtype)){
 				getAllBsList = (GetAllBsList) JSONObject.toBean(jsonObject, GetAllBsList.class);
 				List<GetAllBsListAck> list = Service.appGetAllBsListAck(getAllBsList);
-				map.put("returnMessage0", Object2Json(list.get(0)));
-				map.put("returnMessage1", Object2Json(list.get(1)));
-				map.put("returnMessage2", Object2Json(list.get(2)));
-				map.put("returnMessage3", Object2Json(list.get(3)));
-				map.put("returnMessage4", Object2Json(list.get(4)));
-				map.put("returnMessage5", Object2Json(list.get(5)));
+				for (int i=0;i<list.size();i++) {
+					String key = "returnMessage"+i;
+					map.put(key, Object2Json(list.get(i)));
+				}
 				map.put("returnMessage", "for");
 				return map;
 			}else if("gpsinfoup".equals(cmdtype)){

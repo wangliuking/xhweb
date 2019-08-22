@@ -199,7 +199,7 @@ public class WordTest {
         dataMap.put("breakTime",dateFormat(date1));
         dataMap.put("restoreTime",dateFormat(date2));
 
-        File outFile = new File(globalPath+"down\\"+dataMap.get("bsPeriod")+dataMap.get("name")+breakTime+".doc"); //导出文件
+        File outFile = new File(globalPath+"down\\"+dataMap.get("bsId")+"-"+dataMap.get("name")+breakTime+dataMap.get("bsPeriod")+".doc"); //导出文件
         Writer out = null;
         try {
             out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile),"utf-8"));
@@ -275,7 +275,7 @@ public class WordTest {
         List<String> list = new LinkedList<String>();
         for(int i=0;i<files.length;i++){
             String fileName = files[i].getName();
-            String period = fileName.substring(0,1);
+            String period = fileName.substring(fileName.length()-5,fileName.length()-4);
             if(period.equals(param)){
                 list.add(files[i].getPath());
                 System.out.println(files[i].getName()+"==="+files[i].getPath());
@@ -290,7 +290,7 @@ public class WordTest {
         List<String> list = new LinkedList<String>();
         for(int i=0;i<files.length;i++){
             String fileName = files[i].getName();
-            String period = fileName.substring(0,1);
+            String period = fileName.substring(fileName.length()-5,fileName.length()-4);
             if(period.equals(param)){
                 list.add(files[i].getName());
                 //System.out.println(files[i].getName()+"==="+files[i].getPath());
