@@ -184,7 +184,6 @@ public class CopyOfBsAlarmService {
 
 	/**
 	 * 确认告警信息
-	 * @param map
 	 */
 	public static void identifyBsAlarmById(String id) {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
@@ -260,7 +259,7 @@ public class CopyOfBsAlarmService {
 	}else{
 		rs.put("tag", bean.getSingleValue());
 	}*/			
-	public static void bs_ji_four() {
+	/*public static void bs_ji_four() {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
 		List<BsJiFourBean> list=new ArrayList<BsJiFourBean>();
@@ -302,7 +301,7 @@ public class CopyOfBsAlarmService {
 								System.out.println("fsu-2>"+bean.getFsuId());	     
 								bean.setDescription("市电中断");
 									     write_bs_emh_eps(bean);
-									     /*System.out.println("没有记录：写入-》"+bean);*/
+									     *//*System.out.println("没有记录：写入-》"+bean);*//*
 							}else if(string_to_double(compare.get("ups4"))<46){
 									 bean.setDescription("电池电压过低");
 									 write_bs_emh_eps(bean);
@@ -352,7 +351,7 @@ public class CopyOfBsAlarmService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	public static Double string_to_double(Object str){
 		if(str==null || str.equals("")){
@@ -405,7 +404,7 @@ public class CopyOfBsAlarmService {
 		}
 		return rs;
 	}
-	public static void bs_water_four() {
+	/*public static void bs_water_four() {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
 		List<BsJiFourBean> list=new ArrayList<BsJiFourBean>();
@@ -436,7 +435,7 @@ public class CopyOfBsAlarmService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+	}*/
 	public static int clear_sf_alarm() {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);

@@ -11,6 +11,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.jfree.util.Log;
 
+import xh.func.plugin.CommonParam;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.BsAlarmBean;
 import xh.mybatis.bean.BsAlarmExcelBean;
@@ -199,8 +200,7 @@ public class BsAlarmService {
 
 	/**
 	 * 确认告警信息
-	 * 
-	 * @param map
+	 *
 	 */
 	public static void identifyBsAlarmById(String id) {
 		SqlSession sqlSession = MoreDbTools
@@ -291,7 +291,11 @@ public class BsAlarmService {
 		System.out.println(string_to_double(compare
 				.get("ups2")));
 	}
+
 	public static void bs_ji_four() {
+		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+		System.out.println("e4Map : ==>"+CommonParam.e4Map);
+		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 		SqlSession sqlSession = MoreDbTools
 				.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
@@ -315,11 +319,18 @@ public class BsAlarmService {
 
 					/* 未整改 */
 					// 市电中断
+					String e4Pre = CommonParam.e4Map.get(fsuId) == null?"":CommonParam.e4Map.get(fsuId);
+					String e4Next = compare.get("ups8") == null?"":compare.get("ups8")+"";
 					boolean no_a_off = ((string_to_double(compare.get("ups1")) < 20 && string_to_double(compare
+							.get("ups1")) > -1) && e4Pre.equals(e4Next));
+					CommonParam.e4Map.put(fsuId,e4Next);
+					boolean no_a_on = (string_to_double(compare.get("ups7")) == 0 || string_to_double(compare
+							.get("ups1")) > 100);
+					/*boolean no_a_off = ((string_to_double(compare.get("ups1")) < 20 && string_to_double(compare
 							.get("ups1")) > -1) && string_to_double(compare
 							.get("ups7")) == 1);
 					boolean no_a_on = (string_to_double(compare.get("ups7")) == 0 || string_to_double(compare
-							.get("ups1")) > 100);
+							.get("ups1")) > 100);*/
 					// 电池电压过低
 					boolean no_b_off = (string_to_double(compare.get("ups4")) < 46 && string_to_double(compare
 							.get("ups4")) > -1);
@@ -536,7 +547,8 @@ public class BsAlarmService {
 			for (int i = 0, a = list.size(); i < a; i++) {
 				bean = list.get(i);
 				eps = bs_emh_eps(bean);
-				if (bean.getSingleValue() == 1) {
+				int tempVal = (bean.getSingleValue() == null || "".equals(bean.getSingleValue()))?0:Integer.parseInt(bean.getSingleValue());
+				if (tempVal == 1) {
 					if (eps == 0) {
 						bean.setDescription("水浸告警");
 						write_bs_emh_eps(bean);

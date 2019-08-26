@@ -224,7 +224,7 @@
 										<th>申请时间</th>
 										<th>状态</th>
 										<th>操作详情</th>
-										<th>打印情况</th>
+										<th>核减依据</th>
 									</tr>
 								</thead>
 								<tbody ng-model="loginUserRoleId">
@@ -293,8 +293,8 @@
 													class="fa fa-times-circle text-danger"></i> 删除</a>
 
 										</td>
-										<td ng-if="x.isPrint==0" class="td-danger">未打印</td>
-										<td ng-if="x.isPrint==1" class="td-success">已打印</td>
+										<td ng-if="x.fileName1 == null || x.fileName1 == ''" class="td-danger">无</td>
+										<td ng-if="x.fileName1 != null && x.fileName1 != ''" class="td-success">有</td>
 									</tr>
 								</tbody>
 							</table>

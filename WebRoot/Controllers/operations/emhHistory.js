@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 基站配置
  */
 if (!("xh" in window)) {
@@ -205,7 +205,7 @@ xh.load = function() {
                     success(function(response){
                         var dataEcharts = response.items;
                         // 开启echarts加载
-                        dataEchartsView(dataEcharts);
+                        dataEchartsView3(dataEcharts);
                     });
                 }
 
@@ -324,6 +324,7 @@ xh.pagging = function(currentPage, totals, $scope) {
 };
 
 /* 传感器统计图 */
+var chart;
 function dataEchartsView(dataEcharts,timeList) {
 	var ups1=[];
 	var ups4=[];
@@ -363,7 +364,6 @@ function dataEchartsView(dataEcharts,timeList) {
     resizeBarContainer();
 
     // 基于准备好的dom，初始化echarts实例
-    var chart = null;
     if (chart != null) {
         chart.clear();
         chart.dispose();
@@ -448,6 +448,104 @@ function dataEchartsView(dataEcharts,timeList) {
                 name:'电表电压',
                 type:'line',
                 data:e1,
+                markPoint : {
+                    data : [
+                        {type : 'max', name: '最大值'},
+                        {type : 'min', name: '最小值'}
+                    ]
+                }
+            }
+        ]
+    };
+    chart.setOption(option);
+    chart.hideLoading();
+    // 用于使chart自适应高度和宽度
+    window.onresize = function() {
+        // 重置容器高宽
+        chart.resize();
+    };
+};
+
+function dataEchartsView3(dataEcharts) {
+	var ups1=[];
+	var createTimeList=[];
+	for(var j=0;j<dataEcharts.length;j++){
+            var createTime = dataEcharts[j]["createTime"];
+            var tempUps1 = dataEcharts[j]["ups1"]?parseInt(dataEcharts[j]["ups1"]):"";
+            ups1.push(tempUps1);
+            createTimeList.push(createTime);
+        }
+        
+
+    // 设置容器宽高
+    var resizeBarContainer = function() {
+        $("#alarmPie").width(parseInt($("#alarmPie").parent().width()));
+        // $("#alarmPie").height(parseInt($("#leftChoose").height()));
+        // $("#alarmPie").width(800);
+        $("#alarmPie").height(300);
+    };
+    resizeBarContainer();
+
+    // 基于准备好的dom，初始化echarts实例
+    if (chart != null) {
+        chart.clear();
+        chart.dispose();
+    }
+    chart = echarts.init(document.getElementById('alarmPie'));
+    chart.showLoading({
+        text : '正在努力的读取数据中...'
+    });
+    var option = {
+        title : {
+            text: '电压变化情况图',
+            subtext: '历史数据'
+        },
+        tooltip : {
+            trigger: 'axis'
+        },
+        legend: {
+            data:['交流电压']
+        },
+        toolbox: {
+            show : true,
+            feature : {
+                mark : {show: true},
+                dataView : {show: true, readOnly: false},
+                magicType : {show: true, type: ['line', 'bar']},
+                restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        calculable : true,
+        xAxis : [
+            {
+                type : 'category',
+                boundaryGap : false,
+                data : createTimeList
+            }
+        ],
+        dataZoom: [{
+            type: 'slider',
+            start: 0,
+            end: 100
+        },{
+            type: 'inside',
+            start: 0,
+            end: 100
+        }],
+        yAxis : [
+            {
+                type : 'value',
+                axisLabel : {
+                    formatter: '{value} V'
+                }
+            }
+        ],
+        series : [
+            {
+                name:'交流电压',
+                type:'line',
+                data:ups1,
                 markPoint : {
                     data : [
                         {type : 'max', name: '最大值'},
