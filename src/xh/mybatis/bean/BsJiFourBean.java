@@ -8,7 +8,7 @@ public class BsJiFourBean {
 	private String deviceId;
 	private String updateTime;
 	private String singleId;
-	private int singleValue;
+	private String singleValue;
 	private String description;
 	private int neType;
 	
@@ -51,12 +51,15 @@ public class BsJiFourBean {
 	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
 	}
-	public int getSingleValue() {
+
+	public String getSingleValue() {
 		return singleValue;
 	}
-	public void setSingleValue(int singleValue) {
+
+	public void setSingleValue(String singleValue) {
 		this.singleValue = singleValue;
 	}
+
 	public String getSingleId() {
 		return singleId;
 	}
