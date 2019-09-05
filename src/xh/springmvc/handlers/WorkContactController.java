@@ -50,7 +50,8 @@ public class WorkContactController {
 	public void list(HttpServletRequest request, HttpServletResponse response){
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
-		String time=request.getParameter("time");
+		String start_time=request.getParameter("start_time");
+		String end_time=request.getParameter("end_time");
 		String type=request.getParameter("type");
 		String status=request.getParameter("status");
 		String key=request.getParameter("key");
@@ -58,7 +59,8 @@ public class WorkContactController {
 		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("start", start);
 		map.put("limit",limit);
-		map.put("time",time);
+		map.put("start_time",start_time);
+		map.put("end_time",end_time);
 		map.put("type",type);
 		map.put("key",key);
 		map.put("status",status);

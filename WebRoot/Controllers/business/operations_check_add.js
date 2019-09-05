@@ -94,12 +94,58 @@ xh.load = function() {
 						$scope.checkcut_total = response.count;
 			});*/
 		}
+		$scope.getBsCheckFileList=function(){
+			var month=$("input[name='month']").val();
+			var type=$("select[name='type']").val();
+			$http.get("../../check/bscheckfile?period="+type+"&month="+month).success(
+					function(response) {
+						$scope.bscheck_files = response.files;
+						$scope.bscheck_fileTotal = response.totals;
+						$("#num-check").text($scope.bscheck_fileTotal)
+						
+						
+						
+						
+			});
+		}
+		$scope.getEnsureFileList=function(){
+			var month=$("input[name='month']").val();
+			var type=$("select[name='type']").val();
+			
+			$http.get("../../check/bs_ensure_file?period="+type+"&month="+month).success(
+					function(response) {
+						$scope.ensure_files = response.files;
+						$scope.ensure_fileTotal = response.totals;
+						$("#num-ensure").text($scope.ensure_fileTotal)
+			});
+		}
+		/*巡检记录文件*/
+		$scope.getAppFile=function(){
+			var month=$("input[name='month']").val();
+			var type=$("select[name='type']").val();
+			//$("#show_up_floder").toggle();
+			//$("#file_title").text("考核文件>>通信保障报告");
+			$.get("../../check/bs_app_file?period="+type+"&month="+month).success(
+					function(response) {
+						$scope.app_fileTotal=response.totals
+						$("#num-app").text($scope.app_fileTotal)
+						
+						
+			});
+			
+		}
 		$scope.getFileList=function(tt){
 			var month=tt;
+			$scope.getBsCheckFileList();
+			$scope.getEnsureFileList();
+			$scope.getAppFile();
+			/*var check_num=$scope.bscheck_fileTotal;
+			var ensure_num=$scope.ensure_fileTotal;
+			var app_num=$scope.app_fileTotal;*/
 			$("#check_files").find("li").remove();
-			$("#check_files").append('<li style="cursor: pointer;" title="点击查看文件" onclick="xh.look_check()"><img src="../../Resources/images/icon/16/floder.png">故障核减申请书</li>');
-			$("#check_files").append('<li style="cursor: pointer;" title="点击查看文件" onclick="xh.look_ensure()"><img src="../../Resources/images/icon/16/floder.png">通信保障报告</li>');
-			$("#check_files").append('<li style="cursor: pointer;" title="点击查看文件" onclick="xh.look_app()"><img src="../../Resources/images/icon/16/floder.png">基站月巡检表</li>');
+			$("#check_files").append('<li style="cursor: pointer;"><img src="../../Resources/images/icon/16/floder.png"><span title="点击查看文件" onclick="xh.look_check()">故障核减申请书(<span id="num-check"></span>)</span></li>');
+			$("#check_files").append('<li style="cursor: pointer;"><img src="../../Resources/images/icon/16/floder.png"><span title="点击查看文件" onclick="xh.look_ensure()">通信保障报告(<span id="num-ensure"></span>)</span></li>');
+			$("#check_files").append('<li style="cursor: pointer;"><img src="../../Resources/images/icon/16/floder.png"><span title="点击查看文件" onclick="xh.look_app()">基站月巡检表(<span id="num-app"></span>)</span></li>');
 			var type=$("select[name='type']").val();
 			$http.get("../../check/allcheckfile?period="+type+"&month="+month).success(
 					function(response) {
@@ -138,28 +184,7 @@ xh.load = function() {
 						
 			});
 		}
-		$scope.getBsCheckFileList=function(){
-			var month=$("input[name='month']").val();
-			var type=$("select[name='type']").val();
-			$http.get("../../check/bscheckfile?period="+type+"&month="+month).success(
-					function(response) {
-						$scope.bscheck_files = response.files;
-						$scope.bscheck_fileTotal = response.totals;
-						
-						
-						
-						
-			});
-		}
-		$scope.getEnsureFileList=function(){
-			var month=$("input[name='month']").val();
-			var type=$("select[name='type']").val();
-			$http.get("../../check/bs_ensure_file?period="+type+"&month="+month).success(
-					function(response) {
-						$scope.ensure_files = response.files;
-						$scope.ensure_fileTotal = response.totals;
-			});
-		}
+		
 		$scope.look_check=function(){
 			/*var month=$("input[name='month']").val();
 			var type=$("select[name='type']").val();
@@ -171,12 +196,11 @@ xh.load = function() {
 			
 		}
 		$scope.showAllFile=function(tt){
-			console.log(tt)
 			$("#file_title").text("考核文件");
 			$("#check_files").find('li').remove();
-			$("#check_files").append('<li style="cursor: pointer;" title="点击查看文件" onclick="xh.look_check()"><img src="../../Resources/images/icon/16/floder.png">故障核减申请书</li>');
-			$("#check_files").append('<li style="cursor: pointer;" title="点击查看文件" onclick="xh.look_ensure()"><img src="../../Resources/images/icon/16/floder.png">通信保障报告</li>');
-			$("#check_files").append('<li style="cursor: pointer;" title="点击查看文件" onclick="xh.look_app()"><img src="../../Resources/images/icon/16/floder.png">基站月巡检表</li>');
+			$("#check_files").append('<li style="cursor: pointer;"><img src="../../Resources/images/icon/16/floder.png"><span title="点击查看文件" onclick="xh.look_check()">故障核减申请书</span></li>');
+			$("#check_files").append('<li style="cursor: pointer;"><img src="../../Resources/images/icon/16/floder.png"><span title="点击查看文件" onclick="xh.look_ensure()">通信保障报告</span></li>');
+			$("#check_files").append('<li style="cursor: pointer;"><img src="../../Resources/images/icon/16/floder.png"><span title="点击查看文件" onclick="xh.look_app()">基站月巡检表</span></li>');
 			if(tt==null || tt==''){
 				console.log("null")
 			}else{

@@ -37,6 +37,10 @@
     <select id="link_alarm" resultType="int" parameterType="int" >
     select count(*) from xhgmnet_operations_bsfault where neType=101 AND alarmTag=0 and voiceTag=0
     </select>
+        <!-- esight异常告警统计 -->
+    <select id="esight_alarm" resultType="int" parameterType="int" >
+   select count(*) FROM xhgmnet_operations_bsfault WHERE `from`="esight" AND alarmTag=0 AND voiceTag=0 
+    </select>
     <!-- 判断基站断站记录是否存在 -->
    <!--  <select id="bsFaultIsHave" resultType="int" parameterType="int" >
     select * from xhgmnet_operations_bsfault where bsId=#{bsId}

@@ -112,6 +112,10 @@ xh.load = function() {
 		$scope.year=xh.getNowYear();
 		$scope.nowDay=xh.getNowDay();
 		
+		
+		$scope.ss=function(){
+		}
+		
 		/* 获取用户权限 */
 		$http.get("../../web/loginUserPower").success(
 				function(response) {
@@ -1670,7 +1674,7 @@ xh.load = function() {
 				});
 			}
 			
-			console.log("ss->"+JSON.stringify(checkVal))
+			//console.log("ss->"+JSON.stringify(checkVal))
 			
 			
 			if (checkVal.length < 1) {

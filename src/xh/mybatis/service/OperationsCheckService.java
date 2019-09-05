@@ -97,6 +97,22 @@ public class OperationsCheckService {
 		}
 		return count;
 	}
+	public static int  delFile(Map<String, Object> map) {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.master);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		int count=0;
+		try {
+			count = mapper.delFile(map);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
 	public static List<Map<String,Object>> readFileTree(String path){
 		File dir = new File(path);
 		File[] files=dir.listFiles();

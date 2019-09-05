@@ -32,6 +32,7 @@ public class BsStatusService {
 		int water_count=0;
 		int dispatch=0;
 		int link=0;
+		int esight=0;
 		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
 		Map<String,Object> map=mapper.emhVoiceCount();
@@ -55,9 +56,11 @@ public class BsStatusService {
 		if(FunUtil.readXml("alarm", "link").equals("on")){
 			link=BsAlarmService.link_alarm();
 		}
-		
+		if(FunUtil.readXml("alarm", "esight").equals("on")){
+			esight=BsAlarmService.esight_alarm();
+		}
 		session.close();
-		return bs_offline_count+ups_count+water_count+dispatch+link;
+		return bs_offline_count+ups_count+water_count+dispatch+link+esight;
 		
 	}
 

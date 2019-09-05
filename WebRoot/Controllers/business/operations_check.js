@@ -236,6 +236,7 @@ xh.load = function() {
 			$scope.getEnsureFileList($scope.detailData);
 			$scope.getAppFileList($scope.detailData);
 			$scope.getBsCheckFileList($scope.detailData);
+			console.log(JSON.stringify($scope.detailData))
 			$("#filesWin").modal('show');
 	    };
 	    $scope.showSignWin = function (id) {
@@ -881,7 +882,7 @@ xh.load = function() {
 				//xh.maskHide();
 				$scope.data = response.items;
 				$scope.totals = response.totals;
-				$scope.detailData=$scope.data[$scope.id];
+				//$scope.detailData=$scope.data[$scope.id];
 				$scope.page=page;
 				xh.pagging(1, parseInt($scope.totals), $scope);
 			});

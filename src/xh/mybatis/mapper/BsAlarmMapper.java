@@ -42,6 +42,7 @@ public interface BsAlarmMapper {
 	
 	public int dispatch_alarm() throws Exception;
 	public int link_alarm() throws Exception;
+	public int esight_alarm() throws Exception;
 	
 	/**
 	 *  告警总数

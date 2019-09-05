@@ -103,6 +103,77 @@ public class OperationsCheckController {
 		}
 
 	}
+	@RequestMapping(value = "/delFile", method = RequestMethod.POST)
+	public void delFile(@RequestParam("applyId") String applyId,
+			@RequestParam("fileName") String fileName,
+			@RequestParam("filePath") String filePath,
+			HttpServletRequest request, HttpServletResponse response) {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("applyId", applyId);
+		param.put("fileName", fileName);
+		int rs=OperationsCheckService.delFile(param);
+		if(rs>0){
+			String path=request.getSession().getServletContext().getRealPath("");
+			path+=filePath;
+			
+			String path2=path.replace("check", "checksource");
+					
+			File file=new File(path);
+			File file2=new File(path2);
+			if(file.exists()){
+				file.delete();
+				log.info("文件存在，删除文件");
+				if(file2.exists()){
+					file2.delete();
+				}
+			}else{
+				log.info("文件不存在");
+			}
+		}
+		
+		
+		
+		
+		
+		HashMap result = new HashMap();
+		result.put("success", true);
+		result.put("message", "操作成功");
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch blocksearchFile
+			e.printStackTrace();
+		}
+
+	}
+	@RequestMapping(value = "/delSourceFile", method = RequestMethod.POST)
+	public void delSourceFile(@RequestParam("filePath") String filePath,
+			HttpServletRequest request, HttpServletResponse response) {
+		String path=request.getSession().getServletContext().getRealPath("");
+		path+=filePath;
+		
+		String path2=path.replace("check", "checksource");
+		File file2=new File(path2);
+		if(file2.exists()){
+			file2.delete();
+		}
+		
+		
+		HashMap result = new HashMap();
+		result.put("success", true);
+		result.put("message", "操作成功");
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch blocksearchFile
+			e.printStackTrace();
+		}
+
+	}
 	@RequestMapping(value = "/search_checkcut_count", method = RequestMethod.GET)
 	public void search_checkcut_count(
 			@RequestParam("month") String month,
@@ -567,7 +638,9 @@ public class OperationsCheckController {
 					if(!file1.exists()){
 						FunUtil.copyFile(src, file1);
 					}else{
-						log.info("文件："+map.get("fileName")+"已经存在考核目录中，禁止覆盖");
+						//log.info("文件："+map.get("fileName")+"已经存在考核目录中，禁止覆盖");
+						file1.delete();
+						FunUtil.copyFile(src, file1);
 					}
 					
 				} catch (IOException e) {
@@ -994,7 +1067,7 @@ public class OperationsCheckController {
 			HttpServletRequest request, HttpServletResponse response) {
 		
 		String rootDir = request.getSession().getServletContext().getRealPath("/upload/checksource");
-		String hz="/upload/checksource/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period;
+		String hz="/upload/check/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period;
 		rootDir=rootDir+"/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period;
 		File file=new File(rootDir);
 		System.out.println(rootDir);
@@ -1059,6 +1132,17 @@ public class OperationsCheckController {
 				list.add(map);				
 			}
 		}
+		Collections.sort(list, new Comparator<Map<String,Object>>(){
+
+			@Override
+			public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+				// TODO Auto-generated method stub
+				int a=FunUtil.StringToInt(o1.get("fileName").toString().split("-")[0]);
+				int b=FunUtil.StringToInt(o2.get("fileName").toString().split("-")[0]);
+				return a-b;
+			}
+			
+		});
 		HashMap result = new HashMap();
 		result.put("files", list);
 		result.put("totals", list.size());
@@ -1154,6 +1238,17 @@ public class OperationsCheckController {
 				list.add(map);				
 			}
 		}
+		Collections.sort(list, new Comparator<Map<String,Object>>(){
+
+			@Override
+			public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+				// TODO Auto-generated method stub
+				int a=FunUtil.StringToInt(o1.get("fileName").toString().split("-")[0]);
+				int b=FunUtil.StringToInt(o2.get("fileName").toString().split("-")[0]);
+				return a-b;
+			}
+			
+		});
 		HashMap result = new HashMap();
 		result.put("files", list);
 		result.put("totals", list.size());

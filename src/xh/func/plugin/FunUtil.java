@@ -621,7 +621,12 @@ public class FunUtil {
 			if(str.toString().indexOf(".")>-1){
 				return Integer.parseInt(str.toString().split("\\.")[0]);
 			}else{
-				return Integer.parseInt(str.toString());
+				if(is_numberic(str)){
+					return Integer.parseInt(str.toString());
+				}else{
+					return 0;
+				}
+				
 			}
 		}
 	}
@@ -851,5 +856,15 @@ public class FunUtil {
 		}
 		return list;
 		
+	}
+	/**
+	 * 判断是否为数字格式不限制位数
+	 * @param o
+	 *     待校验参数
+	 * @return
+	 *     如果全为数字，返回true；否则，返回false
+	 */
+	public static boolean isNumber(Object o){
+	    return  (Pattern.compile("[0-9]*")).matcher(String.valueOf(o)).matches();
 	}
 }
