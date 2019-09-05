@@ -129,6 +129,52 @@ xh.load = function() {
 			$scope.search(page);
 		};
 
+		$scope.changeRequestTime = function () {
+            var startTime = $("#startTime").val();
+            var endTime = $("#endTime").val();
+            if(startTime == null || startTime == ""){
+                alert("请输入起始时间")
+                return false;
+            }
+            if(endTime == null || endTime == ""){
+                alert("请输入结束时间")
+                return false;
+            }
+            $.ajax({
+                url : '../../checkCut/changeRequestTime?startTime='+startTime+"&endTime="+endTime,
+                type : 'get',
+                dataType : "json",
+                async : false,
+                success : function(data) {
+                    if (data.success) {
+                        toastr.success("更新成功", '提示');
+                        var page = $(".page.active").find("a").text();
+                        xh.refresh(page);
+                    } else {
+                        toastr.error("更新失败", '提示');
+                    }
+                }
+            });
+        }
+
+		/* 同步配置 */
+		$scope.synInfo = function () {
+            $.ajax({
+                url : '../../checkCut/synCheckCut?id='+$scope.nowId+"&bsId="+$scope.nowBsId+"&checkCutType="+$scope.nowCheckCutType,
+                type : 'get',
+                dataType : "json",
+                async : false,
+                success : function(data) {
+                    if (data.success) {
+                        $("#sheet").modal('hide');
+                        toastr.success(data.message, '提示');
+                    } else {
+                        toastr.error("更新失败", '提示');
+                    }
+                }
+            });
+        }
+
 		$scope.exportWord = function () {
             var bsId = $("#bsId").val();
             var bsName = $("#bsName").val();
@@ -148,7 +194,8 @@ xh.load = function() {
             	alert("请选择需要导出的时间!");
             	return false;
 			}
-            window.location.href="../../checkCut/downLoadZipFile?bsId="+bsId+"&bsName="+bsName+"&checked="+status+"&startTime="+startTime+"&endTime="+endTime+"&bsPeriod="+bsPeriod+"&bsRules="+bsRules+"&checkCutType="+tempCheckCutType;
+            var imgName = $("#imgName").val();
+            window.location.href="../../checkCut/downLoadZipFile?bsId="+bsId+"&bsName="+bsName+"&checked="+status+"&startTime="+startTime+"&endTime="+endTime+"&bsPeriod="+bsPeriod+"&bsRules="+bsRules+"&checkCutType="+tempCheckCutType+"&imgName="+imgName;
         };
 
         $scope.sign = function () {
@@ -252,6 +299,9 @@ xh.load = function() {
             var temp = $scope.data[id];
             $scope.nowIndex = id;
             $scope.nowChecked = temp.checked;
+            $scope.nowId = temp.id;
+            $scope.nowBsId = temp.bsId;
+            $scope.nowCheckCutType = temp.checkCutType;
             if(temp.checked>1 && temp.checked!=7){
                 //该核减已经审核
                 var tempPersion3 = temp.persion3;
@@ -291,12 +341,13 @@ xh.load = function() {
                 console.log("checkDate : "+date1);
                 console.log("sheetDate : "+tempDate);
 
-                if(sheetDate<caluDate){
+                $scope.sheetIsUpdate = true;
+                /*if(sheetDate<caluDate){
                     //表单时间小于最近考核时间
                     $scope.sheetIsUpdate = false;
                 }else{
                     $scope.sheetIsUpdate = true;
-                }
+                }*/
                 //------------------------------
                 //计算出相差天数
                 /*var days=Math.floor(date3/(24*3600*1000))
@@ -611,6 +662,7 @@ xh.load = function() {
             var bsPeriod = $('#bsPeriod option:selected') .val();
             var bsRules = $('#bsRules option:selected') .val();
             var checkCutType = $('#checkCutType option:selected') .val();
+            var imgName = $("#imgName").val();
             if(status == 100){
             	status = "";
 			}
@@ -630,7 +682,7 @@ xh.load = function() {
 			console.log("================");
             console.log(start+"~~~"+page);
             console.log("================");
-			$http.get("../../checkCut/selectAll?start="+start+"&limit=" + limit+"&bsId="+bsId+"&bsName="+bsName+"&checked="+status+"&startTime="+startTime+"&endTime="+endTime+"&bsPeriod="+bsPeriod+"&bsRules="+bsRules+"&checkCutType="+checkCutType).
+			$http.get("../../checkCut/selectAll?start="+start+"&limit=" + limit+"&bsId="+bsId+"&bsName="+bsName+"&checked="+status+"&startTime="+startTime+"&endTime="+endTime+"&bsPeriod="+bsPeriod+"&bsRules="+bsRules+"&checkCutType="+checkCutType+"&imgName="+imgName).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -649,6 +701,7 @@ xh.load = function() {
             var bsPeriod = $('#bsPeriod option:selected') .val();
             var bsRules = $('#bsRules option:selected') .val();
             var checkCutType = $('#checkCutType option:selected') .val();
+            var imgName = $("#imgName").val();
             if(status == 100){
                 status = "";
             }
@@ -667,7 +720,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../checkCut/selectAll?start="+start+"&limit=" + limit+"&bsId="+bsId+"&bsName="+bsName+"&checked="+status+"&startTime="+startTime+"&endTime="+endTime+"&bsPeriod="+bsPeriod+"&bsRules="+bsRules+"&checkCutType="+checkCutType).
+			$http.get("../../checkCut/selectAll?start="+start+"&limit=" + limit+"&bsId="+bsId+"&bsName="+bsName+"&checked="+status+"&startTime="+startTime+"&endTime="+endTime+"&bsPeriod="+bsPeriod+"&bsRules="+bsRules+"&checkCutType="+checkCutType+"&imgName="+imgName).
 			success(function(response){
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;

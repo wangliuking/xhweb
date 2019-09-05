@@ -52,9 +52,9 @@
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;">故障原因、历时、核减依据：</span>
                                         <br/>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        该基站于<input ng-if="roleId==301" style="border: 0px;outline:none;width: 140px" type="text" ng-model="sheetData.breakTime" name="breakTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" ng-blur="calAgain()"/>
+                                        该基站于<input ng-if="roleId==301" style="border: 0px;outline:none;width: 143px" type="text" ng-model="sheetData.breakTime" name="breakTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" ng-blur="calAgain()"/>
                                         <input ng-if="roleId!=301" type="hidden" ng-model="sheetData.breakTime" name="breakTime"/><span ng-if="roleId!=301">{{dt1}}</span> —
-                                        <input ng-if="roleId==301" style="border: 0px;outline:none;width: 140px" type="text" ng-model="sheetData.restoreTime" name="restoreTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" ng-blur="calAgain()"/>
+                                        <input ng-if="roleId==301" style="border: 0px;outline:none;width: 143px" type="text" ng-model="sheetData.restoreTime" name="restoreTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" ng-blur="calAgain()"/>
                                         <input ng-if="roleId!=301" type="hidden" ng-model="sheetData.restoreTime" name="restoreTime"/><span ng-if="roleId!=301">{{dt2}}</span>
                                         业务中断<input style="border: 0px;outline:none;width: 25px" type="hidden" ng-value="calcData" name="calcData"/>{{calcData}}分钟，故障原因为：
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -62,8 +62,8 @@
                                         <div ng-if="roleId!=301" contenteditable="false" style="height: 50px;width:870px;padding-left: 24px;" class="textarea-div" name="desc">{{sheetData.desc}}</div>
                                         <br/>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该故障断站为不可抗力因素导致，根据运维服务质量验收标准{{sheetData.rules}}，故向市软件中心申请故障核减
-                                        <input ng-if="roleId==301" style="border: 0px;outline:none;width: 30px" type="text" ng-model="sheetData.checkCutTime" name="checkCutTime"/>
-                                        <input ng-if="roleId!=301" style="border: 0px;outline:none;width: 30px" type="text" ng-model="sheetData.checkCutTime" name="checkCutTime" readonly="readonly"/>分钟。
+                                        <input ng-if="roleId==301" style="border: 0px;outline:none;width: 40px" type="text" ng-model="sheetData.checkCutTime" name="checkCutTime"/>
+                                        <input ng-if="roleId!=301" style="border: 0px;outline:none;width: 40px" type="text" ng-model="sheetData.checkCutTime" name="checkCutTime" readonly="readonly"/>分钟。
                                         <br/>
                                         <br/>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -261,6 +261,9 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <button ng-show="roleId==301" type="button" class="btn btn-success btn-sm" ng-click="synInfo()">
+                    <i class="fa fa-check-square"></i>&nbsp;同步基本信息
+                </button>
                 <button ng-show="elecBtnShow" type="button" class="btn btn-success btn-sm" ng-click="showElecShow()">
                     <i class="fa fa-check-square"></i>&nbsp;发电说明
                 </button>

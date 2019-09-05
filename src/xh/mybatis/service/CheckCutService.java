@@ -112,6 +112,28 @@ public class CheckCutService {
     }
 
     /**
+     *
+     * @param bean
+     * @return
+     */
+    public static int synCheckCut(CheckCutBean bean){
+        SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
+        int result=0;
+        try {
+            result=mapper.synCheckCut(bean);
+            sqlSession.commit();
+            result=1;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally {
+            sqlSession.close();
+        }
+        return result;
+    }
+
+    /**
      *删除
      * @param
      * @return
@@ -488,6 +510,50 @@ public class CheckCutService {
             sqlSession.close();
         }
         return result;
+    }
+
+    public static void changeRequestTime(Map<String,Object> param){
+        SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
+        try {
+            mapper.changeRequestTime(param);
+            sqlSession.commit();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally {
+            sqlSession.close();
+        }
+    }
+
+    public static List<Map<String,Object>> selectBreakTime(Map<String,Object> param){
+        SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
+        List<Map<String,Object>> list = null;
+        try {
+            list = mapper.selectBreakTime(param);
+            sqlSession.commit();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally {
+            sqlSession.close();
+        }
+        return list;
+    }
+
+    public static void updateApplyTime(Map<String,Object> param){
+        SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
+        try {
+            mapper.updateApplyTime(param);
+            sqlSession.commit();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally {
+            sqlSession.close();
+        }
     }
     
 }
