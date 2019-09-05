@@ -70,6 +70,14 @@ public interface CheckCutMapper {
      * @throws Exception
      */
     public int createCheckCut(CheckCutBean bean)throws Exception;
+
+    /**
+     * @param bean
+     * @return
+     * @throws Exception
+     */
+    public int synCheckCut(CheckCutBean bean)throws Exception;
+
     /**
      *
      * @param bean
@@ -148,5 +156,11 @@ public interface CheckCutMapper {
      * 根据基站id删除发电记录
      */
     public int delElec(String bsId)throws Exception;
+
+    public int changeRequestTime(Map<String,Object> param)throws Exception;
+
+    public List<Map<String,Object>> selectBreakTime(Map<String,Object> param)throws Exception;
+
+    public int updateApplyTime(Map<String,Object> param)throws Exception;
 
 }

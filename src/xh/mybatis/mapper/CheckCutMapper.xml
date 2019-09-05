@@ -34,6 +34,12 @@
         <if test="roleId != null  and roleId == 10002 ">
             and a.checked BETWEEN 1 and 4
         </if>
+        <if test="imgName != null  and imgName != ''">
+            and (a.fileName1 like concat('%',#{imgName},'%')
+            or a.fileName2 like concat('%',#{imgName},'%')
+            or a.fileName3 like concat('%',#{imgName},'%')
+            )
+        </if>
         order by a.id desc limit #{start},#{limit}
     </select>
     <!--查询申请所有记录总数 -->
@@ -63,6 +69,12 @@
         <if test="roleId != null  and roleId == 10002 ">
             and a.checked BETWEEN 1 and 4
         </if>
+        <if test="imgName != null  and imgName != ''">
+            and (a.fileName1 like concat('%',#{imgName},'%')
+            or a.fileName2 like concat('%',#{imgName},'%')
+            or a.fileName3 like concat('%',#{imgName},'%')
+            )
+        </if>
     </select>
 
     <!--根据ID删除核减记录-->
@@ -88,6 +100,14 @@
         xhgmnet_bs_checkcut(id,fileName4,filePath4,note7,bsId,name,breakTime,restoreTime,hometype,transfer,transferCompare,transferOne,transferTwo,powerOne,powerTimeOne,powerTwo,powerTimeTwo,maintainTime,isPower,isPowerTime,firstDesc,period,applyTime,`desc`,situation,checked,checkCutType)
         values(#{id},#{fileName4},#{filePath4},#{note7},#{bsId},#{name},#{breakTime},#{restoreTime},#{hometype},#{transfer},#{transferCompare},#{transferOne},#{transferTwo},#{powerOne},#{powerTimeOne},#{powerTwo},#{powerTimeTwo},#{maintainTime},#{isPower},#{isPowerTime},#{firstDesc},#{period},#{applyTime},#{desc},#{situation},#{checked},#{checkCutType})
     </insert>
+
+    <!--基站基本信息同步 -->
+    <update id="synCheckCut" parameterType="xh.mybatis.bean.CheckCutBean">
+        update xhgmnet_bs_checkcut set hometype=#{hometype},transfer=#{transfer},transferOne=#{transferOne},
+        transferTwo=#{transferTwo},powerOne=#{powerOne},powerTimeOne=#{powerTimeOne},powerTwo=#{powerTwo},
+        powerTimeTwo=#{powerTimeTwo},maintainTime=#{maintainTime},isPower=#{isPower},isPowerTime=#{isPowerTime}
+        where id=#{id}
+    </update>
 
     <!--运维人员发起核减申请 -->
     <update id="insertCheckCut" parameterType="xh.mybatis.bean.CheckCutBean">
@@ -194,6 +214,12 @@
         <if test="startTime != null  and startTime != ''">
             and breakTime BETWEEN #{startTime} and #{endTime}
         </if>
+        <if test="imgName != null  and imgName != ''">
+            and (a.fileName1 like concat('%',#{imgName},'%')
+            or a.fileName2 like concat('%',#{imgName},'%')
+            or a.fileName3 like concat('%',#{imgName},'%')
+            )
+        </if>
         order by breakTime
     </select>
 
@@ -216,5 +242,30 @@
     <delete id="delElec" parameterType="String" >
         delete from xhgmnet_bs_checkcutelec where bsId=#{bsId}
     </delete>
+
+    <!-- 更新申请时间到24小时内 -->
+    <update id="changeRequestTime" parameterType="map">
+        update xhgmnet_bs_checkcut set requestTime=date_add(breakTime,interval 125 minute)
+        where breakTime in (select breakTime from (select requestTime,breakTime,timestampdiff(HOUR,breakTime,requestTime) calcTime from xhgmnet_bs_checkcut where breakTime between #{startTime} and #{endTime} and checked!=7) a where calcTime>=24)
+    </update>
+
+    <!-- 查询申请时间 -->
+    <select id="selectBreakTime" resultType="map" parameterType="map">
+        select * from xhgmnet_bs_checkcut where breakTime BETWEEN #{startTime} and #{endTime} and checked!=7
+    </select>
+
+    <!-- 更新申请时间 2019年 7月 30日 星期二 -->
+    <update id="updateApplyTime" parameterType="map">
+        update xhgmnet_bs_checkcut set applyTime = CASE id
+        <foreach collection="listVal" item="item" index="index">
+            WHEN #{item.id} THEN #{item.value}
+        </foreach>
+        END
+        where id in (
+        <foreach collection="listKay" item="key" index="index" separator=",">
+            #{key}
+        </foreach>
+        )
+    </update>
 
 </mapper>

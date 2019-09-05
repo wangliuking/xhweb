@@ -60,6 +60,7 @@ public class CheckCutController {
         String startTime = request.getParameter("startTime");
         String endTime = request.getParameter("endTime");
         String checkCutType = request.getParameter("checkCutType");
+        String imgName = request.getParameter("imgName");
         String user=funUtil.loginUser(request);
         //unit = WebUserServices.selectUnitByUser(user);
         WebUserBean userbean=WebUserServices.selectUserByUser(user);
@@ -78,6 +79,7 @@ public class CheckCutController {
         map.put("bsPeriod", bsPeriod);
         map.put("bsRules", bsRules);
         map.put("checkCutType", checkCutType);
+        map.put("imgName", imgName);
 
         if(startTime == null || "".equals(startTime)){
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -398,14 +400,17 @@ public class CheckCutController {
         list.add("C:\\down\\郫县犀浦镇2019-07-111729100.doc");
         String zipPath = "E:\\xh\\xhweb\\out\\artifacts\\xhweb_Web_exploded\\Resources\\upload\\check\\2019\\07\\4\\故障核减申请书.zip";
         zipFiles(list,zipPath);*/
-        /*Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2019-07-12 15:15:15");
+        /*Date date = new SimpleDateFormat("yyyy-MM-dd").parse("2019-09-05 15:15:15");
         Calendar ca = Calendar.getInstance();
         ca.setTime(date);
         System.out.println(ca.get(Calendar.YEAR));
-        System.out.println(ca.get(Calendar.MONTH)+1);*/
-        File file = new File("/E:/xh/xhweb/out/artifacts/xhweb_Web_exploded/Resources/upload/CheckCut/b885af3cccd46b96d22aa60e0d8af34a-test2.jpg");
+        System.out.println(ca.get(Calendar.MONTH)+1);
+        System.out.println(ca.get(Calendar.DATE));
+        String res = dayForWeek(new SimpleDateFormat("yyyy-MM-dd").format(date));
+        System.out.println(res);*/
+        /*File file = new File("/E:/xh/xhweb/out/artifacts/xhweb_Web_exploded/Resources/upload/CheckCut/b885af3cccd46b96d22aa60e0d8af34a-test2.jpg");
         String fileName = "b885af3cccd46b96d22aa60e0d8af34a-test2copy.jpg";
-        rename(file,fileName);
+        rename(file,fileName);*/
     }
 
     /**
@@ -654,30 +659,47 @@ public class CheckCutController {
         List<Map<String,Object>> list = CheckCutService.selectBsInformationById(selectMap);
         Map<String,Object> res = list.get(0);
         bean.setHometype("该基站建设于"+res.get("hometype")+"机房");//机房类型
-        //判断传输类型
-        if("已开通".equals(list.get(0).get("is_open")) && "已开通".equals(list.get(1).get("is_open"))){
-            bean.setTransfer("双传输链路");
-        }else if("已开通".equals(list.get(0).get("is_open")) || "已开通".equals(list.get(1).get("is_open"))){
-            bean.setTransfer("单传输链路");
-        }else{
+        if(list.size() == 2){
+            //判断传输类型
+            if("已开通".equals(list.get(0).get("is_open")) && "已开通".equals(list.get(1).get("is_open"))){
+                bean.setTransfer("双传输链路");
+            }else if("已开通".equals(list.get(0).get("is_open")) || "已开通".equals(list.get(1).get("is_open"))){
+                bean.setTransfer("单传输链路");
+            }else{
+                bean.setTransfer("无传输链路");
+            }
+            //判断是否同一运营商
+            String transferOne = list.get(0).get("operator")+"";
+            String transferTwo = list.get(1).get("operator")+"";
+            if(transferOne != null && !"".equals(transferOne)){
+                bean.setTransferOne("第一条传输链路运营商为"+transferOne);
+            }else{
+                bean.setTransferOne("无第一条传输链路");
+            }
+            if(transferTwo != null && !"".equals(transferTwo)){
+                bean.setTransferTwo("第二条传输链路运营商为"+transferTwo);
+            }else{
+                bean.setTransferTwo("无第二条传输链路");
+            }
+        }else if(list.size() == 1){
+            //判断传输类型
+            if("已开通".equals(list.get(0).get("is_open"))){
+                bean.setTransfer("单传输链路");
+            }else{
+                bean.setTransfer("无传输链路");
+            }
+            //判断是否同一运营商
+            String tag = list.get(0).get("tag")+"";
+            if("1".equals(tag)){
+                bean.setTransferOne("第一条传输链路运营商为"+list.get(0).get("operator")+"");
+                bean.setTransferTwo("无第二条传输链路");
+            }else if("2".equals(tag)){
+                bean.setTransferOne("无第一条传输链路");
+                bean.setTransferTwo("第二条传输链路运营商为"+list.get(0).get("operator")+"");
+            }
+        }else if(list.size() == 0){
             bean.setTransfer("无传输链路");
-        }
-        //判断是否同一运营商
-        String transferOne = list.get(0).get("operator")+"";
-        String transferTwo = list.get(1).get("operator")+"";
-        /*if(transferOne.equals(transferTwo) && !"".equals(transferOne) && transferOne != null){
-            bean.setTransferCompare("相同运营商");
-        }else if(!transferOne.equals(transferTwo) && !"".equals(transferOne) && transferOne != null){
-            bean.setTransferCompare("不同运营商");
-        }*/
-        if(transferOne != null && !"".equals(transferOne)){
-            bean.setTransferOne("第一条传输链路运营商为"+transferOne);
-        }else{
             bean.setTransferOne("无第一条传输链路");
-        }
-        if(transferTwo != null && !"".equals(transferTwo)){
-            bean.setTransferTwo("第二条传输链路运营商为"+transferTwo);
-        }else{
             bean.setTransferTwo("无第二条传输链路");
         }
 
@@ -717,6 +739,136 @@ public class CheckCutController {
         HashMap result = new HashMap();
         result.put("success", success);
         result.put("result", rst);
+        result.put("message", message);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     *  同步基站基本信息
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/synCheckCut", method = RequestMethod.GET)
+    public void synCheckCut(HttpServletRequest request, HttpServletResponse response) {
+        this.success = true;
+        String id = request.getParameter("id");
+        String bsId = request.getParameter("bsId");
+        String checkCutType = request.getParameter("checkCutType");
+        CheckCutBean bean = new CheckCutBean();
+        bean.setId(Integer.parseInt(id));
+        if("1".equals(checkCutType)){
+            //基站
+            Map<String,Object> selectMap = new HashMap<String,Object>();
+            selectMap.put("bsId",Integer.parseInt(bsId));
+            List<Map<String,Object>> list = CheckCutService.selectBsInformationById(selectMap);
+            Map<String,Object> res = list.get(0);
+            bean.setHometype("该基站建设于"+res.get("hometype")+"机房");//机房类型
+            if(list.size() == 2){
+                //判断传输类型
+                if("已开通".equals(list.get(0).get("is_open")) && "已开通".equals(list.get(1).get("is_open"))){
+                    bean.setTransfer("双传输链路");
+                }else if("已开通".equals(list.get(0).get("is_open")) || "已开通".equals(list.get(1).get("is_open"))){
+                    bean.setTransfer("单传输链路");
+                }else{
+                    bean.setTransfer("无传输链路");
+                }
+                //判断是否同一运营商
+                String transferOne = list.get(0).get("operator")+"";
+                String transferTwo = list.get(1).get("operator")+"";
+                if(transferOne != null && !"".equals(transferOne)){
+                    bean.setTransferOne("第一条传输链路运营商为"+transferOne);
+                }else{
+                    bean.setTransferOne("无第一条传输链路");
+                }
+                if(transferTwo != null && !"".equals(transferTwo)){
+                    bean.setTransferTwo("第二条传输链路运营商为"+transferTwo);
+                }else{
+                    bean.setTransferTwo("无第二条传输链路");
+                }
+            }else if(list.size() == 1){
+                //判断传输类型
+                if("已开通".equals(list.get(0).get("is_open"))){
+                    bean.setTransfer("单传输链路");
+                }else{
+                    bean.setTransfer("无传输链路");
+                }
+                //判断是否同一运营商
+                String tag = list.get(0).get("tag")+"";
+                if("1".equals(tag)){
+                    bean.setTransferOne("第一条传输链路运营商为"+list.get(0).get("operator")+"");
+                    bean.setTransferTwo("无第二条传输链路");
+                }else if("2".equals(tag)){
+                    bean.setTransferOne("无第一条传输链路");
+                    bean.setTransferTwo("第二条传输链路运营商为"+list.get(0).get("operator")+"");
+                }
+            }else if(list.size() == 0){
+                bean.setTransfer("无传输链路");
+                bean.setTransferOne("无第一条传输链路");
+                bean.setTransferTwo("无第二条传输链路");
+            }
+
+            bean.setPowerOne("基站主设备为"+res.get("bs_supply_electricity_type")+"供电");
+            bean.setPowerTimeOne(res.get("bs_xh_fact_time")+"小时");
+            bean.setPowerTwo("传输、环控等网络设备为"+res.get("transfer_supply_electricity_type")+"供电");
+            bean.setPowerTimeTwo(res.get("transfer_fact_time")+"小时");
+            bean.setMaintainTime(res.get("to_bs_date")+"分钟");
+            if("是".equals(res.get("is_allow_generation"))){
+                bean.setIsPower("基站具备发电条件");
+                bean.setIsPowerTime("发电时间:"+res.get("generation_date"));
+            }else if("否".equals(res.get("is_allow_generation"))){
+                bean.setIsPower("基站不具备发电条件");
+                bean.setIsPowerTime("发电时间:无");
+            }
+            //填充申请表部分数据end
+        }else if("2".equals(checkCutType)){
+            //调度台
+            Map<String,Object> selectMap = new HashMap<String,Object>();
+            selectMap.put("bsId",Integer.parseInt(bsId));
+            List<Map<String,Object>> list = CheckCutService.selectDispathInformationById(selectMap);
+            Map<String,Object> res = list.get(0);
+            //判断传输类型
+            String transferType = res.get("transfer")+"";
+            if("1".equals(transferType)){
+                bean.setTransfer("单传输");
+            }else if("2".equals(transferType)){
+                bean.setTransfer("双传输");
+            }
+            //判断是否同一运营商
+            String transferOne = res.get("transferOne")+"";
+            String transferTwo = res.get("transferTwo")+"";
+            if(transferOne.equals(transferTwo) && !"".equals(transferOne) && transferOne != null){
+                bean.setTransferCompare("相同运营商");
+            }else if(!transferOne.equals(transferTwo) && !"".equals(transferOne) && transferOne != null){
+                bean.setTransferCompare("不同运营商");
+            }
+
+            if(transferOne != null && !"".equals(transferOne) && !"null".equals(transferOne)){
+                bean.setTransferOne("第一条传输链路运营商为"+transferOne);
+            }else{
+                bean.setTransferOne("无第一条传输链路");
+            }
+            if(transferTwo != null && !"".equals(transferTwo) && !"null".equals(transferTwo)){
+                bean.setTransferTwo("第二条传输链路运营商为"+transferTwo);
+            }else {
+                bean.setTransferTwo("无第二条传输链路");
+            }
+        }
+
+        log.info("data==>" + bean.toString());
+        CheckCutService.synCheckCut(bean);
+        this.message = "核减基本信息已修改";
+
+        HashMap result = new HashMap();
+        result.put("success", success);
         result.put("message", message);
         response.setContentType("application/json;charset=utf-8");
         String jsonstr = json.Encode(result);
@@ -787,14 +939,14 @@ public class CheckCutController {
         }
 
         if(transferOne != null && !"".equals(transferOne) && !"null".equals(transferOne)){
-            bean.setTransferOne("第一传输运营商"+transferOne);
+            bean.setTransferOne("第一条传输链路运营商为"+transferOne);
         }else{
-            bean.setTransferOne("");
+            bean.setTransferOne("无第一条传输链路");
         }
         if(transferTwo != null && !"".equals(transferTwo) && !"null".equals(transferTwo)){
-            bean.setTransferTwo("第二传输运营商"+transferTwo);
+            bean.setTransferTwo("第二条传输链路运营商为"+transferTwo);
         }else {
-            bean.setTransferTwo("");
+            bean.setTransferTwo("无第二条传输链路");
         }
 
         String tempPeriod = res.get("period")+"";
@@ -1266,6 +1418,7 @@ public class CheckCutController {
         String checkCutType = request.getParameter("checkCutType");
         String startTime = request.getParameter("startTime");
         String endTime = request.getParameter("endTime");
+        String imgName = request.getParameter("imgName");
         Map<String,Object> param = new HashMap<String,Object>();
         param.put("bsId", bsId);
         param.put("name", name);
@@ -1275,6 +1428,7 @@ public class CheckCutController {
         param.put("checkCutType", checkCutType);
         param.put("startTime",startTime);
         param.put("endTime",endTime);
+        param.put("imgName",imgName);
         List<Map<String,Object>> list = CheckCutService.exportWordByTime(param);
         System.out.println(param);
         System.out.println(list);
@@ -1677,6 +1831,54 @@ public class CheckCutController {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 更新申请时间到24小时内,并同步更新applyTime
+     */
+    @RequestMapping(value = "/changeRequestTime",method = RequestMethod.GET)
+    public void changeRequestTime(HttpServletRequest req,HttpServletResponse resp) throws Exception{
+        String startTime = req.getParameter("startTime");
+        String endTime = req.getParameter("endTime");
+        Map<String,Object> param = new HashMap<String,Object>();
+        param.put("startTime",startTime);
+        param.put("endTime",endTime);
+        CheckCutService.changeRequestTime(param);
+        List<Map<String,Object>> checkCutList = CheckCutService.selectBreakTime(param);
+        List<Map<String,Object>> listVal = new LinkedList<Map<String,Object>>();
+        List<Integer> listKay = new LinkedList<Integer>();
+        for(Map<String,Object> map : checkCutList){
+            int id = Integer.parseInt(map.get("id")+"");
+            listKay.add(id);
+            String timeStr = map.get("requestTime")+"";
+            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(timeStr);
+            Calendar ca = Calendar.getInstance();
+            ca.setTime(date);
+            String res = dayForWeek(new SimpleDateFormat("yyyy-MM-dd").format(date));
+            String value = ca.get(Calendar.YEAR)+"年 "+(ca.get(Calendar.MONTH)+1)+"月 "+ca.get(Calendar.DATE)+"日 "+res;
+            Map<String,Object> temp = new HashMap<String,Object>();
+            temp.put("id",id);
+            temp.put("value",value);
+            listVal.add(temp);
+        }
+        if(listKay.size()>0){
+            param.put("listVal",listVal);
+            param.put("listKay",listKay);
+            CheckCutService.updateApplyTime(param);
+        }
+
+        HashMap result = new HashMap();
+        result.put("success", true);
+        resp.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            resp.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
 
     /**
