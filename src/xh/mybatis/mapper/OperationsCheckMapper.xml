@@ -25,6 +25,9 @@
 	<select id="searchFile" parameterType="String" resultType="map">
 		select * from xhgmnet_operations_check_file where applyId=#{applyId}
 	</select>
+	<delete id="delFile" parameterType="map" >
+        delete from xhgmnet_operations_check_file where applyId=#{applyId} and fileName=#{fileName}
+    </delete>
 	<update id="sealFile" parameterType="int">
 		update
 		xhgmnet_operations_check_file set isSeal=1 where id=#{id}

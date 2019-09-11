@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +30,14 @@ import java.util.Scanner;
 import java.util.TimeZone;
 import java.util.Timer;
 import java.util.regex.Pattern;
+
+
+
+
+
+
+
+
 
 
 
@@ -96,6 +105,7 @@ import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.util.EntityUtils;
 
+import com.spire.ms.System.Collections.Comparer;
 import com.sun.xml.xsom.impl.util.Uri;
 
 import xh.func.plugin.DocConverter;
@@ -110,7 +120,40 @@ public class test {
     
 
 	public static void main(String[] args) {
-		readFileTree("D:/考核文件");
+
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		for(int i=10;i<30;i++){
+			Map<String,Object> map=new HashMap<String, Object>();
+			map.put("user", i);
+			list.add(map);
+		}
+		System.out.println("前："+Arrays.toString(list.toArray()));
+		
+		/*Collections.sort(list, new Comparator<Map<String,Object>>(){
+
+			@Override
+			public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+				// TODO Auto-generated method stub
+				int a=FunUtil.StringToInt(o1.get("fileName").toString().split("-")[0]);
+				int b=FunUtil.StringToInt(o2.get("fileName").toString().split("-")[0]);
+				//System.out.println("dd->a:"+a+";b="+b);
+				
+				if(a==b){
+					return 1;
+				}else{
+					return a-b;
+				}
+				
+			}
+			
+		});*/
+		
+		for(int i=0;i<3;i++){
+			list.remove(list.size()-1);
+		}
+		System.out.println("后："+Arrays.toString(list.toArray()));
+		
+		
 		
 
 	}

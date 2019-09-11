@@ -625,9 +625,9 @@ public class AppInspectionExcelController {
 			WritableCellFormat fontFormat_h = new WritableCellFormat(
 					font_header);
 			// 设置其他样式
-			fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
+			fontFormat_h.setAlignment(Alignment.LEFT);// 水平对齐
 			fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
-			fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			fontFormat_h.setBorder(Border.NONE, BorderLineStyle.THIN);// 边框
 			fontFormat_h.setBackground(Colour.WHITE);// 背景色
 			fontFormat_h.setWrap(false);// 不自动换行
 
@@ -679,36 +679,28 @@ public class AppInspectionExcelController {
 			sheet.getSettings().setBottomMargin(0.5);
 
 			// 第2行
-			Label label_1_0 = new Label(0, 1, "网管名称", fontFormat_h);// 创建单元格
-			Label label_1_1 = new Label(1, 1, bean.getManagername(),
-					fontFormat_Content);// 创建单元格
-			Label label_1_2 = new Label(2, 1, "地点", fontFormat_h);// 创建单元格
-			Label label_1_3 = new Label(3, 1, bean.getManagerplace(),
-					fontFormat_Content);// 创建单元格
-			Label label_1_4 = new Label(4, 1, "巡检时间", fontFormat_h);// 创建单元格
-			Label label_1_5 = new Label(5, 1, bean.getCommitdate().split(" ")[0],
-					fontFormat_Content);// 创建单元格
-			Label label_1_6 = new Label(6, 1, "巡检人", fontFormat_h);// 创建单元格
-			Label label_1_7 = new Label(7, 1, bean.getCheckman(),
-					fontFormat_Content);// 创建单元格
+			Label label_1_0 = new Label(0, 1, "网管名称:"+bean.getManagername(), fontFormat_h);// 创建单元格
+			sheet.mergeCells(0, 1, 1, 1);
+			Label label_1_2 = new Label(2, 1, "地点:"+bean.getManagerplace(), fontFormat_h);// 创建单元格
+			sheet.mergeCells(2, 1, 3, 1);
+			Label label_1_4 = new Label(4, 1, "巡检时间:"+bean.getCommitdate().split(" ")[0], fontFormat_h);// 创建单元格
+			sheet.mergeCells(4, 1, 5, 1);
+			Label label_1_6 = new Label(6, 1, "巡检人:"+bean.getCheckman(), fontFormat_h);// 创建单元格
+			sheet.mergeCells(6, 1, 7, 1);
 
 			sheet.setColumnView(0, 10);
 			sheet.setColumnView(1, 25);
-			sheet.setColumnView(2, 10);
-			sheet.setColumnView(3, 20);
-			sheet.setColumnView(4, 20);
+			sheet.setColumnView(2, 5);
+			sheet.setColumnView(3, 25);
+			sheet.setColumnView(4, 16);
 			sheet.setColumnView(5, 20);
 			sheet.setColumnView(6, 10);
 			sheet.setColumnView(7, 20);
 
 			sheet.addCell(label_1_0);
-			sheet.addCell(label_1_1);
 			sheet.addCell(label_1_2);
-			sheet.addCell(label_1_3);
 			sheet.addCell(label_1_4);
-			sheet.addCell(label_1_5);
 			sheet.addCell(label_1_6);
-			sheet.addCell(label_1_7);
 
 			// 第3行
 			Label label_2_0 = new Label(0, 2, "序号", fontFormat_Content);// 创建单元格
@@ -1019,17 +1011,17 @@ public class AppInspectionExcelController {
 			sheet.getSettings().setBottomMargin(0.5);
 
 			// 第2行
-			sheet.setRowView(1, 700, false); // 设置行高
+			sheet.setRowView(1, 400, false); // 设置行高
 			Label label_1_0 = new Label(0, 1, 
-					"调度台名称："+bean.getDispatchname()+"    地点："+bean.getDispatchplace()
-					+"   巡检时间："+bean.getCommitdate().split(" ")[0]+"    巡检人："+bean.getCheckman(), 
+					"调度台名称："+bean.getDispatchname()+"             地点："+bean.getDispatchplace()
+					+"            巡检时间："+bean.getCommitdate().split(" ")[0]+"             巡检人："+bean.getCheckman(), 
 					fontFormat_desc);// 创建单元格
 			sheet.mergeCells(0, 1, 7, 1);
 
 			sheet.setColumnView(0, 8);
 			sheet.setColumnView(1, 28);
 			sheet.setColumnView(2, 5);
-			sheet.setColumnView(3, 21);
+			sheet.setColumnView(3, 18);
 			sheet.setColumnView(4, 20);
 			sheet.setColumnView(5, 30);
 			sheet.setColumnView(6, 10);
@@ -1824,44 +1816,56 @@ public class AppInspectionExcelController {
 			if (str.equals("有")) {
 				return "☑有  口无";
 			} else if (str.equals("无")) {
-				return "口有   ☑ 无";
+				return "口有   ☑无";
+			}else if(str.equals("有-")){
+				return "口有 口无";
 			}
 
 			else if (str.equals("是")) {
 				return "☑是  口否";
 			} else if (str.equals("否")) {
-				return "口是   ☑否";
+				return "口是   ☑ 否";
+			}else if(str.equals("是-")){
+				return "口是 口否";
 			}
 
 			else if (str.equals("正常")) {
 				return "☑正常  口异常";
 			} else if (str.equals("异常")) {
 				return "口正常   ☑异常";
+			}else if(str.equals("正常-")){
+				return "口正常 口异常";
 			}
 
 			else if (str.equals("安全")) {
 				return "☑安全  口有隐患";
 			} else if (str.equals("有隐患")) {
-				return "口安全   ☑有隐患";
-			} else if (str.equals("执行")) {
+				return "口安全   ☑ 有隐患";
+			} else if(str.equals("安全-")){
+				return "口安全 口有隐患";
+			}else if (str.equals("执行")) {
 				return "☑ 执行  口未执行";
 			} else if (str.equals("未执行")) {
 				return "口执行   ☑未执行";
+			}else if(str.equals("执行-")){
+				return "口执行 口未执行";
 			}
 
 			else if (str.equals("已备份")) {
-				return "☑已备份  口未备份";
+				return "☑ 已备份  口未备份";
 			} else if (str.equals("未备份")) {
 				return "口已备份   ☑未备份";
+			}else if(str.equals("已备份-")){
+				return "口已备份 口未备份";
 			}
 
 			else if (str.equals("移动") || str.equals("电信") || str.equals("铁塔")) {
 				// return "☑已备份  口未备份";
-				return "租凭机房口       运营商机房☑          自建机房□";
+				return " 租赁机房口       运营商机房☑          自建机房□";
 			} else if (str.equals("自建")) {
-				return "租凭机房口       运营商机房口        自建机房☑";
+				return " 租赁机房口       运营商机房口        自建机房☑";
 			} else if (str.equals("租赁")) {
-				return " 租凭机房☑        运营商机房口        自建机房口 ";
+				return " 租赁机房☑        运营商机房口        自建机房口 ";
 			}
 
 			else if (str.equals("已执行")) {
@@ -1872,11 +1876,12 @@ public class AppInspectionExcelController {
 				return "☑车载   口便携";
 			} else if (str.equals("便携")) {
 				return "口车载   ☑ 便携";
+			}else if(str.equals("已执行-")){
+				return "口已执行 口未执行";
 			} else {
 				return "";
 			}
 		}
 
 	}
-
 }

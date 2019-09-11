@@ -1,0 +1,141 @@
+
+<!-- row -->
+<div class="row">
+	<div class="col-md-12" ng-if="totals==0" style="text-align: center">没有查询到相关数据!</div>
+	<div class="col-md-6" ng-repeat="x in data">
+		<div class="hpanel">
+
+			<div class="panel-body">
+				<div class="row">
+				    <div class="check-com" ng-if="x.status==5"></div>
+				    <div class="check-start" ng-if="x.status<5"></div>
+					<div class="col-md-6">
+						<h4>
+							<span class="badge badge-info"> 考核月份{{x.checkMonth}}</span>
+						</h4>
+					</div>
+					<div class="col-md-6" style="text-align: right;">
+						<h4 ng-if="x.type==3">
+							<span class="badge badge-success">三期</span>
+						</h4>
+						<h4 ng-if="x.type==4">
+							<span class="badge badge-danger">四期</span>
+						</h4>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<p>申请人：{{x.userName}}</p>
+					</div>
+					<div class="col-md-12">
+						<p>联系方式：{{x.tel}}</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<p>备注：{{x.comment}}</p>
+					</div>
+				</div>
+				<div class="row ">
+					<div class="col-md-12">
+						<p>
+							状态： <span ng-if="x.status==-1">考核文件被拒绝了</span> <span
+								ng-if="x.status==0">文档准备中</span> <span ng-if="x.status==1">文件审核通过，等待文件签章</span>
+							<span ng-if="x.status==2">文件已签章，等待管理方确认并通知会议时间</span> <span
+								ng-if="x.status==3">已通知服务提供方会议安排</span> <span
+								ng-if="x.status==4">服务提供方确认已经收到会议通知</span> <span
+								ng-if="x.status==5">本次运维考核工作圆满完成</span>
+						</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<p>申请时间：{{x.createTime}}</p>
+					</div>
+				</div>
+				<div class="row m-t-10">
+					<div class="col-md-12">
+						<a href="#" ng-click="showFileWin($index)">&nbsp;<img
+							src="../../Resources/images/icon/eye.png">查看考核文件
+						</a> <a href="#" ng-click="editDoc($index,1)"
+							ng-if="(x.type==3 && x.score3_fileName!=null) || (x.type==4 && x.score4_fileName!=null)">|&nbsp;<img
+							src="../../Resources/images/icon/file.png">查看扣分
+						</a> <a href="#" ng-click="editDoc($index,2)"
+							ng-if="(x.type==3 && x.money3_fileName!=null) || (x.type==4 && x.money4_fileName!=null)">|&nbsp;<img
+							src="../../Resources/images/icon/file.png">查看扣款
+						</a> <a href="#" ng-click="showFile($index,3)">|&nbsp;<img
+							src="../../Resources/images/icon/file.png">查看会议纪要
+						</a>
+					</div>
+				</div>
+				<div class="row m-t-10">
+					<div class="col-md-12">
+						<a href="#" ng-click="addFile($index)"
+							ng-if="userL.roleType==0 ||(up.o_add=='on' && userL.roleType==3 && x.status<5)">&nbsp;<img
+							src="../../Resources/images/icon/add.png"><span
+							style="">增加考核文件</span></a> <a href="#"
+							ng-click="sealComplete($index)"
+							ng-if="userL.roleType==0 ||(up.o_check_operations_check=='on' && userL.roleType==3 && x.status==0)">|&nbsp;<img
+							src="../../Resources/images/icon/tell.png"><span
+							style="">通知管理方</span></a> <a href="#"
+							ng-click="showSureFileWin($index)"
+							ng-if="userL.roleType==0 ||(up.o_check_operations_check=='on' && userL.roleType==2 && x.status==2)">|&nbsp;<img
+							src="../../Resources/images/icon/sure.png"><span
+							style="">通知例会时间</span></a> <a href="#"
+							ng-click="sureMeet($index)"
+							ng-if="userL.roleType==0 ||(userL.roleType==3 && x.status==3)">|&nbsp;<img
+							src="../../Resources/images/icon/sure.png"><span
+							style="">确认例会通知</span></a> <a href="#"
+							ng-click="recordScore($index)"
+							ng-if="userL.roleType==0 ||(x.status<5 && up.o_check_operations_check=='on')">|&nbsp;<img
+							src="../../Resources/images/icon/record.png"><span
+							style="">记录扣分</span></a> <a href="#"
+							ng-click="recordMoney($index)"
+							ng-if="userL.roleType==0 ||(x.status<5 && up.o_check_operations_check=='on')">|&nbsp;<img
+							src="../../Resources/images/icon/record.png"><span
+							style="">记录扣款</span></a> <a href="#"
+							ng-click="write_meet($index,1)"
+							ng-if="userL.roleType==0 ||
+                                        (up.o_check_operations_check=='on' && x.status<5 && x.isMeetDocSign==0)">
+							|&nbsp;<img src="../../Resources/images/icon/edit.png"><span
+							style="">填写会议纪要</span>
+						</a>
+					</div>
+				</div>
+
+				<div class="row m-t-10">
+					<div class="col-md-12">
+						<a href="#" ng-click="showSignWin($index)"
+							ng-if="userL.roleType==0 ||(up.o_check_operations_check=='on' && userL.roleType==3 && x.status<5)">&nbsp;<img
+							src="../../Resources/images/icon/seal.png"><span
+							style="">考核文件签章</span></a>
+						<!-- <a href="#" ng-click="upScoreAndMoney($index)" ng-if="userL.roleType==0 ||(x.status==4)">|&nbsp;<img src="../../Resources/images/icon/tijiao.png"><span style="">提交扣分扣款</span></a>
+                                        <a href="#" ng-click="sureScoreAndMoney($index)" ng-if="userL.roleType==0 ||(up.o_check_operations_check=='on' && userL.roleType==2 && x.status==5)">|&nbsp;<img src="../../Resources/images/icon/sure.png"><span style="">确认扣分扣款信息</span></a> -->
+						<a href="#" ng-click="showScoreMoneySignWin($index)"
+							ng-if="userL.roleType==0 ||
+                                        (up.o_check_operations_check=='on' && x.status<5)">
+							|&nbsp;<img src="../../Resources/images/icon/seal.png"><span
+							style="">扣分扣款文件签章</span>
+						</a> <a href="#" ng-click="write_meet($index,2)"
+							ng-if="userL.roleType==0 ||
+                                        (up.o_check_operations_check=='on' && x.status<5)">
+							|&nbsp;<img src="../../Resources/images/icon/seal.png"><span
+							style="">会议纪要签章</span>
+
+						</a> <a href="#" ng-click="upScoreAndMoney($index)"
+							ng-if="up.o_check_operations_check=='on' && x.status<5">|&nbsp;<img
+							src="../../Resources/images/icon/tijiao.png"><span
+							style="">考核结束</span></a>
+					</div>
+				</div>
+
+
+
+			</div>
+			<!-- panel-body--end -->
+			<!-- hpanel --end-->
+		</div>
+		<!-- col-md-12--end -->
+	</div>
+	<!-- row/ -->
+</div>

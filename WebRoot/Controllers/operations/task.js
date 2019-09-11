@@ -115,6 +115,14 @@ xh.load = function() {
 			str=str.replace(/" "/g," ")
 			$("#content").html(str)
 		};
+		$scope.showAdd= function(id) {
+			$("#add").modal('show');
+			$scope.editData = $scope.data[id];
+			var str=$scope.editData.content;
+			str=str.replace(/<br>/g,"\r\n");
+			str=str.replace(/" "/g," ")
+			$("#add-content").html(str)
+		};
 		$scope.showCheck = function(id) {
 			$("#checkWin").modal('show');
 			$scope.detailData = $scope.data[id];
@@ -347,8 +355,10 @@ xh.load = function() {
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
-			var time = $("#time").val();
+			var start_time = $("#start_time").val();
+			var end_time = $("#end_time").val();
 			var type = $("#type").val();
+			var key = $("#key").val();
 			var status = $("#status").val();
 			var start = 1, limit = pageSize;
 			frist = 0;
@@ -359,10 +369,9 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			console.log("limit=" + limit);
 			xh.maskShow();
 			$http.get(
-					"../../WorkContact/list?status="+status+"&time="+time+"&type="+type+"&start=" + start + "&limit="
+					"../../WorkContact/list?key="+key+"&status="+status+"&start_time="+start_time+"&end_time="+end_time+"&type="+type+"&start=" + start + "&limit="
 							+ pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.data = response.items;
@@ -374,8 +383,10 @@ xh.load = function() {
 		// 分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
 			var pageSize = $("#page-limit").val();
-			var time = $("#time").val();
+			var start_time = $("#start_time").val();
+			var end_time = $("#end_time").val();
 			var type = $("#type").val();
+			var key = $("#key").val();
 			var status = $("#status").val();
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
@@ -386,7 +397,7 @@ xh.load = function() {
 			}
 			xh.maskShow();
 			$http.get(
-					"../../WorkContact/list?status="+status+"&time="+time+"&type="+type+"&start=" + start + "&limit="
+					"../../WorkContact/list?key="+key+"&status="+status+"&start_time="+start_time+"&end_time=end_time&type="+type+"&start=" + start + "&limit="
 							+ pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;

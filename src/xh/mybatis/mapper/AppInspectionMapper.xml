@@ -442,7 +442,7 @@
 		comment16=#{comment16},comment17=#{comment17},
 		d1=#{d1},d2=#{d2},d3=#{d3},d4=#{d4},d5=#{d5},d6=#{d6},
 		d7=#{d7},d8=#{d8},d9=#{d9},d10=#{d10},d11=#{d11},
-		d12=#{d12},d13=#{d13},d14=#{d14},d15=#{d15},d16=#{d16},question=#{question},
+		d12=#{d12},d13=#{d13},d14=#{d14},d15=#{d15},d16=#{d16},d17=#{d17},question=#{question},
 		ammeternumber=#{ammeternumber}
 		where id=#{id}
 	</update>

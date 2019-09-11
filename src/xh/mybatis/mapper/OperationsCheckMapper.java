@@ -44,6 +44,7 @@ public interface OperationsCheckMapper {
 	int signMeet(OperationsCheckBean bean)throws Exception;
 	
 	int sealFile(int id)throws Exception;
+	int delFile(Map<String, Object> map)throws Exception;
 	
 	
 	int update_file_info(Map<String, Object> map)throws Exception;

@@ -12,8 +12,7 @@
 				<form action="#" id="editForm" onSubmit="return false">
 					<div class="row">
 						<div class="col-md-12">
-							<h3 class="text-center">工作联系单</h3>
-							<p>项目名称：成都市应急指挥调度无线通信网</p>
+							<h3 class="w-title">工作联系单</h3>
 						</div>
 					</div>
 					<div class="row">
@@ -23,15 +22,19 @@
 					</div>
 
 						<div class="col-md-12">
-							<table class="form-table">
+							<table class="w-table">
+							<tr>
+                                    <td width="130px" class="w-tag">项目名称</td>
+                                    <td colspan="3">成都市应急指挥调度无线通信网</td>
+                                </tr>
 								<tr>
-									<td width="130px">事由  &nbsp;<span style="color:red">(必填)</span></td>
+									<td width="130px" class="w-tag">事&nbsp;&nbsp;&nbsp;&nbsp;由</td>
 									<td colspan="3"><input type="text" class="form-input"
 										name="reason" required="required" ng-model="editData.reason"></td>
 								</tr>
 								<tr>
-									<td width="130px">类型 &nbsp;<span style="color:red">(必填)</span></td>
-									<td colspan="3">
+									<td width="130px" class="w-tag">类&nbsp;&nbsp;&nbsp;&nbsp;型 </td>
+									<td colspan="1">
 									<select name="type" class="form-select" ng-model="editData.type">
 									<option value="通信保障">通信保障</option>
 									<option value="应急处置演练">应急处置演练</option>
@@ -44,9 +47,21 @@
 									<option value="其他事项" selected="selected">其他事项</option>
 									</select>
 									</td>
+									 <td width="130px" class="w-tag">级&nbsp;&nbsp;&nbsp;&nbsp;别</td>
+                                    <td colspan="1">
+                                       <select name="level" class="form-select" ng-select="editData.level">
+                                                <option value="一般" selected="selected">一般</option>
+                                                <option value="重大">重大</option>
+                                                 <option value="特别重大">特别重大</option>
+                                            </select>
+                                    </td>
 								</tr>
 								<tr>
-									<td width="130px">发文单位 &nbsp;<span style="color:red">(必填)</span></td>
+                                   
+                                    
+                                </tr>
+								<tr>
+									<td width="130px" class="w-tag">发文单位</td>
 									<td colspan="3">
 									<input type="text" class="form-input"
                                         name="sendUnit" required="required" ng-model="editData.sendUnit" readonly="readonly">
@@ -55,27 +70,27 @@
 									</td>
 								</tr>
 								<tr>
-									<td width="130px">收文单位  &nbsp;<span style="color:red">(必填)</span></td>
+									<td width="130px" class="w-tag">收文单位</td>
 									<td colspan="3">
 									   <select name="recvUnit" class="form-select" ng-model="editData.recvUnit">
-                                                <option value="成都市软件产业发展中心">成都市软件产业发展中心</option>
+                                                <option value="成都市软件产业发展中心（成都信息化技术应用发展中心）">成都市软件产业发展中心（成都信息化技术应用发展中心）</option>
                                                 <option value="成都亚光电子股份有限公司" selected="selected">成都亚光电子股份有限公司</option>
                                             </select>
 									</td>
 									
 								</tr>
 								<tr>
-									<td width="130px">抄送</td>
+									<td width="130px" class="w-tag">抄&nbsp;&nbsp;&nbsp;&nbsp;送</td>
 									<td colspan="3"><input type="text" class="form-input"
 										name="copyUnit" ng-model="editData.copyUnit"></td>
 								</tr>
 								<tr>
-									<td width="130px">时间 &nbsp;<span style="color:red">(必填)</span></td>
+									<td width="130px" class="w-tag">时&nbsp;&nbsp;&nbsp;&nbsp;间</td>
 									<td><input type="text" class="form-input" name="time"
 									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd DD',firstDayOfWeek:1,isShowWeek:true})"
 														placeholder="时间" required="required" value="" ng-model="editData.time">
 									</td>
-									<td width="130px">编号</td>
+									<td width="130px" class="w-tag">编&nbsp;&nbsp;&nbsp;&nbsp;号</td>
 									<td><input type="text" class="form-input" name="code" readonly="readonly" required="required" ng-model="editData.code">
 									</td>
 								</tr>

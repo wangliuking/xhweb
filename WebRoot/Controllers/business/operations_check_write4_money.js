@@ -32,11 +32,11 @@ xh.load = function() {
 	app.controller("xhcontroller", function($scope,$http, $location) {
 		$scope.applyId = $location.search().applyId;
 		$scope.time = $location.search().checkMonth;
-		$scope.doc_name="成都市应急指挥调度无线通信网四期工程服务项目\r\n服务扣款表";
+		$scope.doc_name="成都市应急指挥调度无线通信网四期工程服务项目\r\n第三期（2019运维年度）第二阶段\r\n"+$scope.time+"月服务扣款表";
 		var files=$location.search().files;
 		var docName=$location.search().docName;
-		if(docName!=null && docName!=""){
-			$scope.doc_name=docName;
+		if(docName!=null && docName!="" && docName!="null"){
+			$scope.doc_name=window.localStorage.getItem("docName");
 		}
 		
 		$scope.sum_money4=function(){
@@ -145,15 +145,16 @@ xh.load = function() {
 					}); 
 			}
 		  if(str=="应急通信保障"){
-			layer.open({
+			var index=layer.open({
 				  type: 2, 
 				  shade: 0.4,
 				  anim: 1,
 				  maxmin:true,
 				  title:"通讯保障记录",
 				  area: ['900px', '500px'],
-				  content: xh.getUrl()+'/Views/business/record_ensure.html?month='+$scope.time //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+				  content: xh.getUrl()+'/Views/operations/task_check_record.html?month='+$scope.time+"&type=通信保障" //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
 				}); 
+			layer.full(index);
 		}
 		  if(str=="应急演练"){
 				layer.open({
@@ -167,15 +168,16 @@ xh.load = function() {
 					}); 
 			}
 		  if(str=="网络优化"){
-				layer.open({
+				var index=layer.open({
 					  type: 2, 
 					  shade: 0.4,
 					  anim: 1,
 					  title:'网络优化列表',
 					  maxmin:true,
 					  area: ['900px', '500px'],
-					  content: xh.getUrl()+'/Views/business/record_net.html?month='+$scope.time //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+					  content: xh.getUrl()+'/Views/operations/task_check_record.html?month='+$scope.time+"&type=网络优化与整改" //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
 					});
+				layer.full(index);
 			}
 		  if(str=="培训及技术支持服务"){
 				layer.open({
@@ -187,6 +189,18 @@ xh.load = function() {
 					  area: ['900px', '500px'],
 					  content: xh.getUrl()+'/Views/business/record_train.html?month='+$scope.time //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
 					});
+			}
+		  if(str=="运维响应机制"){
+				var index=layer.open({
+					  type: 2, 
+					  shade: 0.4,
+					  anim: 1,
+					  title:'运维响应机制',
+					  maxmin:true,
+					  area: ['900px', '500px'],
+					  content: xh.getUrl()+'/Views/operations/task_check_record.html?month='+$scope.time+"&type=支持与配合工作" //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+					});
+				layer.full(index);
 			}
 		}
 		$scope.searchMoney($scope.time);

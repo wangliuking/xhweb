@@ -22,20 +22,19 @@ bui.ready(function(){
     // 初始化路由
     router.init({
         id: "#bui-router"
-    })
+    });
     var params = router.getPageParams();
     console.log("dddd->"+JSON.stringify(params))
     if(params.userName!=undefined){
     	login(params);
     }; 
-    // 绑定事件
+    //绑定事件
     bind();
     bui.load({ url: "pages/frist/index.html", param: {} });
     //获取用户信息
     getUserInfo();
     //获取用户权限
     getUserPower();
-
 })
 
 // 事件类定义

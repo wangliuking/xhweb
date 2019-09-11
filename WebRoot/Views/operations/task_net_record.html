@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>工作联系单</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="X-UA-Compatible" content="IE=9" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<script type="text/javascript"
+	src="../../Resources/js/xhbootstrap-css.js"></script>
+<script type="text/javascript" src="../../jquery.min.js"></script>
+<script type="text/javascript" src="../../pageoffice.js" id="po_js_main"></script>
+<style type="text/css">
+.form-table {
+	margin-top: 10px;
+	width: 100%;
+	color: #000;
+	/* table-layout:fixed; */
+	border-collapse: collapse;
+	/* text-align: center; */
+
+	/* transform:rotate(2deg);  */
+}
+
+.form-table tr td {
+	/* word-wrap:break-word;
+	white-space: nowrap; */
+	border: 1px solid #ccc;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.form-input {
+	outline: none;
+	border: none;
+	width: 100%;
+}
+
+.form-select {
+	outline: none;
+	border: none;
+	width: 100%;
+}
+</style>
+<!-- <script type="text/javascript" src="../../Resources/js/jquery-1.7.2.js"></script> -->
+<!--[if lte IE 9]>
+<script src="../../Resources/js/respond.min.js"></script>
+<script src="../../Resources/js/html5shiv.js"></script>
+<![endif]-->
+</head>
+<body ng-app="app" ng-controller="xhcontroller" class="fixed-iframe">
+	<!-- splash screen-->
+	<div class="splash">
+		<div class="splash-title">
+			<h1>系统正在努力加载中，请耐心等待</h1>
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</div>
+	</div>
+	<!-- 中间内容体 -->
+	<div id="wrapper">
+		<div class="content animate-panel" style="margin-top:0px;">
+			
+			<!-- row -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hpanel">
+						<div class="panel-heading hbuilt">工作联系单列表</div>
+						<div class="panel-body">
+						
+							<!-- row -->
+
+							<!-- row -->
+							<table id="tb-info" class="xh-table table-hover">
+								<thead>
+									<tr class="tr-gray">
+										<th width="160px">时间</th>
+										<th>发文单位</th>
+										<th>发文人</th>
+										<th>事由</th>
+
+										<th>状态</th>
+										<th>签收时间</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-if="totals==0">
+										<td colspan="10" class="text-center">没有记录！</td>
+									</tr>
+									<tr ng-repeat="x in data">
+										<td>{{x.time}}</td>
+										<td>{{x.sendUnit}}</td>
+										<td>{{x.userName}}</td>
+										<td><a href="#" ng-click="detail($index)">{{x.reason}}</a></td>
+									<td><span ng-if="x.status==0">等待审核</span> <span
+                                            ng-if="x.status==-2" style="color:red">已撤销</span> <span
+                                            ng-if="x.status==-1" style="color:red">工联单被拒绝({{x.note}})</span>
+                                            <span ng-if="x.status==1" style="color:blue">等待回复</span> <span
+                                            ng-if="x.status==2" style="color:green">已回复</span></td>
+										<td>{{x.checkTime}}</td>
+										
+
+									</tr>
+								</tbody>
+							</table>
+							<div class="page">
+								<div class="page-info">
+									<span>每页显示</span><select id="page-limit" ng-change="refresh()"
+										ng-model="count">
+										<option value="20">20</option>
+										<option value="30">30</option>
+										<option value="40">40</option>
+										<option value="50">50</option>
+									</select> <span>条,</span> <span ng-model="index">显示{{start}}-</span><span
+										ng-model="lastIndex">{{lastIndex}}条,</span> <span
+										ng-model="totals">总计{{totals}}条</span> <i
+										class="fa fa-refresh page-refresh" title="刷新数据"
+										ng-click="refresh()"></i>
+								</div>
+								<div class="page-paging"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- row/ -->
+	</div>
+	<!-- 中间内容体 /-->
+	<div class="modal fade" id="checkWin" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog modal-md">
+			<div class="modal-content">
+				<div class="color-line"></div>
+				<div class="modal-header ">
+					审核窗口
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body pad-0">
+					<div class="row">
+
+
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注信息</label>&nbsp;<span class="text-danger">[*]</span>
+								<textarea rows="6" class="form-control" cols="" name="note"></textarea>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" ng-disabled="form.$invalid"
+						class="btn btn-success btn-sm" ng-click="check(1)">通过</button>
+					<button type="button" ng-disabled="form.$invalid"
+						class="btn btn-danger btn-sm" ng-click="check(-1)">
+						&nbsp;拒绝</button>
+					<button type="button" class="btn btn-danger btn-sm"
+						data-dismiss="modal">
+						<i class="fa fa-remove"></i>&nbsp;关闭
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="replyWin" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog modal-md">
+			<div class="modal-content">
+				<div class="color-line"></div>
+				<div class="modal-header ">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<span>回复意见</span>
+				</div>
+				<div class="modal-body pad-0">
+					<div class="row">
+
+						<div class="col-md-12">
+							<textarea class="form-input" name="reply" rows="4">收到！</textarea>
+
+						</div>
+					</div>
+
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" ng-disabled="form.$invalid"
+						class="btn btn-success btn-sm" ng-click="sign()">
+						<i class="fa fa-plus"></i>&nbsp;确定
+					</button>
+					<button type="button" class="btn btn-danger btn-sm"
+						data-dismiss="modal">
+						<i class="fa fa-remove"></i>&nbsp;关闭
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
+	<div ng-include="'task-detail.html'"></div>
+	<div ng-include="'task-edit.html'"></div>
+	<div ng-include="'task-add.html'"></div>
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
+	<script type="text/javascript"
+		src="../../Resources/js/xhbootstrap-js.js"></script>
+	<script type="text/javascript"
+		src="../../Controllers/operations/task_net_record.js"></script>
+	<script type="text/javascript">
+		xh.load();
+	</script>
+</body>
+</html>

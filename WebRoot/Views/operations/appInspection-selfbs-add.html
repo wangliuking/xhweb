@@ -14,7 +14,7 @@
 					<div class="col-md-12">
 					<form action="#" id="addSbsForm" onSubmit="return false">
 				   <table style="width:100%;border-collapse: collapse;" class="table-view">
-					<tbody>
+					<tbody style="text-align: left;">
 						<tr>
 							<td colspan="8" style="text-align: center;">800M基站巡检作业表</td>
 						</tr>
@@ -41,6 +41,9 @@
 							<td>防倾斜</td>
 							<td colspan="4">观测铁塔、抱杆、天线是否有明显倾斜</td>
 							<td>
+							  
+							  <input id="aa1" ng-show="false" type="radio" value="有-" name="d1"> 
+							  <label for="aa1"><span style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span></label>
                               <input id="g1" class="magic-radio" type="radio" value="有" name="d1"> <label for="g1"><span>有</span></label>
                               <input id="h1" class="magic-radio" type="radio" value="无" name="d1" checked="checked"> <label for="h1"><span>无</span></label>
                             </td>
@@ -50,6 +53,8 @@
 							<td>防雷情况</td>
 							<td style="height:40px;width:330px;" colspan="4">避雷针是否正常，接地线焊点是否锈蚀，天线支架、走线架是否接地，馈线是否三点接地</td>
                             <td>
+                            <input id="aa2" ng-show="false" type="radio" value="正常-" name="d2"> 
+                              <label for="aa2"><span style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span></label>
                               <input id="g2" class="magic-radio" type="radio" value="正常" name="d2" checked="checked"> <label for="g2"><span>正常</span></label>
                               <input id="h2" class="magic-radio" type="radio" value="异常" name="d2"> <label for="h2"><span>异常</span></label>
                             </td>
@@ -60,6 +65,8 @@
 							<td rowspan="4">机房安全</td>
 							<td colspan="4">机房有无灭火设备</td>
                             <td>
+                             <input id="aa3" ng-show="false" type="radio" value="有-" name="d3"> 
+                              <label for="aa3"><span style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span></label>
                               <input id="g3" class="magic-radio" type="radio" value="有" name="d3" checked="checked"> <label for="g3"><span>有</span></label>
                               <input id="h3" class="magic-radio" type="radio" value="无" name="d3"> <label for="h3"><span>无</span></label>
                             </td>
@@ -68,6 +75,8 @@
 						<tr>
 							<td  colspan="4">门、窗、锁是否完好，密封是否严实</td>
                             <td>
+                             <input id="aa4" ng-show="false" type="radio" value="是-" name="d4"> 
+                              <label for="aa4"><span style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span></label>
                               <input id="g4" class="magic-radio" type="radio" value="是" name="d4" checked="checked"> <label for="g4"><span>是</span></label>
                               <input id="h4" class="magic-radio" type="radio" value="否" name="d4"> <label for="h4"><span>否</span></label>
                             </td>
@@ -76,6 +85,8 @@
 						<tr>
 							<td colspan="4">门窗、馈线孔等缝隙密封是否严实</td>
                             <td>
+                             <input id="aa5" ng-show="false" type="radio" value="是-" name="d5"> 
+                              <label for="aa5"><span style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span></label>
                               <input id="g5" class="magic-radio" type="radio" value="是" name="d5" checked="checked"> <label for="g5"><span>是</span></label>
                               <input id="h5" class="magic-radio" type="radio" value="否" name="d5"> <label for="h5"><span>否</span></label>
                             </td>
@@ -84,6 +95,8 @@
 						<tr>
 							<td  colspan="4">机房走线架及室内、室外铜牌安装是否规范</td>
                             <td>
+                             <input id="aa6" ng-show="false" type="radio" value="是-" name="d6"> 
+                              <label for="aa6"><span style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span></label>
                               <input id="g6" class="magic-radio" type="radio" value="是" name="d6" checked="checked"> <label for="g6"><span>是</span></label>
                               <input id="h6" class="magic-radio" type="radio" value="否" name="d6"> <label for="h6"><span>否</span></label>
                             </td>
@@ -93,6 +106,8 @@
 							<td>机房温度</td>
 							<td colspan="4">空调制冷效果、温度设置及运行状态是否正常</td>
                             <td>
+                             <input id="aa7" ng-show="false" type="radio" value="是-" name="d7"> 
+                              <label for="aa7"><span style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span></label>
                               <input id="g7" class="magic-radio" type="radio" value="是" name="d7" checked="checked"> <label for="g7"><span>是</span></label>
                               <input id="h7" class="magic-radio" type="radio" value="否" name="d7"> <label for="h7"><span>否</span></label>
                             </td>
@@ -105,6 +120,8 @@
 							<td rowspan="2">积水情况</td>
 							<td colspan="4">空调有无漏水情况</td>
                             <td>
+                            <input id="aa8" ng-show="false" type="radio" value="正常-" name="d8"> 
+                              <label for="aa8"><span style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span></label>
                               <input id="g8" class="magic-radio" type="radio" value="正常" name="d8" checked="checked"> <label for="g8"><span>正常</span></label>
                               <input id="h8" class="magic-radio" type="radio" value="异常" name="d8"> <label for="h8"><span>异常</span></label>
                             </td>
@@ -113,6 +130,8 @@
 						<tr>
 							<td colspan="4">机房有无裂缝、渗水、漏水等情况</td>
                             <td>
+                             <input id="aa9" ng-show="false" type="radio" value="正常-" name="d9"> 
+                              <label for="aa9"><span style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span></label>
                               <input id="g9" class="magic-radio" type="radio" value="正常" name="d9" checked="checked"> <label for="g9"><span>正常</span></label>
                               <input id="h9" class="magic-radio" type="radio" value="异常" name="d9"> <label for="h9"><span>异常</span></label>
                             </td>
@@ -124,6 +143,8 @@
 							<td style="height:40px;width:130px;" rowspan="1">油机</td>
 							<td colspan="4">油机是否能正常运行、油机及油机线缆有无安全隐患</td>
                             <td>
+                             <input id="aa10" ng-show="false" type="radio" value="正常-" name="d10"> 
+                              <label for="aa10"><span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span></label>
                               <input id="g10" class="magic-radio" type="radio" value="正常" name="d10" checked="checked"> <label for="g10"><span>正常</span></label>
                               <input id="h10" class="magic-radio" type="radio" value="异常" name="d10"> <label for="h10"><span>异常</span></label>
                             </td>
@@ -141,6 +162,8 @@
 							<td style="height:40px;width:130px;" rowspan="3">后备电源</td>
 							<td colspan="4">电源线连接是否正常，有无松动、老化、发热等情况</td>
                             <td>
+                              <input id="aa11" ng-show="false" type="radio" value="正常-" name="d11"> 
+                              <label for="aa11"><span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span></label>
                               <input id="g11" class="magic-radio" type="radio" value="正常" name="d11" checked="checked"> <label for="g11"><span>正常</span></label>
                               <input id="h11" class="magic-radio" type="radio" value="异常" name="d11"> <label for="h11"><span>异常</span></label>
                             </td>
@@ -149,6 +172,8 @@
 						<tr>
 							<td colspan="4">电池壳体有无渗漏和变形，极柱、安全阀周围是否有酸雾酸液逸出</td>
                             <td>
+                            <input id="aa12" ng-show="false" type="radio" value="正常-" name="d12"> 
+                              <label for="aa12"><span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span></label>
                               <input id="g12" class="magic-radio" type="radio" value="正常" name="d12" checked="checked"> <label for="g12"><span>正常</span></label>
                               <input id="h12" class="magic-radio" type="radio" value="异常" name="d12"> <label for="h12"><span>异常</span></label>
                             </td>
@@ -157,6 +182,8 @@
 						<tr>
 							<td colspan="4">查看EPS/UPS/逆变器是否正常工作</td>
                             <td>
+                             <input id="aa13" ng-show="false" type="radio" value="正常-" name="d13"> 
+                              <label for="aa13"><span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span></label>
                               <input id="g13" class="magic-radio" type="radio" value="正常" name="d13" checked="checked"> <label for="g13"><span>正常</span></label>
                               <input id="h13" class="magic-radio" type="radio" value="异常" name="d13"> <label for="h13"><span>异常</span></label>
                             </td>
@@ -166,6 +193,8 @@
 							<td style="height:40px;width:130px;">配电箱</td>
 							<td colspan="4">机房配电柜安装是否规范，电压是否稳定，有无安全隐患</td>
                             <td>
+                             <input id="aa14" ng-show="false" type="radio" value="正常-" name="d14"> 
+                              <label for="aa14"><span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span></label>
                               <input id="g14" class="magic-radio" type="radio" value="正常" name="d14" checked="checked"> <label for="g14"><span>正常</span></label>
                               <input id="h14" class="magic-radio" type="radio" value="异常" name="d14"> <label for="h14"><span>异常</span></label>
                             </td>
@@ -175,6 +204,8 @@
 							<td>照明</td>
 							<td colspan="4">机房照明设施是否完好</td>
                             <td>
+                            <input id="aa15" ng-show="false" type="radio" value="是否-" name="d15"> 
+                              <label for="aa15"><span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span></label>
                               <input id="g15" class="magic-radio" type="radio" value="是" name="d15" checked="checked"> <label for="g15"><span>是</span></label>
                               <input id="h15" class="magic-radio" type="radio" value="否" name="d15"> <label for="h15"><span>否</span></label>
                             </td>
@@ -184,6 +215,8 @@
 							<td>插座</td>
 							<td colspan="4">机房插座是否有电</td>
                             <td>
+                             <input id="aa16" ng-show="false" type="radio" value="是-" name="d16"> 
+                              <label for="aa16"><span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span></label>
                               <input id="g16" class="magic-radio" type="radio" value="是" name="d16" checked="checked"> <label for="g16"><span>是</span></label>
                               <input id="h16" class="magic-radio" type="radio" value="否" name="d16"> <label for="h16"><span>否</span></label>
                             </td>
@@ -194,6 +227,8 @@
 							<td>单板状态</td>
 							<td colspan="4">检查各单板运行状态、供电情况是否正常，设备是否有明显告警</td>
                             <td>
+                             <input id="aa17" ng-show="false" type="radio" value="正常-" name="d17"> 
+                              <label for="aa17"><span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span></label>
                               <input id="g17" class="magic-radio" type="radio" value="正常" name="d17" checked="checked"> <label for="g17"><span>正常</span></label>
                               <input id="h17" class="magic-radio" type="radio" value="异常" name="d17"> <label for="h17"><span>异常</span></label>
                             </td>
@@ -203,6 +238,8 @@
 							<td>告警确认</td>
 							<td colspan="4">通过与监控后台联系确认设备有无告警</td>
                             <td>
+                             <input id="aa18" ng-show="false" type="radio" value="正常-" name="d18"> 
+                              <label for="aa18"><span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span></label>
                               <input id="g18" class="magic-radio" type="radio" value="正常" name="d18" checked="checked"> <label for="g18"><span>正常</span></label>
                               <input id="h18" class="magic-radio" type="radio" value="异常" name="d18"> <label for="h18"><span>异常</span></label>
                             </td>
@@ -212,6 +249,8 @@
 							<td>连线状态</td>
 							<td colspan="4">电源/信号/射频/地线/网线是否分开，机架内各连线是否接触良好并正确无误</td>
                             <td>
+                             <input id="aa19" ng-show="false" type="radio" value="正常-" name="d19"> 
+                              <label for="aa19"><span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span></label>
                               <input id="g19" class="magic-radio" type="radio" value="正常" name="d19" checked="checked"> <label for="g19"><span>正常</span></label>
                               <input id="h19" class="magic-radio" type="radio" value="异常" name="d19"> <label for="h19"><span>异常</span></label>
                             </td>
@@ -221,6 +260,8 @@
 							<td>设备加固</td>
 							<td colspan="4">设备安装是否牢固</td>
                             <td>
+                             <input id="aa20" ng-show="false" type="radio" value="正常-" name="d20"> 
+                              <label for="aa20"><span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span></label>
                               <input id="g20" class="magic-radio" type="radio" value="正常" name="d20" checked="checked"> <label for="g20"><span>正常</span></label>
                               <input id="h20" class="magic-radio" type="radio" value="异常" name="d20"> <label for="h20"><span>异常</span></label>
                             </td>
@@ -230,6 +271,8 @@
 							<td>设备温度</td>
 							<td colspan="4">设备是否有高温、异味</td>
                             <td>
+                             <input id="aa21" ng-show="false" type="radio" value="正常-" name="d21"> 
+                              <label for="aa21"><span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span></label>
                               <input id="g21" class="magic-radio" type="radio" value="正常" name="d21" checked="checked"> <label for="g21"><span>正常</span></label>
                               <input id="h21" class="magic-radio" type="radio" value="异常" name="d21"> <label for="h21"><span>异常</span></label>
                             </td>
@@ -240,6 +283,8 @@
 							<td>环境监测</td>
 							<td colspan="4">查看温湿度、漏水是否正常(需值班人员配合完成)</td>
                             <td>
+                             <input id="aa22" ng-show="false" type="radio" value="正常-" name="d22"> 
+                              <label for="aa22"><span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span></label>
                               <input id="g22" class="magic-radio" type="radio" value="正常" name="d22" checked="checked"> <label for="g22"><span>正常</span></label>
                               <input id="h22" class="magic-radio" type="radio" value="异常" name="d22"> <label for="h22"><span>异常</span></label>
                             </td>
@@ -249,6 +294,8 @@
 							<td>安全监测</td>
 							<td colspan="4">查看门磁、红外传感器、烟感、摄像头是否正常(需值班人员配合完成)</td>
                             <td>
+                             <input id="aa23" ng-show="false" type="radio" value="正常-" name="d23"> 
+                              <label for="aa23"><span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span></label>
                               <input id="g23" class="magic-radio" type="radio" value="正常" name="d23" checked="checked"> <label for="g23"><span>正常</span></label>
                               <input id="h23" class="magic-radio" type="radio" value="异常" name="d23"> <label for="h23"><span>异常</span></label>
                             </td>
@@ -258,6 +305,8 @@
 							<td>交直流电流电压</td>
 							<td colspan="4">查看交直流是否正常(需值班人员配合完成)</td>
                             <td>
+                             <input id="aa24" ng-show="false" type="radio" value="正常-" name="d24"> 
+                              <label for="aa24"><span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span></label>
                               <input id="g24" class="magic-radio" type="radio" value="正常" name="d24" checked="checked"> <label for="g24"><span>正常</span></label>
                               <input id="h24" class="magic-radio" type="radio" value="异常" name="d24"> <label for="h24"><span>异常</span></label>
                             </td>
@@ -267,6 +316,8 @@
 							<td>EPS/UPS</td>
 							<td colspan="4">查看EPS/UPS输入、输出及电池组状态(需值班人员配合完成)</td>
                             <td>
+                             <input id="aa25" ng-show="false" type="radio" value="正常-" name="d25"> 
+                              <label for="aa25"><span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span></label>
                               <input id="g25" class="magic-radio" type="radio" value="正常" name="d25" checked="checked"> <label for="g25"><span>正常</span></label>
                               <input id="h25" class="magic-radio" type="radio" value="异常" name="d25"> <label for="h25"><span>异常</span></label>
                             </td>
@@ -277,6 +328,8 @@
 							<td>机房清洁</td>
 							<td colspan="4">清洁机房内门窗、地面、墙面卫生</td>
                             <td>
+                             <input id="aa26" ng-show="false" type="radio" value="已执行-" name="d26"> 
+                              <label for="aa26"><span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span></label>
                               <input id="g26" class="magic-radio" type="radio" value="已执行" name="d26" checked="checked"> <label for="g26"><span>已执行</span></label>
                               <input id="h26" class="magic-radio" type="radio" value="未执行" name="d26"> <label for="h26"><span>未执行</span></label>
                             </td>
@@ -286,6 +339,8 @@
 							<td>设备除尘</td>
 							<td colspan="4">清洁设备表面、内部、主体设备滤网</td>
                             <td>
+                             <input id="aa27" ng-show="false" type="radio" value="已执行-" name="d27"> 
+                              <label for="aa27"><span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span></label>
                               <input id="g27" class="magic-radio" type="radio" value="已执行" name="d27" checked="checked"> <label for="g27"><span>已执行</span></label>
                               <input id="h27" class="magic-radio" type="radio" value="未执行" name="d27"> <label for="h27"><span>未执行</span></label>
                             </td>
@@ -296,6 +351,8 @@
 							<td>呼叫功能</td>
 							<td colspan="4">沿途呼叫测试</td>
                             <td>
+                             <input id="aa28" ng-show="false" type="radio" value="正常-" name="d28"> 
+                              <label for="aa28"><span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span></label>
                               <input id="g28" class="magic-radio" type="radio" value="正常" name="d28" checked="checked"> <label for="g28"><span>正常</span></label>
                               <input id="h28" class="magic-radio" type="radio" value="异常" name="d28"> <label for="h28"><span>异常</span></label>
                             </td>
@@ -337,4 +394,7 @@
         
         xh.add_sbs();
     });
+    $(".cancel-select").on('click',function(){
+    	$(this).siblings().attr("checked",false)
+    })
 </script>

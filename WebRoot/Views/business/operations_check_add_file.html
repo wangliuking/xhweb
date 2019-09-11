@@ -87,8 +87,7 @@
 							<!--  row -->
 							<!-- row -->
 							<div class="row">
-								<form action="#" id="fileForm" onSubmit="return false"
-									enctype="multipart/form-data" method="POST">
+								
 									<div class="row">
 										<div class="col-md-12">
 											<div class="form-group col-md-9" style="padding-right:0px;">
@@ -111,9 +110,12 @@
 
 												<!-- <input type="file"
 													name="filePath" id="filePath" class="form-control" /> -->
+												<form action="#" id="fileForm" onSubmit="return false"
+                                    enctype="multipart/form-data" method="POST">
 												<input class="form-control" type="file" multiple="multiple"
 													id="pathName" name="pathName" onchange="upFile()"
 													style="display: none;" />
+													</form>
 
 											</div>
 											<div class="col-md-6">
@@ -125,9 +127,13 @@
 															id="show_up_floder">>>返回上一级</span>
 													</div>
 													<div class="panel-body">
+													<div class="col-md-12">
+												    <p style="color:red;font-weight: 800">注：出于对文件的保护，必须删除源文件，才能重新上传新文件覆盖旧文件。</p>
+													</div>
 														<div class="col-md-12">
 															<!-- <ul id="has_files">
                                                         </ul> -->
+                                                        
 															<table>
 																<thead>
 																	<tr>
@@ -143,7 +149,10 @@
 																	<td><span style="color:red" ng-if="x.ishas==true">是</span>
 																	</td>
 																	<td><a ng-if="x.ishas==true" href="#"
-																		ng-click="previewDoc(x.filePath)"> 预览</a></td>
+																		ng-click="previewDoc(x.filePath)"> 预览</a>
+																		<a ng-if="x.ishas==true" href="#"
+                                                                        ng-click="delFile(x.fileName,x.filePath)">| 删除</a>
+																	</td>
 																</tr>
 															</table>
 														</div>
@@ -199,7 +208,7 @@
 									<span style="color:red;" id="uploadResult"></span>
 								</div>
 							</div>
-							</form>
+							
 						</div>
 						<!-- row -->
 
@@ -340,7 +349,7 @@
 									str += "</li>";
 									// console.log(allFile[i].fileName+":="+xh.isAdded(allFile[i].fileName))
 									if (xh.isAdded(allFile[i].fileName) == 0) {
-										$("#fileArea ul").append(str);
+										//$("#fileArea ul").append(str);
 									} else {
 										//$("#fileArea ul").append(str);
 									}

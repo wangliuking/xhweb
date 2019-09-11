@@ -8,14 +8,20 @@
 		left join xhgmnet_web_user as c on a.checkUser=c.user
 		left join xhgmnet_web_user as d on a.check_person=d.user
 		 where 1=1
-		 <if test="time!=null and time!=''">
-		 and date_format(a.time,'%Y-%m')=#{time}
+		 <if test="start_time!=null and start_time!=''">
+		 and date_format(a.time,'%Y-%m-%d')>=#{start_time}
 		 </if>
+		  <if test="end_time!=null and end_time!=''">
+         and date_format(a.time,'%Y-%m-%d')&lt;=#{end_time}
+         </if>
 		 <if test="type!=null and type!=''">
          and a.type=#{type}
          </if>
          <if test="status!=null and status!=''">
          and a.status=#{status}
+         </if>
+         <if test="key!=null and key!=''">
+         and (a.reason like concat('%',#{key},'%') or a.content like concat('%',#{key},'%') )
          </if>
          <if test="roleType==3">
          and((a.user_type=2 and a.status>=1) or a.user_type=3 or a.user_type=0)
@@ -28,8 +34,11 @@
 	</select>
 	<select id="list_count" resultType="int" parameterType="map">
 		select count(*) from xhgmnet_operations_workcontact where 1=1
-		 <if test="time!=null and time!=''">
-         and date_format(time,'%Y-%m')=#{time}
+		<if test="start_time!=null and start_time!=''">
+         and date_format(time,'%Y-%m-%d')>=#{start_time}
+         </if>
+          <if test="end_time!=null and end_time!=''">
+         and date_format(time,'%Y-%m-%d')&lt;=#{end_time}
          </if>
          <if test="type!=null and type!=''">
          and type=#{type}
@@ -43,6 +52,9 @@
           <if test="status!=null and status!=''">
          and status=#{status}
          </if>
+         <if test="key!=null and key!=''">
+         and (reason like concat('%',#{key},'%') or content like concat('%',#{key},'%') )
+         </if>
 	</select>
 	<select id="codeNum" resultType="int" parameterType="map">
         select count(*) from xhgmnet_operations_workcontact where 1=1
@@ -51,12 +63,12 @@
     </select>
 	<insert id="add" parameterType="xh.mybatis.bean.WorkContactBean">
 	insert into xhgmnet_operations_workcontact(taskId,reason,type,sendUnit,recvUnit,copyUnit,time,code,
-	content,addUser,user_type,filePath,fileName,file_name,file_path)values(#{taskId},#{reason},#{type},#{sendUnit},#{recvUnit},#{copyUnit},#{time},
-	#{code},#{content},#{addUser},#{user_type},#{filePath},#{fileName},#{file_name},#{file_path})
+	content,addUser,user_type,filePath,fileName,file_name,file_path,level)values(#{taskId},#{reason},#{type},#{sendUnit},#{recvUnit},#{copyUnit},#{time},
+	#{code},#{content},#{addUser},#{user_type},#{filePath},#{fileName},#{file_name},#{file_path},#{level})
 	</insert>
 	<update id="update" parameterType="xh.mybatis.bean.WorkContactBean">
 	update xhgmnet_operations_workcontact set copyUnit=#{copyUnit},recvUnit=#{recvUnit},
-	content=#{content},time=#{time},status=#{status} where taskId=#{taskId}
+	content=#{content},time=#{time},status=#{status},level=#{level} where taskId=#{taskId}
 	</update>
 	<insert id="addFile" parameterType="java.util.List">
 	insert into xhgmnet_operations_workcontact_file(taskId,filePath,fileName)values

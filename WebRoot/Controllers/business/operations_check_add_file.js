@@ -100,7 +100,7 @@ xh.load = function() {
 								str+='<img src="../../Resources/images/icon/16/jpeg.png">';
 							}
 							str+='<span style="cursor: pointer;" title="点击预览"  onclick="xh.editDoc(\''+x.filePath+'\')">'+x.fileName+'</span>';
-							
+							str+='<span style="margin-left:20px; color:red;cursor: pointer;" title="点击删除文件"  onclick="xh.delSourceFile(\''+x.filePath+'\')">点击删除</span>';
 							var has=false;
 							for(var j=0;j<$scope.has_files.length;j++){
 								if(x.fileName==$scope.has_files[j].fileName){
@@ -155,9 +155,9 @@ xh.load = function() {
 								str+='<img src="../../Resources/images/icon/16/jpeg.png">';
 							}
 							str+='<span style="cursor: pointer;" title="点击预览"  onclick="xh.editDoc(\''+x.filePath+'\')">'+x.fileName+'</span>';
-							
+							str+='<span style="margin-left:20px; color:red;cursor: pointer;" title="点击删除文件"  onclick="xh.delSourceFile(\''+x.filePath+'\')">点击删除</span>';
 							var has=false;
-							console.log("1->"+x.fileName.split(".")[0]);
+							//console.log("1->"+x.fileName.split(".")[0]);
 							
 							for(var j=0;j<$scope.has_files.length;j++){
 								var ishas=$scope.has_files[j].ishas;					
@@ -182,6 +182,47 @@ xh.load = function() {
 						
 			});
 		}
+		$scope.delFile=function(name,path){
+			swal({
+				title : "提示",
+				text : "确定要删除该文件吗？",
+				type : "info",
+				showCancelButton : true,
+				confirmButtonColor : "#DD6B55",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消",
+			    closeOnConfirm : true, 
+			    closeOnCancel : true
+			}, function(isConfirm) {
+				if (isConfirm) {
+					$.ajax({
+						url : '../../check/delFile',
+						type : 'post',
+						dataType : "json",
+						data : {
+							applyId:$scope.applyId,
+							type:$scope.type,
+							time:$scope.time,
+							fileName:name,
+							filePath:path
+						},
+						async : false,
+						success : function(data) {
+							if (data.success) {
+								toastr.success(data.message, '提示');
+								$scope.showFileList($scope.time)
+							} else {
+								toastr.error(data.message, '提示');
+							}
+						},
+						error : function() {
+							toastr.error("删除失败", '提示');
+						}
+					});
+				}
+			});
+		}
+		
 		$scope.getfile=function(){
 			
 			$http.get("../../check/searchFile?applyId="+$scope.applyId).success(
@@ -261,7 +302,43 @@ xh.refreshFile=function(){
 	var $scope = angular.element(appElement).scope();
 	// 调用$scope中的方法
 	//$scope.getfile();
-	$scope.getFileList($scope.time)
+	$scope.showFileList($scope.time)
+}
+xh.delSourceFile=function(path){
+	swal({
+		title : "提示",
+		text : "确定要删除该文件吗？",
+		type : "info",
+		showCancelButton : true,
+		confirmButtonColor : "#DD6B55",
+		confirmButtonText : "确定",
+		cancelButtonText : "取消",
+	    closeOnConfirm : true, 
+	    closeOnCancel : true
+	}, function(isConfirm) {
+		if (isConfirm) {
+			$.ajax({
+				url : '../../check/delSourceFile',
+				type : 'post',
+				dataType : "json",
+				data : {
+					filePath:path
+				},
+				async : false,
+				success : function(data) {
+					if (data.success) {
+						toastr.success(data.message, '提示');
+						xh.refreshFile();
+					} else {
+						toastr.error(data.message, '提示');
+					}
+				},
+				error : function() {
+					toastr.error("删除失败", '提示');
+				}
+			});
+		}
+	});
 }
 
 xh.look_check=function(){

@@ -69,8 +69,8 @@
         from xhgmnet_operations_inspection_selfbs
         where
         DATE_FORMAT(commitdate,'%Y-%m')=#{time}) as b
-        on a.bsid=b.bsId WHERE
-        a.type=0 or a.type=1
+        on a.bsid=b.bsId WHERE 1=1 and
+         (a.type=0 or a.type=1)
         <if test="period!=0">
         and a.period=#{period}
         </if>

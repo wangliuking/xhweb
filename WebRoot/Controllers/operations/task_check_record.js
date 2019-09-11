@@ -58,6 +58,7 @@ xh.load = function() {
 		$scope.sendUnit="";
 		$scope.page=1;
 		$scope.time = $location.search().month;
+		$scope.type = $location.search().type;
 		
 		
 		/* 获取用户权限 */
@@ -68,7 +69,7 @@ xh.load = function() {
 		$scope.nowDate = xh.today();
 		
 		$http.get(
-				"../../WorkContact/list?status=&time="+$scope.time+"&type=支持与配合工作&start=0&limit="
+				"../../WorkContact/list?status=&time="+$scope.time+"&type="+$scope.type+"&start=0&limit="
 						+ pageSize).success(
 				function(response) {
 					xh.maskHide();
@@ -187,7 +188,7 @@ xh.load = function() {
 			console.log("limit=" + limit);
 			xh.maskShow();
 			$http.get(
-					"../../WorkContact/list?status=&time="+$scope.time+"&type=支持与配合工作&start="+start+"&limit="
+					"../../WorkContact/list?status=&time="+$scope.time+"&type="+$scope.type+"&start="+start+"&limit="
 							+ pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.data = response.items;
@@ -211,7 +212,7 @@ xh.load = function() {
 			}
 			xh.maskShow();
 			$http.get(
-					"../../WorkContact/list?status=&time="+$scope.time+"&type=支持与配合工作&start="+start+"&limit="
+					"../../WorkContact/list?status=&time="+$scope.time+"&type="+$scope.type+"&start="+start+"&limit="
 							+ pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;

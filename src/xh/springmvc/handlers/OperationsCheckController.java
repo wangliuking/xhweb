@@ -103,6 +103,77 @@ public class OperationsCheckController {
 		}
 
 	}
+	@RequestMapping(value = "/delFile", method = RequestMethod.POST)
+	public void delFile(@RequestParam("applyId") String applyId,
+			@RequestParam("fileName") String fileName,
+			@RequestParam("filePath") String filePath,
+			HttpServletRequest request, HttpServletResponse response) {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("applyId", applyId);
+		param.put("fileName", fileName);
+		int rs=OperationsCheckService.delFile(param);
+		if(rs>0){
+			String path=request.getSession().getServletContext().getRealPath("");
+			path+=filePath;
+			
+			String path2=path.replace("check", "checksource");
+					
+			File file=new File(path);
+			File file2=new File(path2);
+			if(file.exists()){
+				file.delete();
+				log.info("文件存在，删除文件");
+				if(file2.exists()){
+					file2.delete();
+				}
+			}else{
+				log.info("文件不存在");
+			}
+		}
+		
+		
+		
+		
+		
+		HashMap result = new HashMap();
+		result.put("success", true);
+		result.put("message", "操作成功");
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch blocksearchFile
+			e.printStackTrace();
+		}
+
+	}
+	@RequestMapping(value = "/delSourceFile", method = RequestMethod.POST)
+	public void delSourceFile(@RequestParam("filePath") String filePath,
+			HttpServletRequest request, HttpServletResponse response) {
+		String path=request.getSession().getServletContext().getRealPath("");
+		path+=filePath;
+		
+		String path2=path.replace("check", "checksource");
+		File file2=new File(path2);
+		if(file2.exists()){
+			file2.delete();
+		}
+		
+		
+		HashMap result = new HashMap();
+		result.put("success", true);
+		result.put("message", "操作成功");
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch blocksearchFile
+			e.printStackTrace();
+		}
+
+	}
 	@RequestMapping(value = "/search_checkcut_count", method = RequestMethod.GET)
 	public void search_checkcut_count(
 			@RequestParam("month") String month,
@@ -181,6 +252,45 @@ public class OperationsCheckController {
 			rs.put("m_"+bean.getCheck_tag(), bean.getMoney());
 			rs.put("n_"+bean.getCheck_tag(), bean.getCheck_note());
 			sum+=bean.getMoney();
+		}
+		if(period==4){
+			rs.put("n_a1", "交换中心本月运行正常");
+			rs.put("n_m1", "Moto交换中心本月运行正常");
+			rs.put("n_n1", "公网集群本月运行正常");
+			rs.put("n_a2", "本月新增超时0小时");
+			rs.put("n_a3", "本月新增超时0小时");
+			rs.put("n_a4", "本月简阳片区新增超时0小时，其他片区新增超时0小时");
+			rs.put("n_b1", "本月未发生重大故障");
+			rs.put("n_b2", "本月未发生特别重大故障");
+			rs.put("n_c1", "本月未发生特别重大故障");
+			rs.put("n_c2", "本月未发生重大故障");
+			rs.put("n_c3", "本月故障通报时间未超时");
+			rs.put("n_d1", "本月用户服务响应未超时");
+			rs.put("n_e1", "本月无用户培训服务");
+			rs.put("n_f1", "本月应急通信保障正常实施");
+			rs.put("n_g1", "本月应急通信保障演练0次");
+			rs.put("n_h1", "本月系统应急处置演练0次");
+			rs.put("n_i1", "本月运维资料齐全");
+			rs.put("n_j1", "本月无安全保密事故");
+		}else{
+			rs.put("n_a1", "交换中心本月运行正常");
+			rs.put("n_m1", "Moto交换中心本月运行正常");
+			rs.put("n_n1", "公网集群本月运行正常");
+			rs.put("n_a2", "本月新增超时0小时");
+			rs.put("n_a3", "本月新增超时0小时");
+			rs.put("n_a4", "本月新增超时0小时");
+			rs.put("n_b1", "本月未发生重大故障");
+			rs.put("n_b2", "本月未发生特别重大故障");
+			rs.put("n_c1", "本月未发生特别重大故障");
+			rs.put("n_c2", "本月未发生重大故障");
+			rs.put("n_c3", "本月故障通报时间未超时");
+			rs.put("n_d1", "本月用户服务响应未超时");
+			rs.put("n_e1", "本月无用户培训服务");
+			rs.put("n_f1", "本月应急通信保障正常实施");
+			rs.put("n_g1", "本月应急通信保障演练0次");
+			rs.put("n_h1", "本月系统应急处置演练0次");
+			rs.put("n_i1", "本月运维资料齐全");
+			rs.put("n_j1", "本月无安全保密事故");
 		}
 		
 		Map<String, Object> map_year = new HashMap<String, Object>();
@@ -372,6 +482,7 @@ public class OperationsCheckController {
 		rs.put("s_f1", 3);
 		rs.put("s_f2", 2);
 		rs.put("s_g1", 5);
+		
 		for(int i=0;i<list.size();i++){
 			OperationsCheckScoreBean bean=list.get(i);
 			log.info("bean:"+bean);
@@ -388,6 +499,7 @@ public class OperationsCheckController {
 			Object value=entry.getValue();
 			sum+=Float.parseFloat(value.toString());
 		}
+		rs.put("n_d1", "故障控制：特别重大故障0起无扣分，重大故障0起无扣分，故障处理：一般故障中一级基站0起超时0小时扣0分，二级基站0起超时0小时扣0分，三级基站0起超时0小时扣0分，应扣0分，实扣0分。故障情况详见《2019年7月运维故障统计》");
 		
 		HashMap result = new HashMap();
 		result.put("items",rs);
@@ -526,7 +638,9 @@ public class OperationsCheckController {
 					if(!file1.exists()){
 						FunUtil.copyFile(src, file1);
 					}else{
-						log.info("文件："+map.get("fileName")+"已经存在考核目录中，禁止覆盖");
+						//log.info("文件："+map.get("fileName")+"已经存在考核目录中，禁止覆盖");
+						file1.delete();
+						FunUtil.copyFile(src, file1);
 					}
 					
 				} catch (IOException e) {
@@ -953,7 +1067,7 @@ public class OperationsCheckController {
 			HttpServletRequest request, HttpServletResponse response) {
 		
 		String rootDir = request.getSession().getServletContext().getRealPath("/upload/checksource");
-		String hz="/upload/checksource/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period;
+		String hz="/upload/check/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period;
 		rootDir=rootDir+"/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period;
 		File file=new File(rootDir);
 		System.out.println(rootDir);
@@ -1018,6 +1132,17 @@ public class OperationsCheckController {
 				list.add(map);				
 			}
 		}
+		Collections.sort(list, new Comparator<Map<String,Object>>(){
+
+			@Override
+			public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+				// TODO Auto-generated method stub
+				int a=FunUtil.StringToInt(o1.get("fileName").toString().split("-")[0]);
+				int b=FunUtil.StringToInt(o2.get("fileName").toString().split("-")[0]);
+				return a-b;
+			}
+			
+		});
 		HashMap result = new HashMap();
 		result.put("files", list);
 		result.put("totals", list.size());
@@ -1113,6 +1238,17 @@ public class OperationsCheckController {
 				list.add(map);				
 			}
 		}
+		Collections.sort(list, new Comparator<Map<String,Object>>(){
+
+			@Override
+			public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+				// TODO Auto-generated method stub
+				int a=FunUtil.StringToInt(o1.get("fileName").toString().split("-")[0]);
+				int b=FunUtil.StringToInt(o2.get("fileName").toString().split("-")[0]);
+				return a-b;
+			}
+			
+		});
 		HashMap result = new HashMap();
 		result.put("files", list);
 		result.put("totals", list.size());
@@ -1757,6 +1893,7 @@ public class OperationsCheckController {
 			HttpServletResponse response) {
 		PageOfficeCtrl poCtrl = new PageOfficeCtrl(request);
 		String path=request.getParameter("path");
+		String user=FunUtil.loginUser(request);
 		int type=request.getParameter("type")==null?0:Integer.parseInt(request.getParameter("type"));
 		poCtrl.setServerPage(request.getContextPath() +"/poserver.zz");// 设置授权程序servlet
 		poCtrl.addCustomToolButton("保存", "Save()", 1); // 添加自定义按钮
@@ -1765,6 +1902,8 @@ public class OperationsCheckController {
 		poCtrl.addCustomToolButton("全屏/还原", "IsFullScreen()", 4);
 		poCtrl.addCustomToolButton("关闭", "CloseFile()", 21);
 		poCtrl.setTitlebar(false); //隐藏标题栏
+		poCtrl.setOfficeToolbars(true);//隐藏Office工具条
+		poCtrl.setCustomToolbar(true);//隐藏自定义工具栏
 		poCtrl.setJsFunction_AfterDocumentOpened("IsFullScreen()");
 		String name="";
 		try {
@@ -1778,10 +1917,11 @@ public class OperationsCheckController {
 		}
 		poCtrl.setSaveFilePage(request.getContextPath() +"/office/save_page?path="+name);
 		//设置页面的显示标题
-		poCtrl.setCaption("");
+		//poCtrl.setCaption("");
 		//设置并发控制时间
-		//poCtrl.setTimeSlice(0);
-		poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit,"");
+		poCtrl.setTimeSlice(40);
+		
+		poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit,FunUtil.loginUserInfo(request).get("userName").toString());
 		poCtrl.setTagId("PageOfficeCtrl1");
 		
 		ModelAndView mv = new ModelAndView("Views/jsp/edit_meet_word");
@@ -1806,7 +1946,7 @@ public class OperationsCheckController {
 	}
 	public void createMeetFile(OperationsCheckBean bean,HttpServletRequest request) {
 		String path=request.getSession().getServletContext().getRealPath("")+"/doc/template/meet2.doc";
-		String savePath=request.getSession().getServletContext().getRealPath("doc/check/");
+		String savePath=request.getSession().getServletContext().getRealPath("")+"/doc/check/";
 		savePath +=FunUtil.nowDateNotTime().split("-")[0];
 		
 		System.out.println("地址："+savePath);
