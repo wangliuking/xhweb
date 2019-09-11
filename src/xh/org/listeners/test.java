@@ -59,6 +59,7 @@ import java.util.regex.Pattern;
 
 
 
+
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
@@ -121,37 +122,8 @@ public class test {
 
 	public static void main(String[] args) {
 
-		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
-		for(int i=10;i<30;i++){
-			Map<String,Object> map=new HashMap<String, Object>();
-			map.put("user", i);
-			list.add(map);
-		}
-		System.out.println("前："+Arrays.toString(list.toArray()));
-		
-		/*Collections.sort(list, new Comparator<Map<String,Object>>(){
-
-			@Override
-			public int compare(Map<String, Object> o1, Map<String, Object> o2) {
-				// TODO Auto-generated method stub
-				int a=FunUtil.StringToInt(o1.get("fileName").toString().split("-")[0]);
-				int b=FunUtil.StringToInt(o2.get("fileName").toString().split("-")[0]);
-				//System.out.println("dd->a:"+a+";b="+b);
-				
-				if(a==b){
-					return 1;
-				}else{
-					return a-b;
-				}
-				
-			}
-			
-		});*/
-		
-		for(int i=0;i<3;i++){
-			list.remove(list.size()-1);
-		}
-		System.out.println("后："+Arrays.toString(list.toArray()));
+		String a="-1";
+		System.out.println(Integer.parseInt(a));
 		
 		
 		

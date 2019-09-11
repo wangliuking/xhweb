@@ -68,7 +68,7 @@
 	</insert>
 	<update id="update" parameterType="xh.mybatis.bean.WorkContactBean">
 	update xhgmnet_operations_workcontact set copyUnit=#{copyUnit},recvUnit=#{recvUnit},
-	content=#{content},time=#{time},status=#{status},level=#{level} where taskId=#{taskId}
+	content=#{content},time=#{time},status=#{status},level=#{level},type=#{type} where taskId=#{taskId}
 	</update>
 	<insert id="addFile" parameterType="java.util.List">
 	insert into xhgmnet_operations_workcontact_file(taskId,filePath,fileName)values

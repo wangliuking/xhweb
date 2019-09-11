@@ -96,7 +96,7 @@ class EmhEpsWater extends TimerTask {
 				+ (System.currentTimeMillis() - start));
 		System.out.println("=========================================");
 		Long start2 = System.currentTimeMillis();
-		//BsAlarmService.bs_water_four();
+		BsAlarmService.bs_water_four();
 		log4j.info("=========================================");
 		log4j.info("EmhEpsWater：end:" + (System.currentTimeMillis() - start2));
 		log4j.info("=========================================");

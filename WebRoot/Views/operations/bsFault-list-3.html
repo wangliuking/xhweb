@@ -13,7 +13,7 @@
 						class="btn  btn-danger btn-sm" ng-click="stop_check()">
 						<i class="fa fa-file-excel-o"></i>&nbsp;禁止核减
 					</button>
-					<button class="btn  btn-success btn-sm" ng-click="showOrderWin(-1)"
+					<button class="btn  btn-success btn-sm" ng-click="handleOrder()"
 						ng-if="roleType==0 || roleType==3">
 						<i class="fa fa-hand-stop-o"></i>&nbsp;手动派单
 					</button>
@@ -25,6 +25,10 @@
 						data-target="#search">
 						<i class="fa fa-hand-stop-o"></i>&nbsp;告警筛选
 					</button>
+					<button class="btn btn-primary btn-sm" data-toggle="modal"
+                        data-target="#search-emh">
+                        <i class="fa fa-hand-stop-o"></i>&nbsp;导出停电告警记录
+                    </button>
 				</div>
 
 				<table id="tb-info" class="xh-table table-hover">
@@ -40,7 +44,8 @@
 
 							<th width="180px">故障原因</th>
 
-							<th width="160px">故障发生时间</th>
+							<th width="160px">故障时间</th>
+							<th width="160px">故障恢复时间</th>
 							<th width="80px">告警状态</th>
 							<th width="80px">派单状态</th>
 							<!-- <th width="150px">派单编号</th> -->
@@ -51,7 +56,7 @@
 					</thead>
 					<tbody>
 						<tr ng-if="totals==0">
-							<td colspan="12" class="text-center">没有记录！</td>
+							<td colspan="13" class="text-center">没有记录！</td>
 						</tr>
 						<tr ng-repeat="x in data">
 							<td><input type="checkbox" name="tb-check" value="{{x.id}}"
@@ -112,6 +117,7 @@
 							<td><a href="#" ng-click="showDetails($index)">{{x.reason}}</a></td>
 
 							<td>{{x.time}}</td>
+							<td>{{x.faultRecoveryTime}}</td>
 							<td ng-if="x.alarmTag==0"
 								style="background-color:#DC143C;color:#000;">未恢复</td>
 							<td ng-if="x.alarmTag==1"
@@ -136,14 +142,16 @@
 							</a> <a href="#" ng-click="showOrderWin($index)"
 								ng-if="x.status==0 && (up.o_order=='on' || roleType==0) && (x.neType!=101 && x.neType!=103)">
 									<i class="fa fa-hand-stop-o text-danger"></i>&nbsp;|派单
-							</a> <a href="#" ng-click="showGorderWin($index)"
+							</a> <a href="#" ng-click="toTellEWin($index)"
 								ng-if="x.iselec==0 
                                             && (roleType==0 || roleType==3)
                                             && x.sysType==2
                                             && x.modType==3000
                                             && (x.subModType==80200000000001 || (x.subModType==51 && x.subModId==1003))">
 									<i class="fa fa-comments-o text-danger"></i>&nbsp;|通知发电
-							</a> <span style="color:red"
+							</a>
+							
+							 <span style="color:red"
 								ng-if="x.iselec==1
                                             && (roleType==0 || roleType==3)
                                             && x.sysType==2

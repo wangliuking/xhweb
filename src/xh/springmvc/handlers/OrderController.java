@@ -248,6 +248,8 @@ public class OrderController {
 		ErrProTable bean=GsonUtil.json2Object(fromData, ErrProTable.class);
 		bean.setSerialnumber(FunUtil.RandomWord(8));
 		bean.setOrderAccount(funUtil.loginUser(request));
+		bean.setDispatchtime(FunUtil.nowDate());
+		bean.setDispatchman(FunUtil.loginUserInfo(request).get("userName").toString());
 		log.info("ErrProTab->"+bean.toString());
 		
 		int id=bean.getId();
@@ -271,14 +273,38 @@ public class OrderController {
 			map.put("orderId",bean.getSerialnumber());
 			map.put("id", id);
 			log.info("id->"+id);
+			
 			if(id>0){
 				OrderService.updateBsFault(map);	
 				
 			}
-			
-			
+			String recv_user=bean.getRecv_user();
+			String copy_user=bean.getCopy_user();
+			String recv_user_name=bean.getRecv_user_name();
+			String copy_user_name=bean.getCopy_user_name();
 			ServerDemo demo=new ServerDemo();
-			demo.startMessageThread(bean.getUserid(), bean);
+			//发送接单人
+			String[] a1=recv_user.split(",");
+			String[] a2=recv_user_name.split(";");
+			for(int i=0;i<a1.length;i++){
+				bean.setUserid(a1[i]);
+				bean.setWorkman(a2[i]);
+				demo.startMessageThread(bean.getUserid(), bean);
+				log.info("派单：接收》"+bean);
+			}
+			//发送抄送人
+			String[] b1=copy_user.split(",");
+			String[] b2=copy_user_name.split(";");
+			for(int i=0;i<b1.length;i++){
+				bean.setUserid(b1[i]);
+				bean.setWorkman(b2[i]);
+				demo.startMessageThread(bean.getUserid(), bean);
+				log.info("派单：抄送》"+bean);
+			}
+			
+			
+			
+			
 			
 			
 		}else{

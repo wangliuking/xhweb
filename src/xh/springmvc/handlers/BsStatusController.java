@@ -826,6 +826,206 @@ public class BsStatusController {
 
 		}
 	}
+	//基站停电记录记录登记表
+		@RequestMapping(value = "/ExcelToEmh", method = RequestMethod.GET)
+		public void ExcelToEmh(HttpServletRequest request,
+				HttpServletResponse response) {
+			
+			String startTime=request.getParameter("startTime");
+			String endTime=request.getParameter("endTime");
+			int period=Integer.parseInt(request.getParameter("period"));
+			try {
+				String saveDir = request.getSession().getServletContext()
+						.getRealPath("/upload");
+				String pathname = saveDir + "/基站环控市电异常记录表.xls";
+				File Path = new File(saveDir);
+				if (!Path.exists()) {
+					Path.mkdirs();
+				}
+				File file = new File(pathname);
+				WritableWorkbook book = Workbook.createWorkbook(file);
+				WritableFont font = new WritableFont(
+						WritableFont.createFont("微软雅黑"), 12, WritableFont.NO_BOLD,
+						false, UnderlineStyle.NO_UNDERLINE, Colour.WHITE);
+				WritableCellFormat fontFormat = new WritableCellFormat(font);
+				fontFormat.setAlignment(Alignment.CENTRE); // 水平居中
+				fontFormat.setVerticalAlignment(VerticalAlignment.JUSTIFY);// 垂直居中
+				fontFormat.setWrap(true); // 自动换行
+				fontFormat.setBackground(Colour.PINK);// 背景颜色
+				fontFormat.setBorder(Border.ALL, BorderLineStyle.NONE,
+						Colour.DARK_GREEN);
+				fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
+
+				// 设置头部字体格式
+				WritableFont font_header = new WritableFont(WritableFont.TIMES, 9,
+						WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE,
+						Colour.BLACK);
+				// 应用字体
+				WritableCellFormat fontFormat_h = new WritableCellFormat(
+						font_header);
+				// 设置其他样式
+				fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
+				fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+				fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+				fontFormat_h.setBackground(Colour.BRIGHT_GREEN);// 背景色
+				fontFormat_h.setWrap(false);// 不自动换行
+
+				// 设置主题内容字体格式
+				WritableFont font_Content = new WritableFont(WritableFont.TIMES,
+						10, WritableFont.NO_BOLD, false,
+						UnderlineStyle.NO_UNDERLINE, Colour.GRAY_80);
+				// 应用字体
+			
+	 
+	            WritableFont wf_title = new WritableFont(WritableFont.ARIAL, 11,  
+	                    WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE,  
+	                    jxl.format.Colour.BLACK); // 定义格式 字体 下划线 斜体 粗体 颜色 
+	            
+	            WritableCellFormat wcf_title = new WritableCellFormat(wf_title); // 单元格定义 
+	            
+	        	WritableCellFormat fontFormat_Content = new WritableCellFormat(
+						font_Content);
+	            
+	            
+				// 设置其他样式
+	        	
+	        	wcf_title.setAlignment(Alignment.CENTRE);// 水平对齐
+	        	wcf_title.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+	        	wcf_title.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+	        	wcf_title.setBackground(Colour.WHITE);// 背景色
+	        	wcf_title.setWrap(false);// 不自动换行
+	        	
+				fontFormat_Content.setAlignment(Alignment.CENTRE);// 水平对齐
+				fontFormat_Content.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+				fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+				fontFormat_Content.setBackground(Colour.WHITE);// 背景色
+				fontFormat_Content.setWrap(true);// 自动换行
+
+				// 设置数字格式
+				jxl.write.NumberFormat nf = new jxl.write.NumberFormat("#.##"); // 设置数字格式
+				jxl.write.WritableCellFormat wcfN = new jxl.write.WritableCellFormat(nf); // 设置表单格式
+
+				Label title = new Label(0, 0, "设备信息", fontFormat);
+
+				WritableSheet sheet = book.createSheet("基站故障记录", 0);
+				// sheet.mergeCells(0,0,3,0);
+				
+				Label label_h1 = new Label(0, 0, "基站信息", wcf_title);// 创建单元格
+				Label label_h2 = new Label(6, 0, "故障情况", wcf_title);// 创建单元格
+				
+
+				Label label_1 = new Label(0, 1, "建设期", fontFormat_h);// 创建单元格
+				Label label_2 = new Label(1, 1, "故障归属", fontFormat_h);// 创建单元格
+				Label label_3 = new Label(2, 1, "基站编号", fontFormat_h);// 创建单元格
+				Label label_4= new Label(3, 1, "基站名称", fontFormat_h);
+				Label label_5 = new Label(4, 1, "基站分级", fontFormat_h);
+				Label label_6 = new Label(5, 1, "使用状态", fontFormat_h);
+				Label label_7 = new Label(6, 1, "星期", fontFormat_h);
+				Label label_8 = new Label(7, 1, "故障发生时间", fontFormat_h);
+				Label label_9 = new Label(8, 1, "报障来源", fontFormat_h);
+				Label label_10 = new Label(9, 1, "故障等级", fontFormat_h);
+				Label label_12 = new Label(10, 1, "故障原因",fontFormat_h);
+				Label label_16 = new Label(11, 1, "故障恢复时间",fontFormat_h);
+				Label label_17= new Label(12, 1, "故障历时",fontFormat_h);
+				Label label_21 = new Label(13, 1, "基站归属",fontFormat_h);
+				
+				
+				CellView cellView = new CellView();  
+				cellView.setAutosize(true); //设置自动大小    
+				 
+
+				sheet.setRowView(0, 300);
+				sheet.setColumnView(0, 10); //建设期
+				sheet.setColumnView(1, 10); //故障归属
+				sheet.setColumnView(2, 10); //基站编号
+				sheet.setColumnView(3, 25); //基站名称
+				sheet.setColumnView(4, 10); //基站分级
+				sheet.setColumnView(5, 10); //使用状态
+				sheet.setColumnView(6, 10); //星期
+				sheet.setColumnView(7, 20); //故障发生时间
+				sheet.setColumnView(8, 10); //报障来源
+				sheet.setColumnView(9, 20); //故障等级
+				sheet.setColumnView(10, 30); //故障原因
+				sheet.setColumnView(11, 20);      //故障恢复时间
+				sheet.setColumnView(12, 20);      //故障历时
+				sheet.setColumnView(13, 10);      //基站归属
+
+				sheet.addCell(label_1);
+				sheet.addCell(label_2);
+				sheet.addCell(label_3);
+				sheet.addCell(label_4);
+				sheet.addCell(label_5);
+				sheet.addCell(label_6);
+				sheet.addCell(label_7);
+				sheet.addCell(label_8);
+				sheet.addCell(label_9);
+				sheet.addCell(label_10);
+				sheet.addCell(label_12);
+				sheet.addCell(label_16);
+				sheet.addCell(label_17);
+				sheet.addCell(label_21);
+				sheet.addCell(label_h1);
+				sheet.addCell(label_h2);
+				
+				
+				// ws.mergeCells(0, 0, 0, 1);//合并单元格，第一个参数：要合并的单元格最左上角的列号，第二个参数：要合并的单元格最左上角的行号，第三个参数：要合并的单元格最右角的列号，第四个参数：要合并的单元格最右下角的行号，
+		            //合： 第1列第1行  到 第13列第1行  
+				sheet.mergeCells(0, 0, 5, 0); 
+				sheet.mergeCells(6, 0, 13, 0);  
+				
+				Map<String,Object> map=new HashMap<String, Object>();
+				map.put("startTime", startTime);
+				map.put("endTime", endTime);
+				map.put("period", period);
+				List<BsAlarmExcelBean> list = BsStatusService.bsFaultEmhList(map);
+				for (int i = 0; i < list.size(); i++) {
+					BsAlarmExcelBean bean =list.get(i);
+					Label value_1 = new Label(0, i + 2, bean.getPeriod()==3?"三期":"四期", fontFormat_Content);
+					Label value_2 = new Label(1, i + 2, bean.getFaultType(), fontFormat_Content);
+					Label value_3 = new Label(2, i + 2, String.valueOf(bean.getBsId()), fontFormat_Content);
+					Label value_4 = new Label(3, i + 2, bean.getName(),fontFormat_Content);
+					Label value_5 = new Label(4, i + 2, bean.getLevel(),fontFormat_Content);
+					Label value_6 = new Label(5, i + 2, bean.getTag()==1?"在用":"未使用",fontFormat_Content);		
+					Label value_7 = new Label(6, i + 2,FunUtil.formateWeekly(bean.getTime()) ,fontFormat_Content);
+					Label value_8 = new Label(7, i + 2,bean.getTime() ,fontFormat_Content);
+					Label value_9 = new Label(8, i + 2,bean.getFrom(),fontFormat_Content);
+					Label value_10 = new Label(9, i + 2, bean.getSeverity(),fontFormat_Content);
+					Label value_12 = new Label(10, i + 2, bean.getReason(),fontFormat_Content);
+					Label value_16= new Label(11, i + 2, bean.getFaultRecoveryTime(),fontFormat_Content);
+					Label value_17 = new Label(12, i + 2, bean.getFaultTimeTotal(),fontFormat_Content);
+					Label value_21 = new Label(13, i + 2, bean.getHometype(),fontFormat_Content);
+					sheet.setRowView(i + 2, 300);
+					sheet.addCell(value_1);
+					sheet.addCell(value_2);
+					sheet.addCell(value_3);
+					sheet.addCell(value_4);
+					sheet.addCell(value_5);
+					sheet.addCell(value_6);
+					sheet.addCell(value_7);
+					sheet.addCell(value_8);
+					sheet.addCell(value_9);
+					sheet.addCell(value_10);
+					sheet.addCell(value_12);
+					sheet.addCell(value_16);
+					sheet.addCell(value_17);
+					sheet.addCell(value_21);
+				}
+
+				book.write();
+				book.close();
+				/*DownExcelFile(response, pathname);*/
+				this.success=true;
+				 HashMap<String, Object> result = new HashMap<String, Object>();
+				 result.put("success", success);
+				 result.put("pathName", pathname);
+				 response.setContentType("application/json;charset=utf-8"); 
+				 String jsonstr = json.Encode(result); 
+				 response.getWriter().write(jsonstr);
+			} catch (Exception e) {
+				e.printStackTrace();
+
+			}
+		}
 	//基站闪断列表导出
 	@RequestMapping(value = "/ExcelToBsFlash", method = RequestMethod.GET)
 	public void ExcelToBsFlash(HttpServletRequest request,

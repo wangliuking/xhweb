@@ -91,6 +91,24 @@ xh.load = function() {
 			$scope.editData = $scope.data[id];
 			$("#edit").modal('show');
 		};
+		$scope.toTellEWin=function(id){
+			var url= xh.getUrl()+'/Views/operations/bsFault-tellelec.html';
+			url+="?bsId="+$scope.data[id].bsId;
+			url+="&name="+$scope.data[id].name;
+			url+="&time="+$scope.data[id].time;	
+			url+="&id="+$scope.data[id].id;	
+			var index=layer.open({
+				  type: 2, 
+				  shade: 0,
+				  anim: 2,
+				  scrollbar:false,
+				  maxmin:true,
+				  title:"发电工单",
+				  area: ['900px', '500px'],
+				  content: [url, 'no'] //如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+				}); 
+			layer.full(index);
+		}
         /* 显示核减model */
         $scope.checkCutModel = function(id) {
         	console.log($scope.data[id]);
@@ -342,15 +360,49 @@ xh.load = function() {
 		$scope.showOrderWin = function(index){
 			
 			$scope.nowDate=xh.nowDate();
-			$scope.userList();
+			//$scope.userList();
 			if(index>=0){
 				$scope.orderData=$scope.data[index];
 			}else{
 				$scope.orderData=[];
 			}
 			
+			//$("#order").modal('show');
+			var url= xh.getUrl()+'/Views/operations/bsFault-order.html';
+			url+="?bsId="+$scope.data[index].bsId;
+			url+="&name="+$scope.data[index].name;
+			url+="&time="+$scope.data[index].time;	
+			url+="&id="+$scope.data[index].id;	
+			var index=layer.open({
+				  type: 2, 
+				  shade: 0,
+				  anim: 2,
+				  scrollbar:false,
+				  maxmin:true,
+				  title:"故障处理任务单",
+				  area: ['900px', '500px'],
+				  content: [url, 'no'] //如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+				}); 
+			layer.full(index);
+		};
+        $scope.handleOrder = function(){
 			
-			$("#order").modal('show');
+			var url= xh.getUrl()+'/Views/operations/bsFault-order.html';
+			/*url+="?bsId="+$scope.data[index].bsId;
+			url+="&name="+$scope.data[index].name;
+			url+="&time="+$scope.data[index].time;*/	
+			url+="?id=0";	
+			var index=layer.open({
+				  type: 2, 
+				  shade: 0,
+				  anim: 2,
+				  scrollbar:false,
+				  maxmin:true,
+				  title:"故障处理任务单",
+				  area: ['900px', '500px'],
+				  content: [url, 'no'] //如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+				}); 
+			layer.full(index);
 		};
 		/*通知发电*/
         $scope.showGorderWin = function(index){
@@ -760,6 +812,49 @@ xh.excelToBsAlarm=function(){
 		},
 		error : function() {
 			$("#btn-write").button('reset');
+			xh.maskHide();
+			toastr.error("导出失败", '提示');
+		}
+	});
+};
+//基站故障记录
+xh.excelToEmh=function(){
+	xh.maskShow();
+	$("#btn-write2").button('loading');
+	var startTime=$("#search-emh").find("input[name='startTime']").val();
+	var endTime=$("#search-emh").find("input[name='endTime']").val();
+	var period=$("#search-emh").find("select[name='period']").val();
+	if(startTime=="" || endTime==""){
+		toastr.error("时间范围不能为空", '提示');
+		$("#btn-write").button('reset');
+		xh.maskHide();
+		return;
+	}
+	
+	$.ajax({
+		url : '../../bsstatus/ExcelToEmh',
+		type : 'get',
+		dataType : "json",
+		data : {
+			startTime:startTime,
+			endTime:endTime,
+			period:period
+		},
+		async : false,
+		success : function(data) {
+			xh.maskHide();
+			$("#btn-write2").button('reset');
+			
+			if (data.success) {
+				$("#search-emh").modal('hide')
+				window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
+				
+			} else {
+				toastr.error("导出失败", '提示');
+			}
+		},
+		error : function() {
+			$("#btn-write2").button('reset');
 			xh.maskHide();
 			toastr.error("导出失败", '提示');
 		}

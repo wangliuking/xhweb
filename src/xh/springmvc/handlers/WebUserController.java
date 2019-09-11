@@ -248,6 +248,20 @@ public class WebUserController {
 		}
 		
 	}
+	@RequestMapping("/user/contacts")
+	public void contacts(HttpServletRequest request, HttpServletResponse response){
+		HashMap result = new HashMap();
+		result.put("items", WebUserServices.contacts());
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	
 	
 	/**

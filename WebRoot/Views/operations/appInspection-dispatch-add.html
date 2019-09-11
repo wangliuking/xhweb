@@ -34,7 +34,7 @@
 									<td style="width:10%;">地点</td>
 									<td style="width:15%;color:blue"><input type="text"
 										name="dispatchplace" ng-model="dd.address"></td>
-									<td style="width:15%;">巡检时间</td>
+									<td style="width:16%;">巡检时间</td>
 									<td style="width:15%;color:blue"><input type="text"
 										name="commitdate"
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"></td>
@@ -59,7 +59,12 @@
 									<td>{{c.content}}</td>
 									<td colspan="2"><input type="text" name="comment{{c.id}}">
 									</td>
-									<td><input id="dispatch-addc{{c.id}}" class="magic-radio"
+									<td>
+									  <input id="kk{{c.id}}" ng-show="false" type="radio" value="正常-" name="d{{c.id}}"> 
+                                    <label for="kk{{c.id}}">
+                                    <span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span>
+                                    </label>
+									<input id="dispatch-addc{{c.id}}" class="magic-radio"
 										type="radio" value="{{c.a}}" name="d{{c.id}}"
 										ng-checked="true"> <label for="dispatch-addc{{c.id}}"><span>{{c.a}}</span></label>
 										<input id="dispatch-addd{{c.id}}" class="magic-radio"

@@ -52,6 +52,29 @@ xh.load = function() {
 		};
 	});
 
+	app.filter('useTime', function() { // 可以注入依赖
+		return function(text) {
+			if(text.gen_start_time==null || text.gen_end_time==null){
+				return "";
+			}
+			var a=text.gen_start_time;
+			var b=text.gen_end_time;
+			var x=new Date(a);
+			var y=new Date(b);
+			var r=(y.getTime()-x.getTime())/1000;
+			if(r<60){
+				return r+"秒";
+			}else{
+				if(r/60<60){
+					return parseInt(r/60)+"分"+parseInt(r%60)+"秒";
+				}else{
+					return parseInt(r/3600)+"小时"+parseInt(r/60%60)+"分"+parseInt(r%60)+"秒"
+				}
+			}
+		};
+	});
+	
+
 	app.controller("xhcontroller", function($scope, $http) {
 		xh.maskShow();
 		$scope.count = "20";// 每页数据显示默认值
@@ -79,6 +102,14 @@ xh.load = function() {
 					$scope.totals = response.totals;
 					xh.pagging(1, parseInt($scope.totals), $scope);
 				});
+		$scope.bs_offine_record = function(a,b,c) {
+			$http.get(
+					"../../elec/bs_offline_record?bsId="+a+"&starttime="+b+"&endtime="+c).success(
+					function(response) {
+						$scope.rs = response.items;
+						$scope.rs_count = response.totals;
+					});
+		};
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$scope.search($scope.page);
@@ -88,6 +119,7 @@ xh.load = function() {
 		$scope.editModel = function(id) {
 			$("#detail").modal('show');
 			$scope.editData = $scope.data[id];
+			$scope.bs_offine_record($scope.editData.bsId,$scope.editData.gen_start_time,$scope.editData.gen_end_time);
 		};
 		$scope.showDetail=function(index){
 			$("#gorder-detail").modal('show');
@@ -150,6 +182,70 @@ xh.load = function() {
 			$("#checkWin").modal('show');
 			$scope.checkData=$scope.data[index];
 		}
+		$scope.showCheckWin2=function(index){
+			$("#checkWin2").modal('show');
+			$scope.checkData=$scope.data[index];
+		}
+		$scope.checkOne=function(){
+			$.ajax({
+				url : '../../elec/checkOne',
+				type : 'POST',
+				dataType : "json",
+				async : true,
+				data:{
+					id:$scope.checkData.id,
+					userid:$scope.checkData.recv_user,
+					serialnumber:$scope.checkData.serialnumber,
+					bsId:$scope.checkData.bsId,
+					status:$("#checkForm").find("select[name='checked']").val(),
+					note1:$("#checkForm").find("textarea[name='note1']").val()
+				},
+				success : function(data) {
+
+					if (data.success) {
+						$scope.refresh();
+						$("#checkWin").modal('hide');
+						toastr.success(data.message, '提示');
+					} else {
+						toastr.error(data.message, '提示');
+					}
+				},
+				error : function() {
+					toastr.success("服务器响应失败", '提示');
+				}
+			});
+			
+		};
+		$scope.checkTwo=function(){
+			$.ajax({
+				url : '../../elec/checkTwo',
+				type : 'POST',
+				dataType : "json",
+				async : true,
+				data:{
+					id:$scope.checkData.id,
+					userid:$scope.checkData.recv_user,
+					serialnumber:$scope.checkData.serialnumber,
+					bsId:$scope.checkData.bsId,
+					status:$("#checkForm2").find("select[name='checked']").val(),
+					note1:$("#checkForm2").find("textarea[name='note2']").val()
+				},
+				success : function(data) {
+
+					if (data.success) {
+						$scope.refresh();
+						$("#checkWin2").modal('hide');
+						toastr.success(data.message, '提示');
+					} else {
+						toastr.error(data.message, '提示');
+					}
+				},
+				error : function() {
+					toastr.success("服务器响应失败", '提示');
+				}
+			});
+			
+		};
 		
 		$scope.check=function(){
 			$.ajax({
@@ -162,7 +258,8 @@ xh.load = function() {
 					userid:$scope.checkData.recv_user,
 					serialnumber:$scope.checkData.serialnumber,
 					bsId:$scope.checkData.bsId,
-					status:$("#checkForm").find("select[name='checked']").val()
+					status:$("#checkForm").find("select[name='checked']").val(),
+					note1:$("#checkForm").find("textarea[name='note1']").val()
 				},
 				success : function(data) {
 
@@ -204,6 +301,7 @@ xh.load = function() {
 						data:{
 							id:id,
 							userid:$scope.data[index].recv_user,
+							status:$scope.data[index].status,
 							serialnumber:serialnumber
 						},
 						success : function(data) {

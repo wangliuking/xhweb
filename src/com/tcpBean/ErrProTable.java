@@ -34,6 +34,10 @@ public class ErrProTable {
 	private String longitude;
 	private String latitude;
 	private String address;
+	private String recv_user;
+	private String copy_user;
+	private String recv_user_name;
+	private String copy_user_name;
 	
 	private String zbdldm;
 	private String from;
@@ -233,33 +237,54 @@ public class ErrProTable {
 		this.hungup = hungup;
 	}
 
+	public String getRecv_user() {
+		return recv_user;
+	}
+
+	public String getCopy_user() {
+		return copy_user;
+	}
+
+	public String getRecv_user_name() {
+		return recv_user_name;
+	}
+
+	public String getCopy_user_name() {
+		return copy_user_name;
+	}
+
+	public void setRecv_user(String recv_user) {
+		this.recv_user = recv_user;
+	}
+
+	public void setCopy_user(String copy_user) {
+		this.copy_user = copy_user;
+	}
+
+	public void setRecv_user_name(String recv_user_name) {
+		this.recv_user_name = recv_user_name;
+	}
+
+	public void setCopy_user_name(String copy_user_name) {
+		this.copy_user_name = copy_user_name;
+	}
+
 	@Override
 	public String toString() {
-		return "ErrProTable{" +
-				"cmdtype='" + cmdtype + '\'' +
-				", id=" + id +
-				", serialnumber='" + serialnumber + '\'' +
-				", userid='" + userid + '\'' +
-				", orderAccount='" + orderAccount + '\'' +
-				", bsid='" + bsid + '\'' +
-				", bsname='" + bsname + '\'' +
-				", dispatchtime='" + dispatchtime + '\'' +
-				", dispatchman='" + dispatchman + '\'' +
-				", errtype='" + errtype + '\'' +
-				", errlevel='" + errlevel + '\'' +
-				", errfoundtime='" + errfoundtime + '\'' +
-				", errslovetime='" + errslovetime + '\'' +
-				", progress='" + progress + '\'' +
-				", proresult='" + proresult + '\'' +
-				", hungup='" + hungup + '\'' +
-				", workman='" + workman + '\'' +
-				", auditor='" + auditor + '\'' +
-				", longitude='" + longitude + '\'' +
-				", latitude='" + latitude + '\'' +
-				", address='" + address + '\'' +
-				", zbdldm='" + zbdldm + '\'' +
-				", from='" + from + '\'' +
-				", status='" + status + '\'' +
-				'}';
+		return "ErrProTable [cmdtype=" + cmdtype + ", id=" + id
+				+ ", serialnumber=" + serialnumber + ", userid=" + userid
+				+ ", orderAccount=" + orderAccount + ", bsid=" + bsid
+				+ ", bsname=" + bsname + ", dispatchtime=" + dispatchtime
+				+ ", dispatchman=" + dispatchman + ", errtype=" + errtype
+				+ ", errlevel=" + errlevel + ", errfoundtime=" + errfoundtime
+				+ ", errslovetime=" + errslovetime + ", progress=" + progress
+				+ ", proresult=" + proresult + ", hungup=" + hungup
+				+ ", workman=" + workman + ", auditor=" + auditor
+				+ ", longitude=" + longitude + ", latitude=" + latitude
+				+ ", address=" + address + ", recv_user=" + recv_user
+				+ ", copy_user=" + copy_user + ", recv_user_name="
+				+ recv_user_name + ", copy_user_name=" + copy_user_name
+				+ ", zbdldm=" + zbdldm + ", from=" + from + ", status="
+				+ status + "]";
 	}
 }

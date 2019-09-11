@@ -779,6 +779,87 @@
         </if>
 
 	</select>
+	<select id="bsFaultEmhList" resultType="xh.mybatis.bean.BsAlarmExcelBean" useCache="true"
+        parameterType="map">
+
+        select
+        a.bsId,
+        a.id,
+        a.sysType,a.neId,a.neType,a.mscId,a.location,
+        a.modType,a.modId,a.subModType,a.iselec,
+        a.subModId,a.code,a.category,a.causeCode,a.sureOk,checkTag,voiceTag,
+        a.orderId,
+        CASE
+        weekly
+        WHEN 0 THEN '星期日'
+        WHEN 1 THEN '星期一'
+        WHEN
+        2 THEN '星期二'
+        WHEN 3 THEN
+        '星期三'
+        WHEN 4 THEN '星期四'
+        WHEN 5 THEN '星期五'
+        WHEN 6
+        THEN '星期六'
+        ELSE '未知' END
+        weekly,
+        a.time,
+        a.from,
+        a.severity,
+        a.type,
+        a.reason,
+        a.nowDeal,
+        a.imbusiness,
+        a.dealResult ,
+        a.faultRecoveryTime,
+        CASE WHEN
+        a.faultRecoveryTime!="" THEN
+        TIMESTAMPDIFF(MINUTE,a.time,a.faultRecoveryTime)
+        WHEN
+        a.faultRecoveryTime="" THEN ""
+        END faultTimeTotal,
+        a.content,
+        a.faultHandlePerson,
+        a.faultRecordPerson,
+        a.zbdldm,
+        a.faultType,
+        a.status,
+        a.level as alarmLevel,
+        a.alarmTag,b.name,b.level,b.status as
+        tag,b.hometype,b.period,b.address,
+        c.reason as reason2,c.suggestion as
+        suggestion2
+        from
+        xhgmnet_operations_bsfault as a
+        left join
+        xhgmnet_bs_station as b on
+
+        a.bsId=b.bsId
+
+
+        left join
+        xhgmnet_eastcom_knowledge as c on a.neType=c.neType and
+        a.modType=c.modType and a.subModType=c.subModType and
+        a.category=c.category
+        and a.code=c.code and a.causeCode=c.causeCode and
+        a.sysType=1
+        where  a.sysType=2 and a.modType=3000
+            and(a.subModType=80200000000001 or
+            (a.subModType=51 and
+            a.subModId=1003))
+        <if test="period!=0">
+            and b.period=#{period}
+        </if>
+      
+        <if test="startTime!='' and endTime!=''">
+            and a.time between #{startTime} and #{endTime}
+        </if>
+        order by a.time desc
+
+
+
+        limit 0,60000
+    </select>
 	<!-- tera系统告警基站部分,获取当前的断站列表 -->
 	<select id="bsFaultInfo" resultType="xh.mybatis.bean.BsAlarmExcelBean"
 		useCache="true" parameterType="map">

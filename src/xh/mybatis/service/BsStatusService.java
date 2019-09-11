@@ -888,6 +888,23 @@ public class BsStatusService {
 		}
 		return list;
 	}
+	public static List<BsAlarmExcelBean> bsFaultEmhList(Map<String,Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = sqlSession.getMapper(BsStatusMapper.class);
+		List<BsAlarmExcelBean> list = new ArrayList<BsAlarmExcelBean>();
+		try {
+			list = mapper.bsFaultEmhList(map);
+			sqlSession.close();
+
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 	public static int bsFaultListCount(Map<String,Object> map) {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsStatusMapper mapper = sqlSession.getMapper(BsStatusMapper.class);
@@ -905,6 +922,7 @@ public class BsStatusService {
 		}
 		return count;
 	}
+	
 	/*更新基站故障表 */
 	public static int editBsFault(BsAlarmExcelBean bean) {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
