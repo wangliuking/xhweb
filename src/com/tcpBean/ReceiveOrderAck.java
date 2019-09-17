@@ -1,12 +1,10 @@
 package com.tcpBean;
 
-public class GenCheckAck {
-    private String cmdtype = "gencheckack";
+public class ReceiveOrderAck {
+    private String cmdtype = "receiveorderack";
     private String userid;
     private String serialnumber;
-    private String auditor;
-    private String reason;
-    private String ack;
+    private String handlepower;
 
     public String getCmdtype() {
         return cmdtype;
@@ -32,39 +30,21 @@ public class GenCheckAck {
         this.serialnumber = serialnumber;
     }
 
-    public String getAuditor() {
-        return auditor;
+    public String getHandlepower() {
+        return handlepower;
     }
 
-    public void setAuditor(String auditor) {
-        this.auditor = auditor;
-    }
-
-    public String getAck() {
-        return ack;
-    }
-
-    public void setAck(String ack) {
-        this.ack = ack;
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason;
+    public void setHandlepower(String handlepower) {
+        this.handlepower = handlepower;
     }
 
     @Override
     public String toString() {
-        return "GenCheckAck{" +
+        return "ReceiveOrderAck{" +
                 "cmdtype='" + cmdtype + '\'' +
                 ", userid='" + userid + '\'' +
                 ", serialnumber='" + serialnumber + '\'' +
-                ", auditor='" + auditor + '\'' +
-                ", reason='" + reason + '\'' +
-                ", ack='" + ack + '\'' +
+                ", handlepower='" + handlepower + '\'' +
                 '}';
     }
 }

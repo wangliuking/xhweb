@@ -149,7 +149,7 @@
 												   placeholder="结束时间">
 										</div>
 									</div>
-									<div class="form-group" ng-if="roleId != 10002">
+									<div class="form-group" ng-show="roleId != 10002">
 										<label for="imgName">依据名称</label>
 										<div>
 											<input type="text" class="form-control" id="imgName" name="imgName"
@@ -286,11 +286,11 @@
 													class="fa fa-hand-o-down text-danger"></i> 重新发起核减申请</a>
 
 											<a ng-if="roleId==10003 && x.checked==0"
-											   href="#" ng-click="checkWin($index)">|<i
+											   href="#">|<i
 													class="fa fa-hand-o-down text-danger"></i> 运维负责人审核核减申请</a>
 
 											<a ng-if="roleId==10002 && x.checked==1 && up.o_check_cut == 'on'"
-											   href="#" ng-click="checkWin($index)">|<i
+											   href="#">|<i
 													class="fa fa-hand-o-down text-danger"></i> 管理方审核核减申请</a>
 
 											<!--<a ng-if="roleId==301 && x.checked==2"

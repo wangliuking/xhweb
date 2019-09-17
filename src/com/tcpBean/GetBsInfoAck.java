@@ -24,6 +24,7 @@ public class GetBsInfoAck {
 	private String serialnumber;
 	private String period;
 	private Map<String,Object> bsinfo;
+	private Map<String,List<Map<String,Object>>> bsstatus;
 	private Map<String,Object> emhinfo;
 	private List<BsInspectTable> inspectlist;
 
@@ -91,6 +92,14 @@ public class GetBsInfoAck {
 		this.period = period;
 	}
 
+	public Map<String, List<Map<String, Object>>> getBsstatus() {
+		return bsstatus;
+	}
+
+	public void setBsstatus(Map<String, List<Map<String, Object>>> bsstatus) {
+		this.bsstatus = bsstatus;
+	}
+
 	@Override
 	public String toString() {
 		return "GetBsInfoAck{" +
@@ -100,6 +109,7 @@ public class GetBsInfoAck {
 				", serialnumber='" + serialnumber + '\'' +
 				", period='" + period + '\'' +
 				", bsinfo=" + bsinfo +
+				", bsstatus=" + bsstatus +
 				", emhinfo=" + emhinfo +
 				", inspectlist=" + inspectlist +
 				'}';

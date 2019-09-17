@@ -66,6 +66,26 @@
 		select a.bsId as bsid,name as bsname,hometype as bstype,address,b.link,period from xhgmnet_bs_station as a LEFT JOIN view_bsstatus as b on a.bsId=b.bsId where a.bsId=#{bsId}
 	</select>
 
+	<!-- 根据基站id查询传输状态 -->
+	<select id="selectBsTransfer" parameterType="String" resultType="map" useCache="true">
+		select * from xhgmnet_esight_querylinklist where znename=#{znename}
+	</select>
+
+	<!-- 根据基站id查询市电告警状态 -->
+	<select id="selectBsPowerOff" parameterType="String" resultType="map" useCache="true">
+		select * from xhgmnet_operations_bsfault where (reason="市电中断" or reason="交流供电断开") and alarmTag=0 and bsId=#{bsId} limit 1
+	</select>
+
+	<!-- 根据基站id获取摄像头IP -->
+	<select id="selectCameraIP" parameterType="String" resultType="String" useCache="true">
+		select b.fsuIp from xhgmnet_emh_fsuid4bsid a LEFT JOIN xhgmnet_emh_login b on a.fsuId=b.fsuId where a.siteId=#{bsId} ORDER BY time desc limit 1
+	</select>
+
+	<!-- 根据基站id查询电池续航时长 -->
+	<select id="selectBatteryTime" parameterType="String" resultType="String" useCache="true">
+		select bs_xh_fact_time from xhgmnet_bs_supply_electricity where bsId=#{bsId} limit 1
+	</select>
+
 	<!-- app根据基站id查询基站基本信息(new) -->
 	<select id="selectByBsIdNew" parameterType="String" resultType="map" useCache="true">
 		select bsId as bsid,name as bsname,level as bslevel,hometype as bstype,period from xhgmnet_bs_station where bsId=#{bsId}
@@ -267,7 +287,7 @@
 
 	<!-- 更新发电记录表 -->
 	<update id="updateForGenTable" parameterType="com.tcpBean.GenTable">
-		update xhgmnet_operations_bs_elec_generation set gen_start_time=#{genontime},generation_v=#{genv},generation_i=#{geni},check_user=#{auditor},address=#{address},check_time=#{audittime},gen_on_note=#{remarkgenon},poweron_time=#{powerontime},gen_end_time=#{genofftime},gen_off_time=#{removegentime},gen_off_note=#{remarkgenoff},status=4,gen_on_pic=#{gen_on_pic},gen_off_pic=#{gen_off_pic} where serialnumber=#{serialnumber}
+		update xhgmnet_operations_bs_elec_generation set gen_start_time=#{genontime},generation_v=#{genv},generation_i=#{geni},check_user=#{auditor},address=#{address},check_time=#{audittime},gen_on_note=#{remarkgenon},poweron_time=#{powerontime},gen_end_time=#{genofftime},gen_off_time=#{removegentime},gen_off_note=#{remarkgenoff},gen_on_pic=#{gen_on_pic},gen_off_pic=#{gen_off_pic} where serialnumber=#{serialnumber}
 	</update>
 	
 	<!-- 根据基站名称模糊查询基站列表 -->
@@ -278,5 +298,20 @@
 	<!-- 查询用户所在区域 -->
 	<select id="selectUserZone" parameterType="String" resultType="String">
 		select zone from xhgmnet_web_userzone where user=#{userId}
+	</select>
+
+	<!-- 根据订单号查询接单人，用于发电接单后的推送 -->
+	<select id="searchReceverElec" parameterType="String" resultType="String">
+		select recever_user from xhgmnet_operations_bs_elec_generation where serialnumber=#{serialnumber}
+	</select>
+
+	<!-- 根据订单号更新发电接单人 -->
+	<update id="updateReceverElec" parameterType="map">
+		update xhgmnet_operations_bs_elec_generation set recv_user=#{userId} where serialnumber=#{serialnumber}
+	</update>
+
+	<!-- 根据订单号查询全部信息 -->
+	<select id="searchAllInfo" parameterType="String" resultType="map">
+		select a.*,b.name bsname,b.address bsposition from xhgmnet_operations_bs_elec_generation a left join xhgmnet_bs_station b on a.bsId=b.bsId where a.serialnumber=#{serialnumber}
 	</select>
 </mapper>

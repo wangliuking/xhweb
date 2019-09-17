@@ -1,6 +1,7 @@
 package xh.mybatis.mapper;
 
 import com.tcpBean.GenTable;
+import com.tcpBean.GetOrderInfoAck;
 
 import java.util.HashMap;
 import java.util.List;
@@ -46,6 +47,26 @@ public interface TcpMapper {
 	 * app根据基站id返回基站相关业务和状态信息
 	 */
 	public Map<String,Object> selectInfoByBsId(String bsId)throws Exception;
+
+	/**
+	 * app根据基站id返回基站相关传输状态
+	 */
+	public List<Map<String,Object>> selectBsTransfer(String znename)throws Exception;
+
+	/**
+	 * 根据基站id查询市电告警状态
+	 */
+	public Map<String,Object> selectBsPowerOff(String bsId)throws Exception;
+
+	/**
+	 * 根据基站id获取摄像头IP
+	 */
+	public String selectCameraIP(String bsId)throws Exception;
+
+	/**
+	 * 根据基站id查询电池续航时长
+	 */
+	public String selectBatteryTime(String bsId)throws Exception;
 
 	/**
 	 * app根据基站id查询基站基本信息(new)
@@ -192,5 +213,20 @@ public interface TcpMapper {
 	 * 查询用户所在区域
 	 */
 	public List<String> selectUserZone(String userId)throws  Exception;
+
+	/**
+	 * 根据订单号查询接单人，用于发电接单后的推送
+	 */
+	public String searchReceverElec(String serialnumber)throws  Exception;
+
+	/**
+	 * 根据订单号更新发电接单人
+	 */
+	public int updateReceverElec(Map<String,Object> param)throws  Exception;
+
+	/**
+	 * 根据订单号查询全部信息
+	 */
+	public Map<String,Object> searchAllInfo(String serialnumber)throws  Exception;
 
 }
