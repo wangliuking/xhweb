@@ -186,5 +186,6 @@ public interface WebUserMapper {
 	public int delUserZone(String user)throws Exception;
 	
 	public List<UserZoneBean> searchUserZone(String user)throws Exception;
+	public List<Map<String,Object>> contact_group()throws Exception;
 
 }

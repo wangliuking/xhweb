@@ -61,7 +61,7 @@ public class FunUtil {
 		if (str == null) {
 			return false;
 		} else {
-			Pattern p = Pattern.compile("[0-9]*");
+			Pattern p = Pattern.compile("-?[0-9]*");
 			Matcher m = p.matcher(str);
 			if (!m.matches()) {
 				return false;

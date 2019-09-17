@@ -267,9 +267,9 @@
 																ng-class="{'b-green':x.working==0 ,'b-red':x.working!=0}">BSC({{x.Id}})</span></li>
 															<li><span ng-repeat="x in dpxD" ng-click="dpx(x.Id)"
 																ng-if="x.Id<=2"
-																ng-class="{'b-green':x.working==0 ,'b-red':x.working!=0 
-														 || (x.retLoss/10)<7 
-														 || ((x.retLoss/10)>=7 && (x.retLoss/10)<=14),'b-yellow':x.working==0 && (x.retLoss/10)>14 && (x.retLoss/10)<=20}">DPX({{x.Id}})</span></li>
+																ng-class="{'b-green':x.working==0  ,'b-red':x.working!=0 
+								
+														 || ((x.retLoss/10)<=14),'b-yellow':x.working==0 && (x.retLoss/10)>14 && (x.retLoss/10)<=20}">DPX({{x.Id}})</span></li>
 															<li><span ng-repeat="x in psmD" ng-click="psm(x.Id)"
 																ng-if="x.Id<=2"
 																ng-class="{'b-green':(x.linkStatus==0 && x.dc12==0 

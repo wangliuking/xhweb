@@ -34,17 +34,35 @@
 			and date_format(dispatchtime,'%Y-%m-%d') &lt;#{endtime}
 		</if>
 	</select>
+	<select id="bs_offline_record" parameterType="map" resultType="map">
+        select bsId,time,faultRecoveryTime,alarmTag from xhgmnet_operations_bsfault 
+        WHERE neType=4 AND bsId=#{bsId} AND time BETWEEN #{start_time} AND #{end_time}
+    </select>
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
 		insert into
 		xhgmnet_operations_bs_elec_generation(bsfault_id,bsId,serialnumber,send_user,
-		recv_user,poweroff_time,comment,dispatchtime)values
-		(#{fault_id},#{bsId},#{serialnumber},#{send_user},#{recv_user},#{poweroff_time},#{comment},
-		#{dispatchtime})
+		poweroff_time,comment,dispatchtime,recever,copier,recever_user,copier_user)values
+		(#{fault_id},#{bsId},#{serialnumber},#{send_user},#{poweroff_time},#{comment},
+		#{dispatchtime},#{recever},#{copier},#{recever_user},#{copier_user})
 	</insert>
 	<update id="update_fault" parameterType="int">
 		update xhgmnet_operations_bsfault set iselec=1 where id=#{id}
 	</update>
 	   <update id="check" parameterType="map">
-        update xhgmnet_operations_bs_elec_generation set status=#{status} where id=#{id}
+	    <if test="gen_off_time!=null and gen_off_time!=''">
+	     update xhgmnet_operations_bs_elec_generation set status=#{status},
+	     gen_off_time=#{gen_off_time},gen_end_time=#{gen_off_time} where id=#{id}
+	    </if>
+         <if test="gen_off_time==null">
+         update xhgmnet_operations_bs_elec_generation set status=#{status} where id=#{id}
+        </if>
+    </update>
+      <update id="checkOne" parameterType="map">
+         update xhgmnet_operations_bs_elec_generation set status=#{status},
+         check_user1=#{check_user},check_time1=#{time},check_note1=#{note} where id=#{id}
+    </update>
+          <update id="checkTwo" parameterType="map">
+         update xhgmnet_operations_bs_elec_generation set status=#{status},
+         check_user2=#{check_user},check_time2=#{time},check_note2=#{note} where id=#{id}
     </update>
 </mapper>

@@ -124,6 +124,7 @@ public class WebUserController {
 		String g=funUtil.readXml("alarm", "bs_order");
 		String ignore=funUtil.readXml("alarm", "bs_ups_ignore");
 		String esight=funUtil.readXml("alarm", "esight");
+		String control=funUtil.readXml("alarm", "control");
 		HashMap result = new HashMap();
 		result.put("a", a);
 		result.put("b", b);
@@ -134,6 +135,7 @@ public class WebUserController {
 		result.put("g", g);
 		result.put("esight", esight);
 		result.put("ignore", ignore);
+		result.put("control", control);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -168,6 +170,8 @@ public class WebUserController {
 				funUtil.updateXML("alarm", "bs_ups_ignore",value);
 			}else if(name.equals("esight")){
 				funUtil.updateXML("alarm", "esight",value);
+			}else if(name.equals("control")){
+				funUtil.updateXML("alarm", "control",value);
 			}else{
 				
 			}
@@ -238,6 +242,20 @@ public class WebUserController {
 		result.put("success", success);
 		result.put("totals",WebUserServices.userAllCount(map));
 		result.put("items", WebUserServices.userList(map));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	@RequestMapping("/user/contacts")
+	public void contacts(HttpServletRequest request, HttpServletResponse response){
+		HashMap result = new HashMap();
+		result.put("items", WebUserServices.contacts());
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {

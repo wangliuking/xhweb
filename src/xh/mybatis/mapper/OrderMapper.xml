@@ -60,10 +60,10 @@
 		insert into xhgmnet_operations_fault_task_order(bsid, bsname, dispatchtime,
 		dispatchman, errtype, errlevel,
 		errfoundtime, errslovetime, progress, proresult, workman, auditor,serialnumber,
-		userid,orderAccount,alarmId,`from`,zbdldm)values(#{bsid}, #{bsname},
+		userid,orderAccount,alarmId,`from`,zbdldm,recv_user_name,copy_user_name,recv_user,copy_user)values(#{bsid}, #{bsname},
 		#{dispatchtime},#{dispatchman}, #{errtype},#{errlevel},
 		#{errfoundtime},#{errslovetime},#{progress},#{proresult},#{workman},#{auditor},#{serialnumber},#{userid},
-		#{orderAccount},#{id},#{from},#{zbdldm})
+		#{orderAccount},#{id},#{from},#{zbdldm},#{recv_user_name},#{copy_user_name},#{recv_user},#{copy_user})
 	</insert>
 	<!-- 更新拍单记录 -->
 	<update id="updateOrder" parameterType="map">

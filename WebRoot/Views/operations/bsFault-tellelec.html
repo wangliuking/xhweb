@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>发电工联单</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=9" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<link rel="stylesheet" href="../../lib/layer-master/src/theme/layer.css">
+<script type="text/javascript"
+	src="../../Resources/js/xhbootstrap-css.js"></script>
+<!-- <script src="../../Resources/js/jquery-1.4.4.min.js"></script>
+<SCRIPT src="../../Resources/js/email.min.js"> -->
+
+
+<!--[if lte IE 9]>
+<script src="../../Resources/js/jquery-1.8.3.min.js"></script>
+<script src="../../Resources/js/respond.min.js"></script>
+<script src="../../Resources/js/html5shiv.js"></script>
+<![endif]-->
+<style type="text/css">
+.order-table td {
+	padding: 0;
+}
+
+.order-form {
+	width: 100%;
+	line-height: 100%;
+	border: 0;
+	padding: 6px;
+	/* line-height:100%; */
+}
+
+.order-form:FOCUS {
+	border: 0;
+}
+
+.textarea-div {
+	width: 100%;
+	height: 60px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 3px;
+	outline: 0;
+	border: 0px solid #a0b3d6;
+	font-size: 12px;
+	word-wrap: break-word;
+	overflow-x: hidden;
+	overflow-y: auto;
+
+	/* border-color: rgba(82, 168, 236, 0.8); */
+	/* box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6); */
+}
+
+.input-div {
+	outline: none;
+	border: none;
+	width: 100%;
+}
+
+.input-div:FOCUS {
+	border: 1px solid blue;
+}
+
+.form-select {
+	outline: none;
+	border: none;
+	width: 100%;
+}
+/* CSS部分 */
+#type-ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	background: #fafafa;
+	color: #000;
+	-webkit-transform: scaleY(0);
+	-webkit-transform-origin: 0 0;
+}
+
+#type-ul li {
+	padding: 0;
+	margin: 0;
+}
+
+.type-div {
+	width: 100px;
+}
+
+.type-div ul li {
+	cursor: pointer;
+	padding: 3px;
+	border: 1px solid #ccc;
+}
+
+.type-div:hover ul {
+	-webkit-animation: ulShow 0.4s;
+	-webkit-animation-fill-mode: forwards;
+	-webkit-animation-timing-function: cubic-bezier(0, 0.8, 0.9, 1);
+}
+
+type-div {
+	height: 30px;
+	line-height: 30px;
+	text-align: center; /* background-color:#FC0; */
+}
+
+@
+-webkit-keyframes ulShow {from { -webkit-transform:scaleY(0);
+	
+}
+
+to {
+	-webkit-transform: scaleY(1);
+}
+
+}
+#level-ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	background: #fafafa;
+	color: #000;
+	-webkit-transform: scaleY(0);
+	-webkit-transform-origin: 0 0;
+}
+
+#level-ul li {
+	padding: 0;
+	margin: 0;
+}
+
+.level-div {
+	width: 100px;
+}
+
+.level-div ul li {
+	cursor: pointer;
+	padding: 3px;
+	border: 1px solid #ccc;
+}
+
+.level-div:hover ul {
+	-webkit-animation: ulShow 0.4s;
+	-webkit-animation-fill-mode: forwards;
+	-webkit-animation-timing-function: cubic-bezier(0, 0.8, 0.9, 1);
+}
+
+level-div {
+	height: 30px;
+	line-height: 30px;
+	text-align: center; /* background-color:#FC0; */
+}
+
+@
+-webkit-keyframes ulShow {from { -webkit-transform:scaleY(0);
+	
+}
+
+to {
+	-webkit-transform: scaleY(1);
+}
+
+}
+.slDiv {
+	float: left;
+	margin-top: 5px;
+	position: relative;
+}
+
+.slDiv #btnSelect {
+	min-width: 125px;
+	display: inline-block;
+	text-indent: 10px;
+}
+
+.slDiv .ulDiv {
+	display: none;
+	width: 125px;
+	border: 1px solid green;
+	border-radius: 1px;
+	background: #FFF;
+	margin-top: 9px;
+	position: absolute;
+	z-index: 100;
+	max-height: 400px;
+	overflow: auto;
+}
+
+.slDiv .ulDiv.ulShow {
+	display: block;
+}
+
+.slDiv .ulDiv ul li {
+	text-indent: 10px;
+	cursor: pointer;
+}
+
+.slDiv .ulDiv ul li:hover {
+	background: #cbebf6;
+}
+
+.slDiv .ulDiv ul,.slDiv .ulDiv li {
+	margin: 5px 0px;
+	padding: 0px;
+}
+</style>
+</head>
+<body ng-app="app" ng-controller="xhcontroller" class="fixed-iframe">
+	<!-- splash screen-->
+	<div class="splash">
+		<div class="splash-title">
+			<h1>系统正在努力加载中，请耐心等待</h1>
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 中间内容体 -->
+	<div id="wrapper">
+
+		<div class="content animate-panel" style="margin-top:0">
+			<div class="row">
+				<div class="col-md-9">
+				<div class="hpanel">
+                        <div class="panel-body">
+                            <div class="col-md-12">
+					<div class="form-group col-md-12">
+						<label>接单人</label>
+					<!-- 	<DIV class=divtxt id=divtxt></DIV> -->
+						<textarea rows="4" ng-focus="nowInput('recvUser')" cols="" class="form-control b-text" name="recvUser"></textarea>
+					</div>
+					<div class="form-group col-md-12">
+						<label>抄送</label>
+						<textarea rows="4" ng-focus="nowInput('copyUser')" cols="" class="form-control b-text" name="copyUser"></textarea>
+					</div>
+					<div class="col-md-12">
+						<div class="hpanel">
+							<div class="panel-heading hbuilt">具体内容</div>
+
+							<div class="panel-body">
+
+
+								<table id="order-table"
+									style="width:100%;border-collapse: collapse;">
+									<tbody>
+
+										<tr>
+											<td style="width:100px">基站ID</td>
+											<td style="width:200px"><input ng-model="bsId"
+												name="bsId" class="form-control"></td>
+											<td style="width:100px">基站名称</td>
+											<td style="width:200px"><input ng-model="name"
+												name="name" class="form-control"></td>
+											<td style="width:100px">故障时间</td>
+											<td style="width:200px"><input ng-model="time"
+												name="time"
+												onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+												class="form-control"></td>
+										</tr>
+
+										<tr>
+											<td style="width:100px">备注</td>
+											<td style="width:200px" colspan="5"><textarea rows="5"
+													name="note" class="form-control"></textarea></td>
+										</tr>
+
+
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+					<button type="button" class="btn btn-success btn-sm"
+                    data-dismiss="modal" id="gorder-btn">
+                    <i class="fa fa-remove"></i>&nbsp;发起通知
+                </button>
+					</div>
+
+				</div></div></div></div>
+				<div class="col-md-3">
+					<div class="hpanel">
+						<div class="panel-body">
+							<div class="col-md-12">
+								<TABLE style="margin:0 auto;">
+									<TBODY>
+										<TR>
+											<TD>联系人</TD>
+										<TR>
+										<TR>
+											<TD>
+											<ul class="left" style="height:500px;">
+											  <li ng-repeat="x in data">
+											  <p>
+											  <span class="pull-right select-all" index="{{$index}}"><a href="#">全选</a></span>
+											  <b class="groupclose">
+                                               <i class="fa fa-plus-square"></i><span>{{x.role}}</span></b> 
+											  </p>
+											   
+											   <ul class="groupSub">
+											    <li  ng-repeat="y in x.userList" user="{{y.user}}" text="{{y.userName}}">
+											     {{y.userName}}
+											    </li>
+											   </ul>
+											  </li>
+											</ul>
+												
+											</TD>
+										<TR></TR>
+									</TBODY>
+								</TABLE>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- row/ -->
+	</div>
+
+
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
+	<script type="text/javascript"
+		src="../../Resources/js/xhbootstrap-js.js"></script>
+	<script type="text/javascript"
+		src="../../lib/layer-master/dist/layer.js"></script>
+	<script type="text/javascript"
+		src="../../Controllers/operations/bsFault-tellelec.js"></script>
+	<script type="text/javascript">
+		xh.load();
+		$("#gorder-btn").click(function() {
+		    xh.gorder();
+		});
+	</script>
+</body>
+</html>

@@ -1,6 +1,7 @@
 package xh.springmvc.handlers;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,6 +51,23 @@ public class ElecGenerationController {
 		return result;
 		
 	}
+	@RequestMapping(value="/bs_offline_record",method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> bs_offline_record(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		String starttime=request.getParameter("starttime");
+		String endtime=request.getParameter("endtime");
+		String bsId=request.getParameter("bsId");
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("start_time", starttime);
+		map.put("end_time", endtime);
+		map.put("bsId", bsId);
+		HashMap result = new HashMap();
+		List<Map<String,Object>> list=ElecGenerationService.bs_offline_record(map);
+		result.put("totals",list.size());
+		result.put("items", list);
+		return result;
+		
+	}
 	@RequestMapping(value="/gorder",method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> gorder(HttpServletRequest request, HttpServletResponse response) throws Exception{
@@ -60,8 +78,10 @@ public class ElecGenerationController {
 		String note=request.getParameter("note");
 		String time=request.getParameter("time");
 		String bsname=request.getParameter("bsname");
+		String recv_user=request.getParameter("recv_user");
+		String copy_user=request.getParameter("copy_user");
 		String recv_user_name=request.getParameter("recv_user_name");
-		String send_user_name=request.getParameter("send_user_name");
+		String copy_user_name=request.getParameter("copy_user_name");
 
 		String serialnumber=FunUtil.RandomAlphanumeric(8);
 		
@@ -71,25 +91,24 @@ public class ElecGenerationController {
 		map.put("bsId", bsid);
 		map.put("serialnumber", serialnumber);
 		map.put("send_user", FunUtil.loginUser(request));
-		map.put("recv_user", userid);
+		map.put("recv_user", "");
+		map.put("recever", recv_user_name);
+		map.put("copier", copy_user_name);
+		map.put("recever_user", recv_user);
+		map.put("copier_user", copy_user);
 		map.put("poweroff_time", time);
 		map.put("comment", note);
 		map.put("dispatchtime", FunUtil.nowDate());
 		System.out.println(map);
 		
 		Map<String,Object> bsMap=BsstationService.select_bs_by_bsid(bsid);
-		
-		
-		
-		
-		
+
 		int rs=ElecGenerationService.insert(map);
 		if(rs>0){
 			this.success=true;
 			this.message="发电通知已经发送";
 			ElecGenerationService.update_fault(id);
 			GenTable bean=new GenTable();
-			bean.setUserid(userid);
 			bean.setSerialnumber(serialnumber);
 			bean.setBsname(bsname);
 			bean.setBsid(String.valueOf(bsid));
@@ -98,11 +117,26 @@ public class ElecGenerationController {
 			bean.setDispatchman(FunUtil.loginUser(request));
 			bean.setPowerofftime(time);
 			bean.setRemarka(note);
-			bean.setWorkman(recv_user_name);
+			
 			bean.setProstate(String.valueOf(0));
-			System.out.println(bean);
+			
 			ServerDemo demo=new ServerDemo();
-			demo.startMessageThread(bean.getUserid(), bean);
+			//发送接单人
+			String[] a1=recv_user.split(",");
+			String[] a2=recv_user_name.split(";");
+			for(int i=0;i<a1.length;i++){
+				bean.setUserid(a1[i]);
+				bean.setWorkman(a2[i]);
+				demo.startMessageThread(bean.getUserid(), bean);
+			}
+			//发送抄送人
+			String[] b1=copy_user.split(",");
+			String[] b2=copy_user_name.split(";");
+			for(int i=0;i<b1.length;i++){
+				bean.setUserid(b1[i]);
+				bean.setWorkman(b2[i]);
+				demo.startMessageThread(bean.getUserid(), bean);
+			}
 			
 		}else{
 			this.success=false;
@@ -190,16 +224,98 @@ public class ElecGenerationController {
 		return result;
 		
 	}
+	@RequestMapping(value="/checkOne",method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> checkOne(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		
+		int id=funUtil.StringToInt(request.getParameter("id"));
+		int status=Integer.parseInt(request.getParameter("status"));
+		String userid=request.getParameter("userid");
+		String serialnumber=request.getParameter("serialnumber");
+		String note1=request.getParameter("note1");
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("status", status);
+		map.put("time", FunUtil.nowDate());
+		map.put("check_user", FunUtil.loginUser(request));
+		map.put("note", note1);
+		System.out.println("mmmm->"+map);
+		int rs=ElecGenerationService.checkOne(map);
+		if(rs>0){
+			this.success=true;
+			this.message="成功";			
+			GenCheckAck bean=new GenCheckAck();			
+			bean.setUserid(userid);
+			bean.setSerialnumber(serialnumber);		
+			bean.setAuditor(FunUtil.loginUser(request));
+			bean.setAck(String.valueOf(status));
+			log.info("审核发电："+bean);
+			ServerDemo demo=new ServerDemo();			
+			demo.startMessageThread(bean.getUserid(), bean);
+		}else{
+			this.success=false;
+			this.message="失败";
+		}
+		
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message",message);
+		return result;
+		
+	}
+	@RequestMapping(value="/checkTwo",method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> checkTwo(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		
+		int id=funUtil.StringToInt(request.getParameter("id"));
+		int status=Integer.parseInt(request.getParameter("status"));
+		String userid=request.getParameter("userid");
+		String serialnumber=request.getParameter("serialnumber");
+		String note1=request.getParameter("note1");
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("status", status);
+		map.put("time", FunUtil.nowDate());
+		map.put("check_user", FunUtil.loginUser(request));
+		map.put("note", note1);
+		System.out.println("mmmm->"+map);
+		int rs=ElecGenerationService.checkTwo(map);
+		if(rs>0){
+			this.success=true;
+			this.message="成功";			
+			GenCheckAck bean=new GenCheckAck();			
+			bean.setUserid(userid);
+			bean.setSerialnumber(serialnumber);		
+			bean.setAuditor(FunUtil.loginUser(request));
+			bean.setAck(String.valueOf(status));
+			log.info("审核发电完成："+bean);
+			ServerDemo demo=new ServerDemo();			
+			demo.startMessageThread(bean.getUserid(), bean);
+		}else{
+			this.success=false;
+			this.message="失败";
+		}
+		
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message",message);
+		return result;
+		
+	}
 	@RequestMapping(value="/cancelOrder",method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> cancelOrder(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		
 		int id=funUtil.StringToInt(request.getParameter("id"));
+		int status=funUtil.StringToInt(request.getParameter("status"));
 		String userid=request.getParameter("userid");
 		String serialnumber=request.getParameter("serialnumber");
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("id", id);
-		map.put("status", 5);
+		map.put("status", 6);
+		if(status>=3){
+			map.put("gen_off_time", FunUtil.nowDate());
+		}
 		int rs=ElecGenerationService.check(map);
 		if(rs>0){
 			this.success=true;

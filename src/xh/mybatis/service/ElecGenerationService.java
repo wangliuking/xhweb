@@ -20,6 +20,13 @@ public class ElecGenerationService {
 		sqlSession.close();
 		return list;
 	}
+	public static List<Map<String,Object>> bs_offline_record(Map<String,Object> map) throws Exception{
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		ElecGenerationMapper mapper=sqlSession.getMapper(ElecGenerationMapper.class);
+		List<Map<String,Object>> list=mapper.bs_offline_record(map);
+		sqlSession.close();
+		return list;
+	}
 	public static int count(Map<String,Object> map) throws Exception{
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		ElecGenerationMapper mapper=sqlSession.getMapper(ElecGenerationMapper.class);
@@ -49,6 +56,24 @@ public class ElecGenerationService {
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		ElecGenerationMapper mapper=sqlSession.getMapper(ElecGenerationMapper.class);
 		int rs=mapper.check(map);
+	    sqlSession.commit();
+	    sqlSession.close();
+	    
+		return rs;
+	}
+	public static int checkOne(Map<String,Object> map) throws Exception{
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		ElecGenerationMapper mapper=sqlSession.getMapper(ElecGenerationMapper.class);
+		int rs=mapper.checkOne(map);
+	    sqlSession.commit();
+	    sqlSession.close();
+	    
+		return rs;
+	}
+	public static int checkTwo(Map<String,Object> map) throws Exception{
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		ElecGenerationMapper mapper=sqlSession.getMapper(ElecGenerationMapper.class);
+		int rs=mapper.checkTwo(map);
 	    sqlSession.commit();
 	    sqlSession.close();
 	    

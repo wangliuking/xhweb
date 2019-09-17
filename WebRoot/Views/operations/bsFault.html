@@ -11,6 +11,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta http-equiv="Expires" content="-1">
+<link rel="stylesheet" href="../../lib/layer-master/src/theme/layer.css">
 <script type="text/javascript"
 	src="../../Resources/js/xhbootstrap-css.js"></script>
 <!--[if lte IE 9]>
@@ -318,6 +319,64 @@ to {
 			</div>
 		</div>
 	</div>
+	<div class="modal fade" id="search-emh" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header ">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<small class="font-bold">导出停电告警》数据筛选：时间范围</small>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="hpanel">
+								<div class="panel-body">
+
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group col-md-12">
+												<label>开始时间</label>&nbsp;<span class="text-danger">[*]</span>
+												<input type="text" value="" class="form-control"
+													name="startTime" required="required"
+													onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+											</div>
+										</div>
+										<div class="col-md-12">
+											<div class="form-group col-md-12">
+												<label>结束时间</label>&nbsp;<span class="text-danger">[*]</span>
+												<input type="text" value="" class="form-control"
+													name="endTime" required="required" ng-model="nowDate"
+													onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+											</div>
+										</div>
+										<div class="col-md-12">
+											<div class="form-group col-md-12">
+												<label>建设期</label> <select class="form-control"
+													name="period" required="required">
+													<option value="0">==全部==</option>
+													<option value="3">三期</option>
+													<option value="4">四期</option>
+
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-danger btn-sm" type="button" id="btn-write2"
+						onclick="xh.excelToEmh()">
+						<i class="fa fa-file-excel-o"></i>&nbsp;导出
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
@@ -327,6 +386,8 @@ to {
 	<div ng-include="'bsAlarm-order.html'"></div>
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
+	   <script type="text/javascript"
+        src="../../lib/layer-master/dist/layer.js"></script>
 	<script type="text/javascript"
 		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
 	<script type="text/javascript"

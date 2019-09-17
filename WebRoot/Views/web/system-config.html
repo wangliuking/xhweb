@@ -73,13 +73,23 @@
 									</div>
 								</div>
 								<div class="form-group col-md-3">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="esight" class="toggle-switch" type="checkbox"
+												ng-checked="data.esight=='on'" name="esight"> <label
+												for="esight"></label>
+										</div>
+										esight告警提示
+									</div>
+								</div>
+								<div class="form-group col-md-3">
                                     <div class="list-group-item">
                                         <div class="pull-right">
-                                            <input id="esight" class="toggle-switch" type="checkbox"
-                                                ng-checked="data.esight=='on'" name="esight"> <label
-                                                for="esight"></label>
+                                            <input id="control" class="toggle-switch" type="checkbox"
+                                                ng-checked="data.control=='on'" name="control"> <label
+                                                for="control"></label>
                                         </div>
-                                        esight告警提示
+                                        控制信道告警提示
                                     </div>
                                 </div>
 								<div class="form-group col-md-3">
@@ -104,15 +114,15 @@
 									</div>
 								</div>
 								<div class="form-group col-md-3">
-                                    <div class="list-group-item">
-                                        <div class="pull-right">
-                                            <input id="ups_ignore" class="toggle-switch" type="checkbox"
-                                                ng-checked="data.ignore=='on'" name="ups_ignore"> <label
-                                                for="ups_ignore"></label>
-                                        </div>
-                                                                                                  忽略非市电中断告警
-                                    </div>
-                                </div>
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="ups_ignore" class="toggle-switch" type="checkbox"
+												ng-checked="data.ignore=='on'" name="ups_ignore"> <label
+												for="ups_ignore"></label>
+										</div>
+										忽略非市电中断告警
+									</div>
+								</div>
 								<div class="form-group col-md-3">
 									<div class="list-group-item">
 										<div class="pull-right">
@@ -134,25 +144,25 @@
 									</div>
 								</div>
 								<div class="form-group col-md-3">
-                                    <div class="list-group-item">
-                                        <div class="pull-right">
-                                            <input id="bs_check" class="toggle-switch" type="checkbox"
-                                                ng-checked="data.f=='on'" name="bs_check"> <label
-                                                for="bs_check"></label>
-                                        </div>
-                                        基站告警未核减2小时提示
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-3">
-                                    <div class="list-group-item">
-                                        <div class="pull-right">
-                                            <input id="bs_order" class="toggle-switch" type="checkbox"
-                                                ng-checked="data.g=='on'" name="bs_order"> <label
-                                                for="bs_order"></label>
-                                        </div>
-                                        基站告警10分钟未派单提示
-                                    </div>
-                                </div>
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="bs_check" class="toggle-switch" type="checkbox"
+												ng-checked="data.f=='on'" name="bs_check"> <label
+												for="bs_check"></label>
+										</div>
+										基站告警未核减2小时提示
+									</div>
+								</div>
+								<div class="form-group col-md-3">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="bs_order" class="toggle-switch" type="checkbox"
+												ng-checked="data.g=='on'" name="bs_order"> <label
+												for="bs_order"></label>
+										</div>
+										基站告警10分钟未派单提示
+									</div>
+								</div>
 
 							</div>
 							<!-- row -->

@@ -31,6 +31,8 @@
 		xhgmnet_web_user where userId in(select
 		userId from
 		xhgmnet_web_role_user where roleId=#{roleId})
+		
+		
 	</select>
 
 	<!--根据Role类型查找用户列表 -->
@@ -364,5 +366,8 @@
         limit 1
 
 	</select>
+	<select id="contact_group" resultType="java.util.HashMap" useCache="true">
+        select roleId,role,roleType from xhgmnet_web_role WHERE roleType=3
+    </select>
 
 </mapper>

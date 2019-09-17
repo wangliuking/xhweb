@@ -7,12 +7,49 @@
 
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
-				<small class="font-bold">发电通知</small>
+				<small class="font-bold">发电工单</small>
 			</div>
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
 
 				<div class="order">
 					<form action="" onsubmit="false" id="order-form">
+						<p>
+							<b>收单人:</b>{{detailData.recever}}
+						</p>
+						<p>
+							<b>抄 送：</b>{{detailData.copier}}
+						</p>
+						<p>
+							<b>状 态：</b> <span ng-if="detailData.status==0">接单中</span> <span
+								ng-if="detailData.status==1">等待处理</span> <span
+								ng-if="detailData.status==2">审核中</span> <span
+								ng-if="detailData.status==3" style="color:red">发电中</span> <span
+								ng-if="detailData.status==4" style="color:green">发电结束</span> <span
+								ng-if="detailData.status==5" style="color:red">单号已被取消</span>
+						</p>
+						<p ng-if="detailData.status<0 || detailData.status>=3">
+							审核发电: <span>时间：</span> <span style="color:green">{{detailData.check_time1 |timeFormat}}</span>
+							<span>回复：</span> <span style="color:red">{{detailData.check_note1}}</span>
+
+						</p>
+
+						<p ng-if="detailData.status<-1 || detailData.status>=5">
+							审核发电完成: <span>时间：</span> <span style="color:green">{{detailData.check_time2 |timeFormat}}</span>
+							<span>回复：</span> <span style="color:red">{{detailData.check_note2}}</span>
+
+						</p>
+						<p ng-if="detailData.gen_start_time!='' && detailData.gen_end_time!=''">
+                            <span>发电时长：</span> <span style="color:green">{{detailData| useTime}}</span>
+
+                        </p>
+						<div>
+						<p>基站断站记录：<span ng-if="rs_count==0">无</span></p>
+						<p ng-repeat="x in rs">
+						<span>断站时间：</span><span>{{rs.time}}</span>       
+						<span>恢复时间：</span><span>{{rs.faultRecoveryTime}}</span>
+						</p>
+						</div>
+
 						<table id="order-table"
 							style="width:100%;border-collapse: collapse;">
 							<!-- <thead>
@@ -21,9 +58,20 @@
 					</tr>
 					</thead> -->
 							<tbody>
-								<tr>
-									<td colspan="6" style="text-align: center;">发电通知</td>
+								<!-- <tr>
+									<td colspan="6" style="text-align: center;">发电工单</td>
 								</tr>
+								<tr>
+                                    <td>收单人</td>
+                                    <td colspan="3">{{detailData.recever}}</td>
+                                    
+
+                                </tr>
+                                <tr>
+                                    <td>抄送</td>
+                                    <td colspan="3">{{detailData.copier}}</td>
+
+                                </tr> -->
 								<tr>
 									<td>基站ID</td>
 									<td>{{detailData.bsId}}</td>
@@ -41,7 +89,7 @@
 
 									<td>派单人</td>
 									<td>{{detailData.send_userName}}</td>
-									<td>接单人</td>
+									<td>抢单人</td>
 									<td>{{detailData.userName}}</td>
 								</tr>
 								<tr>
@@ -62,8 +110,10 @@
 									<td>{{detailData.generation_v}}</td>
 
 									<td>发电图片</td>
-									<td><a href="#" ng-if="detailData.gen_on_pic!=null 
-									&& detailData.gen_on_pic!=''" ng-click="showPic()">显示图片</a></td>
+									<td><a href="#"
+										ng-if="detailData.gen_on_pic!=null 
+									&& detailData.gen_on_pic!=''"
+										ng-click="showPic()">显示图片</a></td>
 
 								</tr>
 								<tr>
@@ -80,8 +130,10 @@
 								<tr>
 
 									<td>收油机图片</td>
-									<td><a href="#" ng-if="detailData.gen_off_pic!=null 
-                                    && detailData.gen_off_pic!=''" ng-click="showOffPic()">显示图片</a></td>
+									<td><a href="#"
+										ng-if="detailData.gen_off_pic!=null 
+                                    && detailData.gen_off_pic!=''"
+										ng-click="showOffPic()">显示图片</a></td>
 									<td>收油机时间</td>
 									<td>{{detailData.gen_off_time | timeFormat}}</td>
 								</tr>
@@ -92,21 +144,10 @@
 								</tr>
 								<tr>
 
-                                    <td>地址</td>
-                                    <td colspan="3">{{detailData.address}}</td>
-                                </tr>
-                                <tr>
+									<td>地址</td>
+									<td colspan="3">{{detailData.address}}</td>
+								</tr>
 
-                                    <td>状态</td>
-                                    <td colspan="3">
-                                        <span ng-if="detailData.status==0">接单中</span>
-                                        <span ng-if="detailData.status==1">等待处理</span>
-                                        <span ng-if="detailData.status==2">审核中</span>
-                                        <span ng-if="detailData.status==3" style="color:red">发电中</span>
-                                        <span ng-if="detailData.status==4" style="color:green">发电结束</span>
-                                        <span ng-if="detailData.status==5" style="color:red">单号已被取消</span>
-                                        </td>
-                                </tr>
 
 							</tbody>
 						</table>
@@ -115,84 +156,141 @@
 
 
 			</div>
-			
+
 		</div>
 	</div>
 </div>
 
 <div class="modal fade" id="checkWin" tabindex="-1" role="dialog"
-    aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="color-line"></div>
-            <div class="modal-header"></div>
-            <div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
-                <form action="#" id="checkForm" onSubmit="return false">
-                    <div class="row" ng-show="false">
-                        <div class="col-md-12">
-                            <div class="form-group col-md-12">
-                                <label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
-                                    type="text" value="" class="form-control" name="id"
-                                    required="required" ng-model="checkData.id">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group col-md-12">
-                                <label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
-                                    class="form-control" name="checked" id="status">
-                                    <option value="1" selected="selected">审核通过</option>
-                                    <option value="-1">拒绝</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                  <!--   <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group col-md-12">
-                                <label>备注</label>
-                                <textarea name="note1" rows="4" cols="10" class="form-control"></textarea>
-                            </div>
-                        </div>
-                    </div> -->
-                    <!-- row-------end -->
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm"
-                    data-dismiss="modal">
-                    <i class="fa fa-remove"></i>&nbsp;关闭
-                </button>
-                <button type="button" class="btn btn-success btn-sm" ng-click="check()">
-                    <i class="fa fa-plus"></i>&nbsp;提交意见
-                </button>
-            </div>
-        </div>
-    </div>
+	aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header"></div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+				<form action="#" id="checkForm" onSubmit="return false">
+					<div class="row" ng-show="false">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="id"
+									required="required" ng-model="checkData.id">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
+									class="form-control" name="checked">
+									<option value="3" selected="selected">审核通过</option>
+									<option value="-1">拒绝</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注</label>
+								<textarea name="note1" rows="4" cols="10" class="form-control"></textarea>
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button" class="btn btn-success btn-sm"
+					ng-click="checkOne()">
+					<i class="fa fa-plus"></i>&nbsp;提交意见
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="checkWin2" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header"></div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+				<form action="#" id="checkForm2" onSubmit="return false">
+					<div class="row" ng-show="false">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="id"
+									required="required" ng-model="checkData.id">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
+									class="form-control" name="checked">
+									<option value="5" selected="selected">审核通过</option>
+									<option value="-2">拒绝</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注</label>
+								<textarea name="note2" rows="4" cols="10" class="form-control"></textarea>
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button" class="btn btn-success btn-sm"
+					ng-click="checkTwo()">
+					<i class="fa fa-plus"></i>&nbsp;提交意见
+				</button>
+			</div>
+		</div>
+	</div>
 </div>
 
+
 <div class="modal fade" id="picWin" tabindex="-1" role="dialog"
-    aria-hidden="true">
-    <div class="modal-dialog modal-md">
-        <div class="modal-content">
-            <div class="color-line"></div>
-            <div class="modal-body">
-             <div class="big-pic">
-            <img alt="" src="../../pic/{{pic_one}}" width="580px"  height="400px">
-            </div>
-            <div class="small-pic" style="height:100px;">
-            <ul>
-            <li ng-repeat=" x in pic"><img ng-click="pic_on_click(x)" alt="" src="../../pic/{{x}}" width="100px" height="100px"></li>
-            </ul>
-            </div>
-            </div>
+	aria-hidden="true">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-body">
+				<div class="big-pic">
+					<img alt="" src="../../pic/{{pic_one}}" width="580px"
+						height="400px">
+				</div>
+				<div class="small-pic" style="height:100px;">
+					<ul>
+						<li ng-repeat=" x in pic"><img ng-click="pic_on_click(x)"
+							alt="" src="../../pic/{{x}}" width="100px" height="100px"></li>
+					</ul>
+				</div>
+			</div>
 			<!--  <div class="modal-footer">
             </div> -->
 		</div>
-    </div>
+	</div>
 </div>
 <script type="text/javascript">
+	
 </script>
 
 

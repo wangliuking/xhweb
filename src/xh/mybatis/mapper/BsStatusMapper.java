@@ -197,6 +197,8 @@ public interface BsStatusMapper {
 	
 	public List<Map<String,Object>> bsFaultList(Map<String,Object> map) throws Exception;
 	
+	public List<BsAlarmExcelBean> bsFaultEmhList(Map<String,Object> map) throws Exception;
+	
 	public int bsFaultListCount(Map<String,Object> map) throws Exception;
 	
 	 /*更新基站故障表*/

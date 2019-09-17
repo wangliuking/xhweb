@@ -519,6 +519,26 @@ public class WebUserServices {
 		}
 		return result;
 	}
+	public static List<Map<String,Object>> contacts() {
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		WebUserMapper mapper=sqlSession.getMapper(WebUserMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+		List<Map<String, Object>> listRs=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.contact_group();
+			for (Map<String, Object> map : list) {
+				Integer roleId=Integer.parseInt(map.get("roleId").toString());
+				List<Map<String, Object>> list2=mapper.userlistByRoleId(roleId);
+				map.put("userList", list2);
+				listRs.add(map);
+			}
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  listRs;	
+	}
 	
 
 }
