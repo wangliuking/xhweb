@@ -124,6 +124,7 @@ public class WebUserController {
 		String g=funUtil.readXml("alarm", "bs_order");
 		String ignore=funUtil.readXml("alarm", "bs_ups_ignore");
 		String esight=funUtil.readXml("alarm", "esight");
+		String control=funUtil.readXml("alarm", "control");
 		HashMap result = new HashMap();
 		result.put("a", a);
 		result.put("b", b);
@@ -134,6 +135,7 @@ public class WebUserController {
 		result.put("g", g);
 		result.put("esight", esight);
 		result.put("ignore", ignore);
+		result.put("control", control);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -168,6 +170,8 @@ public class WebUserController {
 				funUtil.updateXML("alarm", "bs_ups_ignore",value);
 			}else if(name.equals("esight")){
 				funUtil.updateXML("alarm", "esight",value);
+			}else if(name.equals("control")){
+				funUtil.updateXML("alarm", "control",value);
 			}else{
 				
 			}

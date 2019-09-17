@@ -703,6 +703,9 @@
 		<if test="alarmType==7">
             and a.reason like '温度高%'
         </if>
+        <if test="alarmType==8">
+            and a.code=112
+        </if>
 
 		order by a.time desc
 
@@ -776,6 +779,9 @@
 		</if>
 		<if test="alarmType==7">
             and reason like '温度高%'
+        </if>
+          <if test="alarmType==8">
+            and code=112
         </if>
 
 	</select>

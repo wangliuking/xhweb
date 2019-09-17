@@ -233,16 +233,19 @@ to {
 
 		<div class="content animate-panel" style="margin-top:0">
 			<div class="row">
-				<div class="col-md-8">
+				<div class="col-md-9">
+<div class="hpanel">
+                        <div class="panel-body">
+                            <div class="col-md-12">				
 					<div class="form-group col-md-12">
 						<label>接单人</label>
 						<!-- 	<DIV class=divtxt id=divtxt></DIV> -->
-						<textarea rows="4" ng-focus="nowInput('recvUser')" cols=""
+						<textarea rows="3" ng-focus="nowInput('recvUser')" cols=""
 							class="form-control b-text" name="recvUser"></textarea>
 					</div>
 					<div class="form-group col-md-12">
 						<label>抄送</label>
-						<textarea rows="4" ng-focus="nowInput('copyUser')" cols=""
+						<textarea rows="3" ng-focus="nowInput('copyUser')" cols=""
 							class="form-control b-text" name="copyUser"></textarea>
 					</div>
 					<div class="col-md-12">
@@ -322,19 +325,19 @@ to {
 						</button>
 					</div>
 
-				</div>
-				<div class="col-md-4">
+				</div></div></div></div>
+				<div class="col-md-3">
 					<div class="hpanel">
 						<div class="panel-body">
 							<div class="col-md-12">
-								<TABLE>
+								<TABLE style="margin:0 auto;">
 									<TBODY>
 										<TR>
 											<TD>联系人</TD>
 										<TR>
 										<TR>
 											<TD>
-												<ul class="left" style="height:500px;">
+												<ul class="left" style="height:597px;">
 													<li ng-repeat="x in data">
 														<p>
 															<span class="pull-right select-all" index="{{$index}}"><a

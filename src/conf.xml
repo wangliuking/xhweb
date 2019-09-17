@@ -78,6 +78,9 @@
 	 <link>on</link>
 	 <bs_check>on</bs_check>
 	 <bs_order>on</bs_order>
+	 <esight>on</esight>
+	 <control>on</control>
+	 <bs_ups_ignore>off</bs_ups_ignore>
 	</alarm>
 	<doc>
 	<officeUrl>127.0.0.1</officeUrl>

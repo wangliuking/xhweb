@@ -38,6 +38,7 @@ public class ErrProTable {
 	private String copy_user;
 	private String recv_user_name;
 	private String copy_user_name;
+	private String handlepower;//0:可接单；1：可处理；2：只读
 	
 	private String zbdldm;
 	private String from;
@@ -220,6 +221,14 @@ public class ErrProTable {
 	}
 
 	
+
+	public String getHandlepower() {
+		return handlepower;
+	}
+
+	public void setHandlepower(String handlepower) {
+		this.handlepower = handlepower;
+	}
 
 	public String getStatus() {
 		return status;

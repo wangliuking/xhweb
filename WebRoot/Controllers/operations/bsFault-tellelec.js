@@ -52,7 +52,11 @@ xh.load = function() {
 			var c=$(this).closest('li');
 			var x=c.find(".select-all");
 			var b=c.find(".groupSub");
-			var icon=$(this).find("i:first")
+			var icon=$(this).find("i:first");
+			c.siblings().find(".groupSub").hide(200);
+			c.siblings().find(".select-all").hide(200);
+			c.siblings().find(".groupclose").find(".fa-minus-square").toggleClass('fa-minus-square').toggleClass('fa-plus-square');
+			
 			b.slideToggle(200);
 			x.slideToggle(200);
 			icon.toggleClass('fa-minus-square').toggleClass('fa-plus-square');
@@ -112,12 +116,12 @@ xh.gorder=function(){
 			for(var j=0;j<userL.length;j++){
 				for(var k=0;k<a.length;k++){
 					if(a[k]==userL[j].userName){
-						recvUser.push(userL[j].userId);
+						recvUser.push(userL[j].user);
 					}
 				}
 				for(var l=0;l<a.length;l++){
 					if(b[l]==userL[j].userName){
-						copyUser.push(userL[j].userId);
+						copyUser.push(userL[j].user);
 					}
 				}
 			}

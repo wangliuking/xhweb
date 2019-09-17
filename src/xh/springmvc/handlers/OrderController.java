@@ -289,7 +289,9 @@ public class OrderController {
 			for(int i=0;i<a1.length;i++){
 				bean.setUserid(a1[i]);
 				bean.setWorkman(a2[i]);
+				bean.setHandlepower("0");
 				demo.startMessageThread(bean.getUserid(), bean);
+				
 				log.info("派单：接收》"+bean);
 			}
 			//发送抄送人
@@ -298,6 +300,7 @@ public class OrderController {
 			for(int i=0;i<b1.length;i++){
 				bean.setUserid(b1[i]);
 				bean.setWorkman(b2[i]);
+				bean.setHandlepower("2");
 				demo.startMessageThread(bean.getUserid(), bean);
 				log.info("派单：抄送》"+bean);
 			}

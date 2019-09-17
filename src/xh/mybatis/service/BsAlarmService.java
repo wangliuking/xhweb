@@ -170,6 +170,21 @@ public class BsAlarmService {
 		}
 		return count;
 	}
+	public static int control_alarm() {
+		SqlSession sqlSession = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
+		int count = 0;
+		try {
+			count = mapper.control_alarm();
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
 
 	/**
 	 * 告警等级统计

@@ -94,6 +94,8 @@ public class ElecGenerationController {
 		map.put("recv_user", "");
 		map.put("recever", recv_user_name);
 		map.put("copier", copy_user_name);
+		map.put("recever_user", recv_user);
+		map.put("copier_user", copy_user);
 		map.put("poweroff_time", time);
 		map.put("comment", note);
 		map.put("dispatchtime", FunUtil.nowDate());
