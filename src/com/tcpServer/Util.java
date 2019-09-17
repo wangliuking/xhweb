@@ -1,9 +1,6 @@
 package com.tcpServer;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.tcpBean.*;
 import xh.func.plugin.FunUtil;
@@ -52,6 +49,9 @@ public class Util {
 	private static GetGenArg getGenArg;
 	private static GetPowerOnTime getPowerOnTime;
 	private static SearchBsByName searchBsByName;
+	private static ReceiveOrder receiveOrder;
+	private static GetOrderInfo getOrderInfo;
+	private static GenOffCheck genOffCheck;
 	
 	/**
 	 * 测试用主方法
@@ -293,13 +293,13 @@ public class Util {
 			}else if("gentableack".equals(cmdtype)){
 				genTableAck = (GenTableAck) JSONObject.toBean(jsonObject, GenTableAck.class);
 				//更新状态
-				String prostate = genTableAck.getProstate();
+				/*String prostate = genTableAck.getProstate();
 				Map<String,Object> param = new HashMap<String,Object>();
 				if("0".equals(prostate)){
 					param.put("serialnumber",genTableAck.getSerialnumber());
 					param.put("status",1);
 					Service.updateGenTableStatus(param);
-				}
+				}*/
 				map.put("returnMessage", "");
 				return map;
 			}else if("gencheck".equals(cmdtype)){
@@ -328,6 +328,44 @@ public class Util {
 				searchBsByName = (SearchBsByName) JSONObject.toBean(jsonObject, SearchBsByName.class);
 				SearchBsByNameAck searchBsByNameAck = Service.appSearchBsByNameAck(searchBsByName);
 				map.put("returnMessage", Object2Json(searchBsByNameAck));
+				return map;
+			}else if("receiveorder".equals(cmdtype)){
+				receiveOrder = (ReceiveOrder) JSONObject.toBean(jsonObject, ReceiveOrder.class);
+				ReceiveOrderAck receiveOrderAck = Service.appReceiveOrderAck(receiveOrder);
+				String str = receiveOrderAck.getHandlepower();
+				List<String> list = Arrays.asList(str.split(","));
+				if(list.size()>0){
+					ServerDemo demo=new ServerDemo();
+					for(String user : list){
+						receiveOrderAck.setUserid(user);
+						if(user.equals(receiveOrder.getUserid())){
+							receiveOrderAck.setHandlepower("1");
+						}else{
+							receiveOrderAck.setHandlepower("2");
+						}
+						System.out.println(receiveOrderAck);
+						demo.startMessageThread(user,receiveOrderAck);
+					}
+				}
+
+				map.put("returnMessage", "");
+				return map;
+			}else if("getorderinfo".equals(cmdtype)){
+				getOrderInfo = (GetOrderInfo) JSONObject.toBean(jsonObject, GetOrderInfo.class);
+				GetOrderInfoAck getOrderInfoAck = Service.appGetOrderInfoAck(getOrderInfo);
+				map.put("returnMessage", Object2Json(getOrderInfoAck));
+				return map;
+			}else if("genoffcheck".equals(cmdtype)){
+				genOffCheck = (GenOffCheck) JSONObject.toBean(jsonObject, GenOffCheck.class);
+				String serialnumber = genOffCheck.getSerialnumber();
+				Map<String,Object> paramMap = new HashMap<String,Object>();
+				paramMap.put("serialnumber", serialnumber);
+				paramMap.put("status", 2);
+				Service.updateElecStatus(paramMap);
+				//发送通知邮件通知网管组进行审核
+				FunUtil.sendMsgToUserByGroupPowerWithoutReq("r_order",3,"发电结束审核","有发电结束审核，请查阅！",genCheck.getUserid());
+				//GenCheckAck genCheckAck = Service.appGenCheckAck(genCheck);
+				map.put("returnMessage", "");
 				return map;
 			}
 						

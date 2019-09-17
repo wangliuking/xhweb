@@ -1,7 +1,7 @@
 package com.tcpBean;
 
-public class GenCheckAck {
-    private String cmdtype = "gencheckack";
+public class GenOffCheckAck {
+    private String cmdtype = "genoffcheckack";
     private String userid;
     private String serialnumber;
     private String auditor;
