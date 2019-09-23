@@ -7,6 +7,9 @@ $(document).ready(function() {
 	/*if (TopESAConfig()){xh.initCertList();}*/
 	/* 初始化页面加载动画 */
 	/*xh.setcookie("skin","skin-blur-ocean");*/
+  $(document).bind("contextmenu",function(e){   
+         return false;   
+   });
 	if(xh.getcookie("skin")==null || xh.getcookie("skin")==""){
 		xh.setcookie("skin","skin-blur-ocean");
 	}

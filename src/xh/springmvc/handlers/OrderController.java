@@ -2,6 +2,7 @@ package xh.springmvc.handlers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -286,24 +287,30 @@ public class OrderController {
 			//发送接单人
 			String[] a1=recv_user.split(",");
 			String[] a2=recv_user_name.split(";");
-			for(int i=0;i<a1.length;i++){
-				bean.setUserid(a1[i]);
-				bean.setWorkman(a2[i]);
-				bean.setHandlepower("0");
-				demo.startMessageThread(bean.getUserid(), bean);
-				
-				log.info("派单：接收》"+bean);
+			if(recv_user!=null && !recv_user.equals("")){
+				for(int i=0;i<a1.length;i++){
+					bean.setUserid(a1[i]);
+					bean.setWorkman(a2[i]);
+					bean.setHandlepower("0");
+					demo.startMessageThread(bean.getUserid(), bean);
+					
+					log.info("派单：接收》"+bean);
+				}
 			}
+			
 			//发送抄送人
 			String[] b1=copy_user.split(",");
 			String[] b2=copy_user_name.split(";");
-			for(int i=0;i<b1.length;i++){
-				bean.setUserid(b1[i]);
-				bean.setWorkman(b2[i]);
-				bean.setHandlepower("2");
-				demo.startMessageThread(bean.getUserid(), bean);
-				log.info("派单：抄送》"+bean);
+			if(copy_user!=null && !copy_user.equals("")){
+				for(int i=0;i<b1.length;i++){
+					bean.setUserid(b1[i]);
+					bean.setWorkman(b2[i]);
+					bean.setHandlepower("2");
+					demo.startMessageThread(bean.getUserid(), bean);
+					log.info("派单：抄送》"+bean);
+				}
 			}
+			
 			
 			
 			

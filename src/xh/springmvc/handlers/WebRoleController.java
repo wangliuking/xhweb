@@ -157,6 +157,8 @@ public class WebRoleController {
 			break;
 		}
 		int flag=WebRoleService.addRole(bean);
+		System.out.println("dsfsdfsdfdsf->"+flag);
+		System.out.println("dsfsdfsdfdsf->"+bean);
 		if (flag==0) {						
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));

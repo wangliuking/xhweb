@@ -42,8 +42,8 @@
 	</insert>
 		<!-- 新增菜单 -->
 	<insert id="addParentMenu" useGeneratedKeys="true" keyProperty="id" parameterType="map">
-		INSERT INTO xhgmnet_web_role_menu (id, name, pId, url,target, icon,iconSkin, checked, morder) 
-		select id, name, pId, url,target, icon,iconSkin, checked, morder from  xhgmnet_web_role_menu where roleId=#{parentId}
+		INSERT INTO xhgmnet_web_role_menu (id, name, pId, url,target, icon,iconSkin, checked, morder,roleId) 
+		select id, name, pId, url,target, icon,iconSkin, checked, morder,0 as roleId from  xhgmnet_web_role_menu where roleId=#{parentId}
 	</insert>
 	<delete id="deleteMenu" parameterType="java.util.List">
 		delete from xhgmnet_web_role_menu where roleId in(
