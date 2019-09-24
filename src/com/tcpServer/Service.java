@@ -29,7 +29,6 @@ public class Service {
 	private static GetMovebsInfoAck getMovebsInfoAck = new GetMovebsInfoAck();
 	private static GetOwnbsInfoAck getOwnbsInfoAck = new GetOwnbsInfoAck();
 	private static GetBsTypeAck getBsTypeAck = new GetBsTypeAck();
-	private static GetBsInfoAck getBsInfoAck = new GetBsInfoAck();
 	private static GetForGpsDstAck getForGpsDstAck = new GetForGpsDstAck();
 	private static BsInspectTableAck bsInspectTableAck = new BsInspectTableAck();
 	private static GetErrBsInfoAck getErrBsInfoAck = new GetErrBsInfoAck();
@@ -222,6 +221,22 @@ public class Service {
 	}
 
 	public static void main(String[] args) throws Exception {
+		UserLogin userLogin = new UserLogin();
+		userLogin.setUserid("test001");
+		userLogin.setPasswd("123");
+		userLogin.setSerialnumber("m22W0zFj");
+		LoginAck loginAck = Service.appLogin(userLogin);
+		System.out.println(loginAck);
+		/*GetBsInfo getBsInfo = new GetBsInfo();
+		getBsInfo.setSerialnumber("fefawfwefegndgefrw");
+		getBsInfo.setUserid("wlk");
+		getBsInfo.setBsid("126");
+		LinkedList<GetBsInfoAck> list = appGetBsInfoAck(getBsInfo);
+		for(GetBsInfoAck getBsInfoAck : list){
+			String res = Util.Object2Json(getBsInfoAck);
+			System.out.println(res);
+			System.out.println(res.length());
+		}*/
 		/*Map<String,List<Map<String,Object>>> res = getBsStatusInfo("126");
 		System.out.println(res.get("bsr"));
 		System.out.println(res.get("bsc"));
@@ -246,10 +261,17 @@ public class Service {
 		getOrderInfo.setSerialnumber("123456");
 		GetOrderInfoAck getOrderInfoAck = appGetOrderInfoAck(getOrderInfo);
 		System.out.println(getOrderInfoAck);*/
-		GetOrderInfo getOrderInfo = new GetOrderInfo();
-		getOrderInfo.setSerialnumber("123456");
+		/*GetOrderInfo getOrderInfo = new GetOrderInfo();
+		getOrderInfo.setSerialnumber("1234567");
+		getOrderInfo.setUserid("wlk");
 		GetOrderInfoAck getOrderInfoAck = appGetOrderInfoAck(getOrderInfo);
-		System.out.println(getOrderInfoAck);
+		System.out.println(getOrderInfoAck);*/
+
+		/*GetTableInfo getTableInfo = new GetTableInfo();
+		getTableInfo.setUserid("fnc");
+		getTableInfo.setSerialnumber("12345678");
+		GetTableInfoAck getTablInfoAck = appGetTableInfoAck(getTableInfo);
+		System.out.println(getTablInfoAck);*/
 	}
 
 	/**
@@ -391,10 +413,11 @@ public class Service {
 		return time;
 	}
 
-	public static String calcBatteryTime(String alarmTime,long battertMinute) throws Exception{
-		if("".equals(alarmTime)){
+	public static String calcBatteryTime(String alarmTime,String batteryHour) throws Exception{
+		if("".equals(alarmTime) || alarmTime == null || "".equals(batteryHour) || batteryHour == null){
 			return "";
 		}
+		long battertMinute = Long.parseLong(batteryHour)*60;
 		Date d1 = new Date();
 		Date d2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(alarmTime);
 		long l = d1.getTime() - d2.getTime();
@@ -405,9 +428,11 @@ public class Service {
 	/**
 	 * 获取基站详细信息
 	 */
-	public static GetBsInfoAck appGetBsInfoAck(GetBsInfo getBsInfo){
+	public static LinkedList<GetBsInfoAck> appGetBsInfoAck(GetBsInfo getBsInfo){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		LinkedList<GetBsInfoAck> resList = new LinkedList<GetBsInfoAck>();
+		GetBsInfoAck getBsInfoAck = new GetBsInfoAck();
 		getBsInfoAck.setUserid(getBsInfo.getUserid());
 		String bsId = getBsInfo.getBsid();
 		getBsInfoAck.setBsid(bsId);
@@ -451,18 +476,17 @@ public class Service {
 				//查询市电告警start
 				//初始化
 				Map<String,Object> powerOffMap = mapper.selectBsPowerOff(bsId);
-				String powerOffTime = powerOffMap.get("time")==null?"":powerOffMap.get("time")+"";
-				if(powerOffMap.size()>0){
-					bsinfo.put("powerofftime",powerOffTime);
-				}else{
-					bsinfo.put("powerofftime","");
+				String powerOffTime = "";
+				if(powerOffMap != null){
+					powerOffTime = powerOffMap.get("time")==null?"":powerOffMap.get("time")+"";
 				}
+				bsinfo.put("powerofftime",powerOffTime);
 				//查询市电告警end
 
 				//查询电池续航时间start
 				String batteryHour = mapper.selectBatteryTime(bsId);
 				if("".equals(batteryHour)){
-					String batteryTime = calcBatteryTime(powerOffTime,Long.parseLong(batteryHour)*60);
+					String batteryTime = calcBatteryTime(powerOffTime,batteryHour);
 					bsinfo.put("batterytime",batteryTime);
 				}else{
 					bsinfo.put("batterytime","");
@@ -479,7 +503,7 @@ public class Service {
 				getBsInfoAck.setPeriod(period);
 				getBsInfoAck.setBsinfo(bsinfo);
 				//获取单板状态start
-				Map<String,List<Map<String,Object>>> res = getBsStatusInfo("126");
+				Map<String,List<Map<String,Object>>> res = getBsStatusInfo(bsId);
 				getBsInfoAck.setBsstatus(res);
 				//获取单板状态end
 
@@ -521,47 +545,80 @@ public class Service {
 					four.put("camera",camera);
 					getBsInfoAck.setEmhinfo(four);
 				}
+				//基站最近巡检
 				List<Map<String,Object>> inspectlist = mapper.selectInspectListForSelfBs(bsId);
+				if(inspectlist.size() == 0){
+					getBsInfoAck.setStatus("1");
+					resList.add(getBsInfoAck);
+				}else if(inspectlist.size()<=6){
+					GetBsInfoAck getBsInfoAck1 = new GetBsInfoAck();
+					getBsInfoAck1.setBsid(bsId);
+					List<BsInspectTable> finalinspectlist = getInspectList(inspectlist,0,inspectlist.size());
+					getBsInfoAck1.setInspectlist(finalinspectlist);
+					getBsInfoAck.setStatus("0");
+					resList.add(getBsInfoAck);
+					getBsInfoAck1.setStatus("1");
+					resList.add(getBsInfoAck1);
+				}else if(inspectlist.size()>6){
+					GetBsInfoAck getBsInfoAck1 = new GetBsInfoAck();
+					getBsInfoAck1.setBsid(bsId);
+					List<BsInspectTable> finalinspectlist1 = getInspectList(inspectlist,0,6);
+					getBsInfoAck1.setInspectlist(finalinspectlist1);
 
-				List<BsInspectTable> finalinspectlist = new LinkedList<BsInspectTable>();
-				for(int i=0;i<inspectlist.size();i++){
-					Map<String,Object> map = inspectlist.get(i);
-					BsInspectTable bsInspectTable = new BsInspectTable();
-					bsInspectTable.setSerialnumber(map.get("serialnumber")+"");
-					bsInspectTable.setUserid(map.get("userid")+"");
-					bsInspectTable.setPeriod(map.get("period")+"");
-					bsInspectTable.setBsname(map.get("bsname")+"");
-					bsInspectTable.setBsid(map.get("bsid")+"");
-					bsInspectTable.setBslevel(map.get("bslevel")+"");
-					bsInspectTable.setCheckman(map.get("checkman")+"");
-					bsInspectTable.setBstype(map.get("bstype")+"");
-					bsInspectTable.setCommitdate(map.get("commitdate")+"");
-					bsInspectTable.setAmmeternumber(map.get("ammeternumber")+"");
-					bsInspectTable.setLongitude(map.get("longitude")+"");
-					bsInspectTable.setLatitude(map.get("latitude")+"");
-					bsInspectTable.setAddress(map.get("address")+"");
-					bsInspectTable.setRemainwork(map.get("remainwork")+"");
-					List<Map<String,String>> resultList = new LinkedList<Map<String,String>>();
-					for(int j=1;j<29;j++){
-						String result = map.get("d"+j)+"";
-						String remarks = map.get("c"+j)+"";
-						Map<String,String> temp = new HashMap<String,String>();
-						temp.put("result",result);
-						temp.put("remarks",remarks);
-						resultList.add(temp);
-						System.out.println(" result ======"+result+"=====remarks====="+remarks);
-					}
-					bsInspectTable.setMessage(resultList);
-					finalinspectlist.add(bsInspectTable);
+					GetBsInfoAck getBsInfoAck2 = new GetBsInfoAck();
+					getBsInfoAck2.setBsid(bsId);
+					List<BsInspectTable> finalinspectlist2 = getInspectList(inspectlist,6,inspectlist.size());
+					getBsInfoAck2.setInspectlist(finalinspectlist2);
+
+					getBsInfoAck.setStatus("0");
+					resList.add(getBsInfoAck);
+					getBsInfoAck1.setStatus("0");
+					resList.add(getBsInfoAck1);
+					getBsInfoAck2.setStatus("1");
+					resList.add(getBsInfoAck2);
 				}
-				//System.out.println(inspectlist);
-				getBsInfoAck.setInspectlist(finalinspectlist);
+
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return getBsInfoAck;
+		return resList;
+	}
+
+	public static List<BsInspectTable> getInspectList(List<Map<String,Object>> inspectlist,int start,int end){
+		List<BsInspectTable> finalinspectlist = new LinkedList<BsInspectTable>();
+		for(int i=start;i<end;i++){
+			Map<String,Object> map = inspectlist.get(i);
+			BsInspectTable bsInspectTable = new BsInspectTable();
+			bsInspectTable.setSerialnumber(map.get("serialnumber")+"");
+			bsInspectTable.setUserid(map.get("userid")+"");
+			bsInspectTable.setPeriod(map.get("period")+"");
+			bsInspectTable.setBsname(map.get("bsname")+"");
+			bsInspectTable.setBsid(map.get("bsid")+"");
+			bsInspectTable.setBslevel(map.get("bslevel")+"");
+			bsInspectTable.setCheckman(map.get("checkman")+"");
+			bsInspectTable.setBstype(map.get("bstype")+"");
+			bsInspectTable.setCommitdate(map.get("commitdate")+"");
+			bsInspectTable.setAmmeternumber(map.get("ammeternumber")+"");
+			bsInspectTable.setLongitude(map.get("longitude")+"");
+			bsInspectTable.setLatitude(map.get("latitude")+"");
+			bsInspectTable.setAddress(map.get("address")+"");
+			bsInspectTable.setRemainwork(map.get("remainwork")+"");
+			List<Map<String,String>> resultList = new LinkedList<Map<String,String>>();
+			for(int j=1;j<29;j++){
+				String result = map.get("d"+j)+"";
+				String remarks = map.get("c"+j)+"";
+				Map<String,String> temp = new HashMap<String,String>();
+				temp.put("result",result);
+				temp.put("remarks",remarks);
+				resultList.add(temp);
+				//System.out.println(" result ======"+result+"=====remarks====="+remarks);
+			}
+			bsInspectTable.setMessage(resultList);
+			finalinspectlist.add(bsInspectTable);
+		}
+		return finalinspectlist;
 	}
 	
 	/**
@@ -1363,7 +1420,112 @@ public class Service {
 	}
 
 	/**
-	 * 请求当前信息
+	 * 故障接单
+	 */
+	public static ReceiveTableAck appReceiveTableAck(ReceiveTable receiveTable){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		ReceiveTableAck receiveTableAck = new ReceiveTableAck();
+		receiveTableAck.setUserid(receiveTable.getUserid());
+		receiveTableAck.setSerialnumber(receiveTable.getSerialnumber());
+		try{
+			//更新故障派单
+			Map<String,String> paramMap = new HashMap<String,String>();
+			paramMap.put("serialNum", receiveTable.getSerialnumber());
+			paramMap.put("status", "0");
+			paramMap.put("break_order", "");
+			Service.updateUserStatus(paramMap);
+			//更新故障接收人
+			mapper.updateReceverFault(paramMap);
+			//查询可接单人
+			String persons = mapper.searchReceverFault(receiveTable.getSerialnumber());
+			receiveTableAck.setHandlepower(persons);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return receiveTableAck;
+	}
+
+	/**
+	 * 请求故障当前信息
+	 */
+	public static GetTableInfoAck appGetTableInfoAck(GetTableInfo getTableInfo){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		GetTableInfoAck getTableInfoAck = new GetTableInfoAck();
+		String userId = getTableInfo.getUserid();
+		getTableInfoAck.setSerialnumber(getTableInfo.getSerialnumber());
+		try{
+			Map<String,Object> map = mapper.searchAllFaultInfo(getTableInfo.getSerialnumber());
+			if(map != null && map.size()>0){
+				getTableInfoAck.setAck("0");
+				String id = map.get("id")==null?"":map.get("id")+"";
+				getTableInfoAck.setId(Integer.parseInt(id));
+				getTableInfoAck.setUserid(map.get("userid")==null?"":map.get("userid")+"");
+				getTableInfoAck.setBsname(map.get("bsname")==null?"":map.get("bsname")+"");
+				getTableInfoAck.setBsid(map.get("bsid")==null?"":map.get("bsid")+"");
+				getTableInfoAck.setOrderAccount(map.get("orderAccount")==null?"":map.get("orderAccount")+"");
+				getTableInfoAck.setDispatchtime(map.get("dispatchtime")==null?"":map.get("dispatchtime")+"");
+				getTableInfoAck.setDispatchman(map.get("dispatchman")==null?"":map.get("dispatchman")+"");
+				getTableInfoAck.setErrtype(map.get("errtype")==null?"":map.get("errtype")+"");
+				getTableInfoAck.setErrlevel(map.get("errlevel")==null?"":map.get("errlevel")+"");
+				getTableInfoAck.setErrfoundtime(map.get("errfoundtime")==null?"":map.get("errfoundtime")+"");
+				getTableInfoAck.setErrslovetime(map.get("errslovetime")==null?"":map.get("errslovetime")+"");
+				getTableInfoAck.setProgress(map.get("progress")==null?"":map.get("progress")+"");
+				getTableInfoAck.setProresult(map.get("proresult")==null?"":map.get("proresult")+"");
+				getTableInfoAck.setHungup(map.get("break_order")==null?"":map.get("break_order")+"");
+				getTableInfoAck.setWorkman(map.get("workman")==null?"":map.get("workman")+"");
+				getTableInfoAck.setAuditor(map.get("auditor")==null?"":map.get("auditor")+"");
+				getTableInfoAck.setLongitude(map.get("longitude")==null?"":map.get("longitude")+"");
+				getTableInfoAck.setLatitude(map.get("latitude")==null?"":map.get("latitude")+"");
+				getTableInfoAck.setAddress(map.get("address")==null?"":map.get("address")+"");
+				getTableInfoAck.setFrom(map.get("from")==null?"":map.get("from")+"");
+				String status = map.get("status")==null?"":map.get("status")+"";
+				getTableInfoAck.setStatus(status);
+
+				String userid = map.get("userid")==null?"":map.get("userid")+"";
+				String recv_user = map.get("recv_user")==null?"":map.get("recv_user")+"";
+				String copy_user = map.get("copy_user")==null?"":map.get("copy_user")+"";
+				List<String> receList = Arrays.asList(recv_user.split(","));
+				List<String> copiList = Arrays.asList(copy_user.split(","));
+				if(Integer.parseInt(status) == 0){
+					//接单中
+					for(String user : receList){
+						if(user.equals(userId)){
+							//为可接单人
+							getTableInfoAck.setHandlepower("0");
+						}
+					}
+					for(String user : copiList){
+						if(user.equals(userId)){
+							//为抄送人
+							getTableInfoAck.setHandlepower("2");
+						}
+					}
+				}else if(Integer.parseInt(status) > 0){
+					//有人已接单
+					if(userid.equals(userId)){
+						getTableInfoAck.setHandlepower("1");
+					}else{
+						getTableInfoAck.setHandlepower("2");
+					}
+				}
+			}else{
+				getTableInfoAck.setAck("1");
+			}
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return getTableInfoAck;
+	}
+
+	/**
+	 * 请求发电当前信息
 	 */
 	public static GetOrderInfoAck appGetOrderInfoAck(GetOrderInfo getOrderInfo){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
@@ -1374,63 +1536,67 @@ public class Service {
 		getOrderInfoAck.setSerialnumber(getOrderInfo.getSerialnumber());
 		try{
 			Map<String,Object> map = mapper.searchAllInfo(getOrderInfo.getSerialnumber());
-			String status = map.get("status")==null?"":map.get("status")+"";
-			getOrderInfoAck.setBsname(map.get("bsname")==null?"":map.get("bsname")+"");
-			getOrderInfoAck.setBsid(map.get("bsId")==null?"":map.get("bsId")+"");
-			getOrderInfoAck.setBsposition(map.get("bsposition")==null?"":map.get("bsposition")+"");
-			getOrderInfoAck.setDispatchtime(map.get("dispatchtime")==null?"":map.get("dispatchtime")+"");
-			getOrderInfoAck.setDispatchman(map.get("send_user")==null?"":map.get("send_user")+"");
-			getOrderInfoAck.setPowerofftime(map.get("poweroff_time")==null?"":map.get("poweroff_time")+"");
-			getOrderInfoAck.setRemarka(map.get("comment")==null?"":map.get("comment")+"");
-			getOrderInfoAck.setWorkman(map.get("recv_user")==null?"":map.get("recv_user")+"");
-			getOrderInfoAck.setProstate(status);
-			getOrderInfoAck.setGenontime(map.get("gen_start_time")==null?"":map.get("gen_start_time")+"");
-			getOrderInfoAck.setGenv(map.get("generation_v")==null?"":map.get("generation_v")+"");
-			getOrderInfoAck.setGeni(map.get("generation_i")==null?"":map.get("generation_i")+"");
-			getOrderInfoAck.setAddress(map.get("address")==null?"":map.get("address")+"");
-			getOrderInfoAck.setAuditor1(map.get("check_user1")==null?"":map.get("check_user1")+"");
-			getOrderInfoAck.setAuditor2(map.get("check_user2")==null?"":map.get("check_user2")+"");
-			getOrderInfoAck.setAudittime1(map.get("check_time1")==null?"":map.get("check_time1")+"");
-			getOrderInfoAck.setAudittime2(map.get("check_time2")==null?"":map.get("check_time2")+"");
-			String imgArr = map.get("gen_on_pic")==null?"":map.get("gen_on_pic")+"";
-			List<String> list = Arrays.asList(imgArr.split(","));
-			getOrderInfoAck.setGenonpiclist(list);
-			getOrderInfoAck.setRemarkgenon(map.get("gen_on_note")==null?"":map.get("gen_on_note")+"");
-			getOrderInfoAck.setPowerontime(map.get("poweron_time")==null?"":map.get("poweron_time")+"");
-			getOrderInfoAck.setGenofftime(map.get("gen_end_time")==null?"":map.get("gen_end_time")+"");
-			getOrderInfoAck.setRemovegentime(map.get("gen_off_time")==null?"":map.get("gen_off_time")+"");
-			String imgEndArr = map.get("gen_off_pic")==null?"":map.get("gen_off_pic")+"";
-			List<String> list1 = Arrays.asList(imgEndArr.split(","));
-			getOrderInfoAck.setGenoffpiclist(list1);
-			getOrderInfoAck.setRemarkgenoff(map.get("gen_off_note")==null?"":map.get("gen_off_note")+"");
-			String recv_user = map.get("recv_user")==null?"":map.get("recv_user")+"";
-			String recever_user = map.get("recever_user")==null?"":map.get("recever_user")+"";
-			String copier_user = map.get("copier_user")==null?"":map.get("copier_user")+"";
-			List<String> receList = Arrays.asList(recever_user.split(","));
-			List<String> copiList = Arrays.asList(copier_user.split(","));
-			if(Integer.parseInt(status) == 0){
-				//接单中
-				for(String user : receList){
-					if(user.equals(userId)){
-						//为可接单人
-						getOrderInfoAck.setHandlepower("0");
+			if(map != null && map.size()>0){
+				getOrderInfoAck.setAck("0");
+				String status = map.get("status")==null?"":map.get("status")+"";
+				getOrderInfoAck.setBsname(map.get("bsname")==null?"":map.get("bsname")+"");
+				getOrderInfoAck.setBsid(map.get("bsid")==null?"":map.get("bsid")+"");
+				getOrderInfoAck.setBsposition(map.get("bsposition")==null?"":map.get("bsposition")+"");
+				getOrderInfoAck.setDispatchtime(map.get("dispatchtime")==null?"":map.get("dispatchtime")+"");
+				getOrderInfoAck.setDispatchman(map.get("send_user")==null?"":map.get("send_user")+"");
+				getOrderInfoAck.setPowerofftime(map.get("poweroff_time")==null?"":map.get("poweroff_time")+"");
+				getOrderInfoAck.setRemarka(map.get("comment")==null?"":map.get("comment")+"");
+				getOrderInfoAck.setWorkman(map.get("recv_user")==null?"":map.get("recv_user")+"");
+				getOrderInfoAck.setProstate(status);
+				getOrderInfoAck.setGenontime(map.get("gen_start_time")==null?"":map.get("gen_start_time")+"");
+				getOrderInfoAck.setGenv(map.get("generation_v")==null?"":map.get("generation_v")+"");
+				getOrderInfoAck.setGeni(map.get("generation_i")==null?"":map.get("generation_i")+"");
+				getOrderInfoAck.setAddress(map.get("address")==null?"":map.get("address")+"");
+				getOrderInfoAck.setAuditor1(map.get("check_user1")==null?"":map.get("check_user1")+"");
+				getOrderInfoAck.setAuditor2(map.get("check_user2")==null?"":map.get("check_user2")+"");
+				getOrderInfoAck.setAudittime1(map.get("check_time1")==null?"":map.get("check_time1")+"");
+				getOrderInfoAck.setAudittime2(map.get("check_time2")==null?"":map.get("check_time2")+"");
+				String imgArr = map.get("gen_on_pic")==null?"":map.get("gen_on_pic")+"";
+				List<String> list = Arrays.asList(imgArr.split(","));
+				getOrderInfoAck.setGenonpiclist(list);
+				getOrderInfoAck.setRemarkgenon(map.get("gen_on_note")==null?"":map.get("gen_on_note")+"");
+				getOrderInfoAck.setPowerontime(map.get("poweron_time")==null?"":map.get("poweron_time")+"");
+				getOrderInfoAck.setGenofftime(map.get("gen_end_time")==null?"":map.get("gen_end_time")+"");
+				getOrderInfoAck.setRemovegentime(map.get("gen_off_time")==null?"":map.get("gen_off_time")+"");
+				String imgEndArr = map.get("gen_off_pic")==null?"":map.get("gen_off_pic")+"";
+				List<String> list1 = Arrays.asList(imgEndArr.split(","));
+				getOrderInfoAck.setGenoffpiclist(list1);
+				getOrderInfoAck.setRemarkgenoff(map.get("gen_off_note")==null?"":map.get("gen_off_note")+"");
+				String recv_user = map.get("recv_user")==null?"":map.get("recv_user")+"";
+				String recever_user = map.get("recever_user")==null?"":map.get("recever_user")+"";
+				String copier_user = map.get("copier_user")==null?"":map.get("copier_user")+"";
+				List<String> receList = Arrays.asList(recever_user.split(","));
+				List<String> copiList = Arrays.asList(copier_user.split(","));
+				if(Integer.parseInt(status) == 0){
+					//接单中
+					for(String user : receList){
+						if(user.equals(userId)){
+							//为可接单人
+							getOrderInfoAck.setHandlepower("0");
+						}
 					}
-				}
-				for(String user : copiList){
-					if(user.equals(userId)){
-						//为抄送人
+					for(String user : copiList){
+						if(user.equals(userId)){
+							//为抄送人
+							getOrderInfoAck.setHandlepower("2");
+						}
+					}
+				}else if(Integer.parseInt(status) > 0){
+					//有人已接单
+					if(recv_user.equals(userId)){
+						getOrderInfoAck.setHandlepower("1");
+					}else{
 						getOrderInfoAck.setHandlepower("2");
 					}
 				}
-			}else if(Integer.parseInt(status) > 0){
-				//有人已接单
-				if(recv_user.equals(userId)){
-					getOrderInfoAck.setHandlepower("1");
-				}else{
-					getOrderInfoAck.setHandlepower("2");
-				}
+			}else{
+				getOrderInfoAck.setAck("1");
 			}
-
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

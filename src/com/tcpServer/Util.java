@@ -52,6 +52,8 @@ public class Util {
 	private static ReceiveOrder receiveOrder;
 	private static GetOrderInfo getOrderInfo;
 	private static GenOffCheck genOffCheck;
+	private static ReceiveTable receiveTable;
+	private static GetTableInfo getTableInfo;
 	
 	/**
 	 * 测试用主方法
@@ -121,7 +123,7 @@ public class Util {
 				String serialNum = errProTableAck.getSerialnumber();
 				Map<String,String> paramMap = new HashMap<String,String>();
 				paramMap.put("serialNum", serialNum);
-				paramMap.put("status", "1");
+				paramMap.put("status", "0");
 				paramMap.put("break_order", "");
 				Service.updateUserStatus(paramMap);
 				//更新四方伟业库
@@ -129,7 +131,7 @@ public class Util {
 				ErrProTable bean = new ErrProTable();
 				bean.setBsid(orderMap.get("bsid")+"");
 				bean.setZbdldm(orderMap.get("zbdldm")+"");
-				bean.setStatus("处理中");
+				bean.setStatus("接单中");
 				System.out.println(bean);
 				OrderService.updateSfOrder(bean);
 				map.put("returnMessage", "");
@@ -252,7 +254,7 @@ public class Util {
 				return map;
 			}else if("gpsinfoup".equals(cmdtype)){
 				gpsInfoUp = (GpsInfoUp) JSONObject.toBean(jsonObject, GpsInfoUp.class);
-				Service.appInsertGpsInfoUp(gpsInfoUp);		
+				Service.appInsertGpsInfoUp(gpsInfoUp);
 				map.put("returnMessage", "");
 				return map;
 			}else if("getallapplist".equals(cmdtype)){
@@ -262,8 +264,12 @@ public class Util {
 				return map;
 			}else if("getbsinfo".equals(cmdtype)){
 				getBsInfo = (GetBsInfo) JSONObject.toBean(jsonObject, GetBsInfo.class);
-				GetBsInfoAck getBsInfoAck = Service.appGetBsInfoAck(getBsInfo);
-				map.put("returnMessage", Object2Json(getBsInfoAck));
+				LinkedList<GetBsInfoAck> list = Service.appGetBsInfoAck(getBsInfo);
+				for (int i=0;i<list.size();i++) {
+					String key = "returnMessage"+i;
+					map.put(key, Object2Json(list.get(i)));
+				}
+				map.put("returnMessage", "for");
 				return map;
 			}else if("geterrbsinfo".equals(cmdtype)){
 				getErrBsInfo = (GetErrBsInfo) JSONObject.toBean(jsonObject, GetErrBsInfo.class);
@@ -366,6 +372,32 @@ public class Util {
 				FunUtil.sendMsgToUserByGroupPowerWithoutReq("r_order",3,"发电结束审核","有发电结束审核，请查阅！",genCheck.getUserid());
 				//GenCheckAck genCheckAck = Service.appGenCheckAck(genCheck);
 				map.put("returnMessage", "");
+				return map;
+			}else if("receivetable".equals(cmdtype)){
+				receiveTable = (ReceiveTable) JSONObject.toBean(jsonObject, ReceiveTable.class);
+				ReceiveTableAck receiveTableAck = Service.appReceiveTableAck(receiveTable);
+				String str = receiveTableAck.getHandlepower();
+				List<String> list = Arrays.asList(str.split(","));
+				if(list.size()>0){
+					ServerDemo demo=new ServerDemo();
+					for(String user : list){
+						receiveTableAck.setUserid(user);
+						if(user.equals(receiveTable.getUserid())){
+							receiveTableAck.setHandlepower("1");
+						}else{
+							receiveTableAck.setHandlepower("2");
+						}
+						System.out.println(receiveTableAck);
+						demo.startMessageThread(user,receiveTableAck);
+					}
+				}
+
+				map.put("returnMessage", "");
+				return map;
+			} else if("gettableinfo".equals(cmdtype)){
+				getTableInfo = (GetTableInfo) JSONObject.toBean(jsonObject, GetTableInfo.class);
+				GetTableInfoAck getTableInfoAck = Service.appGetTableInfoAck(getTableInfo);
+				map.put("returnMessage", Object2Json(getTableInfoAck));
 				return map;
 			}
 						

@@ -27,6 +27,7 @@ public class GetBsInfoAck {
 	private Map<String,List<Map<String,Object>>> bsstatus;
 	private Map<String,Object> emhinfo;
 	private List<BsInspectTable> inspectlist;
+	private String status;
 
 	public String getCmdtype() {
 		return cmdtype;
@@ -100,6 +101,14 @@ public class GetBsInfoAck {
 		this.bsstatus = bsstatus;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	@Override
 	public String toString() {
 		return "GetBsInfoAck{" +
@@ -112,6 +121,7 @@ public class GetBsInfoAck {
 				", bsstatus=" + bsstatus +
 				", emhinfo=" + emhinfo +
 				", inspectlist=" + inspectlist +
+				", status='" + status + '\'' +
 				'}';
 	}
 }

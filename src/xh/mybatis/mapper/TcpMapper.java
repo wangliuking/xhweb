@@ -220,6 +220,11 @@ public interface TcpMapper {
 	public String searchReceverElec(String serialnumber)throws  Exception;
 
 	/**
+	 * 根据订单号查询接单人，用于故障接单后的推送
+	 */
+	public String searchReceverFault(String serialnumber)throws  Exception;
+
+	/**
 	 * 根据订单号更新发电接单人
 	 */
 	public int updateReceverElec(Map<String,Object> param)throws  Exception;
@@ -228,5 +233,15 @@ public interface TcpMapper {
 	 * 根据订单号查询全部信息
 	 */
 	public Map<String,Object> searchAllInfo(String serialnumber)throws  Exception;
+
+	/**
+	 * 根据订单号更新故障接单人
+	 */
+	public int updateReceverFault(Map<String,String> param)throws  Exception;
+
+	/**
+	 * 根据订单号查询全部故障信息
+	 */
+	public Map<String,Object> searchAllFaultInfo(String serialnumber)throws  Exception;
 
 }
