@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +20,8 @@ import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
 import xh.mybatis.bean.DgnaBean;
 import xh.mybatis.service.DgnaServices;
+import xh.mybatis.service.DispatchStatusService;
+import xh.mybatis.service.GpsService;
 import xh.mybatis.service.TalkGroupService;
 import xh.mybatis.service.UcmService;
 import xh.mybatis.service.WebUserServices;
@@ -173,57 +176,82 @@ public class UcmController {
 	public synchronized void gpsset(HttpServletRequest request, HttpServletResponse response){
 		/*String formData=request.getParameter("data");*/
 		String[] data=request.getParameter("data").split(",");
-		int dstId=funUtil.StringToInt(request.getParameter("dstId"));
+		//int dstId=funUtil.StringToInt(request.getParameter("dstId"));
 		int operation=funUtil.StringToInt(request.getParameter("operation"));
 		int triggerParaTime=funUtil.StringToInt(request.getParameter("triggerParaTime"));
 		int locationDstId=funUtil.StringToInt(request.getParameter("locationDstId"));
 		int gpsen=funUtil.StringToInt(request.getParameter("gpsen"));
+		String table="xhgmnet_gpsinfo";
+		String now=funUtil.nowDateNotTime().split("-")[1];
+		table+=now;
+		
 		for(int i=0;i<data.length;i++){
 			GpsSetStruct struct=new GpsSetStruct();
+			Map<String,Object> mm=new HashMap<String,Object>();
 			int srcId=funUtil.StringToInt(data[i]);
-			struct.setSrcId(dstId);
-			struct.setDstId(srcId);
-			
-			switch (operation) {
-			case 1:
-				//立即请求
-				struct.setReferenceNumber(0);
-				struct.setLocationDstId(locationDstId);
-				message=UcmService.sendImmGps(struct);
-				if(message.equals("success")){
-					this.success=true;
-				}else{
+			mm.put("srcId", srcId);
+			mm.put("table", table);
+			int dstId=GpsService.user_dstId(mm);
+			if(dstId>0){
+				Map<String,Object> ip_port=DispatchStatusService.dispatch_ip_port(String.valueOf(dstId));
+				if(ip_port==null){
+					this.message="没有配置，或者开启调度台("+dstId+")";
 					this.success=false;
-				}
-				break;
-			case 2:
-				//gps触发器
-				struct.setLocationDstId(locationDstId);
-				struct.setTriggerType(operation);
-				struct.setTriggerPara(triggerParaTime);
-				message=UcmService.sendGpsTrigger(struct);
-				if(message.equals("success")){
-					this.success=true;
 				}else{
-					this.success=false;
-				}
-				
-				break;
-			case 3:
-				//gps使能设置
-				struct.setEnableFlag(gpsen);
-				message=UcmService.sendGpsEn(struct);
-				if(message.equals("success")){
-					this.success=true;
-				}else{
-					this.success=false;
-				}
-			
-				break;
+					struct.setSrcId(dstId+1);
+					struct.setDstId(srcId);
+					struct.setIp(ip_port.get("ip").toString());
+					struct.setPort(Integer.parseInt(ip_port.get("port").toString()));
+					
+					switch (operation) {
+					case 1:
+						//立即请求
+						struct.setReferenceNumber(0);
+						struct.setLocationDstId(locationDstId);
+						message=UcmService.sendImmGps(struct);
+						if(message.equals("success")){
+							this.success=true;
+						}else{
+							this.success=false;
+						}
+						break;
+					case 2:
+						//gps触发器
+						struct.setLocationDstId(locationDstId);
+						struct.setTriggerType(operation);
+						struct.setTriggerPara(triggerParaTime);
+						message=UcmService.sendGpsTrigger(struct);
+						if(message.equals("success")){
+							this.success=true;
+						}else{
+							this.success=false;
+						}
+						
+						break;
+					case 3:
+						//gps使能设置
+						struct.setEnableFlag(gpsen);
+						message=UcmService.sendGpsEn(struct);
+						if(message.equals("success")){
+							this.success=true;
+						}else{
+							this.success=false;
+						}
+					
+						break;
 
-			default:
-				break;
+					default:
+						break;
+					}
+				}
+			}else{
+				this.message="设置失败！！，没有找到该手台注册的调度台号，说明最近未上报GPS信息";
+				this.success=false;
 			}
+			
+			
+			
+			
 			
 		}
 			HashMap result = new HashMap();

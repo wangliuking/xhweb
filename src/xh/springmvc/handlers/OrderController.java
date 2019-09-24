@@ -193,6 +193,7 @@ public class OrderController {
 		Map<String,Object> map=new HashMap<String, Object>();
 		map.put("status", status);
 		map.put("id", id);
+		System.out.println(map);
 		
 		int code=OrderService.updateOrder(map);
 		
@@ -201,16 +202,12 @@ public class OrderController {
 		errCheckAck.setSerialnumber(serialnumber);
 		errCheckAck.setUserid(userid);
 		errCheckAck.setAuditor(SingLoginListener.getLogUserMap().get(request.getSession().getId())+"");
-		if(status == 2){
-			errCheckAck.setResult("0");
-		}else{
-			errCheckAck.setResult("1");
-		}
+		errCheckAck.setResult(String.valueOf(status));
 
 		demo.startMessageThread(userid, errCheckAck);
 		
 		if(code>0){
-			if(from.equals("数据分析")){
+			/*if(from.equals("数据分析")){
 				ErrProTable bean=new ErrProTable();
 				bean.setBsid(bsid);
 				bean.setFrom(from);
@@ -218,7 +215,7 @@ public class OrderController {
 				bean.setStatus("已处理");
 				OrderService.updateSfOrder(bean);
 			}
-			
+			*/
 			this.success=true;
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));

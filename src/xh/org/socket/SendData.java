@@ -69,6 +69,49 @@ public class SendData {
 			// socket.setSoTimeout(10000);
 
 	}
+	public void connection(String ip,int port) {
+		try {
+			socket = new Socket(ip,port);
+			log.debug("---------------------------------");
+			log.debug("GPS设置客户端已建立连接:");
+			log.debug("连接IP:"+ip);
+			log.debug("连接端口:"+port);
+			log.debug("---------------------------------");
+		} catch (UnknownHostException e) {
+			message = "没有找到主机，请检查端口号或者主机IP地址是否正确";
+			log.debug("---------------------------------");
+			log.debug("GPS-》" + message);
+			log.debug("---------------------------------");
+		} catch (IOException e) {
+			message = "网络无响应";
+			System.out.println(message);
+			log.debug("---------------------------------");
+			log.debug("GPS-》" + message);
+			log.debug("---------------------------------");
+			// e.printStackTrace();
+		}
+		try {
+			socket.setSoTimeout(10000);
+		} catch (SocketException e1) {
+			message = "对方没有应答";
+			log.debug("---------------------------------");
+			log.debug("GPS设置客户端已经关闭连接");
+			log.debug("---------------------------------");
+			e1.printStackTrace();
+		}
+		try {
+			socket.setKeepAlive(true);
+		} catch (SocketException e) {
+			message = "网络已经断开";
+			log.debug("---------------------------------");
+			log.debug("GPS网络已经断开");
+			log.debug("---------------------------------");
+			// e.printStackTrace();
+		}// 开启保持活动状态的套接字
+			// socket.setSoTimeout(10000);
+
+	}
+
 
 	/* private static MessageStruct header = new MessageStruct(); */
 	/* gps立即请求 */
@@ -76,7 +119,7 @@ public class SendData {
 			throws IOException {
 		// 创建客户端的Socket服务，指定目的主机和端口。
 		NetDataTypeTransform dd = new NetDataTypeTransform();
-		connection();
+		connection(getData.getIp(),getData.getPort());
 
 		// ====================================
 		// 发送数据，应该获取Socket流中的输出流。
@@ -106,9 +149,11 @@ public class SendData {
 		out.write(info);
 		log.debug("ImmGps-length:" + info.length);
 		log.debug("ImmGps:" + getData.toString());
+		
 		socket.close();
+		message="success";
 		log.debug("socket连接自动关闭");
-		return "success";
+		return message;
 
 	}
 
@@ -117,7 +162,7 @@ public class SendData {
 			throws IOException {
 		// 创建客户端的Socket服务，指定目的主机和端口。
 		NetDataTypeTransform dd = new NetDataTypeTransform();
-		connection();
+		connection(getData.getIp(),getData.getPort());
 
 		// ====================================
 		// 发送数据，应该获取Socket流中的输出流。
@@ -158,7 +203,7 @@ public class SendData {
 			throws IOException {
 		// 创建客户端的Socket服务，指定目的主机和端口。
 		NetDataTypeTransform dd = new NetDataTypeTransform();
-		connection();
+		connection(getData.getIp(),getData.getPort());
 
 		// ====================================
 		// 发送数据，应该获取Socket流中的输出流。

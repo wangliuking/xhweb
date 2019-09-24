@@ -91,6 +91,24 @@ public class DispatchStatusService {
 		session.close();
 		return rsList;
 	}
+	/**
+	 *  <!--查询调度台IP,PORT-->
+	 */
+	public static Map<String,Object> dispatch_ip_port(String dstId){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		DispatchStatusMapper mapper = session.getMapper(DispatchStatusMapper.class);
+			
+		Map<String,Object> rsList=new HashMap<String, Object>();
+		try {
+			rsList = mapper.dispatch_ip_port(dstId);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return rsList;
+	}
 	public static List<Map<String,Object>> select_by_setup(){
 		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		DispatchStatusMapper mapper = session.getMapper(DispatchStatusMapper.class);

@@ -128,6 +128,7 @@ public class ElecGenerationController {
 				for(int i=0;i<a1.length;i++){
 					bean.setUserid(a1[i]);
 					bean.setWorkman(a2[i]);
+					bean.setHandlepower("0");
 					demo.startMessageThread(bean.getUserid(), bean);
 				}
 			}
@@ -139,6 +140,7 @@ public class ElecGenerationController {
 				for(int i=0;i<b1.length;i++){
 					bean.setUserid(b1[i]);
 					bean.setWorkman(b2[i]);
+					bean.setHandlepower("2");
 					demo.startMessageThread(bean.getUserid(), bean);
 				}
 			}

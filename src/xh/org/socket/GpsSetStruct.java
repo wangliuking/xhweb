@@ -16,6 +16,10 @@ public class GpsSetStruct {
 	
 	private int triggerType;//1
 	private int triggerPara;//4
+	
+	
+	private String ip;
+	private int port;
 	public int getSrcId() {
 		return srcId;
 	}
@@ -57,6 +61,19 @@ public class GpsSetStruct {
 	}
 	public void setTriggerPara(int triggerPara) {
 		this.triggerPara = triggerPara;
+	}
+	
+	public String getIp() {
+		return ip;
+	}
+	public int getPort() {
+		return port;
+	}
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+	public void setPort(int port) {
+		this.port = port;
 	}
 	@Override
 	public String toString() {

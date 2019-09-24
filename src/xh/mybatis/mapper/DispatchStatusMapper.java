@@ -81,5 +81,13 @@ public interface DispatchStatusMapper {
 	public int deleteDispatch(List<String> list) throws Exception;
 	
 	public List<Map<String,Object>> select_by_setup() throws Exception;
+	
+	/**
+	 *  <!--查询调度台IP,PORT-->
+	 * @param dstId
+	 * @return
+	 * @throws Exception
+	 */
+	public Map<String,Object> dispatch_ip_port(String dstId) throws Exception;
 
 }
