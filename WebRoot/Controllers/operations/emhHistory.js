@@ -36,6 +36,36 @@ xh.load = function() {
     var endUps4 = $("#endUps4").val();
     var startE1 = $("#startE1").val();
     var endE1 = $("#endE1").val();
+
+    app.filter('changeAlarm', function() { //可以注入依赖
+        return function(text) {
+            if(text=="" || text==null){
+                return "";
+            }else{
+                if(parseFloat(text) == 0){
+                    return "正常";
+                }else if(parseFloat(text) == 1){
+                    return "告警";
+                }
+
+            }
+        };
+    });
+
+    app.filter('changeStatus', function() { //可以注入依赖
+        return function(text) {
+            if(text=="" || text==null){
+                return "";
+            }else{
+                if(parseFloat(text) == 0){
+                    return "在线";
+                }else if(parseFloat(text) == 1){
+                    return "离线";
+                }
+
+            }
+        };
+    });
 	
 	app.filter('upp', function() { //可以注入依赖
 		return function(text) {
@@ -62,14 +92,14 @@ xh.load = function() {
 		$scope.count = "15";//每页数据显示默认值
 		$scope.systemMenu=true; //菜单变色
         $scope.bsPeriod = 4;
-		$http.get("../../gonsuncn/emhHistory?bsId="+bsId+"&startTime="+startTime+"&endTime="+endTime+"&start=0&limit="+pageSize+
+		/*$http.get("../../gonsuncn/emhHistory?bsId="+bsId+"&startTime="+startTime+"&endTime="+endTime+"&start=0&limit="+pageSize+
 			"&startUps1="+startUps1+"&endUps1="+endUps1+"&startUps4="+startUps4+"&endUps4="+endUps4+"&startE1="+startE1+"&endE1="+endE1).
 		success(function(response){
 			xh.maskHide();
 			$scope.data = response.items;
 			$scope.totals = response.totals;
 			xh.pagging(1, parseInt($scope.totals), $scope);
-		});
+		});*/
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$("#bsId").val("");

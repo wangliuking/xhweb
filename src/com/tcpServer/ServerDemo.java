@@ -7,12 +7,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.tcpBean.ErrProTable;
 import com.tcpBean.UserLogin;
@@ -20,7 +16,7 @@ import com.tcpBean.UserLogin;
 public class ServerDemo {
 	private boolean isStartServer = false;
 	//未发送的消息
-	public static ArrayList<Map<String,Object>> unsentMessageList = new ArrayList<Map<String,Object>>();
+	public static ConcurrentHashMap<String,LinkedList<Object>> unsentMessageList = new ConcurrentHashMap<String,LinkedList<Object>>();
 	
 	public static ArrayList<SocketThread> mThreadList = new ArrayList<SocketThread>();
 
@@ -78,23 +74,23 @@ public class ServerDemo {
 					writer.flush();
 					System.out.println("向客户端" + st.userId + "===" + st.socket.getInetAddress()
 							+ "发送了消息" + sendMessage);
-					/*boolean result = true;
-					while (result) {
-						if (reader.ready()) {
-							System.out.println("收到消息，准备解析:");
-							String data = reader.readLine();
-							System.out.println("接受到回复：" + data);
-							result = false;
-						}
-					}*/
 				} else
 					continue;
 			}
 			if(!userList.contains(userId)){//此时该用户不在线，保存此派单信息
-				Map<String,Object> unsentMap = new HashMap<String,Object>();
-				unsentMap.put("userId", userId);
-				unsentMap.put("objectMessage", object);
-				unsentMessageList.add(unsentMap);
+				if(unsentMessageList.containsKey(userId)){
+					//未发送消息中有该用户
+					LinkedList<Object> list = unsentMessageList.get(userId);
+					list.add(object);
+					unsentMessageList.put(userId,list);
+				}else{
+					//未发送消息中无该用户
+					LinkedList<Object> list = new LinkedList<Object>();
+					list.add(object);
+					unsentMessageList.put(userId,list);
+				}
+				System.out.println("当前所有连接为："+mThreadList);
+				System.out.println("当前所有未发送的信息为："+unsentMessageList);
 			}
 			
 		} catch (IOException e) {
@@ -172,11 +168,13 @@ public class ServerDemo {
 						String returnMessage = tempMap.get("returnMessage");
 						if(!"".equals(returnMessage) && returnMessage!=null){
 							if("for".equals(returnMessage)){
-								for(String key:tempMap.keySet()){
-									if(!"returnMessage".equals(key)){
-										System.out.println("返回的消息为："+tempMap.get(key));
-										writer.write(tempMap.get(key)+"\n");
-										writer.flush();
+								for(int i=0;i<tempMap.keySet().size();i++){
+									for(String key:tempMap.keySet()){
+										if(!"returnMessage".equals(key) && key.equals("returnMessage"+i)){
+											System.out.println("返回的消息为："+tempMap.get(key));
+											writer.write(tempMap.get(key)+"\n");
+											writer.flush();
+										}
 									}
 								}
 							}else{
@@ -188,50 +186,26 @@ public class ServerDemo {
 						
 						if(tempMap.containsKey("userId")){
 							//将此线程与userId进行绑定
-							this.userId=tempMap.get("userId");
+							String userId = tempMap.get("userId");
+							this.userId = userId;
 							//查询此userId是否有未发送的消息
 							Thread.sleep(5000);
-							for(int i=0;i<unsentMessageList.size();i++){
-								if(unsentMessageList.get(i).get("userId").equals(tempMap.get("userId"))){//未发送消息中存在此userId
-									System.out.println("准备发送未收到的消息！！！！！ "+unsentMessageList.get(i).get("userId"));
-									startMessageThread(unsentMessageList.get(i).get("userId")+"",unsentMessageList.get(i).get("objectMessage"));
-									unsentMessageList.remove(i);
+							if(unsentMessageList.containsKey(userId)){
+								LinkedList<Object> list = unsentMessageList.get(userId);
+								for(int i=0;i<list.size();i++){
+									System.out.println("准备发送未收到的消息！！！！！ "+list.get(i));
+									startMessageThread(userId,list.get(i));
+									Thread.sleep(200);
 								}
+								unsentMessageList.remove(userId);
 							}
 						}
 						System.out.println("当前SocketThread的userId为："+userId+"==="+"当前所有连接为："+mThreadList);
-						System.out.println("当前所有未发送的信息为："+unsentMessageList);
-						/*SocketMessage from = Util.parseJson(data);
-						//给UserID赋值，此处是我们项目的需求，根据客户端不同的UserId来分别进行推送
-						if (userId == null || "".equals(userId))
-							userId = from.getUserId();
-						System.out.println(from);
-						SocketMessage to = new SocketMessage();
-						if (from.getType() == Custom.MESSAGE_ACTIVE) {//心跳包
-							System.out.println("收到心跳包：" + socket.getInetAddress());
-							to.setType(Custom.MESSAGE_ACTIVE);
-							to.setFrom(Custom.NAME_SERVER);
-							to.setTo(Custom.NAME_CLIENT);
-							to.setMessage("");
-							to.setUserId(userId);
-							writer.write(Util.initJsonObject(to).toString() + "\n");
-							writer.flush();
-						} else if (from.getType() == Custom.MESSAGE_CLOSE) {//关闭包
-							System.out.println("收到断开连接的包：" + socket.getInetAddress());
-							to.setType(Custom.MESSAGE_CLOSE);
-							to.setFrom(Custom.NAME_SERVER);
-							to.setTo(Custom.NAME_CLIENT);
-							to.setMessage("");
-							to.setUserId(userId);
-							writer.write(Util.initJsonObject(to).toString() + "\n");
-							writer.flush();
-							closeSocketClient(this);
-							break;
-						} else if (from.getType() == Custom.MESSAGE_EVENT) {//事件包，客户端可以向服务端发送自定义消息
-							System.out.println("收到普通消息包：" + from.getMessage());
-							writer.write("OK!已收到！");
-							writer.flush();
-						}*/
+						System.out.println("============================");
+						for(String key : unsentMessageList.keySet()){
+							System.out.print(key);
+						}
+
 					}
 					Thread.sleep(100);
 				}
