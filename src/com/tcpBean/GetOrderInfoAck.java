@@ -33,6 +33,7 @@ public class GetOrderInfoAck {
     private String gen_on_pic;
     private String gen_off_pic;
     private String handlepower;
+    private String ack;
 
     public String getCmdtype() {
         return cmdtype;
@@ -274,6 +275,14 @@ public class GetOrderInfoAck {
         this.audittime2 = audittime2;
     }
 
+    public String getAck() {
+        return ack;
+    }
+
+    public void setAck(String ack) {
+        this.ack = ack;
+    }
+
     @Override
     public String toString() {
         return "GetOrderInfoAck{" +
@@ -307,6 +316,7 @@ public class GetOrderInfoAck {
                 ", gen_on_pic='" + gen_on_pic + '\'' +
                 ", gen_off_pic='" + gen_off_pic + '\'' +
                 ", handlepower='" + handlepower + '\'' +
+                ", ack='" + ack + '\'' +
                 '}';
     }
 }

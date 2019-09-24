@@ -224,15 +224,16 @@
                                         <th>门磁</th>
                                         <th>温度</th>
                                         <th>湿度</th>
+                                        <th>EPS状态</th>
                                         <th>输入电压(V)</th>
                                         <th>输出电压(V)</th>
-                                        <th>输出频率(Hz)</th>
+                                        <th>输入频率(Hz)</th>
                                         <th>电池组电压(V)</th>
-                                        <th>电表电压(V)</th>
-                                        <th>电流(A)</th>
-                                        <th>功率因数</th>
+                                        <th>电表状态</th>
+                                        <th>电压(V)</th>
                                         <th>度数(KWH)</th>
-                                        <th>频率(Hz)</th>
+                                        <th>市电</th>
+                                        <th>油机</th>
                                         <th>时间</th>
                                     </tr>
                                     </thead>
@@ -243,21 +244,38 @@
                                     <tr ng-repeat="x in data">
                                         <td>{{x.bsId}}</td>
                                         <td>{{x.name}}</td>
-                                        <td>{{x.water | upp}}</td>
-                                        <td>{{x.smoke | upp}}</td>
-                                        <td>{{x.red | upp}}</td>
-                                        <td>{{x.door | upp}}</td>
+                                        <td ng-if="x.water == 0" class="td-success">{{x.water | changeAlarm}}</td>
+                                        <td ng-if="x.water == 1" class="td-danger">{{x.water | changeAlarm}}</td>
+                                        <td ng-if="x.water != 0 && x.water != 1">{{x.water | changeAlarm}}</td>
+                                        <td ng-if="x.smoke == 0" class="td-success">{{x.smoke | changeAlarm}}</td>
+                                        <td ng-if="x.smoke == 1" class="td-danger">{{x.smoke | changeAlarm}}</td>
+                                        <td ng-if="x.smoke != 0 && x.smoke != 1">{{x.smoke | changeAlarm}}</td>
+                                        <td ng-if="x.red == 0" class="td-success">{{x.red | changeAlarm}}</td>
+                                        <td ng-if="x.red == 1" class="td-danger">{{x.red | changeAlarm}}</td>
+                                        <td ng-if="x.red != 0 && x.red != 1">{{x.red | changeAlarm}}</td>
+                                        <td ng-if="x.door == 0" class="td-success">{{x.door | changeAlarm}}</td>
+                                        <td ng-if="x.door == 1" class="td-danger">{{x.door | changeAlarm}}</td>
+                                        <td ng-if="x.door != 0 && x.door != 1">{{x.door | changeAlarm}}</td>
                                         <td>{{x.temp | upp}}</td>
                                         <td>{{x.damp | upp}}</td>
+                                        <td ng-if="x.fsu3 == 0" class="td-success">{{x.fsu3 | changeStatus}}</td>
+                                        <td ng-if="x.fsu3 == 1" class="td-danger">{{x.fsu3 | changeStatus}}</td>
+                                        <td ng-if="x.fsu3 != 0 && x.fsu3 != 1">{{x.fsu3 | changeStatus}}</td>
                                         <td>{{x.ups1 | upp}}</td>
                                         <td>{{x.ups2 | upp}}</td>
                                         <td>{{x.ups3 | upp}}</td>
                                         <td>{{x.ups4 | upp}}</td>
+                                        <td ng-if="x.fsu4 == 0" class="td-success">{{x.fsu4 | changeStatus}}</td>
+                                        <td ng-if="x.fsu4 == 1" class="td-danger">{{x.fsu4 | changeStatus}}</td>
+                                        <td ng-if="x.fsu4 != 0 && x.fsu4 != 1">{{x.fsu4 | changeStatus}}</td>
                                         <td>{{x.e1 | upp}}</td>
-                                        <td>{{x.e2 | upp}}</td>
-                                        <td>{{x.e3 | upp}}</td>
                                         <td>{{x.e4 | upp}}</td>
-                                        <td>{{x.e5 | upp}}</td>
+                                        <td ng-if="x.power == 0" class="td-success">{{x.power | changeAlarm}}</td>
+                                        <td ng-if="x.power == 1" class="td-danger">{{x.power | changeAlarm}}</td>
+                                        <td ng-if="x.power != 0 && x.power != 1">{{x.power | changeAlarm}}</td>
+                                        <td ng-if="x.oil == 0" class="td-success">{{x.oil | changeAlarm}}</td>
+                                        <td ng-if="x.oil == 1" class="td-danger">{{x.oil | changeAlarm}}</td>
+                                        <td ng-if="x.oil != 0 && x.oil != 1">{{x.oil | changeAlarm}}</td>
                                         <td>{{x.createTime}}</td>
                                     </tr>
                                     </tbody>

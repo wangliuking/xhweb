@@ -91,7 +91,7 @@
 		select bsId as bsid,name as bsname,level as bslevel,hometype as bstype,period from xhgmnet_bs_station where bsId=#{bsId}
 	</select>
 	
-	<!-- 更新派单状态 -->
+	<!-- 更新故障派单状态 -->
 	<update id="updateUserStatus" parameterType="map">
 		update xhgmnet_operations_fault_task_order set status=#{status}
 		<if test="break_order !=null and break_order !=''">
@@ -265,7 +265,7 @@
 		) GROUP BY userId) b on a.userId=b.userId and a.uploadTime=b.uploadTime
 	</select>
 
-	<!-- 更新派单状态 -->
+	<!-- 更新发电派单状态 -->
 	<update id="updateGenTableStatus" parameterType="map">
 		update xhgmnet_operations_bs_elec_generation set status=#{status} where serialnumber=#{serialnumber}
 	</update>
@@ -305,13 +305,28 @@
 		select recever_user from xhgmnet_operations_bs_elec_generation where serialnumber=#{serialnumber}
 	</select>
 
+	<!-- 根据订单号查询接单人，用于故障接单后的推送 -->
+	<select id="searchReceverFault" parameterType="String" resultType="String">
+		select recv_user from xhgmnet_operations_fault_task_order where serialnumber=#{serialnumber}
+	</select>
+
 	<!-- 根据订单号更新发电接单人 -->
 	<update id="updateReceverElec" parameterType="map">
 		update xhgmnet_operations_bs_elec_generation set recv_user=#{userId} where serialnumber=#{serialnumber}
 	</update>
 
-	<!-- 根据订单号查询全部信息 -->
+	<!-- 根据订单号查询全部发电信息 -->
 	<select id="searchAllInfo" parameterType="String" resultType="map">
-		select a.*,b.name bsname,b.address bsposition from xhgmnet_operations_bs_elec_generation a left join xhgmnet_bs_station b on a.bsId=b.bsId where a.serialnumber=#{serialnumber}
+		select a.*,b.bsId bsid,b.name bsname,b.address bsposition from xhgmnet_operations_bs_elec_generation a left join xhgmnet_bs_station b on a.bsId=b.bsId where a.serialnumber=#{serialnumber}
+	</select>
+
+	<!-- 根据订单号更新故障接单人 -->
+	<update id="updateReceverFault" parameterType="map">
+		update xhgmnet_operations_fault_task_order set userid=#{userId} where serialnumber=#{serialnumber}
+	</update>
+
+	<!-- 根据订单号查询全部故障信息 -->
+	<select id="searchAllFaultInfo" parameterType="String" resultType="map">
+		select a.*,b.name bsname,b.address bsposition from xhgmnet_operations_fault_task_order a left join xhgmnet_bs_station b on a.bsId=b.bsId where a.serialnumber=#{serialnumber}
 	</select>
 </mapper>
