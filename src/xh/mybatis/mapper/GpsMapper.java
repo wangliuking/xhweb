@@ -18,5 +18,13 @@ public interface GpsMapper {
 	 * @throws Exception
 	 */
 	public int  gpsCount(Map<String,Object> map)throws Exception;
+	
+	/**
+	 * <!--根据源ID，查找注册调度台号-->
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public String  user_dstId(Map<String,Object> map)throws Exception;
 
 }

@@ -131,7 +131,7 @@ xh.load = function() {
 		//确认派单完成
 		$scope.check=function(id){
 			$.ajax({
-				url : '../../order/updateOrder?status='+2,
+				url : '../../order/updateOrder',
 				type : 'POST',
 				dataType : "json",
 				async : true,
@@ -141,6 +141,7 @@ xh.load = function() {
 					zbdldm:$scope.data[id].zbdldm,
 					from:$scope.data[id].from,
 					serialnumber:$scope.data[id].serialnumber,
+					status:3,
 					userid:$scope.data[id].userid
 				},
 				success : function(data) {
@@ -159,7 +160,7 @@ xh.load = function() {
 
         $scope.checkFail=function(id){
             $.ajax({
-                url : '../../order/updateOrder?status='+1,
+                url : '../../order/updateOrder',
                 type : 'POST',
                 dataType : "json",
                 async : true,
@@ -168,6 +169,7 @@ xh.load = function() {
                     bsId:$scope.data[id].bsid,
                     zbdldm:$scope.data[id].zbdldm,
                     from:$scope.data[id].from,
+                    status:-1,
                     serialnumber:$scope.data[id].serialnumber,
                     userid:$scope.data[id].userid
                 },

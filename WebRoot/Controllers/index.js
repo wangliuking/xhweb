@@ -10,6 +10,9 @@ var play = false;
 var appElement = document.querySelector('[ng-controller=index]');
 xh.load = function() {
 	var app = angular.module("app", []);
+	$(document).bind("contextmenu",function(e){   
+        return false;   
+  });
 	app.filter('bsName', function() { // 可以注入依赖
 		return function(text) {
 

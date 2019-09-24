@@ -29,5 +29,9 @@
 			and infoTime between #{startTime} and #{endTime}
 		</if>
 	</select>
+   <!--根据源ID，查找注册调度台号-->
+    <select id="user_dstId" parameterType="map" resultType="String" useCache="true">
+       select dstId from ${table} WHERE srcId=#{srcId} limit 1
+    </select>
 
 </mapper>

@@ -49,5 +49,26 @@ public class GpsService {
 		}
 		return count;
 	}
+	/**
+	 *  <!--根据源ID，查找注册调度台号-->
+	 * @param map
+	 * @return
+	 */
+	public static int user_dstId(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		GpsMapper mapper = sqlSession.getMapper(GpsMapper.class);
+		String count = null;;
+		try {
+			count = mapper.user_dstId(map);
+			sqlSession.close();
+			if(count==null){
+				return 0;
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return Integer.parseInt(count);
+	}
 
 }

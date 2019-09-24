@@ -1327,12 +1327,20 @@ public class AppInspectionController {
 			// 应用字体
 			WritableCellFormat fontFormat_h = new WritableCellFormat(
 					font_header);
+			WritableCellFormat h = new WritableCellFormat(
+					font_header);
 			// 设置其他样式
-			fontFormat_h.setAlignment(Alignment.LEFT);// 水平对齐
+			fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
 			fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
-			fontFormat_h.setBorder(Border.NONE, BorderLineStyle.THIN);// 边框
+			fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
 			fontFormat_h.setBackground(Colour.WHITE);// 背景色
 			fontFormat_h.setWrap(false);// 不自动换行
+			
+			h.setAlignment(Alignment.LEFT);// 水平对齐
+			h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			h.setBorder(Border.NONE, BorderLineStyle.THIN);// 边框
+			h.setBackground(Colour.WHITE);// 背景色
+			h.setWrap(false);// 不自动换行
 
 			// 设置主题内容字体格式
 			WritableFont font_Content = new WritableFont(WritableFont.TIMES,
@@ -1348,6 +1356,8 @@ public class AppInspectionController {
 
 			WritableCellFormat fontFormat_Content = new WritableCellFormat(
 					font_Content);
+			WritableCellFormat center = new WritableCellFormat(
+					font_Content);
 
 			// 设置其他样式
 
@@ -1362,6 +1372,12 @@ public class AppInspectionController {
 			fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
 			fontFormat_Content.setBackground(Colour.WHITE);// 背景色
 			fontFormat_Content.setWrap(true);// 自动换行
+			
+			center.setAlignment(Alignment.CENTRE);// 水平对齐
+			center.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			center.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			center.setBackground(Colour.WHITE);// 背景色
+			center.setWrap(true);// 自动换行
 
 			// 设置数字格式
 			jxl.write.NumberFormat nf = new jxl.write.NumberFormat("#.##"); // 设置数字格式
@@ -1381,13 +1397,13 @@ public class AppInspectionController {
 			sheet.getSettings().setBottomMargin(0.5);
 
 			// 第2行
-			Label label_1_0 = new Label(0, 1, "网管名称:"+bean.getManagername(), fontFormat_h);// 创建单元格
+			Label label_1_0 = new Label(0, 1, "网管名称:"+bean.getManagername(), h);// 创建单元格
 			sheet.mergeCells(0, 1, 1, 1);
-			Label label_1_2 = new Label(2, 1, "地点:"+bean.getManagerplace(), fontFormat_h);// 创建单元格
+			Label label_1_2 = new Label(2, 1, "地点:"+bean.getManagerplace(), h);// 创建单元格
 			sheet.mergeCells(2, 1, 3, 1);
-			Label label_1_4 = new Label(4, 1, "巡检时间:"+bean.getCommitdate().split(" ")[0], fontFormat_h);// 创建单元格
+			Label label_1_4 = new Label(4, 1, "巡检时间:"+bean.getCommitdate().split(" ")[0], h);// 创建单元格
 			sheet.mergeCells(4, 1, 5, 1);
-			Label label_1_6 = new Label(6, 1, "巡检人:"+bean.getCheckman(), fontFormat_h);// 创建单元格
+			Label label_1_6 = new Label(6, 1, "巡检人:"+bean.getCheckman(), h);// 创建单元格
 			sheet.mergeCells(6, 1, 7, 1);
 
 			sheet.setColumnView(0, 10);
@@ -1405,13 +1421,13 @@ public class AppInspectionController {
 			sheet.addCell(label_1_6);
 
 			// 第3行
-			Label label_2_0 = new Label(0, 2, "序号", fontFormat_Content);// 创建单元格
-			Label label_2_1 = new Label(1, 2, "检查类容", fontFormat_Content);// 创建单元格
-			Label label_2_2 = new Label(2, 2, "备注", fontFormat_Content);// 创建单元格
+			Label label_2_0 = new Label(0, 2, "序号", fontFormat_h);// 创建单元格
+			Label label_2_1 = new Label(1, 2, "检查类容", fontFormat_h);// 创建单元格
+			Label label_2_2 = new Label(2, 2, "备注", fontFormat_h);// 创建单元格
 			sheet.mergeCells(2, 2, 3, 2);
-			Label label_2_3 = new Label(4, 2, "检查情况", fontFormat_Content);// 创建单元格
-			Label label_2_4 = new Label(5, 2, "问题描述", fontFormat_Content);// 创建单元格
-			Label label_2_5 = new Label(6, 2, "处理情况及遗留问题", fontFormat_Content);// 创建单元格
+			Label label_2_3 = new Label(4, 2, "检查情况", fontFormat_h);// 创建单元格
+			Label label_2_4 = new Label(5, 2, "问题描述", fontFormat_h);// 创建单元格
+			Label label_2_5 = new Label(6, 2, "处理情况及遗留问题", fontFormat_h);// 创建单元格
 			sheet.mergeCells(6, 2, 7, 2);
 			sheet.addCell(label_2_0);
 			sheet.addCell(label_2_1);
@@ -1421,7 +1437,7 @@ public class AppInspectionController {
 			sheet.addCell(label_2_5);
 
 			// 第4行
-			Label label_3_0 = new Label(0, 3, "1", fontFormat_Content);// 创建单元格
+			Label label_3_0 = new Label(0, 3, "1", center);// 创建单元格
 			Label label_3_1 = new Label(1, 3, "网管安装环境是否完成正常",
 					fontFormat_Content);// 创建单元格
 			Label label_3_2 = new Label(2, 3, bean.getComment1(),
@@ -1439,7 +1455,7 @@ public class AppInspectionController {
 			sheet.addCell(label_3_4);
 			sheet.addCell(label_3_5);
 			// 第5行
-			Label label_4_0 = new Label(0, 4, "2", fontFormat_Content);// 创建单元格
+			Label label_4_0 = new Label(0, 4, "2", center);// 创建单元格
 			Label label_4_1 = new Label(1, 4, "网管电源是否正常开启", fontFormat_Content);// 创建单元格
 			Label label_4_2 = new Label(2, 4, bean.getComment2(),
 					fontFormat_Content);// 创建单元格
@@ -1456,7 +1472,7 @@ public class AppInspectionController {
 			sheet.addCell(label_4_4);
 			sheet.addCell(label_4_5);
 			// 第6行
-			Label label_5_0 = new Label(0, 5, "3", fontFormat_Content);// 创建单元格
+			Label label_5_0 = new Label(0, 5, "3", center);// 创建单元格
 			Label label_5_1 = new Label(1, 5, "网管是否正常登录", fontFormat_Content);// 创建单元格
 			Label label_5_2 = new Label(2, 5, bean.getComment3(),
 					fontFormat_Content);// 创建单元格
@@ -1473,7 +1489,7 @@ public class AppInspectionController {
 			sheet.addCell(label_5_4);
 			sheet.addCell(label_5_5);
 			// 第7行
-			Label label_6_0 = new Label(0, 6, "4", fontFormat_Content);// 创建单元格
+			Label label_6_0 = new Label(0, 6, "4", center);// 创建单元格
 			Label label_6_1 = new Label(1, 6, "配置管理查看是否正常", fontFormat_Content);// 创建单元格
 			Label label_6_2 = new Label(2, 6, bean.getComment4(),
 					fontFormat_Content);// 创建单元格
@@ -1490,7 +1506,7 @@ public class AppInspectionController {
 			sheet.addCell(label_6_4);
 			sheet.addCell(label_6_5);
 			// 第8行
-			Label label_7_0 = new Label(0, 7, "5", fontFormat_Content);// 创建单元格
+			Label label_7_0 = new Label(0, 7, "5", center);// 创建单元格
 			Label label_7_1 = new Label(1, 7, "用户管理查看是否正常", fontFormat_Content);// 创建单元格
 			Label label_7_2 = new Label(2, 7, bean.getComment5(),
 					fontFormat_Content);// 创建单元格
@@ -1507,7 +1523,7 @@ public class AppInspectionController {
 			sheet.addCell(label_7_4);
 			sheet.addCell(label_7_5);
 			// 第9行
-			Label label_8_0 = new Label(0, 8, "6", fontFormat_Content);// 创建单元格
+			Label label_8_0 = new Label(0, 8, "6", center);// 创建单元格
 			Label label_8_1 = new Label(1, 8, "故障管理查看是否正常", fontFormat_Content);// 创建单元格
 			Label label_8_2 = new Label(2, 8, bean.getComment6(),
 					fontFormat_Content);// 创建单元格
@@ -1524,7 +1540,7 @@ public class AppInspectionController {
 			sheet.addCell(label_8_4);
 			sheet.addCell(label_8_5);
 			// 第10行
-			Label label_9_0 = new Label(0, 9, "7", fontFormat_Content);// 创建单元格
+			Label label_9_0 = new Label(0, 9, "7", center);// 创建单元格
 			Label label_9_1 = new Label(1, 9, "安全管理查看是否正常", fontFormat_Content);// 创建单元格
 			Label label_9_2 = new Label(2, 9, bean.getComment7(),
 					fontFormat_Content);// 创建单元格
@@ -1541,7 +1557,7 @@ public class AppInspectionController {
 			sheet.addCell(label_9_4);
 			sheet.addCell(label_9_5);
 			// 第11行
-			Label label_10_0 = new Label(0, 10, "8", fontFormat_Content);// 创建单元格
+			Label label_10_0 = new Label(0, 10, "8", center);// 创建单元格
 			Label label_10_1 = new Label(1, 10, "辅助管理查看是否正常",
 					fontFormat_Content);// 创建单元格
 			Label label_10_2 = new Label(2, 10, bean.getComment8(),
@@ -1561,7 +1577,7 @@ public class AppInspectionController {
 			sheet.addCell(label_10_4);
 			sheet.addCell(label_10_5);
 			// 第12行
-			Label label_11_0 = new Label(0, 11, "9", fontFormat_Content);// 创建单元格
+			Label label_11_0 = new Label(0, 11, "9", center);// 创建单元格
 			Label label_11_1 = new Label(1, 11, "性能管理查看是否正常",
 					fontFormat_Content);// 创建单元格
 			Label label_11_2 = new Label(2, 11, bean.getComment9(),
@@ -1581,7 +1597,7 @@ public class AppInspectionController {
 			sheet.addCell(label_11_4);
 			sheet.addCell(label_11_5);
 			// 第13行
-			Label label_12_0 = new Label(0, 12, "10", fontFormat_Content);// 创建单元格
+			Label label_12_0 = new Label(0, 12, "10", center);// 创建单元格
 			Label label_12_1 = new Label(1, 12, "拓扑管理查看是否正常",
 					fontFormat_Content);// 创建单元格
 			Label label_12_2 = new Label(2, 12, bean.getComment10(),
@@ -1601,7 +1617,7 @@ public class AppInspectionController {
 			sheet.addCell(label_12_4);
 			sheet.addCell(label_12_5);
 			// 第14行
-			Label label_13_0 = new Label(0, 13, "11", fontFormat_Content);// 创建单元格
+			Label label_13_0 = new Label(0, 13, "11", center);// 创建单元格
 			Label label_13_1 = new Label(1, 13, "环境温度是否工作正常",
 					fontFormat_Content);// 创建单元格
 			Label label_13_2 = new Label(2, 13, bean.getComment11(),
@@ -2564,6 +2580,8 @@ public class AppInspectionController {
 
 			WritableCellFormat fontFormat_Content = new WritableCellFormat(
 					font_Content);
+			WritableCellFormat center = new WritableCellFormat(
+					font_Content);
 
 			// 设置其他样式
 
@@ -2578,6 +2596,12 @@ public class AppInspectionController {
 			 fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
 			fontFormat_Content.setBackground(Colour.WHITE);// 背景色
 			fontFormat_Content.setWrap(true);// 自动换行
+			
+			center.setAlignment(Alignment.CENTRE);// 水平对齐
+			center.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			center.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			center.setBackground(Colour.WHITE);// 背景色
+			center.setWrap(true);// 自动换行
 
 			// 设置数字格式
 			jxl.write.NumberFormat nf = new jxl.write.NumberFormat("#.##"); // 设置数字格式
@@ -2636,7 +2660,7 @@ public class AppInspectionController {
 
 			// 第4行
 			sheet.setRowView(3, 600, false); // 设置行高
-			Label label_3_0 = new Label(0, 3, "1", fontFormat_Content);// 创建单元格
+			Label label_3_0 = new Label(0, 3, "1", center);// 创建单元格
 			Label label_3_1 = new Label(1, 3, "调度台安装环境是否完成正常",
 					fontFormat_Content);// 创建单元格
 			Label label_3_2 = new Label(2, 3, "主要看设备是否齐全、安装是否有安全隐患",
@@ -2656,7 +2680,7 @@ public class AppInspectionController {
 			
 			// 第5行
 			sheet.setRowView(4, 600, false); // 设置行高
-			Label label_4_0 = new Label(0, 4, "2", fontFormat_Content);// 创建单元格
+			Label label_4_0 = new Label(0, 4, "2", center);// 创建单元格
 			Label label_4_1 = new Label(1, 4, "调度台电源是否正常开启", fontFormat_Content);// 创建单元格
 			Label label_4_2 = new Label(2, 4, bean.getComment2(),
 					fontFormat_Content);// 创建单元格
@@ -2674,7 +2698,7 @@ public class AppInspectionController {
 			sheet.addCell(label_4_5);
 			// 第6行
 			sheet.setRowView(5, 600, false); // 设置行高
-			Label label_5_0 = new Label(0, 5, "3", fontFormat_Content);// 创建单元格
+			Label label_5_0 = new Label(0, 5, "3", center);// 创建单元格
 			Label label_5_1 = new Label(1, 5, "调度台是否正常登录", fontFormat_Content);// 创建单元格
 			Label label_5_2 = new Label(2, 5, bean.getComment3(),
 					fontFormat_Content);// 创建单元格
@@ -2692,7 +2716,7 @@ public class AppInspectionController {
 			sheet.addCell(label_5_5);
 			// 第7行
 			sheet.setRowView(6, 600, false); // 设置行高
-			Label label_6_0 = new Label(0, 6, "4", fontFormat_Content);// 创建单元格
+			Label label_6_0 = new Label(0, 6, "4", center);// 创建单元格
 			Label label_6_1 = new Label(1, 6, "调度台配置是否正常", fontFormat_Content);// 创建单元格
 			Label label_6_2 = new Label(2, 6, "主要看配置文件以及音箱输出配置等",
 					fontFormat_Content);// 创建单元格
@@ -2710,7 +2734,7 @@ public class AppInspectionController {
 			sheet.addCell(label_6_5);
 			// 第8行
 			sheet.setRowView(7, 600, false); // 设置行高
-			Label label_7_0 = new Label(0, 7, "5", fontFormat_Content);// 创建单元格
+			Label label_7_0 = new Label(0, 7, "5", center);// 创建单元格
 			Label label_7_1 = new Label(1, 7, "调度台录音是否正常", fontFormat_Content);// 创建单元格
 			Label label_7_2 = new Label(2, 7, bean.getComment5(),
 					fontFormat_Content);// 创建单元格
@@ -2728,7 +2752,7 @@ public class AppInspectionController {
 			sheet.addCell(label_7_5);
 			// 第9行
 			sheet.setRowView(8, 600, false); // 设置行高
-			Label label_8_0 = new Label(0, 8, "6", fontFormat_Content);// 创建单元格
+			Label label_8_0 = new Label(0, 8, "6", center);// 创建单元格
 			Label label_8_1 = new Label(1, 8, "语音、短信业务测试是否正常",
 					fontFormat_Content);// 创建单元格
 			Label label_8_2 = new Label(2, 8, "组呼、单呼、短信",
@@ -2747,7 +2771,7 @@ public class AppInspectionController {
 			sheet.addCell(label_8_5);
 			// 第10行
 			sheet.setRowView(9, 600, false); // 设置行高
-			Label label_9_0 = new Label(0, 9, "7", fontFormat_Content);// 创建单元格
+			Label label_9_0 = new Label(0, 9, "7", center);// 创建单元格
 			Label label_9_1 = new Label(1, 9, "调度业务测试是否正常", fontFormat_Content);// 创建单元格
 			Label label_9_2 = new Label(2, 9, "派接、多选、监听等",
 					fontFormat_Content);// 创建单元格
@@ -2765,7 +2789,7 @@ public class AppInspectionController {
 			sheet.addCell(label_9_5);
 			// 第11行
 			sheet.setRowView(10, 600, false); // 设置行高
-			Label label_10_0 = new Label(0, 10, "8", fontFormat_Content);// 创建单元格
+			Label label_10_0 = new Label(0, 10, "8", center);// 创建单元格
 			Label label_10_1 = new Label(1, 10, "环境温度是否工作正常",
 					fontFormat_Content);// 创建单元格
 			Label label_10_2 = new Label(2, 10, "空调配置",

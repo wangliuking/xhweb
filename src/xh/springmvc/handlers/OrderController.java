@@ -2,6 +2,7 @@ package xh.springmvc.handlers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -192,6 +193,7 @@ public class OrderController {
 		Map<String,Object> map=new HashMap<String, Object>();
 		map.put("status", status);
 		map.put("id", id);
+		System.out.println(map);
 		
 		int code=OrderService.updateOrder(map);
 		
@@ -200,16 +202,12 @@ public class OrderController {
 		errCheckAck.setSerialnumber(serialnumber);
 		errCheckAck.setUserid(userid);
 		errCheckAck.setAuditor(SingLoginListener.getLogUserMap().get(request.getSession().getId())+"");
-		if(status == 2){
-			errCheckAck.setResult("0");
-		}else{
-			errCheckAck.setResult("1");
-		}
+		errCheckAck.setResult(String.valueOf(status));
 
 		demo.startMessageThread(userid, errCheckAck);
 		
 		if(code>0){
-			if(from.equals("数据分析")){
+			/*if(from.equals("数据分析")){
 				ErrProTable bean=new ErrProTable();
 				bean.setBsid(bsid);
 				bean.setFrom(from);
@@ -217,7 +215,7 @@ public class OrderController {
 				bean.setStatus("已处理");
 				OrderService.updateSfOrder(bean);
 			}
-			
+			*/
 			this.success=true;
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
@@ -286,24 +284,30 @@ public class OrderController {
 			//发送接单人
 			String[] a1=recv_user.split(",");
 			String[] a2=recv_user_name.split(";");
-			for(int i=0;i<a1.length;i++){
-				bean.setUserid(a1[i]);
-				bean.setWorkman(a2[i]);
-				bean.setHandlepower("0");
-				demo.startMessageThread(bean.getUserid(), bean);
-				
-				log.info("派单：接收》"+bean);
+			if(recv_user!=null && !recv_user.equals("")){
+				for(int i=0;i<a1.length;i++){
+					bean.setUserid(a1[i]);
+					bean.setWorkman(a2[i]);
+					bean.setHandlepower("0");
+					demo.startMessageThread(bean.getUserid(), bean);
+					
+					log.info("派单：接收》"+bean);
+				}
 			}
+			
 			//发送抄送人
 			String[] b1=copy_user.split(",");
 			String[] b2=copy_user_name.split(";");
-			for(int i=0;i<b1.length;i++){
-				bean.setUserid(b1[i]);
-				bean.setWorkman(b2[i]);
-				bean.setHandlepower("2");
-				demo.startMessageThread(bean.getUserid(), bean);
-				log.info("派单：抄送》"+bean);
+			if(copy_user!=null && !copy_user.equals("")){
+				for(int i=0;i<b1.length;i++){
+					bean.setUserid(b1[i]);
+					bean.setWorkman(b2[i]);
+					bean.setHandlepower("2");
+					demo.startMessageThread(bean.getUserid(), bean);
+					log.info("派单：抄送》"+bean);
+				}
 			}
+			
 			
 			
 			

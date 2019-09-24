@@ -133,7 +133,7 @@ xh.load = function() {
 				return;
 			}
 			data.push($scope.data[i].userId);
-			var dstId=$("input[name='dstId']").val();
+			//var dstId=$("input[name='dstId']").val();
 			var operation=$("input[name='operation']:checked").val();
 			var locationDstId=$("input[name='locationDstId']").val()==''?0:$("input[name='locationDstId']").val();
 			var triggerParaTime=$("input[name='triggerParaTime']").val()==''?30:$("input[name='triggerParaTime']").val();
@@ -141,8 +141,7 @@ xh.load = function() {
 			if(operation==2 && (triggerParaTime=='' || triggerParaTime<10)){
 				toastr.error("定时触发器设置时间不能小于10秒钟", '提示');
 				$('button').prop('disabled', false);
-				return;
-				
+				return;	
 			}
 			$http({
 				method:'post',
@@ -153,7 +152,7 @@ xh.load = function() {
 				},
 				data:{
 					data:data.join(","),
-					dstId:dstId,
+					//dstId:dstId,
 					operation:operation,
 					triggerParaTime:triggerParaTime,
 					locationDstId:locationDstId,

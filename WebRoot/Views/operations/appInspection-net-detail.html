@@ -56,14 +56,14 @@
 								<tr ng-repeat="c in net_add_win_html">
                                     <td>{{c.id}}</td>
                                     <td>{{c.content}}</td>
-                                    <td>{{c.w}}</td>
+                                    <td colspan="2">{{c.w}}</td>
                                     <td><input class="magic-radio" type="radio"
                                         value="{{c.a}}" name="d{{c.id}}" ng-checked="c.a==c.x"> <label
                                         ><span>{{c.a}}</span></label> <input
                                          class="magic-radio" type="radio" value="{{c.b}}"
                                         name="d{{c.id}}" ng-checked="c.b==c.x"> <label ><span>{{c.b}}</span></label>
                                     </td>
-                                    <td colspan="2">{{c.y}}
+                                    <td colspan="1">{{c.y}}
                                     </td>
                                     <td colspan="2">{{c.z}}
                                     </td>

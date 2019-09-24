@@ -270,7 +270,7 @@ marquee {
 								src="Resources/images/icon/32/bell.png" id="close-bell" /> <span
 								class="badge">{{AlarmTotals}}</span>
 						</a></li>
-						<li><a 
+						<li ng-if="roleType==0 ||roleType==1|| roleType==2|| roleType==3"><a 
                             href="http://183.221.117.37:7800/analystrunner/d831608f-2dbe-416c-b0bb-9b573bba9629" target="_blank"
                             class="btn btn-default dropdown-toggle info-number"> 
                             <img alt="" src="Resources/images/icon/32/bigdata.png">
@@ -298,7 +298,7 @@ marquee {
 								class="badge">{{email}}</span> <span>站内信</span>
 						</a>
 					    </li>
-						<li><a href="#"
+						<li ng-if="roleType==0 || roleType==2 || roleType==3"><a href="#"
 							class="btn btn-default dropdown-toggle info-number"
 							data-toggle="dropdown"> <img alt="" src="Resources/images/icon/32/code.png"> <span
 								class="badge">1</span> <span>点我，扫一扫</span>

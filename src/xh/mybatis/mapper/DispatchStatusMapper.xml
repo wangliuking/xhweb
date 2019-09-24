@@ -52,4 +52,8 @@
         <select id="select_by_setup" resultType="map" useCache="true">
 	select * from xhgmnet_dispatch where setupStatus=1
     </select> 
+    <!--查询调度台IP,PORT-->
+    <select id="dispatch_ip_port" resultType="map" useCache="true" parameterType="String">
+     select * from xhgmnet_dispatch_info where dstId=#{dstId} limit 1
+    </select> 
 </mapper>
