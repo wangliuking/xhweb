@@ -64,6 +64,8 @@ public class WorkContactController {
 		map.put("type",type);
 		map.put("key",key);
 		map.put("status",status);
+		map.put("user",FunUtil.loginUser(request));
+		map.put("power", FunUtil.loginUserPower(request).get("o_task"));
 		map.put("roleType",FunUtil.loginUserInfo(request).get("roleType"));
 		HashMap result = new HashMap();
 		result.put("totals",WorkContactService.list_count(map));
@@ -90,6 +92,8 @@ public class WorkContactController {
 		map.put("limit",limit);
 		map.put("time",time);
 		map.put("type",type);
+		map.put("user",FunUtil.loginUser(request));
+		map.put("power", FunUtil.loginUserPower(request).get("o_task"));
 		map.put("roleType",FunUtil.loginUserInfo(request).get("roleType"));
 		HashMap result = new HashMap();
 		result.put("totals",WorkContactService.list_count(map));
@@ -355,7 +359,7 @@ public class WorkContactController {
 		if(rst>0){
 			this.message="撤销工作联系单成功";
 			this.success=true;
-			FunUtil.sendMsgToUserByGroupPower("recv_work_contact", type, "工作联系单", "工作联系单被撤销", request);
+			//FunUtil.sendMsgToUserByGroupPower("recv_work_contact", type, "工作联系单", "工作联系单被撤销", request);
 			
 		}else{
 			this.message="工作联系单撤销失败";

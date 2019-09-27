@@ -41,7 +41,7 @@ public class SendData {
 			log.debug("GPS-》" + message);
 			log.debug("---------------------------------");
 		} catch (IOException e) {
-			message = "网络无响应";
+			message = "网络无响应，检查端口号或者主机IP地址是否正确,或者检查相关调度台是否已经开启";
 			System.out.println(message);
 			log.debug("---------------------------------");
 			log.debug("GPS-》" + message);
@@ -49,7 +49,9 @@ public class SendData {
 			// e.printStackTrace();
 		}
 		try {
-			socket.setSoTimeout(10000);
+			if(socket!=null){
+				socket.setSoTimeout(10000);
+			}
 		} catch (SocketException e1) {
 			message = "对方没有应答";
 			log.debug("---------------------------------");
@@ -83,7 +85,7 @@ public class SendData {
 			log.debug("GPS-》" + message);
 			log.debug("---------------------------------");
 		} catch (IOException e) {
-			message = "网络无响应";
+			message = "网络无响应，检查端口号或者主机IP地址是否正确";
 			System.out.println(message);
 			log.debug("---------------------------------");
 			log.debug("GPS-》" + message);
@@ -91,7 +93,10 @@ public class SendData {
 			// e.printStackTrace();
 		}
 		try {
-			socket.setSoTimeout(10000);
+			if(socket!=null){
+				socket.setSoTimeout(3000);
+			}
+			
 		} catch (SocketException e1) {
 			message = "对方没有应答";
 			log.debug("---------------------------------");
@@ -99,7 +104,7 @@ public class SendData {
 			log.debug("---------------------------------");
 			e1.printStackTrace();
 		}
-		try {
+		/*try {
 			socket.setKeepAlive(true);
 		} catch (SocketException e) {
 			message = "网络已经断开";
@@ -107,8 +112,7 @@ public class SendData {
 			log.debug("GPS网络已经断开");
 			log.debug("---------------------------------");
 			// e.printStackTrace();
-		}// 开启保持活动状态的套接字
-			// socket.setSoTimeout(10000);
+		}*/
 
 	}
 
@@ -120,6 +124,9 @@ public class SendData {
 		// 创建客户端的Socket服务，指定目的主机和端口。
 		NetDataTypeTransform dd = new NetDataTypeTransform();
 		connection(getData.getIp(),getData.getPort());
+		if(socket==null){
+			return "网络无响应，检查端口号或者主机IP地址是否正确,或者检查相关调度台是否已经开启";
+		}
 
 		// ====================================
 		// 发送数据，应该获取Socket流中的输出流。
@@ -163,7 +170,9 @@ public class SendData {
 		// 创建客户端的Socket服务，指定目的主机和端口。
 		NetDataTypeTransform dd = new NetDataTypeTransform();
 		connection(getData.getIp(),getData.getPort());
-
+		if(socket==null){
+			return "网络无响应，检查端口号或者主机IP地址是否正确,或者检查相关调度台是否已经开启";
+		}
 		// ====================================
 		// 发送数据，应该获取Socket流中的输出流。
 		OutputStream out = socket.getOutputStream();
@@ -204,7 +213,9 @@ public class SendData {
 		// 创建客户端的Socket服务，指定目的主机和端口。
 		NetDataTypeTransform dd = new NetDataTypeTransform();
 		connection(getData.getIp(),getData.getPort());
-
+		if(socket==null){
+			return "网络无响应，检查端口号或者主机IP地址是否正确,或者检查相关调度台是否已经开启";
+		}
 		// ====================================
 		// 发送数据，应该获取Socket流中的输出流。
 		OutputStream out = socket.getOutputStream();

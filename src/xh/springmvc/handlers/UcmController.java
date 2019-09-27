@@ -195,7 +195,7 @@ public class UcmController {
 			if(dstId>0){
 				Map<String,Object> ip_port=DispatchStatusService.dispatch_ip_port(String.valueOf(dstId));
 				if(ip_port==null){
-					this.message="没有配置，或者开启调度台("+dstId+")";
+					this.message="【"+dstId+"】没有配置调度台IP地址，端口号";
 					this.success=false;
 				}else{
 					struct.setSrcId(dstId+1);
@@ -212,6 +212,7 @@ public class UcmController {
 						if(message.equals("success")){
 							this.success=true;
 						}else{
+							message="【"+dstId+"】"+message;
 							this.success=false;
 						}
 						break;
@@ -224,6 +225,7 @@ public class UcmController {
 						if(message.equals("success")){
 							this.success=true;
 						}else{
+							message="【"+dstId+"】"+message;
 							this.success=false;
 						}
 						
@@ -235,6 +237,7 @@ public class UcmController {
 						if(message.equals("success")){
 							this.success=true;
 						}else{
+							message="【"+dstId+"】"+message;
 							this.success=false;
 						}
 					
@@ -245,7 +248,7 @@ public class UcmController {
 					}
 				}
 			}else{
-				this.message="设置失败！！，没有找到该手台注册的调度台号，说明最近未上报GPS信息";
+				this.message="没有找到该手台注册的调度台号，说明最近未上报GPS信息";
 				this.success=false;
 			}
 			

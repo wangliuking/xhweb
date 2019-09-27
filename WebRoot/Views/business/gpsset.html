@@ -58,12 +58,12 @@
 		<div class="content animate-panel">
 			<div class="row">
 				
-				<div class="col-md-5">
+				<div class="col-md-4">
 					<!-- row -->
 					<div class="row">
 						<div class="col-md-12">
 							<div class="hpanel">
-								<div class="panel-heading hbuilt">配置</div>
+								<div class="panel-heading hbuilt">GPS使能开关</div>
 								<div class="panel-body">
 								<!-- <div class="row">
 										<div class="form-group col-md-12">
@@ -72,21 +72,21 @@
 										</div>
 									</div> -->
 									<!-- row -->
-									<div class="row">
+									 <div class="row">
 										<div class="col-md-12">
-											<div class="radio radio-info radio-inline">
+											<!-- <div class="radio radio-info radio-inline">
 												<input type="radio" id="operation1" value="1"
 													name="operation" checked="checked" ng-click="showTrigger()">
 												<label for="operation1">即时定位信息请求</label>
 											</div>
 											<div class="radio radio-info  radio-inline">
 												<input type="radio" id="operation2" value="2"
-													name="operation" ng-click="showTrigger()"> <label
+													name="operation" ng-click="showTrigger()" disabled="disabled"> <label
 													for="operation2">定时触发</label>
-											</div>
-											<div class="radio radio-info  radio-inline">
+											</div> -->
+											<div class="radio radio-info  radio-inline" ng-show=false>
 												<input type="radio" id="operation3" value="3"
-													name="operation" ng-click="showTrigger()"> <label
+													name="operation" ng-click="showTrigger()" checked="checked"> <label
 													for="operation3">GPS使能请求</label>
 											</div>
 										</div>
@@ -106,19 +106,25 @@
 										</div>
 									</div>
 									<!-- row -->
-									<div class="row" style="margin-top:20px" ng-show="trigger==3">
-										<div class="col-md-12">
+									<div class="row" style="margin-top:20px">
+										<div class="col-md-6">
 											<div class="radio radio-info radio-inline">
 												<input type="radio" id="gpsen1" value="1"
 													name="gpsen" checked="checked">
-												<label for="gpsen1">开启</label>
+												<label for="gpsen1" ng-click="showTx()">开启</label>
 											</div>
 											<div class="radio radio-info  radio-inline">
 												<input type="radio" id="gpsen2" value="0"
-													name="gpsen"> <label
+													name="gpsen" ng-click="showTx()"> <label
 													for="gpsen2">关闭</label>
 											</div>
 										</div>
+										<div class="col-md-6">
+                                            <button class="btn btn-danger btn-sm" ng-disabled=""
+                                                ng-click="addMore4()" style="margin-top:0px;">
+                                                <i class="fa fa-plus-circle"></i>&nbsp;获取已经关闭GPS的终端至列表
+                                            </button>
+                                        </div>
 									</div>
 								    <!-- row -->
 								    
@@ -130,23 +136,48 @@
 					<!-- row -->
 
 					<div class="row">
+					<div class="col-md-12">
+                            <div class="hpanel">
+                                <div class="panel-heading hbuilt">添加用户-方式一</div>
+                                <div class="panel-body">
+
+                                    <!-- row -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="bsId">注册基站ID</label> <input type="number"
+                                                    id="bsId" class="form-control" placeholder="注册基站ID">
+
+                                            </div>
+                                        </div>
+                                
+                                        <div class="col-md-12">
+                                            <button class="btn btn-primary btn-block" ng-disabled=""
+                                                ng-click="addMore3()" style="margin-top:25px;">
+                                                <i class="fa fa-plus-circle"></i>&nbsp;获取终端至列表
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 						<div class="col-md-12">
 							<div class="hpanel">
-								<div class="panel-heading hbuilt">单用户</div>
+								<div class="panel-heading hbuilt">添加用户-方式二</div>
 								<div class="panel-body">
 									<div class="row">
-										<div class="col-md-5">
+										<div class="col-md-12">
 											<div class="form-group">
 												<label for="userId">终端ID</label>
 												<div>
-													<input type="text" class="form-control" id="userId"
-														placeholder="终端ID">
+													<textarea type="text" class="form-control" id="userId"
+														placeholder="终端ID,批量添加，ID之间用英文逗号分割开" rows="5"></textarea>
 												</div>
 											</div>
 										</div>
-										<div class="col-md-7 " style="padding-top:22px;">
-											<button class="btn btn-success btn-sm" ng-disabled=""
-												ng-click="addOneUser()">
+										<div class="col-md-12" style="padding-top:2px;">
+											<button class="btn btn-warning btn-block" ng-disabled=""
+												ng-click="addMore2()">
 												<i class="fa fa-plus-circle"></i>&nbsp;添加至列表
 											</button>
 										</div>
@@ -156,45 +187,47 @@
 							</div>
 						</div>
 						<!-- col-md-12 -->
+						
 						<div class="col-md-12">
-							<div class="hpanel">
-								<div class="panel-heading hbuilt">批量用户</div>
-								<div class="panel-body">
+                            <div class="hpanel">
+                                <div class="panel-heading hbuilt">添加用户-方式三</div>
+                                <div class="panel-body">
 
-									<!-- row -->
-									<div class="row">
-										<div class="col-md-3">
-											<div class="form-group">
-												<label for="user1">终端ID</label> <input type="number"
-													id="user1" class="form-control" placeholder="终端ID">
+                                    <!-- row -->
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label for="user1">终端ID</label> <input type="number"
+                                                    id="user1" class="form-control" placeholder="终端ID">
 
-											</div>
-										</div>
-										<div class="col-md-1" style="margin-top:30px;">
-											<span>——</span>
-										</div>
-										<div class="col-md-3">
-											<div class="form-group">
-												<label for="user2">终端ID</label> <input type="number"
-													id="user2" class="form-control" placeholder="终端ID">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2" style="margin-top:30px;">
+                                            <span>——</span>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label for="user2">终端ID</label> <input type="number"
+                                                    id="user2" class="form-control" placeholder="终端ID">
 
-											</div>
-										</div>
-										<div class="col-md-5">
-											<button class="btn btn-success btn-sm" ng-disabled=""
-												ng-click="addMore()" style="margin-top:25px;">
-												<i class="fa fa-plus-circle"></i>&nbsp;批量添加至列表
-											</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <button class="btn btn-success btn-block" ng-disabled=""
+                                                ng-click="addMore()" style="margin-top:25px;">
+                                                <i class="fa fa-plus-circle"></i>&nbsp;批量添加至列表
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+					<!-- - -->
 					</div>
 
 
 				</div>
-				<div class="col-md-7">
+				<div class="col-md-8">
 					<div class="row">
 
 						<div class="col-md-12">
@@ -212,34 +245,44 @@
 													<i class="fa fa-trash"></i>&nbsp;清空
 												</button>
 												<button class="btn btn-danger btn-sm" ng-click="run()"
-													 id="start">
+													 id="start" ng-disabled="up.o_gpsset=='off'|| totals<1">
 													<i class="fa fa-edit"></i>&nbsp;执行
 												</button>
+												
+												<!-- <button disabled="disabled" class="btn btn-danger btn-sm" ng-click="getHandleResult()"
+                                                     id="get-btn">
+                                                    <i class="fa fa-edit"></i>&nbsp;获取执行结果
+                                                </button> -->
 											</div>
 										</div>
+									</div>
+									<div class="col-md-12">
+									<p style="margin-top:20px; font-weight: 800;">列表中手台数量：<span>{{totals}}</span></p>
 									</div>
 									<!-- row -->
 									<table id="tb-info" class="xh-table table-hover">
 										<thead>
 											<tr class="tr-gray">
-												<!-- <th width="30px"><input type="checkbox"
-											id="table-checkbox" class="table-check" /></th> -->
+											<th width="30px"><input type="checkbox"
+                                            id="table-checkbox" class="table-check" /></th>
 												<th>手台</th>
 												<th>状态</th>
+												<th>执行结果</th>
 												<th width="130px">操作</th>
 											</tr>
 										</thead>
 										<tbody>
 											<tr ng-if="totals==0">
-												<td colspan="3" class="text-center">等待添加数据!</td>
+												<td colspan="5" class="text-center">等待添加数据!</td>
 											</tr>
 											<tr ng-repeat="x in data">
-												<!-- <td><input type="checkbox" name="tb-check"
-											value="{{x.id}}" index="{{$index}}" /></td> -->
+												 <td><input type="checkbox" name="tb-check"
+											value="{{x.userId}}" index="{{$index}}" /></td>
 
 
 												<td>{{x.userId}}</td>
 												<td>{{x.status}}</td>
+												<td>{{x.result}}</td>
 												<td style="width:20px;text-align:center"><a href="#"
 													ng-click="delBs($index)"><i
 														class="fa fa-trash text-success"></i>&nbsp;删除</a></td>

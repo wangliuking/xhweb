@@ -27,5 +27,7 @@ public interface UserStatusMapper {
 	public List<HashMap> userStatusByChart(Map<String, Object> map)throws Exception;
 	
 	public int userOnline(Map<String, Object> map)throws Exception;
+	
+	public List<Map<String, Object>> userOnlineByBs(int bsId)throws Exception;
 
 }
