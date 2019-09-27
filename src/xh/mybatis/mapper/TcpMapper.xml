@@ -63,12 +63,12 @@
 
 	<!-- 根据基站id查询基站相关业务信息 -->
 	<select id="selectInfoByBsId" parameterType="String" resultType="map" useCache="true">
-		select a.bsId as bsid,name as bsname,hometype as bstype,address,b.link,period from xhgmnet_bs_station as a LEFT JOIN view_bsstatus as b on a.bsId=b.bsId where a.bsId=#{bsId}
+		select a.number as number,name as bsname,hometype as bstype,address,b.link,period,a.level,a.lat,a.lng from xhgmnet_bs_station as a LEFT JOIN view_bsstatus as b on a.bsId=b.bsId where a.bsId=#{bsId}
 	</select>
 
 	<!-- 根据基站id查询传输状态 -->
 	<select id="selectBsTransfer" parameterType="String" resultType="map" useCache="true">
-		select * from xhgmnet_esight_querylinklist where znename=#{znename}
+		select * from xhgmnet_esight_querylinklist where linktype=1 and (anename=#{znename} or znename=#{znename})
 	</select>
 
 	<!-- 根据基站id查询市电告警状态 -->
@@ -115,8 +115,7 @@
 	<update id="updateFaultOrder" parameterType="map">
 		update xhgmnet_operations_fault_task_order set bsid=#{bsid},bsname=#{bsname},dispatchtime=#{dispatchtime},dispatchman=#{dispatchman},
 		errtype=#{errtype},errlevel=#{errlevel},errfoundtime=#{errfoundtime},errslovetime=#{errslovetime},progress=#{progress},proresult=#{proresult},
-		break_order=#{hungup},workman=#{workman},auditor=#{auditor},longitude=#{longitude},latitude=#{latitude},address=#{address} where serialnumber=#{serialnumber}
-		and userid=#{userid}
+		workman=#{workman},auditor=#{auditor},longitude=#{longitude},latitude=#{latitude},address=#{address} where serialnumber=#{serialnumber}
 	</update>
 
 	<!-- 插入基站巡检表数据 表名待定！！！ -->
@@ -312,7 +311,7 @@
 
 	<!-- 根据订单号更新发电接单人 -->
 	<update id="updateReceverElec" parameterType="map">
-		update xhgmnet_operations_bs_elec_generation set recv_user=#{userId} where serialnumber=#{serialnumber}
+		update xhgmnet_operations_bs_elec_generation set recv_user=#{userId},recever=#{recever} where serialnumber=#{serialnumber}
 	</update>
 
 	<!-- 根据订单号查询全部发电信息 -->
@@ -322,7 +321,7 @@
 
 	<!-- 根据订单号更新故障接单人 -->
 	<update id="updateReceverFault" parameterType="map">
-		update xhgmnet_operations_fault_task_order set userid=#{userId} where serialnumber=#{serialnumber}
+		update xhgmnet_operations_fault_task_order set handleUserid=#{userId},workman=#{workman} where serialnumber=#{serialNum}
 	</update>
 
 	<!-- 根据订单号查询全部故障信息 -->

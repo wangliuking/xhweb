@@ -316,6 +316,8 @@ xh.load = function() {
             $http.get("../../checkCut/sheetShow?id="+sheetId).success(function (response) {
                 $scope.sheetData = response.items;
 				console.log($scope.sheetData);
+				var tempDesc = $scope.sheetData.desc;
+                $("#checkCut-form div[name='desc']").text(tempDesc);
                 var data= response.items;  //开始时间
 				var date1 = data.breakTime;
                 var date2 = data.restoreTime;    //结束时间
@@ -770,7 +772,7 @@ xh.sheetChange = function() {
         maintainTime:$("input[name='maintainTime']").val(),
         isPower:$("input[name='isPower']").val(),
         firstDesc:$("input[name='firstDesc']").val(),
-        desc:$("div[name='desc']").text(),
+        desc:$("#checkCut-form div[name='desc']").text(),
         breakTime:$scope.sheetData.breakTime,
         restoreTime:$scope.sheetData.restoreTime,
         checkCutTime:$("input[name='checkCutTime']").val(),

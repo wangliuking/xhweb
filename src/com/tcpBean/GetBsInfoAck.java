@@ -24,7 +24,7 @@ public class GetBsInfoAck {
 	private String serialnumber;
 	private String period;
 	private Map<String,Object> bsinfo;
-	private Map<String,List<Map<String,Object>>> bsstatus;
+	private Map<String,List<Map<String,String>>> bsstatus;
 	private Map<String,Object> emhinfo;
 	private List<BsInspectTable> inspectlist;
 	private String status;
@@ -93,11 +93,11 @@ public class GetBsInfoAck {
 		this.period = period;
 	}
 
-	public Map<String, List<Map<String, Object>>> getBsstatus() {
+	public Map<String, List<Map<String, String>>> getBsstatus() {
 		return bsstatus;
 	}
 
-	public void setBsstatus(Map<String, List<Map<String, Object>>> bsstatus) {
+	public void setBsstatus(Map<String, List<Map<String, String>>> bsstatus) {
 		this.bsstatus = bsstatus;
 	}
 

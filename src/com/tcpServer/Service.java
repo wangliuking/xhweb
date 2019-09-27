@@ -3,6 +3,7 @@ package com.tcpServer;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import cc.eguid.FFmpegCommandManager.test.TestFFmpegForWeb;
 import com.tcpBean.*;
 import org.apache.ibatis.session.SqlSession;
 
@@ -38,6 +39,7 @@ public class Service {
 	
 	
 	private static FunUtil funUtil = new FunUtil();
+	public static Map<String,Object> cameraMap = new HashMap<String,Object>();
 
 	/**
 	 * 登录处理
@@ -221,22 +223,26 @@ public class Service {
 	}
 
 	public static void main(String[] args) throws Exception {
-		UserLogin userLogin = new UserLogin();
+		/*Map<String, Object> param = new HashMap<String, Object>();
+		param.put("bsId", "126");
+		List<Map<String, Object>> list1 = BsStatusService.bsr(param);
+		System.out.println(list1);*/
+		/*UserLogin userLogin = new UserLogin();
 		userLogin.setUserid("test001");
 		userLogin.setPasswd("123");
 		userLogin.setSerialnumber("m22W0zFj");
 		LoginAck loginAck = Service.appLogin(userLogin);
-		System.out.println(loginAck);
-		/*GetBsInfo getBsInfo = new GetBsInfo();
-		getBsInfo.setSerialnumber("fefawfwefegndgefrw");
-		getBsInfo.setUserid("wlk");
-		getBsInfo.setBsid("126");
+		System.out.println(loginAck);*/
+		GetBsInfo getBsInfo = new GetBsInfo();
+		getBsInfo.setSerialnumber("v9W1dZRD");
+		getBsInfo.setUserid("appTest");
+		getBsInfo.setBsid("66");
 		LinkedList<GetBsInfoAck> list = appGetBsInfoAck(getBsInfo);
 		for(GetBsInfoAck getBsInfoAck : list){
 			String res = Util.Object2Json(getBsInfoAck);
 			System.out.println(res);
 			System.out.println(res.length());
-		}*/
+		}
 		/*Map<String,List<Map<String,Object>>> res = getBsStatusInfo("126");
 		System.out.println(res.get("bsr"));
 		System.out.println(res.get("bsc"));
@@ -279,110 +285,173 @@ public class Service {
 	 * @param bsId
 	 * @return
 	 */
-	public static Map<String,List<Map<String,Object>>> getBsStatusInfo(String bsId) throws Exception{
-		Map<String,List<Map<String,Object>>> resultMap = new HashMap<String,List<Map<String,Object>>>();
+	public static Map<String,List<Map<String,String>>> getBsStatusInfo(String bsId) throws Exception{
+		Map<String,List<Map<String,String>>> resultMap = new HashMap<String,List<Map<String,String>>>();
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("bsId", bsId);
 		List<Map<String, Object>> list1 = BsStatusService.bsr(param);
 		List<Map<String, Object>> list2 = BsStatusService.bsc(param);
 		List<Map<String, Object>> list3 = BsStatusService.dpx(param);
 		List<Map<String, Object>> list4 = BsStatusService.psm(param);
-		List<Map<String, Object>> bsrList = new LinkedList<Map<String, Object>>();
-		List<Map<String, Object>> bscList = new LinkedList<Map<String, Object>>();
-		List<Map<String, Object>> dpxList = new LinkedList<Map<String, Object>>();
-		List<Map<String, Object>> psmList = new LinkedList<Map<String, Object>>();
+		List<Map<String, String>> bsrList = new LinkedList<Map<String, String>>();
+		List<Map<String, String>> bscList = new LinkedList<Map<String, String>>();
+		List<Map<String, String>> dpxList = new LinkedList<Map<String, String>>();
+		List<Map<String, String>> psmList = new LinkedList<Map<String, String>>();
 		//bsr
 		for(Map<String,Object> map : list1){
 			String bsrIsEnable = map.get("bsrIsEnable")==null?"":map.get("bsrIsEnable")+"";
 			if("1".equals(bsrIsEnable)){
+				Map<String,String> tempMap = new HashMap<String,String>();
 				String Id = map.get("Id")==null?"":map.get("Id")+"";
+				String working = map.get("working")==null?"":map.get("working")+"";
 				String freq = map.get("freq")==null?"":map.get("freq")+"";
 				String freq2 = map.get("freq2")==null?"":map.get("freq2")+"";
 				String freq3 = map.get("freq3")==null?"":map.get("freq3")+"";
 				String freq4 = map.get("freq4")==null?"":map.get("freq4")+"";
+				String master = map.get("master")==null?"":map.get("master")+"";
 				String power = map.get("power")==null?"":map.get("power")+"";
+				String updateTime = map.get("updateTime")==null?"":map.get("updateTime")+"";
+				tempMap.put("id",Id);
+				tempMap.put("working",working);
+				tempMap.put("master",master);
+				tempMap.put("updateTime",updateTime);
 				if(!"".equals(freq) && Integer.parseInt(freq)!=-1){
-					map.put("freq",String.format("%.2f", Double.parseDouble(freq)).toString());
+					tempMap.put("freq",String.format("%.2f", Double.parseDouble(freq)).toString());
 				}else{
-					map.put("freq","");
+					tempMap.put("freq","");
 				}
 				if(!"".equals(freq2) && Integer.parseInt(freq2)!=-1){
-					map.put("freq2",String.format("%.2f", Double.parseDouble(freq2)).toString());
+					tempMap.put("freq2",String.format("%.2f", Double.parseDouble(freq2)).toString());
 				}else{
-					map.put("freq2","");
+					tempMap.put("freq2","");
 				}
 				if(!"".equals(freq3) && Integer.parseInt(freq3)!=-1){
-					map.put("freq3",String.format("%.2f", Double.parseDouble(freq3)).toString());
+					tempMap.put("freq3",String.format("%.2f", Double.parseDouble(freq3)).toString());
 				}else{
-					map.put("freq3","");
+					tempMap.put("freq3","");
 				}
 				if(!"".equals(freq4) && Integer.parseInt(freq4)!=-1){
-					map.put("freq4",String.format("%.2f", Double.parseDouble(freq4)).toString());
+					tempMap.put("freq4",String.format("%.2f", Double.parseDouble(freq4)).toString());
 				}else{
-					map.put("freq4","");
+					tempMap.put("freq4","");
 				}
 				if(!"".equals(power) && Integer.parseInt(power)>47){
-					map.put("power",Integer.parseInt(power)-15);
+					tempMap.put("power",(Integer.parseInt(power)-15)+"");
+				}else{
+					tempMap.put("power","");
 				}
-				map.remove("Id");
-				map.put("id",Id);
-				bsrList.add(map);
+				bsrList.add(tempMap);
 			}
 		}
 		//bsc
 		for(Map<String,Object> map : list2){
 			String bscIsEnable = map.get("bscIsEnable")==null?"":map.get("bscIsEnable")+"";
 			if("1".equals(bscIsEnable)){
+				Map<String,String> tempMap = new HashMap<String,String>();
 				String Id = map.get("Id")==null?"":map.get("Id")+"";
+				String working = map.get("working")==null?"":map.get("working")+"";
+				String mode = map.get("mode")==null?"":map.get("mode")+"";
+				String master = map.get("master")==null?"":map.get("master")+"";
+				String timeSync = map.get("timeSync")==null?"":map.get("timeSync")+"";
+				String gpsTime = map.get("gpsTime")==null?"":map.get("gpsTime")+"";
 				String runtime = map.get("runtime")==null?"":map.get("runtime")+"";
+				String updateTime = map.get("updateTime")==null?"":map.get("updateTime")+"";
+
+				tempMap.put("id",Id);
+				tempMap.put("working",working);
+				tempMap.put("mode",mode);
+				tempMap.put("master",master);
+				tempMap.put("timeSync",timeSync);
+				tempMap.put("gpsTime",gpsTime);
+				tempMap.put("updateTime",updateTime);
 				if(!"".equals(runtime)){
-					map.put("runtime",calcRuntime(Integer.parseInt(runtime)));
+					tempMap.put("runtime",calcRuntime(Integer.parseInt(runtime)));
+				}else{
+					tempMap.put("runtime","");
 				}
-				map.remove("Id");
-				map.put("id",Id);
-				bscList.add(map);
+				bscList.add(tempMap);
 			}
 		}
 		//dpx
 		for(Map<String,Object> map : list3){
 			String Id = map.get("Id")==null?"":map.get("Id")+"";
 			if(!"".equals(Id) && Integer.parseInt(Id)<=2){
+				Map<String,String> tempMap = new HashMap<String,String>();
+				String working = map.get("working")==null?"":map.get("working")+"";
+				String retLoss = map.get("retLoss")==null?"":map.get("retLoss")+"";
 				String fwdPa = map.get("fwdPa")==null?"":map.get("fwdPa")+"";
+				String updateTime = map.get("updateTime")==null?"":map.get("updateTime")+"";
+				tempMap.put("id",Id);
+				tempMap.put("working",working);
+				tempMap.put("retLoss",retLoss);
+				tempMap.put("updateTime",updateTime);
 				if(!"".equals(fwdPa)){
-					map.put("fwdPa",Float.parseFloat(fwdPa)/10);
+					tempMap.put("fwdPa",(Float.parseFloat(fwdPa)/10)+"");
+				}else{
+					tempMap.put("fwdPa","");
 				}
-				map.remove("Id");
-				map.put("id",Id);
-				dpxList.add(map);
+				dpxList.add(tempMap);
 			}
 		}
 		//psm
 		for(Map<String,Object> map : list4){
 			String Id = map.get("Id")==null?"":map.get("Id")+"";
 			if(!"".equals(Id) && Integer.parseInt(Id)<=2){
+				Map<String,String> tempMap = new HashMap<String,String>();
+				String dc12 = map.get("dc12")==null?"":map.get("dc12")+"";
+				String dc301 = map.get("dc301")==null?"":map.get("dc301")+"";
+				String dc302 = map.get("dc302")==null?"":map.get("dc302")+"";
+				String runStatus = map.get("runStatus")==null?"":map.get("runStatus")+"";
+				String tempStatus = map.get("tempStatus")==null?"":map.get("tempStatus")+"";
+				String linkStatus = map.get("linkStatus")==null?"":map.get("linkStatus")+"";
+				String fan1 = map.get("fan1")==null?"":map.get("fan1")+"";
+				String fan2 = map.get("fan2")==null?"":map.get("fan2")+"";
+				String fan3 = map.get("fan3")==null?"":map.get("fan3")+"";
+				String ad = map.get("ad")==null?"":map.get("ad")+"";
 				String bdTmp1 = map.get("bdTmp1")==null?"":map.get("bdTmp1")+"";
 				String bdTmp2 = map.get("bdTmp2")==null?"":map.get("bdTmp2")+"";
 				String bdTmp3 = map.get("bdTmp3")==null?"":map.get("bdTmp3")+"";
 				String acdcVol = map.get("acdcVol")==null?"":map.get("acdcVol")+"";
 				String acdcCur = map.get("acdcCur")==null?"":map.get("acdcCur")+"";
+				String updateTime = map.get("updateTime")==null?"":map.get("updateTime")+"";
+				tempMap.put("id",Id);
+				tempMap.put("dc12",dc12);
+				tempMap.put("dc301",dc301);
+				tempMap.put("dc302",dc302);
+				tempMap.put("runStatus",runStatus);
+				tempMap.put("tempStatus",tempStatus);
+				tempMap.put("linkStatus",linkStatus);
+				tempMap.put("fan1",fan1);
+				tempMap.put("fan2",fan2);
+				tempMap.put("fan3",fan3);
+				tempMap.put("ad",ad);
+				tempMap.put("updateTime",updateTime);
 				if(!"".equals(bdTmp1)){
-					map.put("bdTmp1",Float.parseFloat(bdTmp1)/2);
+					tempMap.put("bdTmp1",(Float.parseFloat(bdTmp1)/2)+"");
+				}else{
+					tempMap.put("bdTmp1","");
 				}
 				if(!"".equals(bdTmp2)){
-					map.put("bdTmp2",Float.parseFloat(bdTmp2)/2);
+					tempMap.put("bdTmp2",(Float.parseFloat(bdTmp2)/2)+"");
+				}else{
+					tempMap.put("bdTmp2","");
 				}
 				if(!"".equals(bdTmp3)){
-					map.put("bdTmp3",Float.parseFloat(bdTmp3)/2);
+					tempMap.put("bdTmp3",(Float.parseFloat(bdTmp3)/2)+"");
+				}else{
+					tempMap.put("bdTmp3","");
 				}
 				if(!"".equals(acdcVol)){
-					map.put("acdcVol",Float.parseFloat(acdcVol)/10);
+					tempMap.put("acdcVol",(Float.parseFloat(acdcVol)/10)+"");
+				}else{
+					tempMap.put("acdcVol","");
 				}
 				if(!"".equals(acdcCur)){
-					map.put("acdcCur",Float.parseFloat(acdcCur)/10);
+					tempMap.put("acdcCur",(Float.parseFloat(acdcCur)/10)+"");
+				}else{
+					tempMap.put("acdcCur","");
 				}
-				map.remove("Id");
-				map.put("id",Id);
-				psmList.add(map);
+				psmList.add(tempMap);
 			}
 		}
 
@@ -414,8 +483,11 @@ public class Service {
 	}
 
 	public static String calcBatteryTime(String alarmTime,String batteryHour) throws Exception{
-		if("".equals(alarmTime) || alarmTime == null || "".equals(batteryHour) || batteryHour == null){
+		if("".equals(batteryHour) || batteryHour == null){
 			return "";
+		}
+		if("".equals(alarmTime) || alarmTime == null){
+			return batteryHour+"小时";
 		}
 		long battertMinute = Long.parseLong(batteryHour)*60;
 		Date d1 = new Date();
@@ -441,8 +513,8 @@ public class Service {
 			if(!"".equals(bsId) && bsId!=null){
 				Map<String,Object> bsinfo = mapper.selectInfoByBsId(bsId);
 				//查询传输状态start
-				String znename = "BS"+bsId+"_S3700-1";
-				List<Map<String,Object>> transferList = mapper.selectBsTransfer(znename);
+				String nename = "BS"+bsId+"_S3700-1";
+				List<Map<String,Object>> transferList = mapper.selectBsTransfer(nename);
 				//初始化
 				bsinfo.put("switchstatus","");
 				bsinfo.put("transferOne","");
@@ -450,20 +522,28 @@ public class Service {
 				if(transferList.size()>0){
 					int count = 0;
 					for(Map<String,Object> m : transferList){
+						String ename = "";
 						String anename = m.get("anename")==null?"":m.get("anename")+"";
-						if(!"".equals(anename) && "ZY".equals(anename.substring(0,2))){
+						String znename = m.get("znename")==null?"":m.get("znename")+"";
+						if(!"".equals(anename) && "-".equals(anename.substring(2,3))){
+							ename = anename;
+						}
+						if(!"".equals(znename) && "-".equals(znename.substring(2,3))){
+							ename = znename;
+						}
+						if(!"".equals(ename) && "ZY".equals(ename.substring(0,2))){
 							String linkstatus = m.get("linkstatus")+"";
 							if("0".equals(linkstatus)){
 								count++;
 							}
 							bsinfo.put("transferOne",linkstatus);
 						}
-						if(!"".equals(anename) && "RZ".equals(anename.substring(0,2))){
+						if(!"".equals(ename) && "RZ".equals(ename.substring(0,2))){
 							String linkstatus = m.get("linkstatus")+"";
 							if("0".equals(linkstatus)){
 								count++;
 							}
-							bsinfo.put("transferTwo",m.get("linkstatus"));
+							bsinfo.put("transferTwo",linkstatus);
 						}
 					}
 					if(count == 2){
@@ -485,7 +565,7 @@ public class Service {
 
 				//查询电池续航时间start
 				String batteryHour = mapper.selectBatteryTime(bsId);
-				if("".equals(batteryHour)){
+				if(!"".equals(batteryHour)){
 					String batteryTime = calcBatteryTime(powerOffTime,batteryHour);
 					bsinfo.put("batterytime",batteryTime);
 				}else{
@@ -499,11 +579,11 @@ public class Service {
 				}else{
 					bsinfo.put("bstype",bstype+"机房");
 				}
-				String period = bsinfo.get("period").toString();
+				String period = bsinfo.get("period")+"";
 				getBsInfoAck.setPeriod(period);
 				getBsInfoAck.setBsinfo(bsinfo);
 				//获取单板状态start
-				Map<String,List<Map<String,Object>>> res = getBsStatusInfo(bsId);
+				Map<String,List<Map<String,String>>> res = getBsStatusInfo(bsId);
 				getBsInfoAck.setBsstatus(res);
 				//获取单板状态end
 
@@ -766,7 +846,7 @@ public class Service {
 		map.put("latitude", errProTable.getLatitude());
 		map.put("address", errProTable.getAddress());
 		map.put("serialnumber", errProTable.getSerialnumber());
-		map.put("userid", errProTable.getUserid());	
+		map.put("userid", errProTable.getUserid());
 		try {
 			//更新派单
 			int count = mapper.updateFaultOrder(map);
@@ -1362,6 +1442,51 @@ public class Service {
 		}
 		return getPowerOnTimeAck;
 	}
+
+	/**
+	 * 发起基站摄像头推流
+	 */
+	public static PushIPCStreamAck appPushIPCStreamAck(PushIPCStream pushIPCStream){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		String bsId = pushIPCStream.getBsid();
+		String window = "640";
+		PushIPCStreamAck pushIPCStreamAck = new PushIPCStreamAck();
+		pushIPCStreamAck.setUserid(pushIPCStream.getUserid());
+		pushIPCStreamAck.setSerialnumber(pushIPCStream.getSerialnumber());
+		try{
+			Map<String, Object> map = new HashMap<String,Object>();
+			if(Integer.parseInt(bsId)<2000){
+				map.put("bsId", bsId);
+				List<Map<String,Object>> listMap = GosuncnService.selectCameraIpByBsId(map);
+				cameraMap = listMap.get(0);
+				cameraMap.put("window", window);
+			}else{
+				map.put("bsId", bsId);
+				List<Map<String,Object>> listMap = GosuncnService.selectCameraIpByVpn(map);
+				cameraMap = listMap.get(0);
+				cameraMap.put("window", window);
+			}
+			new PushStreamThread().start();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return pushIPCStreamAck;
+	}
+
+	/**
+	 * 关闭基站摄像头推流
+	 */
+	public static StopIPCStreamAck appStopIPCStreamAck(StopIPCStream stopIPCStream){
+		String bsId = stopIPCStream.getBsid();
+		StopIPCStreamAck stopIPCStreamAck = new StopIPCStreamAck();
+		stopIPCStreamAck.setUserid(stopIPCStream.getUserid());
+		stopIPCStreamAck.setSerialnumber(stopIPCStream.getSerialnumber());
+		new StopStreamThread(bsId).start();
+		return stopIPCStreamAck;
+	}
 	
 	/**
 	 * 根据基站名称模糊查询基站列表
@@ -1395,21 +1520,36 @@ public class Service {
 	public static ReceiveOrderAck appReceiveOrderAck(ReceiveOrder receiveOrder){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		String userId = receiveOrder.getUserid();
+		String serialNumber = receiveOrder.getSerialnumber();
 		ReceiveOrderAck receiveOrderAck = new ReceiveOrderAck();
-		receiveOrderAck.setUserid(receiveOrder.getUserid());
-		receiveOrderAck.setSerialnumber(receiveOrder.getSerialnumber());
+		receiveOrderAck.setUserid(userId);
+		receiveOrderAck.setSerialnumber(serialNumber);
 		try{
-			Map<String,Object> param = new HashMap<String,Object>();
-			param.put("status",1);
-			param.put("serialnumber",receiveOrder.getSerialnumber());
-			param.put("userId",receiveOrder.getUserid());
-			//更新状态为处理中-1
-			mapper.updateGenTableStatus(param);
-			//更新发电接收人
-			mapper.updateReceverElec(param);
-			//查询可接单人
-			String persons = mapper.searchReceverElec(receiveOrder.getSerialnumber());
-			receiveOrderAck.setHandlepower(persons);
+			//查询单号处理情况
+			Map<String,Object> tempMap = mapper.searchAllInfo(serialNumber);
+			String status = tempMap.get("status")==null?"":tempMap.get("status")+"";
+			if("0".equals(status)) {
+				//可接单
+				//更新发电派单
+				Map<String,Object> param = new HashMap<String,Object>();
+				param.put("status",1);
+				param.put("serialnumber",receiveOrder.getSerialnumber());
+				param.put("userId",userId);
+				param.put("recever", receiveOrder.getHandleusername());
+				mapper.updateGenTableStatus(param);
+				//更新发电接收人
+				mapper.updateReceverElec(param);
+				//查询可接单人
+				String persons = mapper.searchReceverElec(receiveOrder.getSerialnumber());
+				receiveOrderAck.setHandlepower(persons);
+			}else{
+				//不可接单
+				receiveOrderAck.setHandlepower("2");
+				receiveOrderAck.setHandleusername(tempMap.get("recever")+"");
+			}
+
+
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {
@@ -1425,21 +1565,35 @@ public class Service {
 	public static ReceiveTableAck appReceiveTableAck(ReceiveTable receiveTable){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		String userId = receiveTable.getUserid();
+		String serialNumber = receiveTable.getSerialnumber();
 		ReceiveTableAck receiveTableAck = new ReceiveTableAck();
-		receiveTableAck.setUserid(receiveTable.getUserid());
-		receiveTableAck.setSerialnumber(receiveTable.getSerialnumber());
+		receiveTableAck.setUserid(userId);
+		receiveTableAck.setSerialnumber(serialNumber);
 		try{
-			//更新故障派单
-			Map<String,String> paramMap = new HashMap<String,String>();
-			paramMap.put("serialNum", receiveTable.getSerialnumber());
-			paramMap.put("status", "0");
-			paramMap.put("break_order", "");
-			Service.updateUserStatus(paramMap);
-			//更新故障接收人
-			mapper.updateReceverFault(paramMap);
-			//查询可接单人
-			String persons = mapper.searchReceverFault(receiveTable.getSerialnumber());
-			receiveTableAck.setHandlepower(persons);
+			//查询单号处理情况
+			Map<String,Object> tempMap = mapper.searchAllFaultInfo(serialNumber);
+			String status = tempMap.get("status")==null?"":tempMap.get("status")+"";
+			if("0".equals(status)){
+				//可接单
+				//更新故障派单
+				Map<String,String> paramMap = new HashMap<String,String>();
+				paramMap.put("serialNum", serialNumber);
+				paramMap.put("status", "1");
+				paramMap.put("break_order", "");
+				paramMap.put("userId", userId);
+				paramMap.put("workman", receiveTable.getHandleusername());
+				Service.updateUserStatus(paramMap);
+				//更新故障接收人
+				mapper.updateReceverFault(paramMap);
+				//查询可接单人
+				String persons = mapper.searchReceverFault(receiveTable.getSerialnumber());
+				receiveTableAck.setHandlepower(persons);
+			}else{
+				//不可接单
+				receiveTableAck.setHandlepower("2");
+				receiveTableAck.setHandleusername(tempMap.get("workman")+"");
+			}
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {
@@ -1623,4 +1777,30 @@ public class Service {
 		return genOffCheckAck;
 	}
 	
+}
+
+class PushStreamThread extends Thread{
+	@Override
+	public void run() {
+		try {
+			TestFFmpegForWeb.test1(Service.cameraMap);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+}
+
+class StopStreamThread extends Thread{
+	private String bsId;
+	public StopStreamThread(String bsId){
+		this.bsId = bsId;
+	}
+	@Override
+	public void run() {
+		try {
+			TestFFmpegForWeb.stop(bsId);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+	}
 }

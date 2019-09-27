@@ -4,6 +4,7 @@ public class ReceiveTable {
     private String cmdtype = "receivetable";
     private String userid;
     private String serialnumber;
+    private String handleusername;
 
     public String getCmdtype() {
         return cmdtype;
@@ -29,12 +30,21 @@ public class ReceiveTable {
         this.serialnumber = serialnumber;
     }
 
+    public String getHandleusername() {
+        return handleusername;
+    }
+
+    public void setHandleusername(String handleusername) {
+        this.handleusername = handleusername;
+    }
+
     @Override
     public String toString() {
-        return "ReceiveOrder{" +
+        return "ReceiveTable{" +
                 "cmdtype='" + cmdtype + '\'' +
                 ", userid='" + userid + '\'' +
                 ", serialnumber='" + serialnumber + '\'' +
+                ", handleusername='" + handleusername + '\'' +
                 '}';
     }
 }

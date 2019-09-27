@@ -130,6 +130,7 @@ xh.load = function() {
 		};
 		//确认派单完成
 		$scope.check=function(id){
+			console.log($scope.data[id])
 			$.ajax({
 				url : '../../order/updateOrder',
 				type : 'POST',
@@ -142,7 +143,7 @@ xh.load = function() {
 					from:$scope.data[id].from,
 					serialnumber:$scope.data[id].serialnumber,
 					status:3,
-					userid:$scope.data[id].userid
+					userid:$scope.data[id].handleUserid
 				},
 				success : function(data) {
 

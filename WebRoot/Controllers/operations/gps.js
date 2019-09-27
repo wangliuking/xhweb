@@ -30,16 +30,16 @@ xh.load = function() {
 	var pageSize = $("#page-limit").val();
 
 	app.controller("gps", function($scope, $http) {
-		xh.maskShow();
+		//xh.maskShow();
 		$scope.count = "15";//每页数据显示默认值
 		$scope.systemMenu=true; //菜单变色
-		$http.get("../../gps/list?srcId="+srcId+"&dstId="+dstId+"&startTime="+startTime+"&endTime="+endTime+"&start=0&limit="+pageSize).
+		/*$http.get("../../gps/list?srcId="+srcId+"&dstId="+dstId+"&startTime="+startTime+"&endTime="+endTime+"&start=0&limit="+pageSize).
 		success(function(response){
 			xh.maskHide();
 			$scope.data = response.items;
 			$scope.totals = response.totals;
 			xh.pagging(1, parseInt($scope.totals), $scope);
-		});
+		});*/
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$("#srcId").val("");

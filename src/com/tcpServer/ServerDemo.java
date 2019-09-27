@@ -77,6 +77,12 @@ public class ServerDemo {
 				} else
 					continue;
 			}
+			/*System.out.println("+++++++++++++++++++++");
+			System.out.println(userId);
+			System.out.println(object);
+			System.out.println(userList);
+			System.out.println(unsentMessageList);
+			System.out.println("+++++++++++++++++++++");*/
 			if(!userList.contains(userId)){//此时该用户不在线，保存此派单信息
 				if(unsentMessageList.containsKey(userId)){
 					//未发送消息中有该用户
@@ -160,17 +166,18 @@ public class ServerDemo {
 					}
 					if (reader.ready()) {
 						lastTime = System.currentTimeMillis();
-						System.out.println("收到消息，准备解析:");					
+						//System.out.println("收到消息，准备解析:");
 						String data = reader.readLine();
-						System.out.println("接收到的数据为："+data);
-						Map<String, String> tempMap = Util.parseJson(data);					
-						
+						if(!"{\"cmdtype\":\"heartbeat\"}".equals(data)){
+							System.out.println("接收到的数据为："+data);
+						}
+						Map<String, String> tempMap = Util.parseJson(data);
 						String returnMessage = tempMap.get("returnMessage");
 						if(!"".equals(returnMessage) && returnMessage!=null){
 							if("for".equals(returnMessage)){
 								for(int i=0;i<tempMap.keySet().size();i++){
 									for(String key:tempMap.keySet()){
-										if(!"returnMessage".equals(key) && key.equals("returnMessage"+i)){
+										if(key.equals("returnMessage"+i)){
 											System.out.println("返回的消息为："+tempMap.get(key));
 											writer.write(tempMap.get(key)+"\n");
 											writer.flush();
@@ -178,7 +185,9 @@ public class ServerDemo {
 									}
 								}
 							}else{
-								System.out.println("返回的消息为："+returnMessage);							
+								if(!"{\"cmdtype\":\"heartbeat\"}".equals(returnMessage)){
+									System.out.println("返回的消息为："+returnMessage);
+								}
 								writer.write(returnMessage+"\n");
 								writer.flush();
 							}						
@@ -188,8 +197,11 @@ public class ServerDemo {
 							//将此线程与userId进行绑定
 							String userId = tempMap.get("userId");
 							this.userId = userId;
+						}
+
+						if(tempMap.containsKey("unsentMessageList")){
 							//查询此userId是否有未发送的消息
-							Thread.sleep(5000);
+							Thread.sleep(2000);
 							if(unsentMessageList.containsKey(userId)){
 								LinkedList<Object> list = unsentMessageList.get(userId);
 								for(int i=0;i<list.size();i++){
@@ -200,10 +212,14 @@ public class ServerDemo {
 								unsentMessageList.remove(userId);
 							}
 						}
-						System.out.println("当前SocketThread的userId为："+userId+"==="+"当前所有连接为："+mThreadList);
-						System.out.println("============================");
-						for(String key : unsentMessageList.keySet()){
-							System.out.print(key);
+
+						if(!"{\"cmdtype\":\"heartbeat\"}".equals(returnMessage)){
+							System.out.println("当前SocketThread的userId为："+userId+"==="+"当前所有连接为："+mThreadList);
+							System.out.println("============================");
+							for(String key : unsentMessageList.keySet()){
+								System.out.println(key);
+							}
+							System.out.println("============================");
 						}
 
 					}

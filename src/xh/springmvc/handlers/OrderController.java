@@ -202,7 +202,7 @@ public class OrderController {
 		errCheckAck.setSerialnumber(serialnumber);
 		errCheckAck.setUserid(userid);
 		errCheckAck.setAuditor(SingLoginListener.getLogUserMap().get(request.getSession().getId())+"");
-		errCheckAck.setResult(String.valueOf(status));
+		errCheckAck.setResult("0");
 
 		demo.startMessageThread(userid, errCheckAck);
 		
