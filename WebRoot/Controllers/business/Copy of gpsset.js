@@ -32,8 +32,6 @@ xh.load = function() {
 		$scope.totals=0;
 		$scope.trigger=0;
 		$scope.date="";
-		$scope.selectDate=[];
-		$scope.selectDateTotals=0;
 		var run=0;
 		
 		/* 获取用户权限 */
@@ -57,7 +55,6 @@ xh.load = function() {
 		};
 		//添加一个用户
 		$scope.addOneUser=function(){
-			run=0;
 			var userId=$("#userId").val();
 			var record={userId:'',status:"等待执行",result:""};
 			
@@ -81,7 +78,6 @@ xh.load = function() {
 		};
 		/* 添加多用户 */
 		$scope.addMore = function() {
-			run=0;
 			var user1=parseInt($("#user1").val());
 			var user2=parseInt($("#user2").val());
 			if(user2-user1<0){
@@ -112,7 +108,6 @@ xh.load = function() {
 			
 		};
 		$scope.addMore2 = function() {
-			run=0;
 			var user=$("#userId").val();
 			var uu=user.split(",");
 			
@@ -137,7 +132,6 @@ xh.load = function() {
 			
 		};
 		$scope.addMore3= function() {
-			run=0;
 			var bsId=$("#bsId").val();
 			if(bsId==""){
 				return;
@@ -168,93 +162,51 @@ xh.load = function() {
 			});
 			
 		};
-		$scope.addMore4= function() {
-			run=0;
-			$http.get("../../gpsOperation/now_gps_close").success(
-					function(response) {
-						var uu = response.items;
-						if(uu==null){
-							return;
-						}
-						for(var i=0;i<uu.length;i++){
-							
-							var record={userId:'',status:"等待执行",result:""};
-							record.userId=uu[i].userId;	
-							var flag=0;
-							for(var j=0;j<$scope.data.length;j++){
-								if($scope.data[j].userId==record.userId){
-									flag=1;
-								}
-							}
-							if(flag==0){
-								$scope.data.push(record);
-								
-							}
-							
-						}
-						$scope.totals=$scope.data.length;
-			});
-			
-		};
 		$scope.getHandleResult=function(){
-			if($scope.selectData==null || $scope.selectData.length<1){
+			if($scope.data==null || $scope.data.length<1){
 				return null;
 			}
 			var ss=[];
-			for(var i=0;i<$scope.selectData.length;i++){
-				ss.push($scope.selectData[i].userId)
+			for(var i=0;i<$scope.data.length;i++){
+				ss.push($scope.data[i].userId)
 			}
 			var operation=$("input[name='operation']:checked").val();
 			var gpsen=$("input[name='gpsen']:checked").val();
-			var type=null;
+			var type="GPS开关";
 			if(operation==1){
-				type=3;
+				type="立即请求GPS";
 			}else if(operation==3){
-				if(gpsen==1){
-					type=1;
-				}else{
-					type=0;
-				}
+				type="GPS开关"
+			}else{
+				type="";
 			}
 			$http.get("../../gpsOperation/now_operation_record?time="+$scope.date+"&type="+type+"&ids="+ss.join(",")).success(
 					function(response) {
 						var data = response.items;
-						for(var i=0;i<$scope.selectData.length;i++){
-							for(var j=0;j<$scope.data.length;j++){
-								if($scope.selectData[i].userId==$scope.data[j].userId){
-									var record=$scope.data[j];
-									for(var k=0;k<data.length;k++){
-										if(record.userId==data[k].dstId){
-											if(data[k].operationOpt==1){
-												if(data[k].status==0){
-													$scope.data[j].result="失败"
-												}else if(data[k].status==1){
-													$scope.data[j].result="成功"
-												}else if(data[k].status==2){
-													$scope.data[j].result="等待终端回复"
-												}else if(data[k].status==3){
-													$scope.data[j].result="调用东信服务失败"
-												}
-											}else{
-												if(data[k].status==0){
-													$scope.data[j].result="成功"
-												}else if(data[k].status==1){
-													$scope.data[j].result="失败"
-												}else if(data[k].status==2){
-													$scope.data[j].result="等待终端回复"
-												}else if(data[k].status==3){
-													$scope.data[j].result="调用东信服务失败"
-												}
-											}
-											
+						for(var i=0;i<$scope.data.length;i++){
+							var record=$scope.data[i];
+							//$scope.data[i].result="无";
+							for(var j=0;j<data.length;j++){
+								if(record.userId==data[j].dstId){
+									if(data[j].status==0){
+										$scope.data[i].result="成功"
+									}else if(data[j].status==1){
+										$scope.data[i].result="失败"
+									}else if(data[j].status==2){
+										$scope.data[i].result="等待终端回复"
+									}else if(data[j].status==3){
+										$scope.data[i].result="调用东信服务失败"
+									}
+									if($scope.data[i].operationOpt==1 || $scope.data[i].operationOpt==0){
+										if(data[j].status==0){
+											$scope.data[i].result="当前GPS禁用"
+										}else if(data[j].status==1){
+											$scope.data[i].result="当前GPS打开"
 										}
 									}
 								}
 							}
 						}
-						
-						
-						
 			});
 		}
 		
@@ -290,9 +242,15 @@ xh.load = function() {
 		$scope.start=function(i){
 			window.localStorage.setItem("gpsset_time",xh.getNowDate());	
 			$scope.date=xh.getNowDate();
-			console.log("fff->"+i)
+			console.log("fff->"+$scope.date)
 			var data=[];
-			data.push($scope.selectData[i].userId);
+			if($scope.data.length<1){
+				toastr.error("还没有操作数据", '提示');
+				$('button').prop('disabled', false);
+				return;
+			}
+			data.push($scope.data[i].userId);
+			//var dstId=$("input[name='dstId']").val();
 			var operation=$("input[name='operation']:checked").val();
 			var locationDstId=$("input[name='locationDstId']").val()==''?0:$("input[name='locationDstId']").val();
 			var triggerParaTime=$("input[name='triggerParaTime']").val()==''?30:$("input[name='triggerParaTime']").val();
@@ -320,77 +278,31 @@ xh.load = function() {
 			}).success(function(data){ 
 				if (data.success) {
 					successTag=true;
-					
-					for(var j=0;j<$scope.totals;j++){
-						if($scope.selectData[i].userId==$scope.data[j].userId){
-							$scope.data[j].status=data.message;
-						}					
-					}
+					$scope.data[i].status=data.message;
 				} else {
 					successTag=false;
-					for(var j=0;j<$scope.totals;j++){
-						if($scope.selectData[i].userId==$scope.data[j].userId){
-							$scope.data[j].status=data.message;
-						}					
-					}
+					$scope.data[i].status=data.message;
 				}
 			}).error(function(e){
 				successTag=false;
-				
-				for(var j=0;j<$scope.totals;j++){
-					if($scope.selectData[i].userId==$scope.data[j].userId){
-						$scope.data[j].status="服务器响应超时";
-					}					
-				}
+				$scope.data[i].status="服务器响应超时";
 			})
 			return successTag;
 		};
 		$scope.run=function(){
 			run=0;
-			var data=[];
-			$("[name='tb-check']:checkbox").each(function() {
-				if ($(this).is(':checked')) {
-					var record={userId:''};
-					record.userId=$(this).attr("value");
-					data.push(record);
-				}
-			});
-			
-			if (data.length < 1) {
-				swal({
-					title : "提示",
-					text : "请至少选择一条数据",
-					type : "error"
-				});
-				return;
-			}
-			$scope.selectData=data;
-			$scope.selectDataTotals=data.length;
-			console.log("ddd->"+JSON.stringify($scope.selectData))
-			
-			for(var k=0;k<$scope.selectDataTotals;k++){
-				var ss=$scope.selectData[k].userId;
-				for(var j=0;j<$scope.totals;j++){
-					if($scope.data[j].userId==ss){
-						$scope.data[j].status="等待执行";
-						$scope.data[j].result="";
-					}					
-				}
+			for(var j=0;j<$scope.totals;j++){
+				$scope.data[j].status="等待执行";
+				$scope.data[j].result="";
 			}
 			$scope.startBtn=true;
 			$('button').prop('disabled', true);
-		
-			for(var j=0;j<$scope.totals;j++){
-				if($scope.selectData[i].userId==$scope.data[j].userId){
-					$scope.data[j].status="处理中，请稍等!";
-				}					
-			}
 			
-			
+			$scope.data[i].status="处理中，请稍等!";
 			var timeout=setInterval(function(){
 				if(flag==0){
 					flag=1;
-					if(i<$scope.selectDataTotals){					
+					if(i<$scope.totals){					
 						$scope.task(i);
 						i++;
 					}else{

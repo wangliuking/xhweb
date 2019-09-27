@@ -291,7 +291,7 @@ public class OrderController {
 					bean.setHandlepower("0");
 					demo.startMessageThread(bean.getUserid(), bean);
 					
-					log.info("派单：接收》"+bean);
+					log.info("派单：接收》userId="+bean.getUserid()+";bean="+bean);
 				}
 			}
 			
@@ -304,7 +304,7 @@ public class OrderController {
 					bean.setWorkman(b2[i]);
 					bean.setHandlepower("2");
 					demo.startMessageThread(bean.getUserid(), bean);
-					log.info("派单：抄送》"+bean);
+					log.info("派单：抄送》userId="+bean.getUserid()+";bean="+bean);
 				}
 			}
 			

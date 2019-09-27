@@ -14,6 +14,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
@@ -113,6 +114,23 @@ public class UserStatusController {
 			e.printStackTrace();
 		}
 
+	}
+	@RequestMapping(value="/data/userOnlineByBs",method = RequestMethod.GET)
+	public void userOnlineByBs(
+			@RequestParam("bsId") int bsId,
+			HttpServletRequest request, HttpServletResponse response){
+		
+		HashMap result = new HashMap();
+		result.put("items", UserStatusService.userOnlineByBs(bsId));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }

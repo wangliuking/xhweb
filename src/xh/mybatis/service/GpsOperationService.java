@@ -1,9 +1,12 @@
 package xh.mybatis.service;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
+
 import xh.mybatis.mapper.GpsOperationMapper;
 import xh.mybatis.tools.MoreDbTools;
 
@@ -48,5 +51,34 @@ public class GpsOperationService {
 		}
 		return count;
 	}
+	public static List<Map<String,String>> now_operation_record(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		GpsOperationMapper mapper = sqlSession.getMapper(GpsOperationMapper.class);
+		List<Map<String,String>> list = new ArrayList<Map<String,String>>();
+		try {
+			list = mapper.now_operation_record(map);
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public static List<Map<String,String>> now_gps_close() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		GpsOperationMapper mapper = sqlSession.getMapper(GpsOperationMapper.class);
+		List<Map<String,String>> list = new ArrayList<Map<String,String>>();
+		try {
+			list = mapper.now_gps_close();
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+
 
 }

@@ -18,5 +18,9 @@ public interface GpsOperationMapper {
 	 * @throws Exception
 	 */
 	public int  gpsOperationCount(Map<String,Object> map)throws Exception;
+	
+	public List<Map<String,String>>now_operation_record(Map<String,Object> map)throws Exception;
+	
+	public List<Map<String,String>>now_gps_close()throws Exception;
 
 }

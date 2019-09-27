@@ -83,5 +83,18 @@ public class UserStatusService {
 		}
 		return count;
 	}
+	public static List<Map<String, Object>> userOnlineByBs(int bsId){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		UserStatusMapper mapper=sqlSession.getMapper(UserStatusMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+		try{
+			list=mapper.userOnlineByBs(bsId);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 
 }

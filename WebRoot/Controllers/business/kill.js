@@ -36,6 +36,11 @@ xh.load = function() {
 			$scope.search(1);
 			$("#table-checkbox").prop("checked", false);
 		};
+		/* 获取用户权限 */
+		$http.get("../../web/loginUserPower").success(
+				function(response) {
+					$scope.up = response;
+				});
 		//添加一个用户
 		$scope.addOneUser=function(){
 			var userId=$("#userId").val();

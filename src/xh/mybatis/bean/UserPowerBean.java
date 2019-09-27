@@ -29,6 +29,21 @@ public class UserPowerBean {
 	private String o_check_asset_update_status="off";//审核资产状态变更
 	private String o_check_operations_check="off";//审核运维考核
 	private String o_task="off";//确认工作联系单
+	private String o_gpsset="off";//gps设置
+	private String o_radio_open="off";//遥启
+	public String getO_radio_open() {
+		return o_radio_open;
+	}
+	public String getO_radio_close() {
+		return o_radio_close;
+	}
+	public void setO_radio_open(String o_radio_open) {
+		this.o_radio_open = o_radio_open;
+	}
+	public void setO_radio_close(String o_radio_close) {
+		this.o_radio_close = o_radio_close;
+	}
+	private String o_radio_close="off";//摇晕
 
 	
 	
@@ -332,6 +347,12 @@ public class UserPowerBean {
 		this.o_check_asset_update_status = o_check_asset_update_status;
 	}
 	
+	public String getO_gpsset() {
+		return o_gpsset;
+	}
+	public void setO_gpsset(String o_gpsset) {
+		this.o_gpsset = o_gpsset;
+	}
 	public String getO_task() {
 		return o_task;
 	}

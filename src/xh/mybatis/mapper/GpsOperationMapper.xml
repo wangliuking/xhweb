@@ -6,15 +6,15 @@
 	<select id="gpsOperationInfo" parameterType="map" resultType="java.util.HashMap"
 		useCache="true">
 		select * from xhgmnet_gpsoperation where 1=1
-		
+
 		<if test="list.size()>0">
-		and srcId in(
-		<foreach collection="list" item="id" separator=",">
-			#{id}
-		</foreach>
-		)
+			and srcId in(
+			<foreach collection="list" item="id" separator=",">
+				#{id}
+			</foreach>
+			)
 		</if>
-		
+
 		<if test="srcId!=null and srcId!=''">
 			and srcId like concat('%',#{srcId},'%')
 		</if>
@@ -30,16 +30,17 @@
 	<select id="gpsOperationCount" parameterType="map" resultType="int"
 		useCache="true">
 		select SUM(cnt) from (
-		select count(*) cnt from xhgmnet_gpsoperation where 1=1
-		
+		select count(*) cnt from xhgmnet_gpsoperation
+		where 1=1
+
 		<if test="list.size()>0">
-		and srcId in(
-		<foreach collection="list" item="id" separator=",">
-			#{id}
-		</foreach>
-		)
+			and srcId in(
+			<foreach collection="list" item="id" separator=",">
+				#{id}
+			</foreach>
+			)
 		</if>
-		
+
 		<if test="srcId!=null and srcId!=''">
 			and srcId like concat('%',#{srcId},'%')
 		</if>
@@ -49,7 +50,25 @@
 		<if test="startTime!=null and startTime!=''">
 			and infoTime between #{startTime} and #{endTime}
 		</if>
-			) as tempTable
+		) as tempTable
+	</select>
+	<select id="now_operation_record" parameterType="map"
+		resultType="map" useCache="true">
+		select id,writeTime,operationOpt,dstId,status  FROM xhgmnet_gpsoperation
+		WHERE id IN(select MAX(id) as id FROM xhgmnet_gpsoperation GROUP BY
+		dstId) and dstId in(
+        <foreach collection="list" item="x" separator=",">
+            #{x}
+        </foreach>
+        ) and operationOpt=#{type}
+        GROUP BY dstId
+	</select>
+	<select id="now_gps_close" parameterType="map" resultType="map"
+		useCache="true">
+		select id,writeTime,operationOpt,dstId as userId FROM
+		xhgmnet_gpsoperation
+		WHERE id IN(select MAX(id) as id FROM xhgmnet_gpsoperation WHERE
+		operationOpt=0 AND `status`=0 GROUP BY dstId) ORDER BY userId asc;
 	</select>
 
 </mapper>

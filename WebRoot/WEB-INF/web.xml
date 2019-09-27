@@ -148,13 +148,16 @@ xh.org.listeners.SingLoginListener
   <listener-class>xh.org.listeners.checkListener</listener-class>
  </listener>-->
 <!-- 基站故障自动写入 -->
+<!--  <listener>
+<listener-class>   
+xh.org.listeners.WriteBsFaultListenner   
+</listener-class>   
+</listener>  -->
 <!-- <listener>
 <listener-class>   
 xh.org.listeners.WriteBsFaultListenner   
 </listener-class>   
 </listener>-->
-
-
 <listener>
 <listener-class>   
 xh.org.listeners.TcpServerListenner   
