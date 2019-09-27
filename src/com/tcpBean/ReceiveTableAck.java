@@ -4,6 +4,7 @@ public class ReceiveTableAck {
     private String cmdtype = "receivetableack";
     private String userid;
     private String serialnumber;
+    private String handleusername;
     private String handlepower;
 
     public String getCmdtype() {
@@ -38,12 +39,21 @@ public class ReceiveTableAck {
         this.handlepower = handlepower;
     }
 
+    public String getHandleusername() {
+        return handleusername;
+    }
+
+    public void setHandleusername(String handleusername) {
+        this.handleusername = handleusername;
+    }
+
     @Override
     public String toString() {
-        return "ReceiveOrderAck{" +
+        return "ReceiveTableAck{" +
                 "cmdtype='" + cmdtype + '\'' +
                 ", userid='" + userid + '\'' +
                 ", serialnumber='" + serialnumber + '\'' +
+                ", handleusername='" + handleusername + '\'' +
                 ", handlepower='" + handlepower + '\'' +
                 '}';
     }
