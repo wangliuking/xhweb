@@ -185,7 +185,7 @@ public class SendData {
 		dos.writeShort(header.getLength());// length 2 后接数据长度
 		dos.writeShort(header.getCommandId());// commandId 2 命令ID
 		dos.writeShort(header.getProtocolNo());// protocolNo 2 协议号
-		dos.writeInt(header.getBusinessSN());// businessSN 4 业务流水号
+		dos.writeInt(getData.getUserId());// businessSN 4 业务流水号
 		dos.writeByte(header.getSrcDevice());// srcDevice 1 源设备类型
 		dos.writeByte(header.getDstDevice());// dstDevice 1 目标设备类型
 		/**************** content ***********************/
@@ -199,6 +199,7 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
+		log.debug("GpsEn-userId:" + getData.getUserId());
 		log.debug("GpsEn-length:" + info.length);
 		log.debug("GpsEn:" + getData.toString());
 		socket.close();

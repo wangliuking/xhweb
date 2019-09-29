@@ -575,25 +575,32 @@ public class OperationsCheckController {
 		checkBean.setFileName(fileName);
 		checkBean.setFilePath("doc/check/"+month.split("-")[0]+"/"+fileName);
 
+		int isExists=OperationsCheckService.isExists(checkBean);
 		int rst=OperationsCheckService.add(checkBean);
-		if(rst>=1){
-			this.success=true;
-			this.message="提交文件成功";
-			/*OperationsCheckService.addScore(score3);
-			OperationsCheckService.addScore(score4);
-			OperationsCheckService.addDetail(money3);
-			OperationsCheckService.addDetail(money4);*/
-			webLogBean.setOperator(FunUtil.loginUser(request));
-			webLogBean.setOperatorIp(FunUtil.getIpAddr(request));
-			webLogBean.setStyle(1);
-			webLogBean.setContent("运维考核，data=" + checkBean.getApplyId());
-			WebLogService.writeLog(webLogBean);
-			createMeetFile(checkBean, request);
-			FunUtil.sendMsgToUserByPower("o_check_operations_check", 3, "运维考核", "请审核运维考核文件，并签章", request);	
+		if(isExists==0){
+			if(rst>=1){
+				this.success=true;
+				this.message="提交文件成功";
+				/*OperationsCheckService.addScore(score3);
+				OperationsCheckService.addScore(score4);
+				OperationsCheckService.addDetail(money3);
+				OperationsCheckService.addDetail(money4);*/
+				webLogBean.setOperator(FunUtil.loginUser(request));
+				webLogBean.setOperatorIp(FunUtil.getIpAddr(request));
+				webLogBean.setStyle(1);
+				webLogBean.setContent("运维考核，data=" + checkBean.getApplyId());
+				WebLogService.writeLog(webLogBean);
+				createMeetFile(checkBean, request);
+				FunUtil.sendMsgToUserByPower("o_check_operations_check", 3, "运维考核", "请审核运维考核文件，并签章", request);	
+			}else{
+				this.success=false;
+				this.message="提交文件失败";
+			}
 		}else{
 			this.success=false;
-			this.message="提交文件失败";
+			this.message="申请记录已经存在！";
 		}
+		
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("message",message);

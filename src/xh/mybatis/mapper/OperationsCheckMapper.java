@@ -18,6 +18,8 @@ public interface OperationsCheckMapper {
 	
 	int add(OperationsCheckBean bean)throws Exception;
 	
+	int isExists(OperationsCheckBean bean)throws Exception;
+	
 	List<CheckMoneyBean> searchDetail(Map<String, Object> map)throws Exception;
 	
 	List<CheckMoneyBean> show_money_detail(Map<String, Object> map)throws Exception;

@@ -6,7 +6,7 @@
 	<select id="orderList" parameterType="map" resultType="map"
 		useCache="true">
 		select a.*,b.userName,c.period from xhgmnet_operations_fault_task_order as a
-		left join xhgmnet_web_user as b on a.userid=b.user 
+		left join xhgmnet_web_user as b on a.handleUserid=b.user 
 		left join xhgmnet_bs_station as c on a.bsid=c.bsId
 		where 1=1
 		<if test="bs!=null and bs!=''">

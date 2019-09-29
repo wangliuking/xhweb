@@ -181,12 +181,14 @@ public class UcmController {
 		int triggerParaTime=funUtil.StringToInt(request.getParameter("triggerParaTime"));
 		int locationDstId=funUtil.StringToInt(request.getParameter("locationDstId"));
 		int gpsen=funUtil.StringToInt(request.getParameter("gpsen"));
+		int userId=Integer.parseInt(FunUtil.loginUserInfo(request).get("userId").toString());
 		String table="xhgmnet_gpsinfo";
 		String now=funUtil.nowDateNotTime().split("-")[1];
 		table+=now;
 		
 		for(int i=0;i<data.length;i++){
 			GpsSetStruct struct=new GpsSetStruct();
+			struct.setUserId(userId);
 			Map<String,Object> mm=new HashMap<String,Object>();
 			int srcId=funUtil.StringToInt(data[i]);
 			mm.put("srcId", srcId);
