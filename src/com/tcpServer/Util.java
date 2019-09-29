@@ -54,6 +54,8 @@ public class Util {
 	private static GenOffCheck genOffCheck;
 	private static ReceiveTable receiveTable;
 	private static GetTableInfo getTableInfo;
+	private static PushIPCStream pushIPCStream;
+	private static StopIPCStream stopIPCStream;
 	
 	/**
 	 * 测试用主方法
@@ -110,7 +112,7 @@ public class Util {
 				LoginAck loginAck = Service.appLogin(userLogin);
 				if("0".equals(loginAck.getAck())){
 					map.put("userId", userLogin.getUserid());
-				}			
+				}
 				map.put("returnMessage", Object2Json(loginAck));
 				return map;
 			}else if("getuserinfo".equals(cmdtype)){
@@ -142,7 +144,7 @@ public class Util {
 					//app提交了挂单
 					Map<String,String> paramMap = new HashMap<String,String>();
 					paramMap.put("serialNum", errCheck.getSerialnumber());
-					paramMap.put("status", "4");
+					paramMap.put("status", "-2");
 					paramMap.put("break_order", "1");
 					Service.updateUserStatus(paramMap);
 
@@ -157,8 +159,7 @@ public class Util {
 					String serialNum = errCheck.getSerialnumber();
 					Map<String,String> paramMap = new HashMap<String,String>();
 					paramMap.put("serialNum", serialNum);
-					paramMap.put("status", "3");
-					paramMap.put("break_order", "");
+					paramMap.put("status", "2");
 					Service.updateUserStatus(paramMap);
 					//发送通知邮件通知网管组进行审核
 					FunUtil.sendMsgToUserByGroupPowerWithoutReq("r_order",3,"派单审核","有派单审核，请查阅！",errCheck.getUserid());
@@ -251,6 +252,7 @@ public class Util {
 					map.put(key, Object2Json(list.get(i)));
 				}
 				map.put("returnMessage", "for");
+				map.put("unsentMessageList", getAllBsList.getUserid());
 				return map;
 			}else if("gpsinfoup".equals(cmdtype)){
 				gpsInfoUp = (GpsInfoUp) JSONObject.toBean(jsonObject, GpsInfoUp.class);
@@ -339,21 +341,26 @@ public class Util {
 				receiveOrder = (ReceiveOrder) JSONObject.toBean(jsonObject, ReceiveOrder.class);
 				ReceiveOrderAck receiveOrderAck = Service.appReceiveOrderAck(receiveOrder);
 				String str = receiveOrderAck.getHandlepower();
-				List<String> list = Arrays.asList(str.split(","));
-				if(list.size()>0){
+				if("2".equals(str)){
+					//该单号已接单
 					ServerDemo demo=new ServerDemo();
-					for(String user : list){
-						receiveOrderAck.setUserid(user);
-						if(user.equals(receiveOrder.getUserid())){
-							receiveOrderAck.setHandlepower("1");
-						}else{
-							receiveOrderAck.setHandlepower("2");
+					demo.startMessageThread(receiveOrder.getUserid(),receiveOrderAck);
+				}else{
+					List<String> list = Arrays.asList(str.split(","));
+					if(list.size()>0){
+						ServerDemo demo=new ServerDemo();
+						for(String user : list){
+							receiveOrderAck.setUserid(user);
+							if(user.equals(receiveOrder.getUserid())){
+								receiveOrderAck.setHandlepower("1");
+							}else{
+								receiveOrderAck.setHandlepower("2");
+							}
+							System.out.println(receiveOrderAck);
+							demo.startMessageThread(user,receiveOrderAck);
 						}
-						System.out.println(receiveOrderAck);
-						demo.startMessageThread(user,receiveOrderAck);
 					}
 				}
-
 				map.put("returnMessage", "");
 				return map;
 			}else if("getorderinfo".equals(cmdtype)){
@@ -377,27 +384,43 @@ public class Util {
 				receiveTable = (ReceiveTable) JSONObject.toBean(jsonObject, ReceiveTable.class);
 				ReceiveTableAck receiveTableAck = Service.appReceiveTableAck(receiveTable);
 				String str = receiveTableAck.getHandlepower();
-				List<String> list = Arrays.asList(str.split(","));
-				if(list.size()>0){
+				if("2".equals(str)){
+					//该单号已接单
 					ServerDemo demo=new ServerDemo();
-					for(String user : list){
-						receiveTableAck.setUserid(user);
-						if(user.equals(receiveTable.getUserid())){
-							receiveTableAck.setHandlepower("1");
-						}else{
-							receiveTableAck.setHandlepower("2");
+					demo.startMessageThread(receiveTable.getUserid(),receiveTableAck);
+				}else{
+					List<String> list = Arrays.asList(str.split(","));
+					if(list.size()>0){
+						ServerDemo demo=new ServerDemo();
+						for(String user : list){
+							receiveTableAck.setUserid(user);
+							receiveTableAck.setHandleusername(receiveTable.getHandleusername());
+							if(user.equals(receiveTable.getUserid())){
+								receiveTableAck.setHandlepower("1");
+							}else{
+								receiveTableAck.setHandlepower("2");
+							}
+							//System.out.println(receiveTableAck);
+							demo.startMessageThread(user,receiveTableAck);
 						}
-						System.out.println(receiveTableAck);
-						demo.startMessageThread(user,receiveTableAck);
 					}
 				}
-
 				map.put("returnMessage", "");
 				return map;
 			} else if("gettableinfo".equals(cmdtype)){
 				getTableInfo = (GetTableInfo) JSONObject.toBean(jsonObject, GetTableInfo.class);
 				GetTableInfoAck getTableInfoAck = Service.appGetTableInfoAck(getTableInfo);
 				map.put("returnMessage", Object2Json(getTableInfoAck));
+				return map;
+			}else if("pushIPCStream".equals(cmdtype)){
+				pushIPCStream = (PushIPCStream) JSONObject.toBean(jsonObject, PushIPCStream.class);
+				PushIPCStreamAck pushIPCStreamAck = Service.appPushIPCStreamAck(pushIPCStream);
+				map.put("returnMessage", Object2Json(pushIPCStreamAck));
+				return map;
+			}else if("stopIPCStream".equals(cmdtype)){
+				stopIPCStream = (StopIPCStream) JSONObject.toBean(jsonObject, StopIPCStream.class);
+				StopIPCStreamAck stopIPCStreamAck = Service.appStopIPCStreamAck(stopIPCStream);
+				map.put("returnMessage", Object2Json(stopIPCStreamAck));
 				return map;
 			}
 						

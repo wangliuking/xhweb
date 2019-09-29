@@ -58,8 +58,8 @@
                                         <input ng-if="roleId!=301" type="hidden" ng-model="sheetData.restoreTime" name="restoreTime"/><span ng-if="roleId!=301">{{dt2}}</span>
                                         业务中断<input style="border: 0px;outline:none;width: 25px" type="hidden" ng-value="calcData" name="calcData"/>{{calcData}}分钟，故障原因为：
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <div ng-if="roleId==301" contenteditable="true" style="height: 50px;width:870px;padding-left: 24px;" class="textarea-div" name="desc">{{sheetData.desc}}</div>
-                                        <div ng-if="roleId!=301" contenteditable="false" style="height: 50px;width:870px;padding-left: 24px;" class="textarea-div" name="desc">{{sheetData.desc}}</div>
+                                        <div ng-if="roleId==301" contenteditable="true" style="height: 50px;width:870px;padding-left: 24px;" class="textarea-div" name="desc"></div>
+                                        <div ng-if="roleId!=301" contenteditable="false" style="height: 50px;width:870px;padding-left: 24px;" class="textarea-div" name="desc"></div>
                                         <br/>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该故障断站为不可抗力因素导致，根据运维服务质量验收标准{{sheetData.rules}}，故向市软件中心申请故障核减
                                         <input ng-if="roleId==301" style="border: 0px;outline:none;width: 40px" type="text" ng-model="sheetData.checkCutTime" name="checkCutTime"/>

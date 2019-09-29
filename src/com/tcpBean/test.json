@@ -1,0 +1,135 @@
+{
+  "bsid": "120",
+  "bsinfo": {
+    "period": 4,
+    "address": "四川省成都市双流区彭镇木三路羊坪小区",
+    "lng": "103.8463",
+    "level": 3,
+    "transferTwo": "0",
+    "link": 0,
+    "bstype": "运营商机房",
+    "switchstatus": 0,
+    "number": 2,
+    "batterytime": "8小时",
+    "powerofftime": "",
+    "transferOne": "0",
+    "bsname": "双流彭镇",
+    "lat": "30.60752"
+  },
+  "bsstatus": {
+    "bsr": [
+      {
+        "freq": "862837500.00",
+        "freq2": "",
+        "working": "0",
+        "freq3": "",
+        "updateTime": "2019-09-26 15:38:32.0",
+        "id": "1",
+        "power": "",
+        "freq4": "",
+        "master": "1"
+      },
+      {
+        "freq": "864612500.00",
+        "freq2": "",
+        "working": "0",
+        "freq3": "",
+        "updateTime": "2019-09-26 15:38:32.0",
+        "id": "3",
+        "power": "",
+        "freq4": "",
+        "master": "2"
+      }
+    ],
+    "bsc": [
+      {
+        "mode": "2",
+        "timeSync": "2",
+        "working": "0",
+        "runtime": "199天0小时40分42秒",
+        "updateTime": "2019-09-26 15:38:32.0",
+        "id": "1",
+        "gpsTime": "1",
+        "master": "2"
+      }
+    ],
+    "psm": [
+      {
+        "ad": "2",
+        "acdcCur": "4.5",
+        "acdcVol": "53.5",
+        "updateTime": "2019-09-26 15:38:32.0",
+        "dc12": "0",
+        "fan3": "2",
+        "linkStatus": "0",
+        "fan2": "1",
+        "fan1": "2",
+        "tempStatus": "0",
+        "dc302": "0",
+        "id": "1",
+        "dc301": "0",
+        "bdTmp3": "33.0",
+        "runStatus": "0",
+        "bdTmp2": "34.0",
+        "bdTmp1": "36.0"
+      },
+      {
+        "ad": "2",
+        "acdcCur": "6.0",
+        "acdcVol": "53.5",
+        "updateTime": "2019-09-26 15:38:32.0",
+        "dc12": "0",
+        "fan3": "2",
+        "linkStatus": "0",
+        "fan2": "2",
+        "fan1": "2",
+        "tempStatus": "0",
+        "dc302": "0",
+        "id": "2",
+        "dc301": "0",
+        "bdTmp3": "30.5",
+        "runStatus": "0",
+        "bdTmp2": "33.0",
+        "bdTmp1": "0.5"
+      }
+    ],
+    "dpx": [
+      {
+        "fwdPa": "45.3",
+        "retLoss": "239",
+        "working": "0",
+        "updateTime": "2019-09-26 15:38:32.0",
+        "id": "1"
+      },
+      {
+        "fwdPa": "45.2",
+        "retLoss": "257",
+        "working": "0",
+        "updateTime": "2019-09-26 15:38:32.0",
+        "id": "2"
+      }
+    ]
+  },
+  "cmdtype": "getbsinfoack",
+  "emhinfo": {
+    "door": 0,
+    "temp": "25.6",
+    "smoke": 0,
+    "e1": 213.8,
+    "e2": 3.961,
+    "e3": 1,
+    "e4": 14658.44,
+    "red": 0,
+    "e5": 50.03,
+    "time2": "2019-09-26 15:37:29.0",
+    "time3": "2019-09-26 15:37:29.0",
+    "time4": "2019-09-26 15:37:29.0",
+    "time5": "2019-09-26 15:37:29.0",
+    "camera": 1
+  },
+  "inspectlist": [],
+  "period": "4",
+  "serialnumber": "v9W1dZRD",
+  "status": "0",
+  "userid": "appTest"
+}

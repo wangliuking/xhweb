@@ -1,10 +1,11 @@
 package com.tcpBean;
 
-public class ReceiveOrder {
-    private String cmdtype = "receiveorder";
+public class StopIPCStreamAck {
+    private String cmdtype = "stopIPCStreamAck";
     private String userid;
     private String serialnumber;
-    private String handleusername;
+    private String bsid;
+    private String ack;
 
     public String getCmdtype() {
         return cmdtype;
@@ -30,21 +31,30 @@ public class ReceiveOrder {
         this.serialnumber = serialnumber;
     }
 
-    public String getHandleusername() {
-        return handleusername;
+    public String getBsid() {
+        return bsid;
     }
 
-    public void setHandleusername(String handleusername) {
-        this.handleusername = handleusername;
+    public void setBsid(String bsid) {
+        this.bsid = bsid;
+    }
+
+    public String getAck() {
+        return ack;
+    }
+
+    public void setAck(String ack) {
+        this.ack = ack;
     }
 
     @Override
     public String toString() {
-        return "ReceiveOrder{" +
+        return "PushIPCStreamAck{" +
                 "cmdtype='" + cmdtype + '\'' +
                 ", userid='" + userid + '\'' +
                 ", serialnumber='" + serialnumber + '\'' +
-                ", handleusername='" + handleusername + '\'' +
+                ", bsid='" + bsid + '\'' +
+                ", ack='" + ack + '\'' +
                 '}';
     }
 }

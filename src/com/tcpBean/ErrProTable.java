@@ -39,6 +39,7 @@ public class ErrProTable {
 	private String recv_user_name;
 	private String copy_user_name;
 	private String handlepower;//0:可接单；1：可处理；2：只读
+	private String handleUserid;
 	
 	private String zbdldm;
 	private String from;
@@ -278,22 +279,47 @@ public class ErrProTable {
 		this.copy_user_name = copy_user_name;
 	}
 
+	public String getHandleUserid() {
+		return handleUserid;
+	}
+
+	public void setHandleUserid(String handleUserid) {
+		this.handleUserid = handleUserid;
+	}
+
 	@Override
 	public String toString() {
-		return "ErrProTable [cmdtype=" + cmdtype + ", id=" + id
-				+ ", serialnumber=" + serialnumber + ", userid=" + userid
-				+ ", orderAccount=" + orderAccount + ", bsid=" + bsid
-				+ ", bsname=" + bsname + ", dispatchtime=" + dispatchtime
-				+ ", dispatchman=" + dispatchman + ", errtype=" + errtype
-				+ ", errlevel=" + errlevel + ", errfoundtime=" + errfoundtime
-				+ ", errslovetime=" + errslovetime + ", progress=" + progress
-				+ ", proresult=" + proresult + ", hungup=" + hungup
-				+ ", workman=" + workman + ", auditor=" + auditor
-				+ ", longitude=" + longitude + ", latitude=" + latitude
-				+ ", address=" + address + ", recv_user=" + recv_user
-				+ ", copy_user=" + copy_user + ", recv_user_name="
-				+ recv_user_name + ", copy_user_name=" + copy_user_name
-				+ ", zbdldm=" + zbdldm + ", from=" + from + ", status="
-				+ status + "]";
+		return "ErrProTable{" +
+				"cmdtype='" + cmdtype + '\'' +
+				", id=" + id +
+				", serialnumber='" + serialnumber + '\'' +
+				", userid='" + userid + '\'' +
+				", orderAccount='" + orderAccount + '\'' +
+				", bsid='" + bsid + '\'' +
+				", bsname='" + bsname + '\'' +
+				", dispatchtime='" + dispatchtime + '\'' +
+				", dispatchman='" + dispatchman + '\'' +
+				", errtype='" + errtype + '\'' +
+				", errlevel='" + errlevel + '\'' +
+				", errfoundtime='" + errfoundtime + '\'' +
+				", errslovetime='" + errslovetime + '\'' +
+				", progress='" + progress + '\'' +
+				", proresult='" + proresult + '\'' +
+				", hungup='" + hungup + '\'' +
+				", workman='" + workman + '\'' +
+				", auditor='" + auditor + '\'' +
+				", longitude='" + longitude + '\'' +
+				", latitude='" + latitude + '\'' +
+				", address='" + address + '\'' +
+				", recv_user='" + recv_user + '\'' +
+				", copy_user='" + copy_user + '\'' +
+				", recv_user_name='" + recv_user_name + '\'' +
+				", copy_user_name='" + copy_user_name + '\'' +
+				", handlepower='" + handlepower + '\'' +
+				", handleUserid='" + handleUserid + '\'' +
+				", zbdldm='" + zbdldm + '\'' +
+				", from='" + from + '\'' +
+				", status='" + status + '\'' +
+				'}';
 	}
 }

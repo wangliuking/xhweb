@@ -39,7 +39,8 @@ public class GetTableInfoAck {
 	private String recv_user_name;
 	private String copy_user_name;
 	private String handlepower;//0:可接单；1：可处理；2：只读
-	
+	private String handleUserid;
+
 	private String zbdldm;
 	private String from;
 	private String status;
@@ -221,7 +222,7 @@ public class GetTableInfoAck {
 		this.zbdldm = zbdldm;
 	}
 
-	
+
 
 	public String getHandlepower() {
 		return handlepower;
@@ -279,6 +280,14 @@ public class GetTableInfoAck {
 		this.copy_user_name = copy_user_name;
 	}
 
+	public String getHandleUserid() {
+		return handleUserid;
+	}
+
+	public void setHandleUserid(String handleUserid) {
+		this.handleUserid = handleUserid;
+	}
+
 	public String getAck() {
 		return ack;
 	}
@@ -316,6 +325,7 @@ public class GetTableInfoAck {
 				", recv_user_name='" + recv_user_name + '\'' +
 				", copy_user_name='" + copy_user_name + '\'' +
 				", handlepower='" + handlepower + '\'' +
+				", handleUserid='" + handleUserid + '\'' +
 				", zbdldm='" + zbdldm + '\'' +
 				", from='" + from + '\'' +
 				", status='" + status + '\'' +
