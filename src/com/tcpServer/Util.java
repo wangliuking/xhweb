@@ -56,6 +56,7 @@ public class Util {
 	private static GetTableInfo getTableInfo;
 	private static PushIPCStream pushIPCStream;
 	private static StopIPCStream stopIPCStream;
+	private static GetUnsentMessage getUnsentMessage;
 	
 	/**
 	 * 测试用主方法
@@ -252,7 +253,6 @@ public class Util {
 					map.put(key, Object2Json(list.get(i)));
 				}
 				map.put("returnMessage", "for");
-				map.put("unsentMessageList", getAllBsList.getUserid());
 				return map;
 			}else if("gpsinfoup".equals(cmdtype)){
 				gpsInfoUp = (GpsInfoUp) JSONObject.toBean(jsonObject, GpsInfoUp.class);
@@ -418,6 +418,11 @@ public class Util {
 				stopIPCStream = (StopIPCStream) JSONObject.toBean(jsonObject, StopIPCStream.class);
 				StopIPCStreamAck stopIPCStreamAck = Service.appStopIPCStreamAck(stopIPCStream);
 				map.put("returnMessage", Object2Json(stopIPCStreamAck));
+				return map;
+			}else if("getunsentmessage".equals(cmdtype)){
+				getUnsentMessage = (GetUnsentMessage) JSONObject.toBean(jsonObject, GetUnsentMessage.class);
+				new SendUnsentMessageThread(getUnsentMessage).start();
+				map.put("returnMessage", "");
 				return map;
 			}
 						

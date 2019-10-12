@@ -546,8 +546,9 @@ public class BsStatusService {
 				// UPS
 				//整改后不显示
 				if (map.get("017021") != null && !"".equals(map.get("017021"))) {
-					result.put("power",
-							Float.parseFloat(map.get("017021").toString()));// 市电告警
+					result.put("powerStatus", 0);
+				}else{
+					result.put("powerStatus", 1);
 				}
 				if (map.get("080200000000001") != null) {
 					result.put("time3", map.get("080200000000001")+"");
