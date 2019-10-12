@@ -431,7 +431,8 @@ public class Util {
 		}
 		return map;
 	}
-	
+
+
 	/**
 	 * java对象转json字符串
 	 */
@@ -439,6 +440,5 @@ public class Util {
         JSONObject json = JSONObject.fromObject(obj);//将java对象转换为json对象  
         String str = json.toString();//将json对象转换为字符串          
         return str;  
-    }  
-	
+    }
 }

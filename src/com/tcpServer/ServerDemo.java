@@ -239,7 +239,6 @@ public class ServerDemo {
 							String userId = tempMap.get("userId");
 							this.userId = userId;
 						}
-
 						if(!"{\"cmdtype\":\"heartbeat\"}".equals(returnMessage)){
 							System.out.println("当前SocketThread的userId为："+userId+"==="+"当前所有连接为："+mThreadList);
 							System.out.println("============================");
@@ -248,7 +247,6 @@ public class ServerDemo {
 							}
 							System.out.println("============================");
 						}
-
 					}
 					Thread.sleep(100);
 				}
