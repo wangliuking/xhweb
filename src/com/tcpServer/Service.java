@@ -230,12 +230,12 @@ public class Service {
 		getPowerOnTime.setUserid("wlk");
 		GetPowerOnTimeAck getPowerOnTimeAck = Service.appGetPowerOnTimeAck(getPowerOnTime);
 		System.out.println(getPowerOnTimeAck);*/
-		PushIPCStream pushIPCStream = new PushIPCStream();
+		/*PushIPCStream pushIPCStream = new PushIPCStream();
 		pushIPCStream.setBsid("2005");
 		pushIPCStream.setSerialnumber("aaaaa");
 		pushIPCStream.setUserid("wlk");
 		PushIPCStreamAck pushIPCStreamAck = Service.appPushIPCStreamAck(pushIPCStream);
-		System.out.println(pushIPCStreamAck);
+		System.out.println(pushIPCStreamAck);*/
 		/*Map<String, Object> param = new HashMap<String, Object>();
 		param.put("bsId", "126");
 		List<Map<String, Object>> list1 = BsStatusService.bsr(param);
@@ -246,16 +246,16 @@ public class Service {
 		userLogin.setSerialnumber("m22W0zFj");
 		LoginAck loginAck = Service.appLogin(userLogin);
 		System.out.println(loginAck);*/
-		/*GetBsInfo getBsInfo = new GetBsInfo();
+		GetBsInfo getBsInfo = new GetBsInfo();
 		getBsInfo.setSerialnumber("v9W1dZRD");
 		getBsInfo.setUserid("appTest");
-		getBsInfo.setBsid("150");
+		getBsInfo.setBsid("154");
 		LinkedList<GetBsInfoAck> list = appGetBsInfoAck(getBsInfo);
 		for(GetBsInfoAck getBsInfoAck : list){
 			String res = Util.Object2Json(getBsInfoAck);
 			System.out.println(res);
 			System.out.println(res.length());
-		}*/
+		}
 		/*Map<String,List<Map<String,Object>>> res = getBsStatusInfo("126");
 		System.out.println(res.get("bsr"));
 		System.out.println(res.get("bsc"));
@@ -351,7 +351,7 @@ public class Service {
 				if(!"".equals(power) && Integer.parseInt(power)>47){
 					tempMap.put("power",(Integer.parseInt(power)-15)+"");
 				}else{
-					tempMap.put("power","");
+					tempMap.put("power",power);
 				}
 				bsrList.add(tempMap);
 			}
@@ -439,27 +439,27 @@ public class Service {
 				tempMap.put("fan3",fan3);
 				tempMap.put("ad",ad);
 				tempMap.put("updateTime",updateTime);
-				if(!"".equals(bdTmp1)){
+				if(!"".equals(bdTmp1) && Integer.parseInt(bdTmp1)>2){
 					tempMap.put("bdTmp1",(Float.parseFloat(bdTmp1)/2)+"");
 				}else{
 					tempMap.put("bdTmp1","");
 				}
-				if(!"".equals(bdTmp2)){
+				if(!"".equals(bdTmp2) && Integer.parseInt(bdTmp2)>2){
 					tempMap.put("bdTmp2",(Float.parseFloat(bdTmp2)/2)+"");
 				}else{
 					tempMap.put("bdTmp2","");
 				}
-				if(!"".equals(bdTmp3)){
+				if(!"".equals(bdTmp3) && Integer.parseInt(bdTmp3)>2){
 					tempMap.put("bdTmp3",(Float.parseFloat(bdTmp3)/2)+"");
 				}else{
 					tempMap.put("bdTmp3","");
 				}
-				if(!"".equals(acdcVol)){
+				if(!"".equals(acdcVol) && Integer.parseInt(acdcVol)>0){
 					tempMap.put("acdcVol",(Float.parseFloat(acdcVol)/10)+"");
 				}else{
 					tempMap.put("acdcVol","");
 				}
-				if(!"".equals(acdcCur)){
+				if(!"".equals(acdcCur) && Integer.parseInt(acdcCur)>0){
 					tempMap.put("acdcCur",(Float.parseFloat(acdcCur)/10)+"");
 				}else{
 					tempMap.put("acdcCur","");

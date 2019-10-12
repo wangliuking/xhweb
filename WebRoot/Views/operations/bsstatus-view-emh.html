@@ -184,7 +184,7 @@
 
 	<!-- row -->
 	<div class="row" ng-show="emhData.period==4">
-		<div class="col-md-12" ng-if="emhData.power != null && emhData.power != ''">
+		<div class="col-md-12" ng-if="emhData.powerStatus == 1">
 			<div class="hpanel">
 				<div class="panel-heading hbuilt">
 					<div class="panel-tools">
@@ -238,7 +238,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-md-12" ng-if="emhData.power == null || emhData.power == ''">
+		<div class="col-md-12" ng-if="emhData.powerStatus == 0">
 			<div class="hpanel">
 				<div class="panel-heading hbuilt">
 					<div class="panel-tools">
