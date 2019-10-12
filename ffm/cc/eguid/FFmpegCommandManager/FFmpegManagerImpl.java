@@ -1,4 +1,4 @@
-package cc.eguid.FFmpegCommandManager;
+﻿package cc.eguid.FFmpegCommandManager;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -149,8 +149,7 @@ public class FFmpegManagerImpl implements FFmpegManager {
 			System.err.println("appName不能为空");
 			return null;
 		}
-		/*assembly.put("ffmpegPath", config.getPath() + "ffmpeg");*/
-		assembly.put("ffmpegPath", "E:/xh/xhweb/ffm/cc/eguid/FFmpegCommandManager/ffmpeg/ffmpeg");
+		assembly.put("ffmpegPath", config.getPath() + "ffmpeg");
 		String command = commandAssembly.assembly(assembly);
 		if (command != null) {
 			return start(appName, command, true);
