@@ -49,6 +49,40 @@ class GetBsInfoThread extends Thread{
     }
 }
 
+class SendUnsentMessageThread extends Thread{
+    private GetUnsentMessage getUnsentMessage;
+    public SendUnsentMessageThread(GetUnsentMessage getUnsentMessage){
+        this.getUnsentMessage = getUnsentMessage;
+    }
+    @Override
+    public void run() {
+        try {
+            String userId = getUnsentMessage.getUserid();
+            GetUnsentMessageAck getUnsentMessageAck = new GetUnsentMessageAck();
+            getUnsentMessageAck.setUserid(userId);
+            getUnsentMessageAck.setSerialnumber(getUnsentMessage.getSerialnumber());
+
+            //查询此userId是否有未发送的消息
+            if(ServerDemo.unsentMessageList.containsKey(userId)){
+                getUnsentMessageAck.setAck("1");
+                ServerDemo.startUnmessageThread(userId,Util.Object2Json(getUnsentMessageAck));
+                LinkedList<String> list = ServerDemo.unsentMessageList.get(userId);
+                for(int i=0;i<list.size();i++){
+                    System.out.println("准备发送未收到的消息！！！！！ "+list.get(i));
+                    ServerDemo.startUnmessageThread(userId,list.get(i));
+                    Thread.sleep(200);
+                }
+                ServerDemo.unsentMessageList.remove(userId);
+            }else{
+                getUnsentMessageAck.setAck("0");
+                ServerDemo.startUnmessageThread(userId,Util.Object2Json(getUnsentMessageAck));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+}
+
 class WaitStreamThread extends Thread{
     private PushIPCStream pushIPCStream;
     public WaitStreamThread(PushIPCStream pushIPCStream){

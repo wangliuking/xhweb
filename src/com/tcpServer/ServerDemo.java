@@ -240,20 +240,6 @@ public class ServerDemo {
 							this.userId = userId;
 						}
 
-						if(tempMap.containsKey("unsentMessageList")){
-							//查询此userId是否有未发送的消息
-							Thread.sleep(2000);
-							if(unsentMessageList.containsKey(userId)){
-								LinkedList<String> list = unsentMessageList.get(userId);
-								for(int i=0;i<list.size();i++){
-									System.out.println("准备发送未收到的消息！！！！！ "+list.get(i));
-									startUnmessageThread(userId,list.get(i));
-									Thread.sleep(200);
-								}
-								unsentMessageList.remove(userId);
-							}
-						}
-
 						if(!"{\"cmdtype\":\"heartbeat\"}".equals(returnMessage)){
 							System.out.println("当前SocketThread的userId为："+userId+"==="+"当前所有连接为："+mThreadList);
 							System.out.println("============================");
