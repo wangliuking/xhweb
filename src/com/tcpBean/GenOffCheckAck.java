@@ -58,7 +58,7 @@ public class GenOffCheckAck {
 
     @Override
     public String toString() {
-        return "GenCheckAck{" +
+        return "GenOffCheckAck{" +
                 "cmdtype='" + cmdtype + '\'' +
                 ", userid='" + userid + '\'' +
                 ", serialnumber='" + serialnumber + '\'' +

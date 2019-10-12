@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import cc.eguid.FFmpegCommandManager.FFmpegManager;
+import com.tcpServer.Custom;
 
 /**
  * 任务消息输出处理器
@@ -65,7 +66,15 @@ public class OutHandler extends Thread {
 		try {
 			if (FFmpegManager.config.isDebug()) {
 				System.out.println(type + "开始推流！");
+				//标志状态位 0,未检测到推流 1,检测到推流
+				int status = 0;
 				while (desstatus && (msg = br.readLine()) != null) {
+					//System.out.println(msg);
+					if(status == 0 && msg.substring(0,5).equals("frame")){
+						System.out.println(msg);
+						status = 1;
+						Custom.streamStatus = true;
+					}
 					ohm.parse(type,msg);
 				}
 			} else {

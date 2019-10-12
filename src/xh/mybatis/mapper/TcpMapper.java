@@ -182,7 +182,7 @@ public interface TcpMapper {
 	/**
 	 * 查询市电恢复时间
 	 */
-	public List<Map<String,Object>> selectForPowerOnTime(String bsId)throws  Exception;
+	public List<Map<String,Object>> selectForPowerOnTime(String serialnumber)throws  Exception;
 
 	/**
 	 * 查询停止发电时间

@@ -266,12 +266,8 @@ public class Util {
 				return map;
 			}else if("getbsinfo".equals(cmdtype)){
 				getBsInfo = (GetBsInfo) JSONObject.toBean(jsonObject, GetBsInfo.class);
-				LinkedList<GetBsInfoAck> list = Service.appGetBsInfoAck(getBsInfo);
-				for (int i=0;i<list.size();i++) {
-					String key = "returnMessage"+i;
-					map.put(key, Object2Json(list.get(i)));
-				}
-				map.put("returnMessage", "for");
+				new GetBsInfoThread(getBsInfo).start();
+				map.put("returnMessage", "");
 				return map;
 			}else if("geterrbsinfo".equals(cmdtype)){
 				getErrBsInfo = (GetErrBsInfo) JSONObject.toBean(jsonObject, GetErrBsInfo.class);
@@ -324,13 +320,13 @@ public class Util {
 				return map;
 			}else if("getgenarg".equals(cmdtype)){
 				getGenArg = (GetGenArg) JSONObject.toBean(jsonObject, GetGenArg.class);
-				GetGenArgAck getGenArgAck = Service.appGetGenArgAck(getGenArg);
-				map.put("returnMessage", Object2Json(getGenArgAck));
+				new GetGenArgThread(getGenArg).start();
+				map.put("returnMessage", "");
 				return map;
 			}else if("getpowerontime".equals(cmdtype)){
 				getPowerOnTime = (GetPowerOnTime) JSONObject.toBean(jsonObject, GetPowerOnTime.class);
-				GetPowerOnTimeAck getPowerOnTimeAck = Service.appGetPowerOnTimeAck(getPowerOnTime);
-				map.put("returnMessage", Object2Json(getPowerOnTimeAck));
+				new GetPowerOnTimeThread(getPowerOnTime).start();
+				map.put("returnMessage", "");
 				return map;
 			}else if("searchbsbyname".equals(cmdtype)){
 				searchBsByName = (SearchBsByName) JSONObject.toBean(jsonObject, SearchBsByName.class);
@@ -351,6 +347,7 @@ public class Util {
 						ServerDemo demo=new ServerDemo();
 						for(String user : list){
 							receiveOrderAck.setUserid(user);
+							receiveOrderAck.setHandleusername(receiveOrder.getHandleusername());
 							if(user.equals(receiveOrder.getUserid())){
 								receiveOrderAck.setHandlepower("1");
 							}else{
@@ -373,7 +370,7 @@ public class Util {
 				String serialnumber = genOffCheck.getSerialnumber();
 				Map<String,Object> paramMap = new HashMap<String,Object>();
 				paramMap.put("serialnumber", serialnumber);
-				paramMap.put("status", 2);
+				paramMap.put("status", 4);
 				Service.updateElecStatus(paramMap);
 				//发送通知邮件通知网管组进行审核
 				FunUtil.sendMsgToUserByGroupPowerWithoutReq("r_order",3,"发电结束审核","有发电结束审核，请查阅！",genCheck.getUserid());
@@ -414,8 +411,8 @@ public class Util {
 				return map;
 			}else if("pushIPCStream".equals(cmdtype)){
 				pushIPCStream = (PushIPCStream) JSONObject.toBean(jsonObject, PushIPCStream.class);
-				PushIPCStreamAck pushIPCStreamAck = Service.appPushIPCStreamAck(pushIPCStream);
-				map.put("returnMessage", Object2Json(pushIPCStreamAck));
+				new WaitStreamThread(pushIPCStream).start();
+				map.put("returnMessage", "");
 				return map;
 			}else if("stopIPCStream".equals(cmdtype)){
 				stopIPCStream = (StopIPCStream) JSONObject.toBean(jsonObject, StopIPCStream.class);

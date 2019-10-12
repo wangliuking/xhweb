@@ -9,12 +9,9 @@ import java.util.Map;
  */
 public class CommandAssemblyImpl implements  CommandAssembly{
 	/**
-	 * 
-	 * @param map
+	 *
 	 *            -要组装的map
-	 * @param id
 	 *            -返回参数：id
-	 * @param id
 	 *            -返回参数：组装好的命令
 	 * @return
 	 */
@@ -44,6 +41,10 @@ public class CommandAssemblyImpl implements  CommandAssembly{
 						if (paramMap.containsKey("fmt")) {
 							String fmt = (String) paramMap.get("fmt");
 							comm.append(" -f " + fmt);
+						}
+						//屏幕旋转
+						if("app".equals(appName.substring(0,3))){
+							comm.append(" -vf transpose=1 ");
 						}
 						// -r :帧率，默认25；-g :帧间隔
 						if (paramMap.containsKey("fps")) {

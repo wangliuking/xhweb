@@ -287,7 +287,7 @@ public class OrderController {
 			if(recv_user!=null && !recv_user.equals("")){
 				for(int i=0;i<a1.length;i++){
 					bean.setUserid(a1[i]);
-					bean.setWorkman(a2[i]);
+					/*bean.setWorkman(a2[i]);*/
 					bean.setHandlepower("0");
 					demo.startMessageThread(bean.getUserid(), bean);
 					

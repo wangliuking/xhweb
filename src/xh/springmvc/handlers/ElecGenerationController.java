@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.tcpBean.GenOffCheckAck;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
@@ -113,11 +114,10 @@ public class ElecGenerationController {
 			bean.setBsname(bsname);
 			bean.setBsid(String.valueOf(bsid));
 			bean.setDispatchtime(map.get("dispatchtime").toString());
-			bean.setAddress(BsstationService.select_bs_by_bsid(bsid).get("address").toString());
+			bean.setBsposition(BsstationService.select_bs_by_bsid(bsid).get("address").toString());
 			bean.setDispatchman(FunUtil.loginUser(request));
 			bean.setPowerofftime(time);
 			bean.setRemarka(note);
-			
 			bean.setProstate(String.valueOf(0));
 			
 			ServerDemo demo=new ServerDemo();
@@ -127,7 +127,6 @@ public class ElecGenerationController {
 			if(recv_user!=null && !recv_user.equals("")){
 				for(int i=0;i<a1.length;i++){
 					bean.setUserid(a1[i]);
-					bean.setWorkman(a2[i]);
 					bean.setHandlepower("0");
 					demo.startMessageThread(bean.getUserid(), bean);
 				}
@@ -139,7 +138,6 @@ public class ElecGenerationController {
 			if(copy_user!=null && !copy_user.equals("")){
 				for(int i=0;i<b1.length;i++){
 					bean.setUserid(b1[i]);
-					bean.setWorkman(b2[i]);
 					bean.setHandlepower("2");
 					demo.startMessageThread(bean.getUserid(), bean);
 				}
@@ -182,7 +180,6 @@ public class ElecGenerationController {
 		bean.setDispatchman(send_user_name);
 		bean.setPowerofftime(time);
 		bean.setRemarka(note);
-		bean.setWorkman(recv_user_name);
 		bean.setProstate(String.valueOf(0));
 		ServerDemo demo=new ServerDemo();
 		demo.startMessageThread(bean.getUserid(), bean);
@@ -256,7 +253,8 @@ public class ElecGenerationController {
 			bean.setUserid(userid);
 			bean.setSerialnumber(serialnumber);		
 			bean.setAuditor(FunUtil.loginUser(request));
-			bean.setAck(String.valueOf(status));
+			bean.setReason(note1);
+			bean.setAck(String.valueOf(status==3?0:1));
 			log.info("审核发电："+bean);
 			ServerDemo demo=new ServerDemo();			
 			demo.startMessageThread(bean.getUserid(), bean);
@@ -291,11 +289,12 @@ public class ElecGenerationController {
 		if(rs>0){
 			this.success=true;
 			this.message="成功";			
-			GenCheckAck bean=new GenCheckAck();			
+			GenOffCheckAck bean=new GenOffCheckAck();
 			bean.setUserid(userid);
 			bean.setSerialnumber(serialnumber);		
 			bean.setAuditor(FunUtil.loginUser(request));
-			bean.setAck(String.valueOf(status));
+			bean.setReason(note1);
+			bean.setAck(String.valueOf(status==5?0:1));
 			log.info("审核发电完成："+bean);
 			ServerDemo demo=new ServerDemo();			
 			demo.startMessageThread(bean.getUserid(), bean);

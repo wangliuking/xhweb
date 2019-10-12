@@ -190,7 +190,7 @@
 	<select id="selectCameraIpByVpn" parameterType="map" resultType="map">
 		select bsId,name,online,c.fsuIp as deviceIP,loginName,password,ch from xhgmnet_emh_nvrchannels as n LEFT JOIN
 		(select b.siteId,b.siteName,a.fsuIp from xhgmnet_emh_login as a LEFT JOIN (select * from xhgmnet_emh_config GROUP BY fsuId) as b 
-		on a.fsuId=b.fsuId where b.siteId>2001 ORDER BY b.siteId) as c on n.bsId=c.siteId where n.bsId=#{bsId}
+		on a.fsuId=b.fsuId where b.siteId>2000 ORDER BY b.siteId) as c on n.bsId=c.siteId where n.bsId=#{bsId}
 	</select>
 	
 	<!-- 更新简阳无线传输的vpnIp -->
@@ -247,14 +247,13 @@
 	<!--环控历史数据 -->
 	<select id="emhHistory" parameterType="map" resultType="java.util.HashMap"
 		useCache="true">
-		select * from ${currentMonth} where 1=1
+		(select * from ${currentMonth} where 1=1
 		<if test="bsId!=null and bsId!=''">
 			and bsId=#{bsId}
 		</if>
 		<if test="startTime!=null and startTime!=''">
 			and createTime between #{startTime} and #{endTime}
 		</if>
-
 		<if test="startUps1!='' and endUps1!=''">
 			and ups1+0 between #{startUps1}+0 and #{endUps1}+0
 		</if>
@@ -264,7 +263,6 @@
 		<if test="startUps1!='' and endUps1==''">
 			and ups1+0 &gt; #{startUps1}+0
 		</if>
-
 		<if test="startUps4!='' and endUps4!=''">
 			and ups4+0 between #{startUps4}+0 and #{endUps4}+0
 		</if>
@@ -274,7 +272,6 @@
 		<if test="startUps4!='' and endUps4==''">
 			and ups4+0 &gt; #{startUps4}+0
 		</if>
-
 		<if test="startE1!='' and endE1!=''">
 			and e1+0 between #{startE1}+0 and #{endE1}+0
 		</if>
@@ -283,20 +280,58 @@
 		</if>
 		<if test="startE1!='' and endE1==''">
 			and e1+0 &gt; #{startE1}+0
+		</if>
+		)
+		<if test="nextMonth!=null and nextMonth!=''">
+			union all (select * from ${nextMonth} where 1=1
+			<if test="bsId!=null and bsId!=''">
+				and bsId=#{bsId}
+			</if>
+			<if test="startTime!=null and startTime!=''">
+				and createTime between #{startTime} and #{endTime}
+			</if>
+			<if test="startUps1!='' and endUps1!=''">
+				and ups1+0 between #{startUps1}+0 and #{endUps1}+0
+			</if>
+			<if test="startUps1=='' and endUps1!=''">
+				and ups1+0 &lt; #{endUps1}+0
+			</if>
+			<if test="startUps1!='' and endUps1==''">
+				and ups1+0 &gt; #{startUps1}+0
+			</if>
+			<if test="startUps4!='' and endUps4!=''">
+				and ups4+0 between #{startUps4}+0 and #{endUps4}+0
+			</if>
+			<if test="startUps4=='' and endUps4!=''">
+				and ups4+0 &lt; #{endUps4}+0
+			</if>
+			<if test="startUps4!='' and endUps4==''">
+				and ups4+0 &gt; #{startUps4}+0
+			</if>
+			<if test="startE1!='' and endE1!=''">
+				and e1+0 between #{startE1}+0 and #{endE1}+0
+			</if>
+			<if test="startE1=='' and endE1!=''">
+				and e1+0 &lt; #{endE1}+0
+			</if>
+			<if test="startE1!='' and endE1==''">
+				and e1+0 &gt; #{startE1}+0
+			</if>
+			)
 		</if>
 		order by createTime desc limit #{start},#{limit}
 	</select>
 	<!--环控历史数据总数 -->
 	<select id="emhHistoryCount" parameterType="map" resultType="int"
 		useCache="true">
-		select count(*) from ${currentMonth} where 1=1
+		select sum(num) from (
+		(select count(id) num from ${currentMonth} where 1=1
 		<if test="bsId!=null and bsId!=''">
 			and bsId=#{bsId}
 		</if>
 		<if test="startTime!=null and startTime!=''">
 			and createTime between #{startTime} and #{endTime}
 		</if>
-
 		<if test="startUps1!='' and endUps1!=''">
 			and ups1+0 between #{startUps1}+0 and #{endUps1}+0
 		</if>
@@ -306,7 +341,6 @@
 		<if test="startUps1!='' and endUps1==''">
 			and ups1+0 &gt; #{startUps1}+0
 		</if>
-
 		<if test="startUps4!='' and endUps4!=''">
 			and ups4+0 between #{startUps4}+0 and #{endUps4}+0
 		</if>
@@ -316,7 +350,6 @@
 		<if test="startUps4!='' and endUps4==''">
 			and ups4+0 &gt; #{startUps4}+0
 		</if>
-
 		<if test="startE1!='' and endE1!=''">
 			and e1+0 between #{startE1}+0 and #{endE1}+0
 		</if>
@@ -326,6 +359,45 @@
 		<if test="startE1!='' and endE1==''">
 			and e1+0 &gt; #{startE1}+0
 		</if>
+		)
+		<if test="nextMonth!=null and nextMonth!=''">
+			union all (select count(id) num from ${nextMonth} where 1=1
+			<if test="bsId!=null and bsId!=''">
+				and bsId=#{bsId}
+			</if>
+			<if test="startTime!=null and startTime!=''">
+				and createTime between #{startTime} and #{endTime}
+			</if>
+			<if test="startUps1!='' and endUps1!=''">
+				and ups1+0 between #{startUps1}+0 and #{endUps1}+0
+			</if>
+			<if test="startUps1=='' and endUps1!=''">
+				and ups1+0 &lt; #{endUps1}+0
+			</if>
+			<if test="startUps1!='' and endUps1==''">
+				and ups1+0 &gt; #{startUps1}+0
+			</if>
+			<if test="startUps4!='' and endUps4!=''">
+				and ups4+0 between #{startUps4}+0 and #{endUps4}+0
+			</if>
+			<if test="startUps4=='' and endUps4!=''">
+				and ups4+0 &lt; #{endUps4}+0
+			</if>
+			<if test="startUps4!='' and endUps4==''">
+				and ups4+0 &gt; #{startUps4}+0
+			</if>
+			<if test="startE1!='' and endE1!=''">
+				and e1+0 between #{startE1}+0 and #{endE1}+0
+			</if>
+			<if test="startE1=='' and endE1!=''">
+				and e1+0 &lt; #{endE1}+0
+			</if>
+			<if test="startE1!='' and endE1==''">
+				and e1+0 &gt; #{startE1}+0
+			</if>
+			)
+		</if>
+		) as countData
 	</select>
 
 	<!--查询单个基站本月电压情况用于显示曲线图 -->
@@ -344,12 +416,23 @@
 	<!--查询单个基站本月电压情况用于显示曲线图 -->
 	<select id="emhHistoryForBsId" parameterType="map" resultType="java.util.HashMap"
 			useCache="true">
-		select ups1,ups4,e1,e4,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i') createTime from ${currentMonth} where 1=1
+		(select ups1,ups4,e1,e4,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i') createTime from ${currentMonth} where 1=1
 		<if test="bsId!=null and bsId!=''">
 			and bsId=#{bsId}
 		</if>
 		<if test="startTime!=null and startTime!=''">
 			and createTime between #{startTime} and #{endTime}
+		</if>
+		)
+		<if test="nextMonth!=null and nextMonth!=''">
+			union all (select ups1,ups4,e1,e4,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i') createTime from ${nextMonth} where 1=1
+			<if test="bsId!=null and bsId!=''">
+				and bsId=#{bsId}
+			</if>
+			<if test="startTime!=null and startTime!=''">
+				and createTime between #{startTime} and #{endTime}
+			</if>
+			)
 		</if>
 		order by createTime
 	</select>
