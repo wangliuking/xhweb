@@ -16,6 +16,8 @@ import xh.org.listeners.SingLoginListener;
 
 import com.tcpServer.ServerDemo.SocketThread;
 
+import static com.tcpServer.Custom.searchStatus;
+
 public class Service {
 	// 发送用对象
 	private static LoginAck loginAck = new LoginAck();
@@ -36,10 +38,9 @@ public class Service {
 	private static GetInspectBsListAck getInspectBsListAck = new GetInspectBsListAck();
 	private static GetUnInspectBsListAck getUnInspectBsListAck = new GetUnInspectBsListAck();
 	private static GetTotalInfoAck getTotalInfoAck = new GetTotalInfoAck();
-	
-	
+
 	private static FunUtil funUtil = new FunUtil();
-	public static Map<String,Object> cameraMap = new HashMap<String,Object>();
+
 
 	/**
 	 * 登录处理
@@ -223,6 +224,18 @@ public class Service {
 	}
 
 	public static void main(String[] args) throws Exception {
+		/*GetPowerOnTime getPowerOnTime = new GetPowerOnTime();
+		getPowerOnTime.setBsid("47");
+		getPowerOnTime.setSerialnumber("gRI7DGYl");
+		getPowerOnTime.setUserid("wlk");
+		GetPowerOnTimeAck getPowerOnTimeAck = Service.appGetPowerOnTimeAck(getPowerOnTime);
+		System.out.println(getPowerOnTimeAck);*/
+		PushIPCStream pushIPCStream = new PushIPCStream();
+		pushIPCStream.setBsid("2005");
+		pushIPCStream.setSerialnumber("aaaaa");
+		pushIPCStream.setUserid("wlk");
+		PushIPCStreamAck pushIPCStreamAck = Service.appPushIPCStreamAck(pushIPCStream);
+		System.out.println(pushIPCStreamAck);
 		/*Map<String, Object> param = new HashMap<String, Object>();
 		param.put("bsId", "126");
 		List<Map<String, Object>> list1 = BsStatusService.bsr(param);
@@ -233,16 +246,16 @@ public class Service {
 		userLogin.setSerialnumber("m22W0zFj");
 		LoginAck loginAck = Service.appLogin(userLogin);
 		System.out.println(loginAck);*/
-		GetBsInfo getBsInfo = new GetBsInfo();
+		/*GetBsInfo getBsInfo = new GetBsInfo();
 		getBsInfo.setSerialnumber("v9W1dZRD");
 		getBsInfo.setUserid("appTest");
-		getBsInfo.setBsid("66");
+		getBsInfo.setBsid("150");
 		LinkedList<GetBsInfoAck> list = appGetBsInfoAck(getBsInfo);
 		for(GetBsInfoAck getBsInfoAck : list){
 			String res = Util.Object2Json(getBsInfoAck);
 			System.out.println(res);
 			System.out.println(res.length());
-		}
+		}*/
 		/*Map<String,List<Map<String,Object>>> res = getBsStatusInfo("126");
 		System.out.println(res.get("bsr"));
 		System.out.println(res.get("bsc"));
@@ -1391,21 +1404,35 @@ public class Service {
 		getGenArgAck.setUserid(getGenArg.getUserid());
 		getGenArgAck.setSerialnumber(getGenArg.getSerialnumber());
 		getGenArgAck.setBsid(getGenArg.getBsid());
+		String bsId = getGenArg.getBsid();
 		try{
-			List<Map<String,Object>> list = mapper.selectForGenVI(getGenArg.getBsid());
-			if(list!=null && list.size()>0){
-				Map<String,Object> map = new HashMap<String,Object>();
-				for(int i=0;i<list.size();i++){
-					map.put(list.get(i).get("singleId")+"",list.get(i).get("singleValue")+"");
-				}
-				getGenArgAck.setGenv(map.get("092301")+"");
-				getGenArgAck.setGeni(map.get("092304")+"");
-				getGenArgAck.setAck("0");
-			}else{
-				getGenArgAck.setGenv("");
-				getGenArgAck.setGeni("");
-				getGenArgAck.setAck("0");
-			}
+		    Map<String,Object> periodMap = mapper.selectInfoByBsId(bsId);
+            String period = periodMap.get("period")+"";
+            if("3".equals(period)){
+                Map<String,Object> resultMap = SqlServerService.bsmonitorList(Integer.parseInt(bsId));
+                if(resultMap != null && resultMap.size()>0){
+                    getGenArgAck.setGenv(resultMap.get("jv")+"");
+                    getGenArgAck.setGeni(resultMap.get("ji")+"");
+                }else{
+                    getGenArgAck.setGenv("");
+                    getGenArgAck.setGeni("");
+                }
+            }else if("4".equals(period)){
+                List<Map<String,Object>> list = mapper.selectForGenVI(bsId);
+                if(list!=null && list.size()>0){
+                    Map<String,Object> map = new HashMap<String,Object>();
+                    for(int i=0;i<list.size();i++){
+                        map.put(list.get(i).get("singleId")+"",list.get(i).get("singleValue")+"");
+                    }
+                    getGenArgAck.setGenv(map.get("092301")+"");
+                    getGenArgAck.setGeni(map.get("092304")+"");
+
+                }else{
+                    getGenArgAck.setGenv("");
+                    getGenArgAck.setGeni("");
+                }
+            }
+            getGenArgAck.setAck("0");
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -1424,17 +1451,19 @@ public class Service {
 		getPowerOnTimeAck.setUserid(getPowerOnTime.getUserid());
 		getPowerOnTimeAck.setSerialnumber(getPowerOnTime.getSerialnumber());
 		try{
-			List<Map<String,Object>> powerOnTimeList = mapper.selectForPowerOnTime(getPowerOnTime.getBsid());
+			List<Map<String,Object>> powerOnTimeList = mapper.selectForPowerOnTime(getPowerOnTime.getSerialnumber());
 			List<Map<String,Object>> genOffTimeList = mapper.selectForGenOffTime(getPowerOnTime.getBsid());
-			if(powerOnTimeList != null && powerOnTimeList.size()>0 && genOffTimeList != null && genOffTimeList.size()>0){
-				getPowerOnTimeAck.setPowerontime(powerOnTimeList.get(0).get("alarmTime")+"");
+            if(powerOnTimeList != null && powerOnTimeList.size()>0){
+                getPowerOnTimeAck.setPowerontime(powerOnTimeList.get(0).get("faultRecoveryTime")+"");
+            }else{
+                getPowerOnTimeAck.setPowerontime("");
+            }
+			if(genOffTimeList != null && genOffTimeList.size()>0){
 				getPowerOnTimeAck.setGenofftime(genOffTimeList.get(0).get("startTime")+"");
-				getPowerOnTimeAck.setAck("0");
 			}else{
-				getPowerOnTimeAck.setPowerontime("");
 				getPowerOnTimeAck.setGenofftime("");
-				getPowerOnTimeAck.setAck("0");
 			}
+            getPowerOnTimeAck.setAck("0");
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -1454,21 +1483,32 @@ public class Service {
 		PushIPCStreamAck pushIPCStreamAck = new PushIPCStreamAck();
 		pushIPCStreamAck.setUserid(pushIPCStream.getUserid());
 		pushIPCStreamAck.setSerialnumber(pushIPCStream.getSerialnumber());
+		pushIPCStreamAck.setBsid(bsId);
 		try{
 			Map<String, Object> map = new HashMap<String,Object>();
 			if(Integer.parseInt(bsId)<2000){
 				map.put("bsId", bsId);
 				List<Map<String,Object>> listMap = GosuncnService.selectCameraIpByBsId(map);
-				cameraMap = listMap.get(0);
+				Map<String,Object> cameraMap = listMap.get(0);
 				cameraMap.put("window", window);
+				cameraMap.put("userId",pushIPCStream.getUserid());
+				new PushStreamThread(cameraMap).start();
 			}else{
 				map.put("bsId", bsId);
 				List<Map<String,Object>> listMap = GosuncnService.selectCameraIpByVpn(map);
-				cameraMap = listMap.get(0);
+				Map<String,Object> cameraMap = listMap.get(0);
 				cameraMap.put("window", window);
+				cameraMap.put("userId",pushIPCStream.getUserid());
+				new PushStreamThread(cameraMap).start();
 			}
-			new PushStreamThread().start();
 			sqlSession.close();
+			boolean res = Custom.searchStatus();
+			if(res){
+				pushIPCStreamAck.setAck("0");
+				Custom.streamStatus = false;
+			}else{
+				pushIPCStreamAck.setAck("1");
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1484,7 +1524,9 @@ public class Service {
 		StopIPCStreamAck stopIPCStreamAck = new StopIPCStreamAck();
 		stopIPCStreamAck.setUserid(stopIPCStream.getUserid());
 		stopIPCStreamAck.setSerialnumber(stopIPCStream.getSerialnumber());
-		new StopStreamThread(bsId).start();
+		stopIPCStreamAck.setBsid(bsId);
+		stopIPCStreamAck.setAck("0");
+		new StopIPCStreamThread(stopIPCStream.getUserid()).start();
 		return stopIPCStreamAck;
 	}
 	
@@ -1534,7 +1576,7 @@ public class Service {
 				//更新发电派单
 				Map<String,Object> param = new HashMap<String,Object>();
 				param.put("status",1);
-				param.put("serialnumber",receiveOrder.getSerialnumber());
+				param.put("serialnumber",serialNumber);
 				param.put("userId",userId);
 				param.put("recever", receiveOrder.getHandleusername());
 				mapper.updateGenTableStatus(param);
@@ -1777,30 +1819,4 @@ public class Service {
 		return genOffCheckAck;
 	}
 	
-}
-
-class PushStreamThread extends Thread{
-	@Override
-	public void run() {
-		try {
-			TestFFmpegForWeb.test1(Service.cameraMap);
-		}catch (Exception e){
-			e.printStackTrace();
-		}
-	}
-}
-
-class StopStreamThread extends Thread{
-	private String bsId;
-	public StopStreamThread(String bsId){
-		this.bsId = bsId;
-	}
-	@Override
-	public void run() {
-		try {
-			TestFFmpegForWeb.stop(bsId);
-		}catch (Exception e){
-			e.printStackTrace();
-		}
-	}
 }

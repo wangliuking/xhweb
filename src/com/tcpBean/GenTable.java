@@ -19,8 +19,10 @@ public class GenTable {
     private String genv;
     private String geni;
     private String address;
-    private String auditor;
-    private String audittime;
+    private String auditor1;
+    private String audittime1;
+    private String auditor2;
+    private String audittime2;
     private List<String> genonpiclist;
     private String remarkgenon;
     private String powerontime;
@@ -160,20 +162,36 @@ public class GenTable {
         this.address = address;
     }
 
-    public String getAuditor() {
-        return auditor;
+    public String getAuditor1() {
+        return auditor1;
     }
 
-    public void setAuditor(String auditor) {
-        this.auditor = auditor;
+    public void setAuditor1(String auditor1) {
+        this.auditor1 = auditor1;
     }
 
-    public String getAudittime() {
-        return audittime;
+    public String getAudittime1() {
+        return audittime1;
     }
 
-    public void setAudittime(String audittime) {
-        this.audittime = audittime;
+    public void setAudittime1(String audittime1) {
+        this.audittime1 = audittime1;
+    }
+
+    public String getAuditor2() {
+        return auditor2;
+    }
+
+    public void setAuditor2(String auditor2) {
+        this.auditor2 = auditor2;
+    }
+
+    public String getAudittime2() {
+        return audittime2;
+    }
+
+    public void setAudittime2(String audittime2) {
+        this.audittime2 = audittime2;
     }
 
     public List<String> getGenonpiclist() {
@@ -275,8 +293,10 @@ public class GenTable {
                 ", genv='" + genv + '\'' +
                 ", geni='" + geni + '\'' +
                 ", address='" + address + '\'' +
-                ", auditor='" + auditor + '\'' +
-                ", audittime='" + audittime + '\'' +
+                ", auditor1='" + auditor1 + '\'' +
+                ", audittime1='" + audittime1 + '\'' +
+                ", auditor2='" + auditor2 + '\'' +
+                ", audittime2='" + audittime2 + '\'' +
                 ", genonpiclist=" + genonpiclist +
                 ", remarkgenon='" + remarkgenon + '\'' +
                 ", powerontime='" + powerontime + '\'' +

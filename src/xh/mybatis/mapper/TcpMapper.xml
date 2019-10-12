@@ -276,8 +276,11 @@
 	
 	<!-- 查询市电恢复时间 -->
 	<select id="selectForPowerOnTime" parameterType="String" resultType="map">
-		select b.* from xhgmnet_emh_fsuid4bsid as a LEFT JOIN xhgmnet_emh_sensor_alarm as b on a.fsuId = b.fsuId where a.siteId=#{bsId} and alarmId="017021" and alarmFlag="END" ORDER BY startTime desc limit 1
+		select * from xhgmnet_operations_bs_elec_generation a LEFT JOIN xhgmnet_operations_bsfault b on a.bsfault_id=b.id where a.serialnumber=#{serialnumber}
 	</select>
+	<!--<select id="selectForPowerOnTime" parameterType="String" resultType="map">
+		select b.* from xhgmnet_emh_fsuid4bsid as a LEFT JOIN xhgmnet_emh_sensor_alarm as b on a.fsuId = b.fsuId where a.siteId=#{bsId} and alarmId="017021" and alarmFlag="END" ORDER BY startTime desc limit 1
+	</select>-->
 
 	<!-- 查询停止发电时间 -->
 	<select id="selectForGenOffTime" parameterType="String" resultType="map">
@@ -286,7 +289,7 @@
 
 	<!-- 更新发电记录表 -->
 	<update id="updateForGenTable" parameterType="com.tcpBean.GenTable">
-		update xhgmnet_operations_bs_elec_generation set gen_start_time=#{genontime},generation_v=#{genv},generation_i=#{geni},check_user=#{auditor},address=#{address},check_time=#{audittime},gen_on_note=#{remarkgenon},poweron_time=#{powerontime},gen_end_time=#{genofftime},gen_off_time=#{removegentime},gen_off_note=#{remarkgenoff},gen_on_pic=#{gen_on_pic},gen_off_pic=#{gen_off_pic} where serialnumber=#{serialnumber}
+		update xhgmnet_operations_bs_elec_generation set gen_start_time=#{genontime},generation_v=#{genv},generation_i=#{geni},address=#{address},gen_on_note=#{remarkgenon},poweron_time=#{powerontime},gen_end_time=#{genofftime},gen_off_time=#{removegentime},gen_off_note=#{remarkgenoff},gen_on_pic=#{gen_on_pic},gen_off_pic=#{gen_off_pic} where serialnumber=#{serialnumber}
 	</update>
 	
 	<!-- 根据基站名称模糊查询基站列表 -->

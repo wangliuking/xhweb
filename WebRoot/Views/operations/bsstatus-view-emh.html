@@ -184,7 +184,7 @@
 
 	<!-- row -->
 	<div class="row" ng-show="emhData.period==4">
-		<div class="col-md-12">
+		<div class="col-md-12" ng-if="emhData.power != null && emhData.power != ''">
 			<div class="hpanel">
 				<div class="panel-heading hbuilt">
 					<div class="panel-tools">
@@ -234,6 +234,56 @@
 						</div>
 						<!-- col-md-3 -->
 						
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12" ng-if="emhData.power == null || emhData.power == ''">
+			<div class="hpanel">
+				<div class="panel-heading hbuilt">
+					<div class="panel-tools">
+						<span style="color:#000;" ng-show="emhData.period==4">数据采集时间：</span>
+					</div>
+					UPS配电设备（已整改，未安装）
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-12 div-left">
+							<div class="panel-card hbgreen">
+								<div class="card-img">
+									<i class="fa fa-cube fa-3x"></i>
+								</div>
+								<div class="card-info">
+									<label>输入相电压</label></br> <span>V</span>
+								</div>
+							</div>
+							<div class="panel-card hbgreen">
+								<div class="card-img">
+									<i class="fa fa-cube fa-3x"></i>
+								</div>
+								<div class="card-info">
+									<label>输出相电压</label></br> <span>V</span>
+								</div>
+							</div>
+							<div class="panel-card hbgreen">
+								<div class="card-img">
+									<i class="fa fa-cube fa-3x"></i>
+								</div>
+								<div class="card-info">
+									<label>输入频率</label></br> <span>Hz</span>
+								</div>
+							</div>
+							<div class="panel-card hbgreen">
+								<div class="card-img">
+									<i class="fa fa-cube fa-3x"></i>
+								</div>
+								<div class="card-info">
+									<label>电池组电压</label></br> <span>V</span>
+								</div>
+							</div>
+						</div>
+						<!-- col-md-3 -->
+
 					</div>
 				</div>
 			</div>
@@ -528,7 +578,7 @@ console.log(bsId+"==="+IP);
     'file': 'camera'+bsId,
     'streamer': 'rtmp://'+IP+':7790/oflaDemo',
     'controlbar': 'bottom',
-    'width': $(window).width()/2*0.9,
+    'width': $(window).width()/2*0.8,
     'height': '360'
   });
   
@@ -544,7 +594,7 @@ $(function(){
 			    'file': 'camera'+bsId,
 			    'streamer': 'rtmp://'+IP+':7790/oflaDemo',
 			    'controlbar': 'bottom',
-			    'width': $(window).width()/2*0.9,
+			    'width': $(window).width()/2*0.8,
 			    'height': '360'
 			  });
 		}else{
@@ -556,7 +606,7 @@ $(function(){
 			    'file': 'camera'+bsId,
 			    'streamer': 'rtmp://'+IP+':7790/oflaDemo',
 			    'controlbar': 'bottom',
-			    'width': $(window).width()/2*0.9,
+			    'width': $(window).width()/2*0.8,
 			    'height': '360'
 			  });
 		}

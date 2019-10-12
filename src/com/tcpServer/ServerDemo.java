@@ -10,13 +10,14 @@ import java.net.Socket;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import cc.eguid.FFmpegCommandManager.test.TestFFmpegForWeb;
 import com.tcpBean.ErrProTable;
 import com.tcpBean.UserLogin;
 
 public class ServerDemo {
 	private boolean isStartServer = false;
 	//未发送的消息
-	public static ConcurrentHashMap<String,LinkedList<Object>> unsentMessageList = new ConcurrentHashMap<String,LinkedList<Object>>();
+	public static ConcurrentHashMap<String,LinkedList<String>> unsentMessageList = new ConcurrentHashMap<String,LinkedList<String>>();
 	
 	public static ArrayList<SocketThread> mThreadList = new ArrayList<SocketThread>();
 
@@ -55,10 +56,16 @@ public class ServerDemo {
 		}
 	}
 
-	public static void startMessageThread(final String userId, final Object object) {
+	/**
+	 * 发送方法
+	 * @param userId
+	 * @param object
+	 */
+	public static void startMessageThread(String userId, Object object) {
 		try {
 			List<String> userList = new ArrayList<String>();			
-			for (SocketThread st : mThreadList) {// 分别向每个客户端发送消息
+			for (SocketThread st : mThreadList) {
+				// 分别向每个客户端发送消息
 				//将所有userId放入userList，用于后续判断是否存在此userId
 				userList.add(st.userId);
 				if (st.socket == null || st.socket.isClosed())
@@ -77,22 +84,21 @@ public class ServerDemo {
 				} else
 					continue;
 			}
-			/*System.out.println("+++++++++++++++++++++");
-			System.out.println(userId);
-			System.out.println(object);
-			System.out.println(userList);
-			System.out.println(unsentMessageList);
-			System.out.println("+++++++++++++++++++++");*/
+
 			if(!userList.contains(userId)){//此时该用户不在线，保存此派单信息
 				if(unsentMessageList.containsKey(userId)){
 					//未发送消息中有该用户
-					LinkedList<Object> list = unsentMessageList.get(userId);
-					list.add(object);
+					System.out.println("有该用户=====================");
+					LinkedList<String> list = unsentMessageList.get(userId);
+					String json = Util.Object2Json(object);
+					list.add(json);
 					unsentMessageList.put(userId,list);
 				}else{
 					//未发送消息中无该用户
-					LinkedList<Object> list = new LinkedList<Object>();
-					list.add(object);
+					System.out.println("无该用户=====================");
+					LinkedList<String> list = new LinkedList<String>();
+					String json = Util.Object2Json(object);
+					list.add(json);
 					unsentMessageList.put(userId,list);
 				}
 				System.out.println("当前所有连接为："+mThreadList);
@@ -106,6 +112,39 @@ public class ServerDemo {
 
 	}
 
+	/**
+	 * 补充发送方法
+	 * @param userId
+	 * @param message
+	 */
+	public static void startUnmessageThread(String userId, String message) {
+		try {
+			List<String> userList = new ArrayList<String>();
+			for (SocketThread st : mThreadList) {// 分别向每个客户端发送消息
+				//将所有userId放入userList，用于后续判断是否存在此userId
+				userList.add(st.userId);
+				if (st.socket == null || st.socket.isClosed())
+					continue;
+				if (st.userId == null || "".equals(st.userId))// 如果暂时没有确定Socket对应的用户Id先不发
+					continue;
+				// 根据userId模拟服务端向不同的客户端推送消息
+				if (st.userId.equals(userId)) {
+					BufferedWriter writer = st.writer;
+					//BufferedReader reader = st.reader;
+					String sendMessage = message + "\n";
+					writer.write(sendMessage);
+					writer.flush();
+					System.out.println("向客户端" + st.userId + "===" + st.socket.getInetAddress()
+							+ "发送了保留的消息" + sendMessage);
+				} else
+					continue;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch blockl
+			e.printStackTrace();
+		}
+
+	}
 
 	/**
 	 * 关闭与SocketThread所代表的客户端的连接
@@ -162,6 +201,8 @@ public class ServerDemo {
 					if (interval >= (Custom.SOCKET_ACTIVE_TIME * 1000 * 3)) {
 						System.out.println("客户端发包间隔时间严重延迟，可能已经断开了：" + interval);
 						closeSocketClient(this);
+						//关闭连接后查询是否需要关闭推流
+						new StopIPCStreamThread(this.userId).start();
 						break;
 					}
 					if (reader.ready()) {
@@ -203,10 +244,10 @@ public class ServerDemo {
 							//查询此userId是否有未发送的消息
 							Thread.sleep(2000);
 							if(unsentMessageList.containsKey(userId)){
-								LinkedList<Object> list = unsentMessageList.get(userId);
+								LinkedList<String> list = unsentMessageList.get(userId);
 								for(int i=0;i<list.size();i++){
 									System.out.println("准备发送未收到的消息！！！！！ "+list.get(i));
-									startMessageThread(userId,list.get(i));
+									startUnmessageThread(userId,list.get(i));
 									Thread.sleep(200);
 								}
 								unsentMessageList.remove(userId);

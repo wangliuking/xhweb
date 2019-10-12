@@ -1,5 +1,7 @@
 package com.tcpServer;
 
+import java.util.Date;
+
 /**
  * Created by HouBin on 2017/3/14.
  */
@@ -22,4 +24,18 @@ public class Custom {
 	public static final int SOCKET_ACTIVE_TIME = 5;// 发送心跳包的时间间隔为60秒需要与客户端一致
 
 	public static final String ACTION_SOCKET_MESSSAGE = "com.herenit.socketmessage";
+
+	public static boolean streamStatus = false;
+
+	public static boolean searchStatus()throws Exception{
+		Date a = new Date();
+		while(true){
+			Date b = new Date();
+			if(streamStatus || ((b.getTime() - a.getTime())>15000)){
+				break;
+			}
+			Thread.sleep(1000);
+		}
+		return streamStatus;
+	}
 }

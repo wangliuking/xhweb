@@ -1,4 +1,4 @@
-package cc.eguid.FFmpegCommandManager;
+﻿package cc.eguid.FFmpegCommandManager;
 
 import java.util.Collection;
 import java.util.Iterator;

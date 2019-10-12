@@ -1,11 +1,6 @@
 package cc.eguid.FFmpegCommandManager.test;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import xh.org.listeners.SingLoginListener;
 import cc.eguid.FFmpegCommandManager.FFmpegManager;
@@ -20,7 +15,8 @@ import cc.eguid.FFmpegCommandManager.entity.TaskEntity;
 public class TestFFmpegForWeb {
 	private static Map<String,String> hashMap = new HashMap<String,String>();
 	private static FFmpegManager manager = new FFmpegManagerImpl();
-	public static List<Map<String,String>> userByBsIdForWebSocketList = new LinkedList<Map<String,String>>();	
+	public static List<Map<String,String>> userByBsIdForWebSocketList = new LinkedList<Map<String,String>>();
+	public static List<Map<String,String>> appStreamList = Collections.synchronizedList(new LinkedList<Map<String,String>>());
 	public static void main(String[] args) throws InterruptedException {
 		//test1();
 		//test2();
@@ -37,6 +33,48 @@ public class TestFFmpegForWeb {
 				continue;
 			}
 		}
+	}
+
+	/**
+	 * 命令组装器测试(APP推流)
+	 * @throws InterruptedException
+	 */
+	public static void testApp(Map<String,Object> cameraMap) throws InterruptedException{
+		Map<String,String> map = new HashMap<String,String>();
+		String input = "rtsp://" + cameraMap.get("loginName") + ":" + cameraMap.get("password") + "@" + cameraMap.get("deviceIP") + ":554/h264/ch" + cameraMap.get("ch") +"/main/av_stream";
+		int bsId = (Integer) cameraMap.get("bsId");
+		String tempWindow = cameraMap.get("window").toString();
+		String[] strs = tempWindow.split("[.]");
+		String window = strs[0]+"x480";
+		String appId = "app"+bsId;
+		map.put("appName", appId);
+		map.put("input", input);
+		map.put("output", "rtmp://localhost:7790/oflaDemo/");
+		map.put("codec", "h264");
+		map.put("fmt", "flv");
+		map.put("fps", "25");
+		map.put("rs", window);
+		map.put("twoPart", "1");
+
+		//执行任务前查询所有推流进程，如果存在则不需要进行推流
+		Collection<TaskEntity> infoList = manager.queryAll();
+		System.out.println("infoList为："+infoList);
+		int status = 0;
+		for(TaskEntity task : infoList){
+			if(appId.equals(task.getId())){
+				//infoList存在此推流，故不需要进行推送，将标志位置为1
+				status = 1;
+			}
+		}
+		//标志位0-需进行推流 标志位1-不用进行推流
+		if(status==0){
+			// 执行任务，id就是appName，如果执行失败返回为null
+			String str = new String();
+			str = manager.start(map);
+			hashMap.put(str, str);
+			System.out.println("str : "+str);
+		}
+		System.out.println("appStreamList : "+appStreamList);
 	}
 	
 	/**
@@ -64,7 +102,6 @@ public class TestFFmpegForWeb {
 		String tempWindow = cameraMap.get("window").toString();
 		String[] strs = tempWindow.split("[.]");
 		String window = strs[0]+"x360";
-		System.out.println("window大小为："+window);
 		String cameraId = "camera"+bsId;
 		map.put("appName", cameraId);
 		map.put("input", input);
@@ -94,6 +131,16 @@ public class TestFFmpegForWeb {
 		}
 		System.out.println("userByBsIdForWebSocketList : "+userByBsIdForWebSocketList);
 	}
+
+	/**
+	 * 停止app视频流进程
+	 */
+	public static void stopApp(String bsId) throws InterruptedException{
+		String cameraId = hashMap.get("app"+bsId);
+		// 停止id对应的任务
+		manager.stop(cameraId);
+	}
+
 	/**
 	 * 停止视频流进程
 	 */
