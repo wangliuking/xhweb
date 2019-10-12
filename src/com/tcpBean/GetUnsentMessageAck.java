@@ -37,7 +37,6 @@ public class GetUnsentMessageAck {
     public void setAck(String ack) {
         this.ack = ack;
     }
-
     @Override
     public String toString() {
         return "GetUnsentMessageAck{" +

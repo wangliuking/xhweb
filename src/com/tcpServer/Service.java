@@ -18,6 +18,7 @@ import com.tcpServer.ServerDemo.SocketThread;
 
 import static com.tcpServer.Custom.searchStatus;
 
+
 public class Service {
 	// 发送用对象
 	private static LoginAck loginAck = new LoginAck();
@@ -1818,5 +1819,4 @@ public class Service {
 		}
 		return genOffCheckAck;
 	}
-	
 }

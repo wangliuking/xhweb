@@ -10,7 +10,6 @@ import java.util.Map;
 
 public class HandleThreadMap {
 }
-
 class GetPowerOnTimeThread extends Thread{
     private GetPowerOnTime getPowerOnTime;
     public GetPowerOnTimeThread(GetPowerOnTime getPowerOnTime){
@@ -22,7 +21,6 @@ class GetPowerOnTimeThread extends Thread{
         ServerDemo.startMessageThread(getPowerOnTime.getUserid(),getPowerOnTimeAck);
     }
 }
-
 class GetGenArgThread extends Thread{
     private GetGenArg getGenArg;
     public GetGenArgThread(GetGenArg getGenArg){

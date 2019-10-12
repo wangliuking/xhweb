@@ -28,7 +28,6 @@ public class GetUnsentMessage {
     public void setSerialnumber(String serialnumber) {
         this.serialnumber = serialnumber;
     }
-
     @Override
     public String toString() {
         return "GetUnsentMessage{" +
