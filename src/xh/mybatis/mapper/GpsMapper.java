@@ -26,5 +26,8 @@ public interface GpsMapper {
 	 * @throws Exception
 	 */
 	public String  user_dstId(Map<String,Object> map)throws Exception;
-
+	public int  add(List<Map<String,Object>> list)throws Exception;
+	
+	public List<HashMap<String,String>>  gps_count(Map<String,Object> map)throws Exception;
+	public int  gps_count_total(Map<String,Object> map)throws Exception;
 }

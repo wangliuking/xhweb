@@ -60,6 +60,9 @@ import java.util.regex.Pattern;
 
 
 
+
+
+
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
@@ -113,6 +116,7 @@ import xh.func.plugin.DocConverter;
 import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
 import xh.mybatis.service.EastComService;
+import xh.mybatis.service.GpsService;
 import xh.mybatis.service.SqlServerService;
 import xh.org.socket.MotoTcpClient;
 import xh.org.socket.TcpKeepAliveClient;
@@ -122,8 +126,24 @@ public class test {
 
 	public static void main(String[] args) {
 
-		String a="-1";
-		System.out.println(Integer.parseInt(a));
+		String writeTime=FunUtil.nowDate();
+		int x=4350000;
+		for(int i=0;i<20000;i++){
+			int a=7260235;
+			List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+			for(int j=0;j<2000;j++){
+				a++;
+				Map<String,Object> m=new HashMap<String, Object>();
+				m.put("id", x);
+				m.put("writeTime", FunUtil.nowDate());
+				m.put("srcId", a);
+				m.put("infoTime", FunUtil.nowDate());
+				list.add(m);	
+				x++;
+			}
+			GpsService.add(list);
+			System.out.println(i*2000);
+		}
 		
 		
 		

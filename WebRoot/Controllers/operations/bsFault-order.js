@@ -43,6 +43,13 @@ xh.load = function() {
 				$scope.data = response.items;
 			});
 		};
+		$scope.writeBsName=function(){
+			$scope.name="";
+			$http.get("../../bs/select_bs_by_bsid?bsId="+$scope.bsId).
+			success(function(response){
+				$scope.name = response.items.name;
+			});
+		}
 		$scope.nowInput=function(tt){
 			localStorage.setItem("nowinput", tt);
 			console.log(localStorage.getItem("nowinput"));

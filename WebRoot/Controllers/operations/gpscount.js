@@ -1,6 +1,3 @@
-/**
- * 基站配置
- */
 if (!("xh" in window)) {
 	window.xh = {};
 };
@@ -21,51 +18,47 @@ toastr.options = {
 	"hideMethod" : "fadeOut",
 	"progressBar" : true,
 };
+var appElement = document.querySelector('[ng-controller=xhcontroller]');
 xh.load = function() {
-	var app = angular.module("app", []);
-	var srcId = $("#srcId").val();
-	var dstId = $("#dstId").val();
-	var startTime = $("#startTime").val();
-	var endTime = $("#endTime").val();
-	var pageSize = $("#page-limit").val();
+	var app = angular.module("app", [])
+	
 
-	app.controller("gps", function($scope, $http) {
-		//xh.maskShow();
-		$scope.count = "15";//每页数据显示默认值
-		$scope.systemMenu=true; //菜单变色
-		/*$http.get("../../gps/list?srcId="+srcId+"&dstId="+dstId+"&startTime="+startTime+"&endTime="+endTime+"&start=0&limit="+pageSize).
-		success(function(response){
-			xh.maskHide();
-			$scope.data = response.items;
-			$scope.totals = response.totals;
-			xh.pagging(1, parseInt($scope.totals), $scope);
-		});*/
+	app.filter('qualitystatus', function() { // 可以注入依赖
+		return function(text) {
+			if (text == 0) {
+				return "未签收";
+			} else if (text == 1) {
+				return "签收";
+			}
+		};
+	});
+
+	app.controller("xhcontroller", function($scope, $http) {
+		$scope.count = "20";// 每页数据显示默认值
+		var pageSize = $("#page-limit").val();
+		$scope.data=null;
+		$scope.page=1;
+		$scope.time=xh.dateNowFormat("month");
+		$scope.time_day=xh.dateNowFormat("day");
+		$scope.gps_total=0;
+		
 		/* 刷新数据 */
 		$scope.refresh = function() {
-			$("#srcId").val("");
-			$("#bsId").val("");
-			$("#dstId").val("");
-			$("#startTime").val("");
-			$("#endTime").val("");
-			$scope.search(1);
+			$scope.search($scope.page);
 		};
+	
 		
+
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
-			var srcId = $("#srcId").val();
-			var dstId = $("#dstId").val();
-			var bsId = $("#bsId").val();
-			var startTime = $("#startTime").val();
-			var endTime = $("#endTime").val();
-			//时间比对
-			var d1 = new Date(startTime.replace(/\-/g, "\/"));  
-			var d2 = new Date(endTime.replace(/\-/g, "\/"));  
-			if(startTime!=""&&endTime!=""&&d1 >=d2){  
-				toastr.error("结束时间需要大于起始时间", '提示');
-				return false;  
+			var starttime=$("#start_time").val();
+			var endtime=$("#end_time").val();
+			var bsId=$("#bsId").val();
+			if(starttime=="" || endtime==""){
+				alert("时间区间不能为空");
+				return;
 			}
-			
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -75,24 +68,26 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			console.log("limit=" + limit);
 			xh.maskShow();
-			$http.get("../../gps/list?bsId="+bsId+"&srcId="+srcId+"&dstId="+dstId+"&startTime="+startTime+"&endTime="+endTime+"&start="+start+"&limit="+limit).
-			success(function(response){
+			$http.get("../../gps/gps_count?bsId="+bsId+"&start="+start+"&starttime="+starttime+"" +
+					"&endtime="+endtime+"&limit=" + pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.data = response.items;
 				$scope.totals = response.totals;
+				$scope.page=page;
+				$scope.gps_total=0;
+				for(var i=0;i<$scope.data.length;i++){
+					$scope.gps_total+=$scope.data[i].total;
+				}
 				xh.pagging(page, parseInt($scope.totals), $scope);
 			});
 		};
-		//分页点击
+		// 分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
 			var pageSize = $("#page-limit").val();
-			var srcId = $("#srcId").val();
-			var bsId = $("#bsId").val();
-			var dstId = $("#dstId").val();
-			var startTime = $("#startTime").val();
-			var endTime = $("#endTime").val();
+			var starttime=$("#start_time").val();
+			var endtime=$("#end_time").val();
+			var bsId=$("#bsId").val();
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
 			if (page <= 1) {
@@ -101,8 +96,9 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../gps/list?bsId="+bsId+"&srcId="+srcId+"&dstId="+dstId+"&startTime="+startTime+"&endTime="+endTime+"&start="+start+"&limit="+pageSize).
-			success(function(response){
+			$http.get(
+					"../../gps/gps_count?bsId="+bsId+"&start="+start+"&starttime="+starttime+"" +
+					"&endtime="+endtime+"&limit=" + pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
 				$scope.lastIndex = page * pageSize;
@@ -116,20 +112,23 @@ xh.load = function() {
 				}
 				$scope.data = response.items;
 				$scope.totals = response.totals;
+				$scope.gps_total=0;
+				for(var i=0;i<$scope.data.length;i++){
+					$scope.gps_total+=$scope.data[i].total;
+				}
+				$scope.page=page
 			});
-			
+
 		};
 	});
 };
-
-// 刷新数据
+//刷新数据
 xh.refresh = function() {
-	var appElement = document.querySelector('[ng-controller=gps]');
 	var $scope = angular.element(appElement).scope();
 	// 调用$scope中的方法
 	$scope.refresh();
-
 };
+
 /* 数据分页 */
 xh.pagging = function(currentPage, totals, $scope) {
 	var pageSize = $("#page-limit").val();
@@ -166,32 +165,3 @@ xh.pagging = function(currentPage, totals, $scope) {
 	}
 
 };
-/*$http({
-method : "POST",
-url : "../../bs/list",
-data : {
-	bsId : bsId,
-	name : name,
-	start : start,
-	limit : pageSize
-},
-headers : {
-	'Content-Type' : 'application/x-www-form-urlencoded'
-},
-transformRequest : function(obj) {
-	var str = [];
-	for ( var p in obj) {
-		str.push(encodeURIComponent(p) + "="
-				+ encodeURIComponent(obj[p]));
-	}
-	return str.join("&");
-}
-}).success(function(response) {
-xh.maskHide();
-$scope.data = response.items;
-$scope.totals = response.totals;
-});*/
-/*定时刷新操作*/
-/*$(function(){
-	setInterval(xh.refresh,3000);
-});*/

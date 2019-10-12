@@ -3,7 +3,8 @@
 <mapper namespace="xh.mybatis.mapper.GpsMapper">
 
 	<!--根据源ID，目标ID，写入时间查找gps记录 -->
-	<select id="gpsInfo" parameterType="map" resultType="java.util.HashMap" useCache="true"  timeout="30">
+	<select id="gpsInfo" parameterType="map" resultType="java.util.HashMap"
+		useCache="true" timeout="30">
 		select * from ${currentMonth} where 1=1
 		<if test="srcId!=null and srcId!=''">
 			and srcId = #{srcId}
@@ -14,10 +15,14 @@
 		<if test="startTime!=null and startTime!=''">
 			and infoTime between #{startTime} and #{endTime}
 		</if>
+		<if test="bsId!=null and bsId!=''">
+		 and srcId in(select userId from xhgmnet_operations_userstatus where bsId=1)
+		</if>
 		order by infoTime desc limit #{start},#{limit}
 	</select>
 	<!--根据源ID，目标ID，写入时间查找gps记录 -->
-	<select id="gpsCount" parameterType="map" resultType="int" useCache="true"  timeout="30">
+	<select id="gpsCount" parameterType="map" resultType="int"
+		useCache="true" timeout="30">
 		select count(*) from ${currentMonth} where 1=1
 		<if test="srcId!=null and srcId!=''">
 			and srcId = #{srcId}
@@ -29,9 +34,53 @@
 			and infoTime between #{startTime} and #{endTime}
 		</if>
 	</select>
-   <!--根据源ID，查找注册调度台号-->
-    <select id="user_dstId" parameterType="map" resultType="String" useCache="true">
-       select dstId from ${table} WHERE srcId=#{srcId} limit 1
+	<!--根据源ID，查找注册调度台号 -->
+	<select id="user_dstId" parameterType="map" resultType="String"
+		useCache="true">
+		select dstId from ${table} WHERE srcId=#{srcId} limit 1
+	</select>
+
+	<insert id="add" parameterType="java.util.List">
+		INSERT INTO `xhgmnet_gpsinfo11`(id, `writeTime`,
+		`infoType`,
+		`srcId`,
+		`dstId`,
+		`longitude`,
+		`latitude`,
+		`heigh`,
+		`infoTime`,
+		`speed`,
+		`direction`,
+		`typeId`,
+		`postion_error`) VALUES
+		<foreach collection="list" item="x" separator=",">
+		(#{x.id},#{x.writeTime},'定时触发',#{x.srcId},'8000695','0', '0', '0',#{x.infoTime},'0', '0', '0', null)
+		</foreach>
+		
+	</insert>
+    <select id="gps_count" parameterType="map" resultType="map"
+        useCache="true">
+        select sum(a.total) as total,a.bsId,b.name from count_gps as a
+        left join xhgmnet_bs_station as b on a.bsId=b.bsId
+        where 1=1 and a.bsId>0
+        <if test="bsId!=null and bsId!=''">
+        and a.bsId=#{bsId}       
+        </if>
+        and a.start_time between #{start_time} and #{end_time}
+        group by a.bsId order by total desc
+        limit #{start},#{limit}
+    </select>
+     <select id="gps_count_total" parameterType="map" resultType="int"
+        useCache="true">
+        select count(*) from (select sum(a.total),a.bsId from count_gps as a
+        where 1=1 and bsId>0
+        <if test="bsId!=null and bsId!=''">
+        and bsId=#{bsId}       
+        </if>
+        <if test="start_time!=null and end_time!=null and start_time!='' and end_time!=''">
+        and a.start_time between #{start_time} and #{end_time}
+        </if>
+        group by bsId order by bsId asc) as b
     </select>
 
 </mapper>
