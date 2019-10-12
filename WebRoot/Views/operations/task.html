@@ -189,8 +189,6 @@
 											</button>
 										</div>
 									</div>
-
-
 								</form>
 							</div>
 						</div>
@@ -248,8 +246,8 @@
 										<td><span ng-if="x.status==0">等待审核</span> <span
 											ng-if="x.status==-2" style="color:red">已撤销</span> <span
 											ng-if="x.status==-1" style="color:red">工联单被拒绝({{x.note}})</span>
-											<span ng-if="x.status==1" style="color:blue">等待回复</span> <span
-											ng-if="x.status==2" style="color:green">已回复</span></td>
+											<span ng-if="x.status==1" style="color:blue">等待签收</span> <span
+											ng-if="x.status==2" style="color:green">已签收，处理中</span></td>
 										<td><a href="#" ng-click="detail($index)"><img
 												src="../../Resources/images/icon/eye.png">查看工作联系单</a> <a
 											href="#" ng-click="showAdd($index)"
@@ -271,7 +269,7 @@
 										</a> <a href="#" ng-click="showReplyWin($index)"
 											ng-if="loginUser.roleType!=x.user_type 
 										&&  x.status==1">|&nbsp;<img
-												src="../../Resources/images/icon/record.png">回复
+												src="../../Resources/images/icon/record.png">签收
 										</a> <a href="#" ng-click="del($index)"
 											ng-if="up.o_delete=='on' && loginUser.roleType==0 ">|&nbsp;<img
 												src="../../Resources/images/icon/del.png">删除

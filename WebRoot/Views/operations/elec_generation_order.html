@@ -20,12 +20,16 @@
 							<b>抄 送：</b>{{detailData.copier}}
 						</p>
 						<p>
-							<b>状 态：</b> <span ng-if="detailData.status==0">接单中</span> <span
-								ng-if="detailData.status==1">等待处理</span> <span
-								ng-if="detailData.status==2">审核中</span> <span
-								ng-if="detailData.status==3" style="color:red">发电中</span> <span
-								ng-if="detailData.status==4" style="color:green">发电结束</span> <span
-								ng-if="detailData.status==5" style="color:red">单号已被取消</span>
+							<b>状 态：</b>
+                                <span ng-if="detailData.status==-2" style="color:red">发电完成审核未通过</span>
+                                        <span ng-if="detailData.status==-1" style="color:red">发电审核未通过</span>
+                                        <span ng-if="detailData.status==0">接单中</span>
+                                        <span ng-if="detailData.status==1" style="color:blue">等待处理</span>
+                                        <span ng-if="detailData.status==2" style="color:blue">等待审核是否已发电</span>
+                                        <span ng-if="detailData.status==3" style="color:blue">发电中</span>
+                                        <span ng-if="detailData.status==4" style="color:blue">等待审核是否完成发电</span>
+                                        <span ng-if="detailData.status==5" style="color:green">发电结束</span>
+                                        <span ng-if="detailData.status==6" style="color:red">单号已被取消</span>
 						</p>
 						<p ng-if="detailData.status<0 || detailData.status>=3">
 							审核发电: <span>时间：</span> <span style="color:green">{{detailData.check_time1 |timeFormat}}</span>

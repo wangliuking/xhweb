@@ -111,8 +111,13 @@ xh.order=function(){
 	var $scope = angular.element(appElement).scope();
 	var a=$("textarea[name='recvUser']").val().split(";");
 	var b=$("textarea[name='copyUser']").val().split(";");
+	var c=$("input[name='bsId']").val();
 	if(recvUser==""){
 		toastr.error("接单人不能为空", '提示');
+		return;
+	}
+	if(c==""){
+		toastr.error("基站不能为空", '提示');
 		return;
 	}
     var data=$scope.data;
