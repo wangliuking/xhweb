@@ -82,17 +82,9 @@ public class TestFFmpegForWeb {
 	 * @throws InterruptedException
 	 */
 	public static void test1(Map<String,Object> cameraMap) throws InterruptedException{
-		//获取此websocket的userId，同此基站进行绑定,放入全局list
-		String userId = "";
-		Iterator iter = SingLoginListener.getLogUserMap().entrySet().iterator();
-		 while (iter.hasNext()) {
-			 Map.Entry entry = (Map.Entry) iter.next();  
-             Object key = entry.getKey();  
-             Object val = entry.getValue();
-             userId = val+"";
-		 }
+		 //获取此websocket的userId，同此基站进行绑定,放入全局list
 		 Map<String,String> userByBsIdForWebSocketMap = new HashMap<String,String>();
-		 userByBsIdForWebSocketMap.put("userId", userId);
+		 userByBsIdForWebSocketMap.put("userId", cameraMap.get("userId")+"");
 		 userByBsIdForWebSocketMap.put("bsId", cameraMap.get("bsId")+"");
 		 userByBsIdForWebSocketList.add(userByBsIdForWebSocketMap);
 		 //end

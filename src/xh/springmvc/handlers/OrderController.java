@@ -57,7 +57,6 @@ import xh.org.listeners.SingLoginListener;
 
 @Controller
 @RequestMapping("/order")
-@CrossOrigin
 public class OrderController {
 	private static final long serialVersionUID = -758686623642845302L;
 	private boolean success;
