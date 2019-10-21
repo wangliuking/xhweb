@@ -323,9 +323,9 @@ public class BsAlarmService {
 	}
 
 	public static void bs_ji_four() {
-		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+		/*System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 		System.out.println("e4Map : ==>"+CommonParam.e4Map);
-		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");*/
 		SqlSession sqlSession = MoreDbTools
 				.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
@@ -351,8 +351,17 @@ public class BsAlarmService {
 					// 市电中断
 					String e4Pre = CommonParam.e4Map.get(fsuId) == null?"":CommonParam.e4Map.get(fsuId);
 					String e4Next = compare.get("ups8") == null?"":compare.get("ups8")+"";
-					boolean no_a_off = ((string_to_double(compare.get("ups1")) < 20 && string_to_double(compare
-							.get("ups1")) > -1) && e4Pre.equals(e4Next));
+					double fsu3 = string_to_double(compare.get("fsu3"));
+					double fsu4 = string_to_double(compare.get("ups7"));
+					boolean no_a_off;
+					if(fsu3 == 1){
+						//eps通讯中断，直接判断电表
+						no_a_off = (fsu4 == 1 && e4Pre.equals(e4Next));
+					}else{
+						//一起判断
+						no_a_off = ((string_to_double(compare.get("ups1")) < 50 || string_to_double(compare.get("ups0")) == 0) && string_to_double(compare
+								.get("ups1")) > -1 && e4Pre.equals(e4Next));
+					}
 					CommonParam.e4Map.put(fsuId,e4Next);
 					boolean no_a_on = (string_to_double(compare.get("ups7")) == 0 || string_to_double(compare
 							.get("ups1")) > 100);
@@ -533,7 +542,9 @@ public class BsAlarmService {
 				 * singleId = "017021" or singleId = "017031" or singleId =
 				 * "076509" or singleId = "092316"
 				 */
-				if (bean.getSingleId().equals("008304")) { // eps输入相电压
+				if(bean.getSingleId().equals("008321")){
+					rs.put("ups0", bean.getSingleValue());
+				} else if (bean.getSingleId().equals("008304")) { // eps输入相电压
 					rs.put("ups1", bean.getSingleValue());
 				} else if (bean.getSingleId().equals("008315")) {// eps输出相电压
 					rs.put("ups2", bean.getSingleValue());
@@ -544,6 +555,8 @@ public class BsAlarmService {
 				} else if (bean.getSingleId().equals("017031")) {// 油机开关量 1：正在告警
 																	// ；0：正在发电
 					rs.put("ups6", bean.getSingleValue());
+				} else if (bean.getSingleId().equals("076507")) {// EPS通讯状态0：正常
+					rs.put("fsu3", bean.getSingleValue());
 				} else if (bean.getSingleId().equals("076509")) {// 电表通讯状态0：正常
 					rs.put("ups7", bean.getSingleValue());
 				} else if (bean.getSingleId().equals("092316")) {// 电表当前读数
