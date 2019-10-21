@@ -51,6 +51,7 @@ xh.load = function() {
 		$scope.NO="";
 		$scope.sendUnit="";
 		$scope.page=1;
+		$scope.type="通信保障";
 		
 		
 		/* 获取用户权限 */
@@ -107,6 +108,7 @@ xh.load = function() {
 			str=str.replace(/" "/g,"&nbsp;")
 			$("#df").html(str)
 		};
+		
 		$scope.showEdit= function(id) {
 			$("#edit").modal('show');
 			$scope.editData = $scope.data[id];
@@ -169,6 +171,15 @@ xh.load = function() {
 				console.log("pdf")
 				POBrowser.openWindowModeless(xh.getUrl()+'/office/previewPDF?path='+
 						path,'width=1200px;height=800px;');
+			}else if(path.toLowerCase().indexOf("jpeg")!=-1){
+				$("#showPicWin").modal('show');
+				$scope.img_src=xh.getUrl()+"/"+path;
+			}else if(path.toLowerCase().indexOf("jpg")!=-1){
+				$("#showPicWin").modal('show');
+				$scope.img_src=xh.getUrl()+"/"+path;
+			}else if(path.toLowerCase().indexOf("png")!=-1){
+				$("#showPicWin").modal('show');
+				$scope.img_src=xh.getUrl()+"/"+path;
 			}else{
 				alert("该文件类型不支持在线预览")
 			}
@@ -280,6 +291,16 @@ xh.load = function() {
 			$scope.editData= $scope.data[index];
 			$("#replyWin").modal("show");
 		}
+		/* 处理结果 */
+		$scope.showHandleWin=function(index){
+			$scope.editData= $scope.data[index];
+			$("#handleWin").modal("show");
+		}
+		/* 总结 */
+		$scope.showSummaryWin=function(index){
+			$scope.editData= $scope.data[index];
+			$("#summaryWin").modal("show");
+		}
 		$scope.sign = function() {
 			var id =$scope.editData.taskId;
 			$.ajax({
@@ -299,6 +320,74 @@ xh.load = function() {
 						xh.refresh();
 						toastr.success(data.message, '提示');
 						$("#replyWin").modal("hide");
+					} else {
+						toastr.error(data.message, '提示');
+					}
+				},
+				error : function() {
+					toastr.success("系统错误", '提示');
+				}
+			});
+
+		};
+		$scope.handle = function() {
+			var id =$scope.editData.taskId;
+			$.ajax({
+				url : '../../WorkContact/handle',
+				type : 'POST',
+				dataType : "json",
+				async : true,
+				data : {
+					taskId : id,
+					addUser : $scope.editData.addUser,
+					checkUser : $scope.editData.checkUser,
+					note:$("#handleWin").find("textarea[name='handle']").val()
+				},
+				success : function(data) {
+
+					if (data.success) {
+						xh.refresh();
+						toastr.success(data.message, '提示');
+						$("#handleWin").modal("hide");
+					} else {
+						toastr.error(data.message, '提示');
+					}
+				},
+				error : function() {
+					toastr.success("系统错误", '提示');
+				}
+			});
+
+		};
+		$scope.summary = function() {
+			var id =$scope.editData.taskId;
+			var rs=$("#summaryWin").find("input[name='result2']").val();
+			var note=$("#summaryWin").find("textarea[name='summary_note']").val();
+			console.log("rs:"+rs);
+			console.log("note:"+note);
+			if(rs!=1 && note==""){
+				alert("未填写内容或者上传文件，禁止提交");
+				return
+			}
+			$.ajax({
+				url : '../../WorkContact/summary',
+				type : 'POST',
+				dataType : "json",
+				async : true,
+				data : {
+					taskId : id,
+					addUser : $scope.editData.addUser,
+					checkUser : $scope.editData.checkUser,
+					summary_note:$("#summaryWin").find("textarea[name='summary_note']").val(),
+					fileName:$("#summaryWin").find("input[name='fileName2']").val(),
+					filePath:$("#summaryWin").find("input[name='filePath2']").val()
+				},
+				success : function(data) {
+
+					if (data.success) {
+						xh.refresh();
+						toastr.success(data.message, '提示');
+						$("#summaryWin").modal("hide");
 					} else {
 						toastr.error(data.message, '提示');
 					}
@@ -431,10 +520,15 @@ xh.refresh = function() {
 	$scope.refresh();
 	$scope.CodeNum();
 };
+xh.typeChange=function(){
+	var $scope = angular.element(appElement).scope();
+	$scope.type=$("#addForm").find("select[name='type']").val();
+}
 /* 添加 */
 xh.add = function() {
 	var $scope = angular.element(appElement).scope();
 	var files=[];
+	
 	
 	$("#fileArea ul li").each(function(){
 	    var name = $(this).children().first().text();
@@ -464,6 +558,7 @@ xh.add = function() {
 				$('#add').modal('hide');
 				xh.refresh();
 				 $("#fileArea ul").children().remove();
+				 toastr.success(data.message, '提示');
 				//toastr.success(data.message, '提示');
 				//POBrowser.openWindowModeless(xh.getUrl()+'/Views/jsp/workcontact_doc.jsp?bean='+JSON.stringify(data.bean),'width=300px;height=200px;');
 			} else {

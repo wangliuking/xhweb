@@ -1,0 +1,61 @@
+<div class="modal fade" id="bs-win" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-llg">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">基站列表</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<!-- row -->
+				<div class="row">
+
+					<div class="col-md-12">
+						<div class="hpanel">
+							<div class="panel-heading hbuilt">
+								
+								[<span style="color:red">提示：选中基站背景色为绿色</span>]
+							</div>
+							<div class="panel-body">
+								<!-- <div class="row">
+									<div class="col-md-12">
+										<div class="btn-group" style="padding-bottom:2px;">
+											<button class="btn btn-success btn-sm" id="selectAll">全选
+											</button>
+											<button class="btn btn-info btn-sm" id="selectNo">全不选
+											</button>
+											<button class="btn btn-danger btn-sm" id="selectOther">反选
+											</button>
+										</div>
+									</div>
+								</div> -->
+								<div class="row">
+									<div class="col-md-12">
+										<div class="bsList">
+										
+										<div ng-class="{true:'select-div',false:''}[x.isgreen]" ng-click="change_bs(x.bsId)" id="id-{{x.bsId}}" ng-repeat="x in bs_search_data" ng-if="x.bsId<1000" value="{{x.bsId}}">
+										{{x.bsId}}
+										</div>
+							
+											<!-- <div class="form-group col-md-3"
+												ng-repeat="x in bs_search_data">
+												<input id="bs-{{x.bsId}}" class="magic-checkbox"
+													type="checkbox" name="bsIds" value="{{x.bsId}}"
+													ng-checked="x.bsIds!=null"> <label
+													for="bs-{{x.bsId}}"><span>{{x.bsId}}-{{x.name}}</span></label>
+											</div> -->
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer"></div>
+		</div>
+	</div>
+</div>

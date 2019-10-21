@@ -1,5 +1,5 @@
 
-<div class="modal fade" id="detail" tabindex="-1" role="dialog"
+<div class="modal fade" style="z-index:10000" id="detail" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
@@ -33,14 +33,19 @@
                                     <td colspan="1">{{detailData.level}}
                                     </td>
 								</tr>
-								<tr>
-                                    
-                                    
+								<tr ng-if="detailData.type=='通信保障'">
+                                    <td width="100px" class="w-tag">保障时间</td>
+                                    <td colspan="3">[{{detailData.ensure_starttime}}]至[{{detailData.ensure_endtime}}]</td>
+                                </tr>
+                                <tr ng-if="detailData.type=='通信保障'">
+                                    <td width="100px" class="w-tag">保障范围</td>
+                                    <td colspan="3">{{detailData.ensure_zone}}</td>
                                 </tr>
 								<tr>
 									<td width="100px" class="w-tag">发文单位</td>
 									<td colspan="3">{{detailData.sendUnit}}</td>
 								</tr>
+								
 								<tr>
 									<td width="100px" class="w-tag">收文单位</td>
 									<td colspan="3">{{detailData.recvUnit}}</td>
@@ -77,29 +82,53 @@
                                     <td>拟制</td><td>{{detailData.userName}}</td>
                                     <td>审核</td><td>{{detailData.checkUserName}}</td>
                                     </tr>
-                                    <tr style="color:#000;font-weight:800">
-                                    <td>对方签收，回复</td>
+                                  
+                                    <tr ng-if="detailData.status>=2">
+                                    <td>签收</td>
                                     <td colspan="3" style="min-height:40px;">
-                                    <span>{{detailData.reply}}</span>
-                                    <span>签收时间： {{detailData.checkTime}}</span>
-                                    <span>签收人： {{detailData.checkUserName}}</span>
+                                    <p>   
+                                    <img src="../../Resources/images/img/user.png" style="height:20px;width:20px;"> 
+                                    <span>
+                        
+                                    {{detailData.checkUserName}}</span>
+                                    <span style="color:gray">时间： {{detailData.checkTime}}</span>
+                                    </p>
+                                    <p><span>{{detailData.reply}}</span></p>
+                              
                                     
                                     </td>
                                     </tr>
-                                    <tr style="color:#000;font-weight:800">
+                                    <tr ng-if="detailData.status>=3">
                                     <td>处理结果</td>
                                     <td colspan="3" style="min-height:40px;">
-                                    <span>{{detailData.reply}}</span>
-                                    <span>签收时间： {{detailData.checkTime}}</span>
-                                    <span>签收人： {{detailData.checkUserName}}</span>                                  
+                                   <p>  
+                                   <img src="../../Resources/images/img/user.png" style="height:20px;width:20px;">  
+                                    <span> {{detailData.handleUserName}}</span>
+                                    <span style="color:gray">时间： {{detailData.handle_time}}</span>
+                                    </p>
+                                    <p><span>{{detailData.handle_note}}</span></p>
+                                                             
                                     </td>
                                     </tr>
-                                    <tr style="color:#000;font-weight:800">
+                                    <tr ng-if="detailData.status>=4">
                                     <td>完成总结</td>
                                     <td colspan="3" style="min-height:40px;">
-                                    <span>{{detailData.reply}}</span>
-                                    <span>签收时间： {{detailData.checkTime}}</span>
-                                    <span>签收人： {{detailData.checkUserName}}</span>
+                                    <p>
+                                    <img src="../../Resources/images/img/user.png" style="height:20px;width:20px;"> 
+                                    <span> {{detailData.summaryUserName}}</span>
+                                    <span style="color:gray">时间： {{detailData.summary_time}}</span>
+                                    </p>
+                                    <p>
+                                    <span ng-if="detailData.summary_filePath!==null">
+                                    {{detailData.summary_fileName}}
+                                    <a href="#" ng-click="download(detailData.summary_filePath)">| 下载</a> 
+                                    &nbsp;&nbsp;
+                                    <a href="#" ng-click="previewDoc(detailData.summary_filePath)"> | 预览</a>
+                                    </span>
+                                   
+                                    
+                                    </p>
+                                     <p>{{detailData.summary_note}}</p>
                                     
                                     </td>
                                     </tr>

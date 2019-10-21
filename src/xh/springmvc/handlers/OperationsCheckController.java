@@ -272,6 +272,7 @@ public class OperationsCheckController {
 			rs.put("n_h1", "本月系统应急处置演练0次");
 			rs.put("n_i1", "本月运维资料齐全");
 			rs.put("n_j1", "本月无安全保密事故");
+			rs.put("n_k1", "本月无基站搬迁本月使用临时卫星链路22.84小时/1Mbps");
 		}else{
 			rs.put("n_a1", "交换中心本月运行正常");
 			rs.put("n_m1", "Moto交换中心本月运行正常");
@@ -576,8 +577,9 @@ public class OperationsCheckController {
 		checkBean.setFilePath("doc/check/"+month.split("-")[0]+"/"+fileName);
 
 		int isExists=OperationsCheckService.isExists(checkBean);
-		int rst=OperationsCheckService.add(checkBean);
+		
 		if(isExists==0){
+			int rst=OperationsCheckService.add(checkBean);
 			if(rst>=1){
 				this.success=true;
 				this.message="提交文件成功";

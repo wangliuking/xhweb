@@ -140,7 +140,7 @@ public class SendData {
 		dos.writeShort(header.getLength());// length 2 后接数据长度
 		dos.writeShort(header.getCommandId());// commandId 2 命令ID
 		dos.writeShort(header.getProtocolNo());// protocolNo 2 协议号
-		dos.writeInt(header.getBusinessSN());// businessSN 4 业务流水号
+		dos.writeInt(getData.getUserId());// businessSN 4 业务流水号
 		dos.writeByte(header.getSrcDevice());// srcDevice 1 源设备类型
 		dos.writeByte(header.getDstDevice());// dstDevice 1 目标设备类型
 		/**************** content ***********************/
@@ -229,7 +229,7 @@ public class SendData {
 		dos.writeShort(header.getLength());// length 2 后接数据长度
 		dos.writeShort(header.getCommandId());// commandId 2 命令ID
 		dos.writeShort(header.getProtocolNo());// protocolNo 2 协议号
-		dos.writeInt(header.getBusinessSN());// businessSN 4 业务流水号
+		dos.writeInt(getData.getUserId());// businessSN 4 业务流水号
 		dos.writeByte(header.getSrcDevice());// srcDevice 1 源设备类型
 		dos.writeByte(header.getDstDevice());// dstDevice 1 目标设备类型
 		/**************** content ***********************/
@@ -247,9 +247,10 @@ public class SendData {
 		out.write(info);
 		log.debug("GpsTrigger-length:" + info.length);
 		log.debug("GpsTrigger:" + getData.toString());
+		
 		// 获得服务器发过来的数据，先获得输入流
 
-		InputStream in = socket.getInputStream();
+		/*InputStream in = socket.getInputStream();
 		DataInputStream din = new DataInputStream(in);
 		message = "接收数据中";
 		try {
@@ -286,9 +287,9 @@ public class SendData {
 			message = "对方回复超时";
 			log.debug(message);
 			// TODO: handle exception
-		}
+		}*/
 
-		return message;
+		return "success";
 
 	}
 

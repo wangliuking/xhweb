@@ -761,12 +761,12 @@ function getUserInfo(){
 function setLocalData(key,value){
 	window.localStorage.setItem(key,value);	
 }
-function getLocalData(key,value){
-	return window.localStorage.getItem(key,value);	
+function getLocalData(key){
+	return window.localStorage.getItem(key);	
 }
 function setSessionData(key,value){
 	window.sessionStorage.setItem(key,value);	
 }
-function getSessionData(key,value){
-	return window.sessionStorage.getItem(key,value);	
+function getSessionData(key){
+	return window.sessionStorage.getItem(key);	
 }

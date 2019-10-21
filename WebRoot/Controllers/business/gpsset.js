@@ -30,7 +30,7 @@ xh.load = function() {
 		
 		$scope.data=[];
 		$scope.totals=0;
-		$scope.trigger=0;
+		$scope.trigger=3;
 		$scope.date="";
 		$scope.selectDate=[];
 		$scope.selectDateTotals=0;
@@ -209,7 +209,10 @@ xh.load = function() {
 			var type=null;
 			if(operation==1){
 				type=3;
-			}else if(operation==3){
+			}else if(operation==2){
+				type=2;
+			}
+			else if(operation==3){
 				if(gpsen==1){
 					type=1;
 				}else{
@@ -314,7 +317,7 @@ xh.load = function() {
 					//dstId:dstId,
 					operation:operation,
 					triggerParaTime:triggerParaTime,
-					locationDstId:locationDstId,
+					//locationDstId:locationDstId,
 					gpsen:gpsen
 				}	
 			}).success(function(data){ 

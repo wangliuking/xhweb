@@ -2,6 +2,7 @@ package xh.springmvc.handlers;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,7 @@ import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
@@ -45,6 +47,7 @@ import com.zhuozhengsoft.pageoffice.wordreader.WordDocument;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
+import xh.func.plugin.MapRemoveNullUtil;
 import xh.mybatis.bean.BsStatusBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.bean.WebUserBean;
@@ -243,7 +246,20 @@ public class OrderController {
 	@RequestMapping(value="/writeOrder", method = RequestMethod.POST)
 	public void writeOrder(HttpServletRequest request, HttpServletResponse response) {
 		String fromData=request.getParameter("formData");
-		ErrProTable bean=GsonUtil.json2Object(fromData, ErrProTable.class);
+		Map<String,Object> mm=GsonUtil.json2Object(fromData, Map.class);
+		MapRemoveNullUtil.removeNullValue(mm);
+		
+		
+		ErrProTable bean=new ErrProTable();
+		try {
+			BeanUtils.populate(bean, mm);
+		} catch (IllegalAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (InvocationTargetException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		bean.setSerialnumber(FunUtil.RandomWord(8));
 		bean.setOrderAccount(funUtil.loginUser(request));
 		bean.setDispatchtime(FunUtil.nowDate());
@@ -296,9 +312,9 @@ public class OrderController {
 			}
 			
 			//发送抄送人
-			String[] b1=copy_user.split(",");
-			String[] b2=copy_user_name.split(";");
 			if(copy_user!=null && !copy_user.equals("")){
+				String[] b1=copy_user.split(",");
+				String[] b2=copy_user_name.split(";");
 				for(int i=0;i<b1.length;i++){
 					bean.setUserid(b1[i]);
 					bean.setWorkman(b2[i]);

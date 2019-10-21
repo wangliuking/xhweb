@@ -67,31 +67,49 @@ loader.define(function(require,exports,module){
 	         data.forEach(function(el, index) {
 	         	var status=el.status;
 	         	var str="",textClass="",subClass="";
+	         	var statusStr="";
 	         	switch (el.status) {
+	              case 4:
+	                  str = '已完成';
+	                  textClass='text-primary';
+	                  subClass = 'bui-sub primary';
+	                  statusStr=str;
+	                  break;
+	              case 3:
+	                  str = '处理中';
+	                  textClass='text-primary';
+	                  subClass = 'bui-sub primary';
+	                  statusStr="处理完成，等待填写完成总结";
+	                  break;
 	              case 2:
 	                  str = '已签收';
 	                  textClass='text-success';
 	                  subClass = 'bui-sub success';
+	                  statusStr="已签收，处理中";
 	                  break;
 	              case 1:
 	                  str = '待签收';
 	                  textClass='text-primary';
 	                  subClass = 'bui-sub primary';
+	                  statusStr=str
 	                  break;
 	              case 0:
 	                  str= '待审核';
 	                  textClass='text-primary';
 	                  subClass = 'bui-sub primary';
+	                  statusStr=str;
 	                  break;
 	              case -1:
 	                  str= '被拒绝';
 	                  textClass='text-danger';
 	                  subClass = 'bui-sub danger';
+	                  statusStr=str+el.note;
 	                  break;
 	              case -2:
 	                  str= '已撤销';
 	                  textClass='text-danger';
 	                  subClass = 'bui-sub danger';
+	                  statusStr=str;
 	                  break;
 	              default:
 	                  sub = '';
@@ -106,7 +124,7 @@ loader.define(function(require,exports,module){
 	             <p class="item-text"><span class="bui-label">发文人：</span><span class="bui-value">${el.userName}</span></p>
 	             
 	             <p class="item-text"><span class="bui-label">类型：</span>[<span class="bui-value">${el.type}</span>]<span>${el.reason}</span></p>
-	             <p class="item-text">状态：<span class="${textClass}">${str}</span></p>
+	             <p class="item-text">状态：<span class="${textClass}">${statusStr}</span></p>
 	             </div>
 	             <i class="icon-listright" style="color:#000;"></i>
 	             </li>`

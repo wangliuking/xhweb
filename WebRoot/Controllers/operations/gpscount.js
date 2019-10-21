@@ -2,6 +2,7 @@ if (!("xh" in window)) {
 	window.xh = {};
 };
 var frist = 0;
+var cx=0;
 toastr.options = {
 	"debug" : false,
 	"newestOnTop" : false,
@@ -46,15 +47,45 @@ xh.load = function() {
 		$scope.refresh = function() {
 			$scope.search($scope.page);
 		};
+		$scope.showBsModal=function(){
+			$http.get("../../bs/bsInfolimit").
+			success(function(response){
+				xh.maskHide();
+				//$scope.bs_search_data = response.items;
+				var data=response.items;
+				$scope.bs_search_data=[];
+				for(var i=0;i<data.length;i++){
+					var record=data[i];
+					var bsId=record.bsId;
+					var a=xh.hasValue(bsId);
+					if(a){
+						record.isgreen=true;
+					}else{
+						record.isgreen=false;
+					}
+					$scope.bs_search_data.push(record);
+				}
+			});
+			
+			
+			/*$("#aside-right").fadeToggle("fast");*/
+			$("#bs-win").modal('show');
+		}
+		
+		$scope.change_bs=function(bsId){
+			$("#id-"+bsId).toggleClass("select-div");
+			xh.writeBs(bsId);
+		}
+		
 	
 		
 
 		/* 查询数据 */
-		$scope.search = function(page) {
+		$scope.search = function(page,self) {
 			var pageSize = $("#page-limit").val();
 			var starttime=$("#start_time").val();
 			var endtime=$("#end_time").val();
-			var bsId=$("#bsId").val();
+			var bsId=getLocalData("bs_search");
 			if(starttime=="" || endtime==""){
 				alert("时间区间不能为空");
 				return;
@@ -68,7 +99,9 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			xh.maskShow();
+			if(self){
+				xh.maskShow();
+			}
 			$http.get("../../gps/gps_count?bsId="+bsId+"&start="+start+"&starttime="+starttime+"" +
 					"&endtime="+endtime+"&limit=" + pageSize).success(function(response) {
 				xh.maskHide();
@@ -87,7 +120,7 @@ xh.load = function() {
 			var pageSize = $("#page-limit").val();
 			var starttime=$("#start_time").val();
 			var endtime=$("#end_time").val();
-			var bsId=$("#bsId").val();
+			var bsId=getLocalData("bs_search");
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
 			if (page <= 1) {
@@ -120,6 +153,14 @@ xh.load = function() {
 			});
 
 		};
+		
+		setInterval(function(){
+			var starttime=$("#start_time").val();
+			var endtime=$("#end_time").val();
+			if(starttime!="" && endtime!=""){
+				$scope.search(1,false);
+			}
+		}, 20000)
 	});
 };
 //刷新数据
@@ -165,3 +206,41 @@ xh.pagging = function(currentPage, totals, $scope) {
 	}
 
 };
+xh.writeBs=function(v){
+	var tt=getLocalData("bs_search");
+	var rs=[];
+
+	if(tt!=null && tt!=''){
+		var a=tt.split(",");
+		var tag=false;
+		for(var i=0;i<a.length;i++){
+			if(v==a[i]){
+				tag=true;
+			}else{
+				rs.push(a[i]);
+			}
+		}
+		if(!tag){rs.push(v)}
+		
+	}else{
+		rs.push(v)
+	}
+	setLocalData("bs_search",rs.join(","))
+	console.log("后:"+getLocalData("bs_search"));
+	
+}
+xh.hasValue=function(v){
+	var tt=getLocalData("bs_search");
+	var rs=[];
+	var tag=false;
+	if(tt!=null && tt!=''){
+		var a=tt.split(",");		
+		for(var i=0;i<a.length;i++){
+			if(v==a[i]){
+				tag=true;
+			}
+		}
+		
+	}
+	return tag;
+}

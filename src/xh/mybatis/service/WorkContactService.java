@@ -38,6 +38,23 @@ public class WorkContactService {
 		}
 		return list;
 	}
+	public static Map<String,Object> data_by_taskId(String taskId)  {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		WorkContactMapper mapper = sqlSession.getMapper(WorkContactMapper.class);
+		Map<String,Object> map = new HashMap<String, Object>();
+		try {
+			map= mapper.data_by_taskId(taskId);
+			List<Map<String,Object>> l=new ArrayList<Map<String,Object>>();
+			l=searchFile(taskId);
+			map.put("files", l);
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return map;
+	}
 	public static int list_count(Map<String,Object> map) {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		WorkContactMapper mapper = sqlSession.getMapper(WorkContactMapper.class);
@@ -117,6 +134,36 @@ public class WorkContactService {
 		int count=0;
 		try {
 			count=mapper.sign(bean);
+			sqlSession.commit();
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	public static int handle(WorkContactBean bean) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		WorkContactMapper mapper = sqlSession.getMapper(WorkContactMapper.class);
+		int count=0;
+		try {
+			count=mapper.handle(bean);
+			sqlSession.commit();
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	public static int summary(WorkContactBean bean) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		WorkContactMapper mapper = sqlSession.getMapper(WorkContactMapper.class);
+		int count=0;
+		try {
+			count=mapper.summary(bean);
 			sqlSession.commit();
 			sqlSession.close();
 
@@ -214,4 +261,5 @@ public class WorkContactService {
 		}
 		return list;
 	}
+	
 }

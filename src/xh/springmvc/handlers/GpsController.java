@@ -118,8 +118,15 @@ public class GpsController {
 		String bsId=request.getParameter("bsId");
 		String start_time=request.getParameter("starttime");
 		String end_time=request.getParameter("endtime");
+		List<String> list=new ArrayList<String>();
+		if(bsId!=null && bsId!=""){
+			String[] a=bsId.split(",");
+			for (String string : a) {
+				list.add(string);
+			}
+		}
 		Map<String, Object> map=new HashMap<String, Object>();
-		map.put("bsId", bsId);
+		map.put("bsId", list);
 		map.put("start_time", start_time);
 		map.put("end_time", end_time);
 		map.put("start", start);

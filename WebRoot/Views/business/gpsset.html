@@ -63,7 +63,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="hpanel">
-								<div class="panel-heading hbuilt">GPS使能开关</div>
+								<div class="panel-heading hbuilt">设置模式</div>
 								<div class="panel-body">
 								<!-- <div class="row">
 										<div class="form-group col-md-12">
@@ -74,20 +74,20 @@
 									<!-- row -->
 									 <div class="row">
 										<div class="col-md-12">
-											<!-- <div class="radio radio-info radio-inline">
+											 <div class="radio radio-info radio-inline">
 												<input type="radio" id="operation1" value="1"
 													name="operation" checked="checked" ng-click="showTrigger()">
 												<label for="operation1">即时定位信息请求</label>
-											</div>
+											</div> 
 											<div class="radio radio-info  radio-inline">
 												<input type="radio" id="operation2" value="2"
-													name="operation" ng-click="showTrigger()" disabled="disabled"> <label
+													name="operation" ng-click="showTrigger()"> <label
 													for="operation2">定时触发</label>
-											</div> -->
-											<div class="radio radio-info  radio-inline" ng-show=false>
+											</div> 
+											<div class="radio radio-info  radio-inline">
 												<input type="radio" id="operation3" value="3"
 													name="operation" ng-click="showTrigger()" checked="checked"> <label
-													for="operation3">GPS使能请求</label>
+													for="operation3">GPS开关</label>
 											</div>
 										</div>
 									</div>
@@ -99,14 +99,14 @@
 										</div>
 									</div>
 										<!-- row -->
-									<div class="row" ng-show="trigger==2" style="margin-top:20px">
+									<!-- <div class="row" ng-show="trigger==2" style="margin-top:20px">
 										<div class="form-group col-md-12">
 											<label>被请求的终端上传位置信息的目标ID号</label> <input type="number" value="0"
 												class="form-control" name="locationDstId">
 										</div>
-									</div>
+									</div> -->
 									<!-- row -->
-									<div class="row" style="margin-top:20px">
+									<div class="row" style="margin-top:20px" ng-show="trigger==3">
 										<div class="col-md-5">
 											<div class="radio radio-info radio-inline">
 												<input type="radio" id="gpsen1" value="1"

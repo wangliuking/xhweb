@@ -29,6 +29,23 @@
 	color: #fff;
 	cursor: auto;
 }
+.bsList div{
+float: left;
+    margin: 5px;
+    min-width: 40px;
+    line-height: 30px;
+    border: 0px solid gray;
+    text-align: center;
+    background: #fafafa;
+    cursor: pointer;
+    /* border: 1px solid #ccc; */
+    /* border-radius: 10px; */
+    box-shadow: 0 0 5px #353f4f;
+}
+.bsList div.select-div{
+ background:green;
+ color:#fff;
+}
 </style>
 <script language="javascript" src="../../Resources/js/LodopFuncs.js"></script>
 <object id="LODOP_OB"
@@ -79,13 +96,13 @@
 						<div class="panel-body">
 							<div id="search-div">
 								<form class="form-inline" role="form">
-    <div class="form-group">
+    <!-- <div class="form-group">
                                         <label for="contact">基站ID</label>
                                         <div>
                                             <input type="number" class="form-control" id="bsId"
                                               >
                                         </div>
-                                    </div>
+                                    </div> -->
 									<div class="form-group">
 										<label for="contact">起始时间</label>
 										<div>
@@ -103,10 +120,14 @@
 
 
 									<div class="btn-group" style="margin-top:20px">
+									<button type="submit" class="btn btn-sm btn-danger"
+                                            ng-click="showBsModal()">筛选基站
+                                        </button>
 										<button type="submit" class="btn btn-sm btn-primary"
-											ng-click="search(1)">
+											ng-click="search(1,true)">
 											<i class="fa fa-search"></i>&nbsp;查询
 										</button>
+										
 										
 									</div>
 									<!-- <div class="form-group">
@@ -143,17 +164,24 @@
 										<!-- <th width="30px"><input type="checkbox"
 											id="table-checkbox" class="table-check" /></th> -->
 										
-										<th>基站ID</th>
+										<th width="60px">基站ID</th>
 										<th>基站名称</th>
 										<th>gps数量</th>
+										<th>最大注册用户</th>
+										<th>最大注册组</th>
+										<th>排队总数</th>
+										<th>控制信道上行最大值</th>
+										<th>控制信道上行平均值</th>
+										<th>控制信道下行最大值</th>
+                                        <th>控制信道下行平均值</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr ng-if="totals==0">
-										<td colspan="3" class="text-center">没有记录！</td>
+										<td colspan="10" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-if="data==null">
-                                        <td colspan="3" class="text-center">请输入查询条件查询数据</td>
+                                        <td colspan="10" class="text-center">请输入查询条件查询数据</td>
                                     </tr>
 									<tr ng-repeat="x in data">
 										<!-- <td><input type="checkbox" name="tb-check"
@@ -161,6 +189,13 @@
 										<td>{{x.bsId}}</td>
 										<td>{{x.name}}</td>
 										<td>{{x.total}}</td>
+										<td>{{x.MaxUserRegCount}}</td>
+										<td>{{x.MaxGroupRegCount}}</td>
+										<td>{{x.QueueCount}}</td>
+										<td>{{x.MaxControlChanUpRate}}%</td>
+										<td>{{x.AvgControlChanUpRate}}%</td>
+										<td>{{x.MaxControlChanDownRate}}%</td>
+										<td>{{x.AvgControlChanDownRate}}%</td>
 									</tr>
 								</tbody>
 							</table>
@@ -195,7 +230,7 @@
 	</div>
 	<!-- 中间内容体 /-->
 	
-	
+	<div ng-include="'gpscount-bssearch.html'"></div>
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>

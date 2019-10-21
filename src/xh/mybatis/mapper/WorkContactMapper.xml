@@ -1,121 +1,168 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="xh.mybatis.mapper.WorkContactMapper">
-	<select id="list" resultType="xh.mybatis.bean.WorkContactBean"
-		parameterType="map">
-		select a.*,b.userName,c.userName as signUserName,d.userName as checkUserName from xhgmnet_operations_workcontact as  a
+
+	<!-- <select id="data_by_taskId" parameterType="map"
+		parameterType="String">
+		select a.*,
+		b.userName,
+		c.userName as signUserName,
+		d.userName as checkUserName,
+		e.userName as handleUserName
+		from xhgmnet_operations_workcontact as a
 		left join xhgmnet_web_user as b on a.addUser=b.user
 		left join xhgmnet_web_user as c on a.checkUser=c.user
 		left join xhgmnet_web_user as d on a.check_person=d.user
-		 where 1=1
-		 <if test="start_time!=null and start_time!=''">
-		 and date_format(a.time,'%Y-%m-%d')>=#{start_time}
-		 </if>
-		  <if test="end_time!=null and end_time!=''">
-         and date_format(a.time,'%Y-%m-%d')&lt;=#{end_time}
-         </if>
-		 <if test="type!=null and type!=''">
-         and a.type=#{type}
-         </if>
-         <if test="status!=null and status!=''">
-         and a.status=#{status}
-         </if>
-         <if test="key!=null and key!=''">
-         and (a.reason like concat('%',#{key},'%') or a.content like concat('%',#{key},'%') )
-         </if>
-         <if test="roleType==3">
-         and((a.user_type=2 and a.status>=1) or a.user_type=3 or a.user_type=0)
-         </if>
-          <if test="roleType==2">
-         and(((a.user_type=3 or a.user_type=0) and a.status>=1) or a.user_type=2)
-         </if>
-         <if test="power=='on'">
-         and ((a.status!=-2) or (a.status=-2 and a.addUser=#{user}))
-         </if>
+		left join xhgmnet_web_user as e on a.handle_user=e.user
+		where taskId=#{taskId}
+	</select> -->
+	<select id="list" resultType="xh.mybatis.bean.WorkContactBean"
+		parameterType="map">
+		select a.*,b.userName,
+		c.userName as signUserName,
+		d.userName as checkUserName,
+		e.userName as handleUserName,
+		f.userName as summaryUserName
+		
+		from xhgmnet_operations_workcontact as a
+		left join xhgmnet_web_user as b on a.addUser=b.user
+		left join xhgmnet_web_user as c on a.checkUser=c.user
+		left join xhgmnet_web_user as d on a.check_person=d.user
+		left join xhgmnet_web_user as e on a.handle_user=e.user
+		left join xhgmnet_web_user as f on a.summary_user=f.user
+		where 1=1
+		<if test="start_time!=null and start_time!=''">
+			and date_format(a.time,'%Y-%m-%d')>=#{start_time}
+		</if>
+		<if test="end_time!=null and end_time!=''">
+			and date_format(a.time,'%Y-%m-%d')&lt;=#{end_time}
+		</if>
+		<if test="type!=null and type!=''">
+			and a.type=#{type}
+		</if>
+		<if test="status!=null and status!=''">
+			and a.status=#{status}
+		</if>
+		<if test="key!=null and key!=''">
+			and (a.reason like concat('%',#{key},'%') or a.content like
+			concat('%',#{key},'%') )
+		</if>
+		<if test="roleType==3">
+			and((a.user_type=2 and a.status>=1) or a.user_type=3 or a.user_type=0)
+		</if>
+		<if test="roleType==2">
+			and(((a.user_type=3 or a.user_type=0) and a.status>=1) or a.user_type=2)
+		</if>
+		<if test="power=='on'">
+			and ((a.status!=-2) or (a.status=-2 and a.addUser=#{user}))
+		</if>
 		order by a.time desc,id desc
 		limit #{start},#{limit}
 	</select>
 	<select id="list_count" resultType="int" parameterType="map">
 		select count(*) from xhgmnet_operations_workcontact where 1=1
 		<if test="start_time!=null and start_time!=''">
-         and date_format(time,'%Y-%m-%d')>=#{start_time}
-         </if>
-          <if test="end_time!=null and end_time!=''">
-         and date_format(time,'%Y-%m-%d')&lt;=#{end_time}
-         </if>
-         <if test="type!=null and type!=''">
-         and type=#{type}
-         </if>
-          <if test="roleType==3">
-         and((user_type=2 and status>=1) or user_type=3 or user_type=0)
-         </if>
-          <if test="roleType==2">
-         and(((user_type=3 or user_type=0) and status>=1) or user_type=2)
-         </if>
-          <if test="status!=null and status!=''">
-         and status=#{status}
-         </if>
-         <if test="key!=null and key!=''">
-         and (reason like concat('%',#{key},'%') or content like concat('%',#{key},'%') )
-         </if>
-           <if test="power=='on'">
-         and ((status!=-2) or (status=-2 and addUser=#{user}))
-         </if>
+			and date_format(time,'%Y-%m-%d')>=#{start_time}
+		</if>
+		<if test="end_time!=null and end_time!=''">
+			and date_format(time,'%Y-%m-%d')&lt;=#{end_time}
+		</if>
+		<if test="type!=null and type!=''">
+			and type=#{type}
+		</if>
+		<if test="roleType==3">
+			and((user_type=2 and status>=1) or user_type=3 or user_type=0)
+		</if>
+		<if test="roleType==2">
+			and(((user_type=3 or user_type=0) and status>=1) or user_type=2)
+		</if>
+		<if test="status!=null and status!=''">
+			and status=#{status}
+		</if>
+		<if test="key!=null and key!=''">
+			and (reason like concat('%',#{key},'%') or content like
+			concat('%',#{key},'%') )
+		</if>
+		<if test="power=='on'">
+			and ((status!=-2) or (status=-2 and addUser=#{user}))
+		</if>
 	</select>
 	<select id="codeNum" resultType="int" parameterType="map">
-        select count(*) from xhgmnet_operations_workcontact where 1=1
-        and date_format(time,"%Y")=#{year}   
-        and user_type=#{user_type}  
-    </select>
+		select count(*) from xhgmnet_operations_workcontact where 1=1
+		and date_format(time,"%Y")=#{year}
+		and user_type=#{user_type}
+	</select>
 	<insert id="add" parameterType="xh.mybatis.bean.WorkContactBean">
-	insert into xhgmnet_operations_workcontact(taskId,reason,type,sendUnit,recvUnit,copyUnit,time,code,
-	content,addUser,user_type,filePath,fileName,file_name,file_path,level)values(#{taskId},#{reason},#{type},#{sendUnit},#{recvUnit},#{copyUnit},#{time},
-	#{code},#{content},#{addUser},#{user_type},#{filePath},#{fileName},#{file_name},#{file_path},#{level})
+		insert into
+		xhgmnet_operations_workcontact(taskId,reason,type,sendUnit,recvUnit,copyUnit,time,code,
+		content,addUser,user_type,filePath,fileName,file_name,file_path,level,ensure_starttime,
+		ensure_endtime,ensure_zone)values(#{taskId},#{reason},#{type},#{sendUnit},#{recvUnit},#{copyUnit},#{time},
+		#{code},#{content},#{addUser},#{user_type},#{filePath},#{fileName},#{file_name},#{file_path},#{level},
+		#{ensure_starttime},#{ensure_endtime},#{ensure_zone})
 	</insert>
 	<update id="update" parameterType="xh.mybatis.bean.WorkContactBean">
-	update xhgmnet_operations_workcontact set 
-	copyUnit=#{copyUnit},recvUnit=#{recvUnit},reason=#{reason},
-	content=#{content},time=#{time},status=#{status},level=#{level},type=#{type} 
-	
-	where taskId=#{taskId}
+		update xhgmnet_operations_workcontact set
+		copyUnit=#{copyUnit},recvUnit=#{recvUnit},reason=#{reason},
+		content=#{content},time=#{time},status=#{status},level=#{level},type=#{type}
+
+		where taskId=#{taskId}
 	</update>
 	<insert id="addFile" parameterType="java.util.List">
-	insert into xhgmnet_operations_workcontact_file(taskId,filePath,fileName)values
-	<foreach collection="list" item="x" separator=",">
-	(#{x.taskId},#{x.filePath},#{x.fileName})
-	</foreach>
+		insert into
+		xhgmnet_operations_workcontact_file(taskId,filePath,fileName)values
+		<foreach collection="list" item="x" separator=",">
+			(#{x.taskId},#{x.filePath},#{x.fileName})
+		</foreach>
 	</insert>
-	
+
 	<delete id="delFile" parameterType="int">
-	delete from xhgmnet_operations_workcontact_file where id=#{id}
+		delete from xhgmnet_operations_workcontact_file where id=#{id}
 	</delete>
 	<select id="searchFile" parameterType="String" resultType="map">
-	select * from xhgmnet_operations_workcontact_file where taskId=#{taskId}
+		select * from xhgmnet_operations_workcontact_file where
+		taskId=#{taskId}
 	</select>
 	<select id="isFileExistis" parameterType="map" resultType="int">
-    select count(*) from xhgmnet_operations_workcontact_file where taskId=#{taskId}
-      and fileName=#{fileName}
-    </select>
+		select count(*) from xhgmnet_operations_workcontact_file where
+		taskId=#{taskId}
+		and fileName=#{fileName}
+	</select>
 	<update id="sign" parameterType="xh.mybatis.bean.WorkContactBean">
-	update xhgmnet_operations_workcontact set status=2,checkTime=#{checkTime},
-	checkUser=#{checkUser},reply=#{reply}
-	where taskId=#{taskId}
+		update xhgmnet_operations_workcontact set status=2,checkTime=#{checkTime},
+		checkUser=#{checkUser},reply=#{reply}
+		where taskId=#{taskId}
 	</update>
-	   <update id="check" parameterType="xh.mybatis.bean.WorkContactBean">
-    update xhgmnet_operations_workcontact set status=#{status},check_person=#{check_person},check_time=#{check_time},note=#{note}
-    where taskId=#{taskId}
+	<update id="handle" parameterType="xh.mybatis.bean.WorkContactBean">
+		update xhgmnet_operations_workcontact set
+		status=3,handle_time=#{handle_time},
+		handle_user=#{handle_user},handle_note=#{handle_note}
+		where taskId=#{taskId}
+	</update>
+	<update id="summary" parameterType="xh.mybatis.bean.WorkContactBean">
+        update xhgmnet_operations_workcontact set
+        status=4,summary_time=#{summary_time},
+        summary_user=#{summary_user},summary_note=#{summary_note},
+        summary_fileName=#{summary_fileName},
+        summary_filePath=#{summary_filePath}
+        
+        where taskId=#{taskId}
     </update>
-    <update id="cancel" parameterType="int">
-    update xhgmnet_operations_workcontact set status=-2
-    where id=#{id}
-    </update>
-	
+	<update id="check" parameterType="xh.mybatis.bean.WorkContactBean">
+		update xhgmnet_operations_workcontact set
+		status=#{status},check_person=#{check_person},check_time=#{check_time},note=#{note}
+		where taskId=#{taskId}
+	</update>
+	<update id="cancel" parameterType="int">
+		update xhgmnet_operations_workcontact set status=-2
+		where id=#{id}
+	</update>
+
 	<delete id="del" parameterType="java.util.List">
-	delete from xhgmnet_operations_workcontact where id in(
-	<foreach collection="list" item="id" separator=",">
-	${id}
-	</foreach>
-	)
+		delete from xhgmnet_operations_workcontact where id in(
+		<foreach collection="list" item="id" separator=",">
+			${id}
+		</foreach>
+		)
 	</delete>
 
 </mapper>

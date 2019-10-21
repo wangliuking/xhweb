@@ -37,10 +37,11 @@ loader.define(function(require,exports,module){
             scope:'page',
             data:{
                 list:params,
-                showCheckBtn:(userL.roleType=params.user_type && up.o_task=='on' && params.status==0)?true:false,
-                showSignBtn:(userL.roleType!=params.user_type && params.status==1)?true:false,
-                showUpdateBtn:(userL.user=params.addUser && (params.status==-1 || params.status==-2))?true:false,
-                showCancelBtn:(userL.user=params.addUser && params.status==0)?true:false
+                showCheckBtn:(userL.roleType==params.user_type && up.o_task=='on' && params.status==0),
+                showSignBtn:(userL.roleType!=params.user_type && params.status==1),
+                showUpdateBtn:(userL.user==params.addUser && (params.status==-1 || params.status==-2)),
+                showCancelBtn:(userL.user==params.addUser && params.status==0),
+                showHandleBtn:(userL.roleType==params.user_type && params.status==2)
             },
             methods:{
             	sure:function(e){
@@ -165,6 +166,15 @@ loader.define(function(require,exports,module){
         $("#check").click(function() {
         	checkDialog.open();
         });
+        var handleDialog = bui.dialog({
+            id: "#handle-dg",
+            fullscreen: true,
+            mask: false,
+            effect: "fadeInRight"
+        });
+        $("#handle").click(function() {
+        	handleDialog.open();
+        });
 
         // 接收页面参数
         var getParams = bui.getPageParams();
@@ -194,6 +204,32 @@ function check(tag){
 	        	note:$("#check-dg").find("textarea[name='note']").val(),
 				state:tag,
 				data : JSON.stringify(params)
+	        }
+	    }).then(function(res){
+	    	toastr.success(res.message, '提示');
+	    	bui.back({
+				callback:function(){
+					loader.require(["pages/workcontact/table"],function(res){
+						res.refresh();
+						res.init();
+                    })
+				}
+			});
+	    },function(res,status){
+	        console.log(status);
+	    })
+}
+function handle(){
+	//router.load({ url: "pages/workcontact/check.html", param: {} });
+	 bui.ajax({
+	        url: xh.getUrl()+"WorkContact/handle",
+	        method:'POST',
+	        dataType:'JSON',
+	        data: {
+				taskId : params.taskId,
+				addUser : params.addUser,
+				checkUser : params.checkUser,
+				note:$("#handle-dg").find("textarea[name='note']").val()
 	        }
 	    }).then(function(res){
 	    	toastr.success(res.message, '提示');
