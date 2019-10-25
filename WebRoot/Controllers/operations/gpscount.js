@@ -47,6 +47,11 @@ xh.load = function() {
 		$scope.refresh = function() {
 			$scope.search($scope.page);
 		};
+		$scope.ThresholdMap=function(){
+			$http.get("../../select/ThresholdMap").success(function(response) {
+				$scope.threshold_data = response.items;
+			});
+		}
 		$scope.showBsModal=function(){
 			$http.get("../../bs/bsInfolimit").
 			success(function(response){
@@ -153,14 +158,17 @@ xh.load = function() {
 			});
 
 		};
-		
-		setInterval(function(){
+		$scope.ThresholdMap();
+		//$scope.search(1,true);
+		/*setInterval(function(){
 			var starttime=$("#start_time").val();
 			var endtime=$("#end_time").val();
+			$scope.ThresholdMap();
 			if(starttime!="" && endtime!=""){
 				$scope.search(1,false);
+				
 			}
-		}, 20000)
+		}, 20000)*/
 	});
 };
 //刷新数据

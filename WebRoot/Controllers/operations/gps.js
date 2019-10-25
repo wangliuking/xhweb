@@ -28,6 +28,24 @@ xh.load = function() {
 	var startTime = $("#startTime").val();
 	var endTime = $("#endTime").val();
 	var pageSize = $("#page-limit").val();
+	
+	
+	app.filter('speedStr', function() { // 可以注入依赖
+		return function(text) {
+			var tt=parseInt(text);
+			if(tt<=28){
+				return tt+"(km/h)";
+			}else if(tt>28 && tt<=125){
+				return 16*pow(1.038,(tt-13));
+			}else if(tt==126){
+				return "速度异常";
+			}else if(tt>=127){
+				return "未知";
+			}else{
+				return "未知";
+			}
+		};
+	});
 
 	app.controller("gps", function($scope, $http) {
 		//xh.maskShow();

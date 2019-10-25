@@ -341,7 +341,11 @@ xh.load = function() {
 					taskId : id,
 					addUser : $scope.editData.addUser,
 					checkUser : $scope.editData.checkUser,
-					note:$("#handleWin").find("textarea[name='handle']").val()
+					type:$scope.editData.type,
+					note:$("#handleWin").find("textarea[name='handle']").val(),
+					person_num:$("#handleWin").find("input[name='person_num']").val(),
+					satellite_time:$("#handleWin").find("input[name='satellite_time']").val(),
+					bus_num:$("#handleWin").find("input[name='bus_num']").val()
 				},
 				success : function(data) {
 
@@ -378,6 +382,7 @@ xh.load = function() {
 					taskId : id,
 					addUser : $scope.editData.addUser,
 					checkUser : $scope.editData.checkUser,
+					type:$scope.editData.type,
 					summary_note:$("#summaryWin").find("textarea[name='summary_note']").val(),
 					fileName:$("#summaryWin").find("input[name='fileName2']").val(),
 					filePath:$("#summaryWin").find("input[name='filePath2']").val()
@@ -386,7 +391,12 @@ xh.load = function() {
 
 					if (data.success) {
 						xh.refresh();
+						$("#summary_file_form")[0].reset();
 						toastr.success(data.message, '提示');
+						$("#summaryWin").find("input[name='ensure_starttime_edit']").val("");
+						$("#summaryWin").find("input[name='type_edit']").val("");
+						$("#summaryWin").find("span[id='uploadResult2']").text("");
+						$("#summaryWin").find("textarea[name='summary_note']").val("");
 						$("#summaryWin").modal("hide");
 					} else {
 						toastr.error(data.message, '提示');
@@ -449,6 +459,11 @@ xh.load = function() {
 			var type = $("#type").val();
 			var key = $("#key").val();
 			var status = $("#status").val();
+			
+			var send_user = $("#send_user").val();
+			var check_user = $("#check_user").val();
+			var sign_user = $("#sign_user").val();
+			
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -460,7 +475,7 @@ xh.load = function() {
 			}
 			xh.maskShow();
 			$http.get(
-					"../../WorkContact/list?key="+key+"&status="+status+"&start_time="+start_time+"&end_time="+end_time+"&type="+type+"&start=" + start + "&limit="
+					"../../WorkContact/list?sign_user="+sign_user+"&check_user="+check_user+"&send_user="+send_user+"&key="+key+"&status="+status+"&start_time="+start_time+"&end_time="+end_time+"&type="+type+"&start=" + start + "&limit="
 							+ pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.data = response.items;
@@ -477,6 +492,12 @@ xh.load = function() {
 			var type = $("#type").val();
 			var key = $("#key").val();
 			var status = $("#status").val();
+			
+			
+			var send_user = $("#send_user").val();
+			var check_user = $("#check_user").val();
+			var sign_user = $("#sign_user").val();
+			
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
 			if (page <= 1) {
@@ -486,7 +507,7 @@ xh.load = function() {
 			}
 			xh.maskShow();
 			$http.get(
-					"../../WorkContact/list?key="+key+"&status="+status+"&start_time="+start_time+"&end_time=end_time&type="+type+"&start=" + start + "&limit="
+					"../../WorkContact/list?sign_user="+sign_user+"&check_user="+check_user+"&send_user="+send_user+"&key="+key+"&status="+status+"&start_time="+start_time+"&end_time=end_time&type="+type+"&start=" + start + "&limit="
 							+ pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;

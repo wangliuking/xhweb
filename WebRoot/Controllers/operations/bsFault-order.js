@@ -145,6 +145,7 @@ xh.order=function(){
 		toastr.error("接单人填写出错，请重新填写", '提示');
 		return;
 	}
+	$("#order-btn").button('loading');
 	var formData={
 		id:$scope.id,
 		bsid:$("input[name='bsId']").val(),
@@ -170,6 +171,7 @@ xh.order=function(){
 		dataType : "json",
 		async : false,
 		success : function(response) {
+			$("#btn-excel").button('reset');
 			var data = response;
 			if(data.success){
 				var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
@@ -184,6 +186,7 @@ xh.order=function(){
 		},
 		failure : function(response) {
 			toastr.error("派单失败", '提示');
+			$("#btn-excel").button('reset');
 		}
 	});
 }

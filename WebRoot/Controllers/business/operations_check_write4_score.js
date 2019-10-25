@@ -45,6 +45,20 @@ xh.load = function() {
 			return xh.toChinesNum(rs);
 			
 		}
+		//年度
+		$scope.year=function(tt){
+			//2019-10 属于第六期，
+			var a=parseInt(tt.split("-")[0]);
+			var b=parseInt(tt.split("-")[1]);
+			var rs=0;
+			if(b>=5){
+				rs= a;
+			}else{
+				rs= a-1;
+			}
+			return rs
+			
+		}
 		$scope.jd=function(tt){
 			var a=parseInt(tt.split("-")[1]);
 			if(a==5){
@@ -58,9 +72,10 @@ xh.load = function() {
 			}
 		}
 		var tt=$scope.period($scope.time);
+		var y=$scope.year($scope.time);
 		
 		$scope.doc_name="成都市应急指挥调度无线通信网四期工程服务项目\r\n";
-		$scope.doc_name+="第"+tt+"期（"+$scope.time.split("-")[0]+"运维年度）  ";
+		$scope.doc_name+="第"+tt+"期（"+y+"运维年度）";
 		$scope.doc_name+="第"+$scope.jd($scope.time)+"阶段 \r\n";
 		$scope.doc_name+=$scope.time.split("-")[0]+$scope.time.split("-")[1]+"月考核表";
 		var files=$location.search().files;

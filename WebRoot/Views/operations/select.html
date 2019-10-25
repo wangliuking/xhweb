@@ -46,12 +46,12 @@
 							<li class="active"><span>数据字典</span></li>
 						</ol>
 					</div>
-					
+
 				</div>
 			</div>
 		</div>
 		<div class="content animate-panel">
-			
+
 			<div class="row">
 				<div class="col-md-3">
 					<div class="hpanel">
@@ -60,7 +60,7 @@
 							<div class="btn-group pull-left" style="padding-bottom:5px;">
 
 								<button class="btn btn-danger btn-sm" data-toggle="modal"
-									data-target="#workcontact-add" >
+									data-target="#workcontact-add">
 									<i class="fa fa-plus-circle"></i>
 								</button>
 							</div>
@@ -81,18 +81,70 @@
 									</tr>
 									<tr ng-repeat="x in workcontact_data">
 										<td>{{x.name}}</td>
-										<td>
-										<a href="#" ng-click="workcontact_del($index)">删除
-                                        </a>
-										</td>
+										<td><a href="#" ng-click="workcontact_del($index)">删除
+										</a></td>
 									</tr>
 								</tbody>
 							</table>
-							
+
+						</div>
+					</div>
+				</div>
+				<!-- col-md-3 -->
+				<div class="col-md-9">
+					<div class="hpanel">
+						<div class="panel-heading hbuilt">阈值配置</div>
+						<div class="panel-body">
+							<div class="row">
+							<form action="#" id="thresholdForm" onSubmit="return false">
+							    <div ng-show =false>
+							    <input type="number" class="form-control"
+                                        name="id" ng-model="threshold_data.id" required="required">
+							    </div>
+								<div class="form-group col-md-12">
+									<label>gps最大条数</label> <input type="number" class="form-control"
+										name="gps_count" ng-model="threshold_data.gps_count" required="required">
+								</div>
+								<div class="form-group col-md-12">
+                                    <label>最大注册用户</label> <input type="number" class="form-control"
+                                        name="max_reg_user" ng-model="threshold_data.max_reg_user" required="required">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label>最大注册组</label> <input type="number" class="form-control"
+                                        name="max_reg_group" ng-model="threshold_data.max_reg_group" required="required">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label>排队总数</label> <input type="number" class="form-control"
+                                        name="queue_count" ng-model="threshold_data.queue_count" required="required">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label>控制信道上行占比（单位：百分比）</label> <input type="number" class="form-control"
+                                        name="up_ctl" ng-model="threshold_data.up_ctl" required="required">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label>控制信道上行平均值占比（单位：百分比）</label> <input type="number" class="form-control"
+                                        name="up_ctl_avg" ng-model="threshold_data.up_ctl_avg" required="required">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label>控制信道下行占比（单位：百分比）</label> <input type="number" class="form-control"
+                                        name="down_ctl" ng-model="threshold_data.down_ctl" required="required">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label>控制信道下行平均值占比（单位：百分比）</label> <input type="number" class="form-control"
+                                        name="down_ctl_avg" ng-model="threshold_data.down_ctl_avg" required="required">
+                                </div>
+                                </form>
+                                <div class="col-md-12">
+                                <button id="update_thredhold_btn" class="btn btn-success">更新</button>
+                                </div>
+							</div>
+
+
 						</div>
 					</div>
 				</div>
 			</div>
+
 		</div>
 		<!-- row/ -->
 	</div>
@@ -111,5 +163,25 @@
 	<script type="text/javascript">
 		xh.load();
 	</script>
+	<script type="text/javascript">
+    $("#update_thredhold_btn").click(function() {
+        $('#thresholdForm').submit();
+    });
+    var faIcon = {
+        valid : 'fa fa-check-circle fa-lg text-success',
+        invalid : 'fa fa-times-circle fa-lg',
+        validating : 'fa fa-refresh'
+    };
+    $('#thresholdForm').bootstrapValidator({
+        excluded : [ ':disabled' ],
+        /* feedbackIcons: faIcon, */
+        fields : {
+
+        }
+    }).on('success.form.bv', function(e, data) {
+        e.preventDefault();
+        xh.updateThreshold();
+    });
+</script>
 </body>
 </html>

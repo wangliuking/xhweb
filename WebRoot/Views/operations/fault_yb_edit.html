@@ -6,7 +6,7 @@
 			<div class="modal-header ">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
-				<small class="font-bold">一般故障记录</small>
+				
 			</div>
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
 				<form action="#" onsubmit="return false" id="editForm">
@@ -14,79 +14,166 @@
 						<input type="text" ng-show=false name="id" ng-model="editData.id">
 					</div>
 					<div class="row">
-						<div class="form-group col-md-3">
-							<label>建设期</label> <input class="form-control" name="period"
-								readonly="readonly" ng-model="editData.period">
-						</div>
-						<div class="form-group col-md-3">
-							<label>ID</label> <input class="form-control" name="bsId"
-								readonly="readonly" ng-model="editData.bsId">
-						</div>
-						<div class="form-group col-md-3">
-							<label>基站名称</label> <input class="form-control" name="name"
-								readonly="readonly" ng-model="editData.name">
-						</div>
-						<div class="form-group col-md-3">
-							<label>基站分级</label> <input class="form-control" name="level"
-								readonly="readonly" ng-model="editData.level">
-						</div>
-						<div class="form-group col-md-4">
-							<label>故障时间</label> <input type="text" class="form-control"
-								name="time"
-								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:xh.validatorTime('editForm','time')})"
-								required="required" ng-model="editData.time">
-						</div>
-						<div class="form-group col-md-4">
-							<label>故障恢复时间</label> <input type="text" class="form-control"
-								name="faultRecoveryTime"
-								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
-								ng-model="editData.faultRecoveryTime">
-						</div>
-						<div class="form-group col-md-4">
-							<label>故障类型</label> <select name="fault_type" class="form-control"
-								ng-model="editData.fault_type">
-								<option value="传输故障">传输故障</option>
-								<option value="电源问题">电源问题</option>
-								<option value="网络优化">网络优化</option>
-								<option value="设备故障">设备故障</option>
-								<option value="机房配套">机房配套</option>
-								<option value="其他">其他</option>
-							</select>
-						</div>
-						<div class="form-group col-md-12">
-							<label>故障原因</label>
-							<textarea class="form-control" name="reason" 
-								rows="3" ng-model="editData.reason"></textarea>
-						</div>
-						<div class="form-group col-md-12">
-                            <label>备注</label>
-                            <textarea class="form-control" name="content" rows="3"
-                                ng-model="editData.content"></textarea>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label>故障来源</label> <select name="fault_from" class="form-control"
-                                ng-model="editData.fault_from">
-                                <option value="网管">网管</option>
-                                <option value="其他">其他</option>
-                            </select>
-                        </div>
-						<div class="form-group col-md-3">
-							<label>故障历时(分钟)</label> <input class="form-control"
-								name="faultTimeTotal" type="number"
-								ng-model="editData.faultTimeTotal">
-						</div>
+						<div class="col-md-12">
+							<table style="width:100%;border-collapse: collapse;"
+								class="table-view">
+								<tbody>
+									<tr style="background:red;color:#fff;">
+										<td style="text-align: center;font-weight: 800">建设期</td>
+										<td>{{editData.period}}</td>
+										<td style="text-align: center;font-weight: 800">基站ID</td>
+										<td>{{editData.bsId}}</td>
+										<td style="text-align: center;font-weight: 800">基站名称</td>
+										<td>{{editData.name}}</td>
+										<td style="text-align: center;font-weight: 800">基站分级</td>
+										<td>{{editData.level}}</td>
+									</tr>
+									<tr>
+										<td><label>故障类别</label></td>
+										<td colspan="3"><select name="fault_type"
+											class="form-control" ng-model="editData.fault_type">
+											    <option value="">==请选择==</option>
+												<option value="维护计划">维护计划</option>
+												<option value="传输故障">传输故障</option>
+												<option value="电源问题">电源问题</option>
+												<option value="网络优化">网络优化</option>
+												<option value="设备故障">设备故障</option>
+												<option value="机房配套">机房配套</option>
+												<option value="其他">其他</option>
+										</select></td>
+										<td><label>故障发生时间</label></td>
+										<td colspan="3"><input type="text" class="form-control"
+											name="time"
+											onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:xh.validatorTime('editForm','time')})"
+											required="required" ng-model="editData.time"></td>
+									</tr>
+									<tr>
+										<td><label>故障原因</label></td>
+										<td colspan="7"><textarea class="form-control" name="reason" rows="3"
+												ng-model="editData.reason"></textarea></td>
 
-						
-						<div class="form-group col-md-3">
-							<label>故障处理人员</label> <input class="form-control"
-								name="faultHandlePerson" ng-model="editData.faultHandlePerson">
-						</div>
-						<div class="form-group col-md-3">
-							<label>故障记录人员</label> <input class="form-control"
-								name="faultRecordPerson" 
-								ng-model="editData.faultRecordPerson">
-						</div>
+									</tr>
+									<tr>
+										<td><label>故障分析</label></td>
+										<td colspan="7"><textarea class="form-control" name="nowDeal"
+												rows="3" ng-model="editData.nowDeal"></textarea></td>
 
+
+									</tr>
+									<tr>
+										<td><label>故障恢复时间</label></td>
+										<td colspan="3"><input type="text" class="form-control"
+											name="faultRecoveryTime"
+											onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+											ng-model="editData.faultRecoveryTime"></td>
+										<td><label>是否核减</label></td>
+										<td colspan="3"><select name="checkTag" class="form-control"
+											ng-model="editData.checkTag">
+												<option value="">==请选择==</option>
+												<option value="0">否</option>
+												<option value="1">是</option>
+										</select></td>
+
+									</tr>
+									<tr>
+                                      
+                                        <td><label>登记人</label></td>
+                                        <td colspan="3"><input class="form-control"
+                                            ng-if="editData.faultRecordPerson!=null"
+                                            name="faultRecordPerson"
+                                            ng-model="editData.faultRecordPerson"> <input
+                                            class="form-control" ng-if="editData.faultRecordPerson==null"
+                                            name="faultRecordPerson" ng-model="userL.userName"></td>
+                                        <td><label>处理人员</label></td>
+                                        <td colspan="3"><input class="form-control" name="faultHandlePerson"
+                                            ng-model="editData.faultHandlePerson"></td>
+
+                                    </tr>
+									<tr>
+										<td><label>是否自动恢复</label></td>
+										<td colspan="7"><select name="self_recovery"
+											class="form-control" ng-model="editData.self_recovery">
+												<option value="">==请选择==</option>
+												<option value="是">是</option>
+												<option value="否">否</option>
+										</select></td>
+
+									</tr>
+									<tr>
+										<td><label>操作详情</label></td>
+										<td colspan="7"><textarea class="form-control"
+												name="handle_detail" rows="3"
+												ng-model="editData.handle_detail"></textarea></td>
+
+									</tr>
+									<tr>
+										<td><label>备注</label></td>
+										<td colspan="7"><textarea class="form-control"
+												name="content" rows="3" ng-model="editData.content"></textarea>
+										</td>
+
+									</tr>
+									<tr>
+										<td><label>责任方</label></td>
+										<td colspan="7"><select name="reponse_part"
+											class="form-control" ng-model="editData.reponse_part">
+												<option value="">==请选择==</option>
+												<option value="运营商">运营商</option>
+												<option value="运维方">运维方</option>
+
+										</select></td>
+
+									</tr>
+									<tr>
+										<td rowspan="4">派单情况</td>
+										<td><label>维护</label></td>
+										<td><input class="form-control" name="order_wh"
+											ng-model="editData.order_wh"></td>
+										<td><label>电信</label></td>
+										<td><input class="form-control" name="order_dx"
+											ng-model="editData.order_dx"></td>
+										<td><label>移动</label></td>
+										<td colspan="2"><input class="form-control"
+											name="order_yd" ng-model="editData.order_yd"></td>
+
+									</tr>
+									<tr>
+										<td><label>派单时间</label></td>
+										<td><input class="form-control" name="send_order_time"
+											ng-model="editData.send_order_time"></td>
+										<td><label>接单时间</label></td>
+                                        <td><input class="form-control" name="receipt_order_time"
+                                            ng-model="editData.receipt_order_time"></td>
+										<td><label>回单时间</label></td>
+										<td colspan="2"><input class="form-control" name="recv_order_time"
+											ng-model="editData.recv_order_time"></td>
+										
+
+									</tr>
+									<tr>
+										<td><label>接单耗时(/分钟)</label></td>
+                                        <td colspan="3"><input class="form-control"
+                                            name="recv_order_use_time" ng-model="editData.recv_order_use_time">
+                                        </td>
+                                        <td><label>接单超时(分钟)</label></td>
+                                        <td colspan="2"><input class="form-control"
+                                            name="recv_order_cs" ng-model="editData.recv_order_cs">
+                                        </td>
+									</tr>
+									<tr>
+                                        <td><label>处理耗时(分钟)</label></td>
+                                        <td colspan="3"><input class="form-control"
+                                            name="handle_order_user_time" ng-model="editData.handle_order_user_time">
+                                        </td>
+                                        <td><label>处理超时(分钟)</label></td>
+                                        <td colspan="2"><input class="form-control"
+                                            name="handle_order_cs" ng-model="editData.handle_order_cs">
+                                        </td>
+                                    </tr>
+
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</form>
 			</div>

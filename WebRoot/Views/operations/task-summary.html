@@ -11,16 +11,22 @@
 			</div>
 			<div class="modal-body pad-0">
 				<div class="row">
-					<div class="col-md-12">
-						<input type="hidden" name="fileName2" value="" /> 
-						<input type="hidden" name="filePath2" value="" /> 
-						<input type="hidden" name="result2" value="" />
-					</div>
+				<div class="col-md-12" ng-show=false>
+				<input type="text" name="ensure_starttime_edit" ng-model="editData.ensure_starttime">
+                <input type="text" name="type_edit" ng-model="editData.type">
+				</div>
+					
 
 					<div class="col-md-12">
-						<form action="#" id="" onSubmit="return false"
+						<form action="#" id="summary_file_form" onSubmit="return false"
 							enctype="multipart/form-data" method="POST">
 							<div class="row">
+							<div class="col-md-12">
+                        
+                        <input type="hidden" name="fileName2" value="" /> 
+                        <input type="hidden" name="filePath2" value="" /> 
+                        <input type="hidden" name="result2" value="" />
+                    </div>
 								<div class="col-md-8">
 									<div class="form-group col-md-10" style="padding-right:0px;">
 
@@ -82,6 +88,10 @@
 			fileElementId : 'summaryFile', //文件上传域的ID
 			dataType : 'json', // 返回值类型 一般设置为json
 			type : 'POST',
+			  data:{
+                  time:$("#summaryWin").find("input[name='ensure_starttime_edit']").val(),
+                  type:$("#summaryWin").find("input[name='type_edit']").val()
+              },
 			success : function(data, status) //服务器成功响应处理函数
 			{
 				$("#uploadfile2").attr("disabled", false);

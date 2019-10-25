@@ -44,12 +44,10 @@ xh.load = function() {
 					$scope.up = response;
 				});
 		// 获取登录用户
-		/*$http.get("../../web/loginUserInfo").success(function(response) {
+		$http.get("../../web/loginUserInfo").success(function(response) {
 			xh.maskHide();
-			$scope.loginUser = response.user;
-			console.log("loginuser="+$scope.loginUser);
-			$scope.loginUserRoleId = response.roleId;
-		});*/
+			$scope.userL = response;
+		});
 		//获取派单列表
 		$http.get("../../order/orderlist?start=0&limit=" + pageSize).success(
 				function(response) {
@@ -91,7 +89,49 @@ xh.load = function() {
 				}
 			});
 		}
+		$scope.del = function(id) {
+			var data=$scope.data[id];
+			swal({
+				title : "提示",
+				text : "确定要删除吗？",
+				type : "info",
+				showCancelButton : true,
+				confirmButtonColor : "#DD6B55",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消"
+			/*
+			 * closeOnConfirm : false, closeOnCancel : false
+			 */
+			}, function(isConfirm) {
+				if (isConfirm) {
+					$.ajax({
+						url : '../../order/del',
+						type : 'get',
+						dataType : "json",
+						data : {
+							id : data.id
+						},
+						async : false,
+						success : function(data) {
+							if (data.success) {
+								toastr.success(data.message, '提示');
+								$scope.refresh();
 
+							} else {
+								swal({
+									title : "提示",
+									text : data.message,
+									type : "error"
+								});
+							}
+						},
+						error : function() {
+							$scope.refresh();
+						}
+					});
+				}
+			});
+		};
 		/*显示详细信息*/
 		$scope.editModel = function(id) {
 			$("#orderWin").modal('show');
@@ -143,6 +183,10 @@ xh.load = function() {
 					from:$scope.data[id].from,
 					serialnumber:$scope.data[id].serialnumber,
 					status:3,
+					alarmId:$scope.data[id].alarmId,
+					dispatchtime:$scope.data[id].dispatchtime,
+					recvTime:$scope.data[id].recvTime,
+					level:$scope.data[id].level,
 					userid:$scope.data[id].handleUserid
 				},
 				success : function(data) {
@@ -172,6 +216,10 @@ xh.load = function() {
                     from:$scope.data[id].from,
                     status:-1,
                     serialnumber:$scope.data[id].serialnumber,
+                    alarmId:$scope.data[id].alarmId,
+					dispatchtime:$scope.data[id].dispatchtime,
+					recvTime:$scope.data[id].recvTime,
+					level:$scope.data[id].level,
                     userid:$scope.data[id].userid
                 },
                 success : function(data) {

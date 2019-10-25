@@ -43,6 +43,18 @@
 		<if test="status!=null and status!=''">
 			and a.status=#{status}
 		</if>
+		
+		<if test="send_user!=null and send_user!=''">
+            and a.addUser=(select user from xhgmnet_web_user where userName=#{send_user} limit 1)
+        </if>
+        <if test="check_user!=null and check_user!=''">
+            and a.check_person=(select user from xhgmnet_web_user where userName=#{check_user} limit 1)
+        </if>
+        <if test="sign_user!=null and sign_user!=''">
+            and a.checkUser=(select user from xhgmnet_web_user where userName=#{sign_user} limit 1)
+        </if>
+        
+        
 		<if test="key!=null and key!=''">
 			and (a.reason like concat('%',#{key},'%') or a.content like
 			concat('%',#{key},'%') )
@@ -70,6 +82,15 @@
 		<if test="type!=null and type!=''">
 			and type=#{type}
 		</if>
+		<if test="send_user!=null and send_user!=''">
+            and addUser=(select user from xhgmnet_web_user where userName=#{send_user} limit 1)
+        </if>
+        <if test="check_user!=null and check_user!=''">
+            and check_person=(select user from xhgmnet_web_user where userName=#{check_user} limit 1)
+        </if>
+        <if test="sign_user!=null and sign_user!=''">
+            and checkUser=(select user from xhgmnet_web_user where userName=#{sign_user} limit 1)
+        </if>
 		<if test="roleType==3">
 			and((user_type=2 and status>=1) or user_type=3 or user_type=0)
 		</if>
@@ -135,7 +156,8 @@
 	<update id="handle" parameterType="xh.mybatis.bean.WorkContactBean">
 		update xhgmnet_operations_workcontact set
 		status=3,handle_time=#{handle_time},
-		handle_user=#{handle_user},handle_note=#{handle_note}
+		handle_user=#{handle_user},handle_note=#{handle_note},ensure_satellite_time=#{ensure_satellite_time},
+		ensure_bus_num=#{ensure_bus_num},person_num=#{person_num}
 		where taskId=#{taskId}
 	</update>
 	<update id="summary" parameterType="xh.mybatis.bean.WorkContactBean">

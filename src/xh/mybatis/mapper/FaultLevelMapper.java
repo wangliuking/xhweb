@@ -11,6 +11,7 @@ public interface FaultLevelMapper {
 	
 	List<FaultOneBean> one_list(Map<String,Object> map);
 	List<FaultThreeBean> three_list(Map<String,Object> map);
+	List<FaultThreeBean> excel_three_list(Map<String,Object> map);
 	List<FaultFourBean> four_list(Map<String,Object> map);
 	
 	int one_count(Map<String,Object> map);
@@ -22,6 +23,7 @@ public interface FaultLevelMapper {
 	
 	int one_update(FaultOneBean bean);
 	int three_update(FaultThreeBean bean);
+	int three_update_by_order(FaultThreeBean bean);
 	int four_update(FaultFourBean bean);
 	
 	int one_del(List<String> list);

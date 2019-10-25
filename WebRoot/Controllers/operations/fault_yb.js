@@ -40,6 +40,7 @@ xh.load = function() {
 		$scope.page=1;
 		$scope.time=xh.dateNowFormat("month");
 		$scope.time_day=xh.dateNowFormat("day");
+		$scope.type="0";
 		/* 获取用户权限 */
 		$http.get("../../web/loginUserPower").success(
 				function(response) {
@@ -50,7 +51,7 @@ xh.load = function() {
 			xh.maskHide();
 			$scope.userL = response;
 		});
-		$http.get("../../faultlevel/three_list?time="+$scope.time+"&start=0&limit=" + $scope.count).success(
+		$http.get("../../faultlevel/three_list?type="+$scope.type+"&time="+$scope.time+"&start=0&limit=" + $scope.count).success(
 				function(response) {
 					xh.maskHide();
 					$scope.data = response.items;
@@ -138,7 +139,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../faultlevel/three_list?start="+start+"&time="+starttime+"" +
+			$http.get("../../faultlevel/three_list?type="+$scope.type+"&start="+start+"&time="+starttime+"" +
 					"&limit=" + pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.data = response.items;
@@ -160,7 +161,7 @@ xh.load = function() {
 			}
 			xh.maskShow();
 			$http.get(
-					"../../faultlevel/three_list?start="+start+"&time="+starttime+"" +
+					"../../faultlevel/three_list?type="+$scope.type+"&start="+start+"&time="+starttime+"" +
 					"&limit=" + pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
@@ -317,4 +318,42 @@ xh.print=function() {
 	LODOP.SET_PRINT_PAGESIZE(1, 0, 0, "A4");
 	LODOP.ADD_PRINT_TABLE("1%", "2%", "96%", "96%", document.getElementById("print").innerHTML);
 	 LODOP.PREVIEW();  	
+};
+xh.excel=function(){
+	
+	var starttime=$("#time").val();
+	var type=$("#type").val();
+	if(starttime==""){
+		toastr.error("时间不能为空", '提示');
+		return;
+	}
+	xh.maskShow("正在分析数据，请耐心等待");
+	$("#btn-excel").button('loading');
+	$.ajax({
+		url : '../../faultlevel/excel_fault_three',
+		type : 'get',
+		dataType : "json",
+		data : {
+			time:starttime,
+			type:type
+		},
+		async : true,
+		success : function(data) {
+		
+			$("#btn-excel").button('reset');
+			xh.maskHide();
+			if (data.success) {
+				window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
+				
+			} else {
+				toastr.error("导出失败", '提示');
+			}
+		},
+		error : function() {
+			$("#btn-excel").button('reset');
+			toastr.error("导出失败", '提示');
+			xh.maskHide();
+		}
+	});
+	
 };

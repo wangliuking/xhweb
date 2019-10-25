@@ -50,9 +50,32 @@ public class WorkContactBean {
 	private String ensure_endtime=null;
 	private String ensure_zone;
 	
+	private String ensure_satellite_time;
+	private String ensure_bus_num;
+	private String person_num;
 	
 	
 	
+	
+
+	public String getEnsure_satellite_time() {
+		return ensure_satellite_time;
+	}
+	public String getEnsure_bus_num() {
+		return ensure_bus_num;
+	}
+	public String getPerson_num() {
+		return person_num;
+	}
+	public void setEnsure_satellite_time(String ensure_satellite_time) {
+		this.ensure_satellite_time = ensure_satellite_time;
+	}
+	public void setEnsure_bus_num(String ensure_bus_num) {
+		this.ensure_bus_num = ensure_bus_num;
+	}
+	public void setPerson_num(String person_num) {
+		this.person_num = person_num;
+	}
 	private List<Map<String,Object>> files;
 	
 	
@@ -308,17 +331,29 @@ public class WorkContactBean {
 	@Override
 	public String toString() {
 		return "WorkContactBean [id=" + id + ", taskId=" + taskId + ", reason="
-				+ reason + ", type=" + type + ", sendUnit=" + sendUnit
-				+ ", recvUnit=" + recvUnit + ", copyUnit=" + copyUnit
-				+ ", time=" + time + ", code=" + code + ", content=" + content
-				+ ", addUser=" + addUser + ", user_type=" + user_type
-				+ ", checkUser=" + checkUser + ", checkTime=" + checkTime
-				+ ", userName=" + userName + ", checkUserName=" + checkUserName
-				+ ", filePath=" + filePath + ", fileName=" + fileName
-				+ ", status=" + status + ", file_name=" + file_name
+				+ reason + ", type=" + type + ", level=" + level
+				+ ", sendUnit=" + sendUnit + ", recvUnit=" + recvUnit
+				+ ", copyUnit=" + copyUnit + ", time=" + time + ", code="
+				+ code + ", content=" + content + ", addUser=" + addUser
+				+ ", user_type=" + user_type + ", checkUser=" + checkUser
+				+ ", checkTime=" + checkTime + ", userName=" + userName
+				+ ", checkUserName=" + checkUserName + ", signUserName="
+				+ signUserName + ", filePath=" + filePath + ", fileName="
+				+ fileName + ", status=" + status + ", file_name=" + file_name
 				+ ", file_path=" + file_path + ", check_person=" + check_person
-				+ ", check_time=" + check_time + ", note=" + note + ", files="
-				+ files + "]";
+				+ ", check_time=" + check_time + ", note=" + note + ", reply="
+				+ reply + ", handle_user=" + handle_user + ", handle_time="
+				+ handle_time + ", handle_note=" + handle_note
+				+ ", handleUserName=" + handleUserName + ", summary_user="
+				+ summary_user + ", summaryUserName=" + summaryUserName
+				+ ", summary_time=" + summary_time + ", summary_note="
+				+ summary_note + ", summary_fileName=" + summary_fileName
+				+ ", summary_filePath=" + summary_filePath
+				+ ", ensure_starttime=" + ensure_starttime
+				+ ", ensure_endtime=" + ensure_endtime + ", ensure_zone="
+				+ ensure_zone + ", ensure_satellite_time="
+				+ ensure_satellite_time + ", ensure_bus_num=" + ensure_bus_num
+				+ ", person_num=" + person_num + ", files=" + files + "]";
 	}
 	
 	

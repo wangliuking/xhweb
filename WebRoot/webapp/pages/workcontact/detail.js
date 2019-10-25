@@ -41,7 +41,8 @@ loader.define(function(require,exports,module){
                 showSignBtn:(userL.roleType!=params.user_type && params.status==1),
                 showUpdateBtn:(userL.user==params.addUser && (params.status==-1 || params.status==-2)),
                 showCancelBtn:(userL.user==params.addUser && params.status==0),
-                showHandleBtn:(userL.roleType==params.user_type && params.status==2)
+                showHandleBtn:(userL.roleType==params.user_type && params.status==2),
+                showEnsure:params.type=='通信保障'
             },
             methods:{
             	sure:function(e){
@@ -229,7 +230,11 @@ function handle(){
 				taskId : params.taskId,
 				addUser : params.addUser,
 				checkUser : params.checkUser,
-				note:$("#handle-dg").find("textarea[name='note']").val()
+				note:$("#handle-dg").find("textarea[name='note']").val(),
+				type:params.type,
+				person_num:$("#handle-dg").find("input[name='person_num']").val(),
+				satellite_time:$("#handle-dg").find("input[name='satellite_time']").val(),
+				bus_num:$("#handle-dg").find("input[name='bus_num']").val()
 	        }
 	    }).then(function(res){
 	    	toastr.success(res.message, '提示');

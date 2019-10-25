@@ -1,177 +1,236 @@
 <div class="bui-page">
-    <header class="bui-bar">
-        <div class="bui-bar-left"> <a class="bui-btn btn-back"><i class="icon-back"></i></a> </div>
-        <div class="bui-bar-main">工作联系单详情</div>
-        <div class="bui-bar-right"> </div>
-    </header>
-    <main>
-     <!--    <h3 class="section-title">基本信息</h3> -->
-        <ul class="bui-list">
-            <li class="bui-btn bui-box ">
-                <label class="bui-label">事由:</label>
-                <div class="span1">
-                    <div class="bui-value" b-text="page.list.reason"></div>
-                </div>
-            </li>
-            <li class="bui-btn bui-box ">
-                <label class="bui-label">类型:</label>
-                <div class="span1">
-                    <div class="bui-value" b-text="page.list.type"></div>
-                </div>
-            </li>
-             <li class="bui-btn bui-box ">
-                <label class="bui-label">级别:</label>
-                <div class="span1">
-                    <div class="bui-value" b-text="page.list.level"></div>
-                </div>
-            </li>
-            <li class="bui-btn bui-box ">
-                <label class="bui-label">发文单位:</label>
-                <div class="span1">
-                    <div class="bui-input">
-                        <div class="bui-value" b-text="page.list.sendUnit"></div>
-                    </div>
-                </div>
-            </li>
-            <li class="bui-btn bui-box ">
-                <label class="bui-label">收文单位:</label>
-                <div class="span1">
-                    <div class="bui-value" b-text="page.list.recvUnit"></div>
-                </div>
-            </li>
-            <li class="bui-btn bui-box ">
-                <label class="bui-label">抄送:</label>
-                <div class="span1">
-                    <div class="bui-value" b-text="page.list.copyUnit"></div>
-                </div>
-            </li>
-            <li class="bui-btn bui-box ">
-                <label class="bui-label">时间:</label>
-                <div class="span1">
-                    <div class="bui-value" b-text="page.list.time"></div>
-                </div>
-            </li>
-            <li class="bui-btn bui-box ">
-                <label class="bui-label">编号:</label>
-                <div class="span1">
-                    <div class="bui-value" b-text="page.list.code"></div>
-                </div>
-            </li>
-        </ul>
-        <h3 class="section-title">内容</h3>
-        <ul class="bui-list">
-            <li class="bui-btn ">
-                <div class="span1">
-                    <div class="bui-value" id="content"></div>
-                </div>
-            </li>
-        </ul>
-        <h3 class="section-title">附件</h3>
-            <div class="container-y">
-                <div class="bui-box-space">
-                    <div class="span1" id="file-div">
-                       
-                        
-                    </div>
+	<header class="bui-bar">
+		<div class="bui-bar-left">
+			<a class="bui-btn btn-back"><i class="icon-back"></i></a>
+		</div>
+		<div class="bui-bar-main">工作联系单详情</div>
+		<div class="bui-bar-right"></div>
+	</header>
+	<main>
+		<!--    <h3 class="section-title">基本信息</h3> -->
+		<ul class="bui-list">
+			<li class="bui-btn bui-box "><label class="bui-label">事由:</label>
+				<div class="span1">
+					<div class="bui-value" b-text="page.list.reason"></div>
+				</div></li>
+			<li class="bui-btn bui-box "><label class="bui-label">类型:</label>
+				<div class="span1">
+					<div class="bui-value" b-text="page.list.type"></div>
+				</div></li>
+			<li class="bui-btn bui-box "><label class="bui-label">级别:</label>
+				<div class="span1">
+					<div class="bui-value" b-text="page.list.level"></div>
+				</div></li>
+			<li class="bui-btn bui-box "><label class="bui-label">发文单位:</label>
+				<div class="span1">
+					<div class="bui-input">
+						<div class="bui-value" b-text="page.list.sendUnit"></div>
+					</div>
+				</div></li>
+			<li class="bui-btn bui-box "><label class="bui-label">收文单位:</label>
+				<div class="span1">
+					<div class="bui-value" b-text="page.list.recvUnit"></div>
+				</div></li>
+			<li class="bui-btn bui-box "><label class="bui-label">抄送:</label>
+				<div class="span1">
+					<div class="bui-value" b-text="page.list.copyUnit"></div>
+				</div></li>
+			<li class="bui-btn bui-box "><label class="bui-label">时间:</label>
+				<div class="span1">
+					<div class="bui-value" b-text="page.list.time"></div>
+				</div></li>
+			<li class="bui-btn bui-box "><label class="bui-label">编号:</label>
+				<div class="span1">
+					<div class="bui-value" b-text="page.list.code"></div>
+				</div></li>
 
-                </div>
-            </div> 
-           <div class="container-y">
-                <div class="bui-box-space">
-                    <div class="span1" b-show="page.showCancelBtn">
-                        <div class="bui-btn primary" id="sure" b-click="page.cancelTask">撤销</div>
-                    </div>
-                    <!-- <div class="span1" b-show="page.showUpdateBtn">
+
+
+		</ul>
+		<h3 class="section-title">内容</h3>
+		<ul class="bui-list">
+			<li class="bui-btn ">
+				<div class="span1">
+					<div class="bui-value" id="content"></div>
+				</div>
+			</li>
+		</ul>
+		<h3 class="section-title">附件</h3>
+		<div class="container-y">
+			<div class="bui-box-space">
+				<div class="span1" id="file-div"></div>
+
+			</div>
+		</div>
+		<!-- <h3 class="section-title">处理结果</h3>
+		<div class="container-y">
+			<p style="font-style: oblique;color:green;font-weight: 800">
+				<img src="../Resources/images/img/user.png"
+					style="height:20px;width:20px;"> <span
+					b-text="page.list.handleUserName"></span> 时间:<span
+					b-text="page.list.handle_time"></span>
+			</p>
+			<p b-show="page.showEnsure">
+				投入情况：<span b-text="page.list.person_num"></span>人次， 卫星<span
+					b-text="page.list.ensure_satellite_time"></span>小时， 车辆<span
+					b-text="page.list.ensure_bus_num"></span>台次
+			</p>
+			<p>
+				<span b-text="page.list.handle_note"></span>
+			</p>
+		</div>
+		<h3 class="section-title">完成总结</h3>
+		<div class="container-y">
+			<p style="font-style: oblique;color:green;font-weight: 800">
+				<img src="../Resources/images/img/user.png"
+					style="height:20px;width:20px;"> <span
+					b-text="page.list.summaryUserName"></span> 时间:<span
+					b-text="page.list.summary_time"></span>
+			</p>
+
+			<p>
+				<span b-text="page.list.summary_note"></span>
+			</p>
+		</div> -->
+		<div class="container-y">
+			<div class="bui-box-space">
+				<div class="span1" b-show="page.showCancelBtn">
+					<div class="bui-btn primary" id="sure" b-click="page.cancelTask">撤销</div>
+				</div>
+				<!-- <div class="span1" b-show="page.showUpdateBtn">
                         <div class="bui-btn primary" id="update" b-click="page.update">修改</div>
                     </div> -->
-                    <div class="span1">
-                        <div class="bui-btn primary" id="copy" b-click="page.copy">复制到新的工单</div>
-                    </div>
-                    <div class="span1" b-show="page.showCheckBtn">
-                        <div class="bui-btn primary" id="check">审核</div>
-                    </div>
-                    <div class="span1" b-show="page.showSignBtn">
-                        <div class="bui-btn primary" id="sure" b-click="page.sure">签收</div>
-                    </div>
-                     <div class="span1" b-show="page.showHandleBtn">
-                        <div class="bui-btn primary" id="handle" >填写处理结果</div>
-                    </div>
+				<div class="span1">
+					<div class="bui-btn primary" id="copy" b-click="page.copy">复制到新的工单</div>
+				</div>
+				<div class="span1" b-show="page.showCheckBtn">
+					<div class="bui-btn primary" id="check">审核</div>
+				</div>
+				<div class="span1" b-show="page.showSignBtn">
+					<div class="bui-btn primary" id="sure" b-click="page.sure">签收</div>
+				</div>
+				<div class="span1" b-show="page.showHandleBtn">
+					<div class="bui-btn primary" id="handle">填写处理结果</div>
+				</div>
 
-                </div>
-            </div>
-           
-       <!-- <ul class="bui-list">
+			</div>
+		</div>
+
+		<!-- <ul class="bui-list">
             <li class="bui-btn ">
                 <div  class="bui-input">
                     <input name="pathName" type="file" value="" placeholder="请选择文件">
                 </div>
             </li>
         </ul>-->
-    </main>
+	</main>
 </div>
 <div id="check-dg" class="bui-dialog" style="display:none;">
-   <!--  <div class="bui-dialog-head bui-box-align-middle">
+	<!--  <div class="bui-dialog-head bui-box-align-middle">
         <div class="span1">审核文件</div>
         <div id="makeSure" class="bui-btn primary round">确定</div>
     </div> -->
-    <div class="bui-bar">
-         <header class="bui-bar">
-        <div class="bui-bar-left"> <a class="bui-btn btn-back"><i class="icon-back"></i></a> </div>
-        <div class="bui-bar-main">审核工作联系单</div>
-        <div class="bui-bar-right"> </div>
-    </header>
-    </div>
-    <div class="bui-dialog-main">
-        <ul class="bui-list">
-            <li class="bui-btn ">
-                <div class="span1 bui-input">
-                     <textarea class="bui-input" name="note" cols="30" rows="10"
-                            placeholder="请输入备注信息"></textarea>
-                </div>
-            </li>
-        </ul>
-        <div class="container-y">
-                <div class="bui-box-space">
-                    <div class="span1">
-                        <div class="bui-btn success" onclick="check(1)">通过</div>
-                    </div>
-                    <div class="span1">
-                        <div class="bui-btn danger" onclick="check(-1)">拒绝</div>
-                    </div>
+	<div class="bui-bar">
+		<header class="bui-bar">
+			<div class="bui-bar-left">
+				<a class="bui-btn btn-back"><i class="icon-back"></i></a>
+			</div>
+			<div class="bui-bar-main">审核工作联系单</div>
+			<div class="bui-bar-right"></div>
+		</header>
+	</div>
+	<div class="bui-dialog-main">
+		<ul class="bui-list">
+			<li class="bui-btn ">
+				<div class="span1 bui-input">
+					<textarea class="bui-input" name="note" cols="30" rows="10"
+						placeholder="请输入备注信息"></textarea>
+				</div>
+			</li>
+		</ul>
+		<div class="container-y">
+			<div class="bui-box-space">
+				<div class="span1">
+					<div class="bui-btn success" onclick="check(1)">通过</div>
+				</div>
+				<div class="span1">
+					<div class="bui-btn danger" onclick="check(-1)">拒绝</div>
+				</div>
 
-                </div>
-            </div>
-    </div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <div id="handle-dg" class="bui-dialog" style="display:none;">
-   <!--  <div class="bui-dialog-head bui-box-align-middle">
+	<!--  <div class="bui-dialog-head bui-box-align-middle">
         <div class="span1">审核文件</div>
         <div id="makeSure" class="bui-btn primary round">确定</div>
     </div> -->
-    <div class="bui-bar">
-         <header class="bui-bar">
-        <div class="bui-bar-left"> <a class="bui-btn btn-back"><i class="icon-back"></i></a> </div>
-        <div class="bui-bar-main">填写处理结果</div>
-        <div class="bui-bar-right"> </div>
-    </header>
-    </div>
-    <div class="bui-dialog-main">
-        <ul class="bui-list">
-            <li class="bui-btn ">
-                <div class="span1 bui-input">
-                     <textarea class="bui-input" name="note" cols="30" rows="10"
-                            placeholder="请输入处理结果"></textarea>
-                </div>
-            </li>
-        </ul>
-        <div class="container-y">
-                <div class="bui-box-space">
-                    <div class="span1">
-                        <div class="bui-btn success" onclick="handle()">提交</div>
-                    </div>
+	<div class="bui-bar">
+		<header class="bui-bar">
+			<div class="bui-bar-left">
+				<a class="bui-btn btn-back"><i class="icon-back"></i></a>
+			</div>
+			<div class="bui-bar-main">填写处理结果</div>
+			<div class="bui-bar-right"></div>
+		</header>
+	</div>
+	<div class="bui-dialog-main">
+		<ul class="bui-list">
+			<li class="bui-btn ">
+				<div class="span1 bui-input">
+					<textarea class="bui-input" name="note" cols="30" rows="10"
+						placeholder="请输入处理结果"></textarea>
+				</div>
+			</li>
 
-                </div>
-            </div>
-    </div>
+
+		</ul>
+		<h3 class="section-title">投入人力</h3>
+		<ul class="bui-list">
+			<li class="bui-btn bui-box clearactive" b-show="page.showEnsure">
+				<div class="span2">
+					<div class="bui-input">
+						<input type="text" class="bui-input" name="person_num" value="0">
+
+					</div>
+				</div>
+			</li>
+
+		</ul>
+		<h3 class="section-title">移动卫星车使用时长（小时）</h3>
+		<ul class="bui-list">
+			<li class="bui-btn bui-box clearactive" b-show="page.showEnsure">
+				<div class="span2">
+					<div class="bui-input">
+						<input type="text" class="bui-input" name="satellite_time"
+							value="0">
+
+					</div>
+				</div>
+			</li>
+
+		</ul>
+		<h3 class="section-title">移动通讯车使用台次</h3>
+		<ul class="bui-list">
+			<li class="bui-btn bui-box clearactive" b-show="page.showEnsure">
+				<div class="span1">
+					<div class="bui-input">
+						<input type="text" class="bui-input" name="bus_num" value="0">
+
+					</div>
+				</div>
+			</li>
+
+		</ul>
+		<div class="container-y">
+			<div class="bui-box-space">
+				<div class="span1">
+					<div class="bui-btn success" onclick="handle()">提交</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
 </div>

@@ -39,6 +39,7 @@ import xh.func.plugin.MapRemoveNullUtil;
 import xh.mybatis.bean.MeetBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.bean.WorkContactBean;
+import xh.mybatis.service.UserNeedService;
 import xh.mybatis.service.WebLogService;
 import xh.mybatis.service.WorkContactService;
 
@@ -79,6 +80,13 @@ public class WorkContactController {
 		String status=request.getParameter("status");
 		String key=request.getParameter("key");
 		
+		String send_user=request.getParameter("send_user");
+		String check_user=request.getParameter("check_user");
+		String sign_user=request.getParameter("sign_user");
+		
+		
+		
+		
 		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("start", start);
 		map.put("limit",limit);
@@ -90,6 +98,9 @@ public class WorkContactController {
 		map.put("user",FunUtil.loginUser(request));
 		map.put("power", FunUtil.loginUserPower(request).get("o_task"));
 		map.put("roleType",FunUtil.loginUserInfo(request).get("roleType"));
+		map.put("send_user",send_user);
+		map.put("check_user",check_user);
+		map.put("sign_user",sign_user);
 		HashMap result = new HashMap();
 		result.put("totals",WorkContactService.list_count(map));
 		result.put("items", WorkContactService.list(map));
@@ -309,25 +320,25 @@ public class WorkContactController {
 		bean.setTaskId(taskId);
 		bean.setAddUser(addUser);
 		bean.setCheckUser(FunUtil.loginUser(request));
-		bean.setCheckTime(FunUtil.nowDateNoTime());
+		bean.setCheckTime(FunUtil.nowDate());
 		bean.setReply(reply);
 		int rst=WorkContactService.sign(bean);
 		if(rst>0){
-			this.message="回复工作联系单成功";
+			this.message="签收工作联系单成功";
 			this.success=true;
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(2);
-			webLogBean.setContent("回复工作联系单信息，data=" + bean.getTaskId());
+			webLogBean.setContent("签收工作联系单信息，data=" + bean.getTaskId());
 			WebLogService.writeLog(webLogBean);
 			if(Integer.parseInt(FunUtil.loginUserInfo(request).get("roleType").toString())==2){
-			  FunUtil.sendMsgToOneUser(addUser, "工作联系单","管理方已经回复了工作联系单", request);
+			  FunUtil.sendMsgToOneUser(addUser, "工作联系单","管理方已经签收了工作联系单", request);
 			}else{
-		      FunUtil.sendMsgToOneUser(addUser, "工作联系单","服务提供方已经回复了工作联系单", request);
+		      FunUtil.sendMsgToOneUser(addUser, "工作联系单","服务提供方已经签收了工作联系单", request);
 			}
 			
 		}else{
-			this.message="工作联系单回复失败";
+			this.message="工作联系单签收失败";
 			this.success=false;
 		}
 		
@@ -342,11 +353,19 @@ public class WorkContactController {
 		String taskId=request.getParameter("taskId");
 		String addUser=request.getParameter("addUser");
 		String checkUser=request.getParameter("checkUser");
+		String type=request.getParameter("type");
 		String reply=request.getParameter("note");
+		
+		String person_num=request.getParameter("person_num");
+		String satellite_time=request.getParameter("satellite_time");
+		String bus_num=request.getParameter("bus_num");
 		WorkContactBean bean=new WorkContactBean();
 		bean.setTaskId(taskId);
 		bean.setAddUser(addUser);
 		bean.setCheckUser(checkUser);
+		bean.setPerson_num(person_num);
+		bean.setEnsure_satellite_time(satellite_time);
+		bean.setEnsure_bus_num(bus_num);
 		bean.setHandle_time(FunUtil.nowDate());
 		bean.setHandle_user(FunUtil.loginUser(request));
 		bean.setHandle_note(reply);
@@ -354,6 +373,17 @@ public class WorkContactController {
 		if(rst>0){
 			this.message="填写处理结果成功";
 			this.success=true;
+			
+			if(type.equals("通信保障")){
+				Map<String,Object> mm=new HashMap<String, Object>();
+				mm.put("id", taskId);
+				mm.put("type", 1);
+				mm.put("satellite_time", satellite_time);
+				mm.put("person_num", person_num);
+				mm.put("bus_num", bus_num);
+				UserNeedService.update_communication_by_task(mm);
+			}
+			
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(2);
@@ -384,6 +414,7 @@ public class WorkContactController {
 		String reply=request.getParameter("summary_note");
 		String fileName=request.getParameter("fileName");
 		String filePath=request.getParameter("filePath");
+		String type=request.getParameter("type");
 		WorkContactBean bean=new WorkContactBean();
 		bean.setTaskId(taskId);
 		bean.setAddUser(addUser);
@@ -398,6 +429,14 @@ public class WorkContactController {
 		if(rst>0){
 			this.message="填写总结成功";
 			this.success=true;
+			if(type.equals("通信保障")){
+				Map<String,Object> mm=new HashMap<String, Object>();
+				mm.put("id", taskId);
+				mm.put("type", 2);
+				mm.put("file_name", fileName);
+				mm.put("file_path", filePath);
+				UserNeedService.update_communication_by_task(mm);
+			}
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(2);
@@ -427,7 +466,7 @@ public class WorkContactController {
 		int state=Integer.parseInt(request.getParameter("state"));
 		WorkContactBean bean=GsonUtil.json2Object(data, WorkContactBean.class);
 		bean.setCheck_person(FunUtil.loginUser(request));
-		bean.setCheck_time(FunUtil.nowDateNoTime());
+		bean.setCheck_time(FunUtil.nowDate());
 		bean.setStatus(state);
 		bean.setNote(note);
 		int rst=WorkContactService.check(bean);
@@ -547,13 +586,13 @@ public class WorkContactController {
 	@RequestMapping("/summaryFile")
 	@ResponseBody
 	public void fileUpload(@RequestParam("summaryFile") CommonsMultipartFile file,
+			@RequestParam("time") String time,
+			@RequestParam("type") String type,
 			HttpSession session, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
-		
-		
-
+		System.out.println("time->"+time);
+		System.out.println("type->"+type);
 		String path = request.getSession().getServletContext().getRealPath("")+ "/upload/";
-		
 		String name = file.getOriginalFilename();
 		// 获取当前时间
 		Date d = new Date();
@@ -566,6 +605,31 @@ public class WorkContactController {
 		if(uploadFile(request,file,path,rename)){
 			this.success = true;
 			this.message = "文件上传成功";
+			if(type.equals("通信保障")){
+				File srcFile = new File(path+"/"+rename);
+				String destDir1=request.getSession().getServletContext()
+						.getRealPath("/upload/check");
+				destDir1=destDir1+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/3/通信保障报告";
+				File Path1 = new File(destDir1);
+				if (!Path1.exists()) {
+					Path1.mkdirs();
+				}
+				
+				String destDir2=request.getSession().getServletContext()
+						.getRealPath("/upload/check");
+				destDir2=destDir2+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/4/通信保障报告";
+				File Path2 = new File(destDir2);
+				if (!Path2.exists()) {
+					Path2.mkdirs();
+				}
+				File file1 = new File(destDir1+"/"+name);
+				File file2 = new File(destDir2+"/"+name);
+				FunUtil.copyFile(srcFile, file1);
+				FunUtil.copyFile(srcFile, file2);
+			}
+			
+			
+			
 		}else{
 			this.success = false;
 			this.message = "文件上传失败";

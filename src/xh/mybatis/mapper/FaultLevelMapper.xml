@@ -4,7 +4,8 @@
 
 	<select id="one_list" parameterType="map"
 		resultType="xh.mybatis.bean.FaultOneBean" useCache="true">
-		select *,TIMESTAMPDIFF(MINUTE,produce_time,recovery_time) as total_time from xhgmnet_operations_fault_one where type=#{type}
+		select *,TIMESTAMPDIFF(MINUTE,produce_time,recovery_time) as
+		total_time from xhgmnet_operations_fault_one where type=#{type}
 		<if test="time!=null and time!=''">
 			and date_format(produce_time,'%Y-%m')=#{time}
 		</if>
@@ -12,20 +13,49 @@
 	</select>
 	<select id="three_list" parameterType="map"
 		resultType="xh.mybatis.bean.FaultThreeBean" useCache="true">
-		select a.*,b.period,b.name,b.level from xhgmnet_operations_bsfault_three  as a
-		left join xhgmnet_bs_station as b on a.bsId=b.bsId
-		 where 1=1
+		select a.*,TIMESTAMPDIFF(MINUTE,a.time,a.faultRecoveryTime) as
+		faultTimeTotal,b.period,b.name,b.level from
+		xhgmnet_operations_bsfault_three as a
+		left join xhgmnet_bs_station as b
+		on a.bsId=b.bsId
+		where 1=1
 		<if test="time!=null and time!=''">
-			and date_format(a.time,'%Y-%m')=#{time}
+			<if test="type==0">
+				and date_format(a.time,'%Y-%m-%d')=#{time}
+			</if>
+			<if test="type==1">
+				and date_format(a.time,'%Y-%m')=#{time}
+			</if>
+
 		</if>
 		order by a.id asc limit #{start},#{limit}
 	</select>
+	<select id="excel_three_list" parameterType="map"
+        resultType="xh.mybatis.bean.FaultThreeBean" useCache="true">
+        select a.*,TIMESTAMPDIFF(MINUTE,a.time,a.faultRecoveryTime) as
+        faultTimeTotal,b.period,b.name,b.level from
+        xhgmnet_operations_bsfault_three as a
+        left join xhgmnet_bs_station as b
+        on a.bsId=b.bsId
+        where 1=1
+        <if test="time!=null and time!=''">
+            <if test="type==0">
+                and date_format(a.time,'%Y-%m-%d')=#{time}
+            </if>
+            <if test="type==1">
+                and date_format(a.time,'%Y-%m')=#{time}
+            </if>
+
+        </if>
+        order by a.time asc
+    </select>
 	<select id="four_list" parameterType="map"
 		resultType="xh.mybatis.bean.FaultFourBean" useCache="true">
-		select a.*,TIMESTAMPDIFF(MINUTE,a.produce_time,a.recovery_time) as total_time,b.period,b.name,b.level 
-		from xhgmnet_operations_fault_four as a 
+		select a.*,TIMESTAMPDIFF(MINUTE,a.produce_time,a.recovery_time) as
+		total_time,b.period,b.name,b.level
+		from xhgmnet_operations_fault_four as a
 		left join xhgmnet_bs_station as b on a.bsId=b.bsId
-		 where 1=1
+		where 1=1
 		<if test="time!=null and time!=''">
 			and date_format(produce_time,'%Y-%m')=#{time}
 		</if>
@@ -57,12 +87,43 @@
 	</update>
 	<update id="three_update" parameterType="xh.mybatis.bean.FaultThreeBean">
 		update
-		xhgmnet_operations_bsfault_three  set
-		fault_from=#{fault_from},reason=#{reason},content=#{content},faultRecoveryTime=#{faultRecoveryTime},
-		faultTimeTotal=#{faultTimeTotal},content=#{content},fault_type=#{fault_type},
-		faultHandlePerson=#{faultHandlePerson},faultRecordPerson=#{faultRecordPerson}
+		xhgmnet_operations_bsfault_three set
+		reason=#{reason},
+		content=#{content},
+		faultRecoveryTime=#{faultRecoveryTime},
+		content=#{content},
+		fault_type=#{fault_type},
+		faultHandlePerson=#{faultHandlePerson},
+		faultRecordPerson=#{faultRecordPerson},
+
+
+		nowDeal=#{nowDeal},
+		self_recovery=#{self_recovery},
+		handle_detail=#{handle_detail},
+		reponse_part=#{reponse_part},
+		order_wh=#{order_wh},
+		order_dx=#{order_dx},
+		order_yd=#{order_yd},
+		send_order_time=#{send_order_time},
+		recv_order_time=#{recv_order_time},
+		order_use_time=#{order_use_time},
+		order_cs=#{order_cs},
+		order_cs_total=#{order_cs_total}
 		where id=#{id}
 	</update>
+	<update id="three_update_by_order" parameterType="xh.mybatis.bean.FaultThreeBean">
+     update xhgmnet_operations_bsfault_three set
+        send_order_time=#{send_order_time},
+        recv_order_time=#{recv_order_time},
+        receipt_order_time=#{receipt_order_time}, 
+        
+        recv_order_use_time=#{recv_order_use_time},
+        recv_order_cs=#{recv_order_cs},
+        handle_order_user_time=#{handle_order_user_time} ,
+        handle_order_cs=#{handle_order_cs}      
+        where fault_id=#{fault_id}
+
+    </update>
 	<update id="four_update" parameterType="xh.mybatis.bean.FaultFourBean">
 		update
 		xhgmnet_operations_fault_four set
@@ -80,9 +141,15 @@
 	</select>
 	<select id="three_count" parameterType="map" resultType="int"
 		useCache="true">
-		select count(1) from xhgmnet_operations_bsfault_three  where 1=1
+		select count(1) from xhgmnet_operations_bsfault_three where 1=1
 		<if test="time!=null and time!=''">
-			and date_format(time,'%Y-%m')=#{time}
+			<if test="type==0">
+				and date_format(time,'%Y-%m-%d')=#{time}
+			</if>
+			<if test="type==1">
+				and date_format(time,'%Y-%m')=#{time}
+			</if>
+
 		</if>
 	</select>
 	<select id="four_count" parameterType="map" resultType="int"
@@ -104,7 +171,7 @@
 	</delete>
 	<delete id="three_del" parameterType="java.util.List">
 		delete from
-		xhgmnet_operations_bsfault_three  where id=(
+		xhgmnet_operations_bsfault_three where id=(
 		<foreach collection="list" item="id" separator=",">
 			#{id}
 		</foreach>

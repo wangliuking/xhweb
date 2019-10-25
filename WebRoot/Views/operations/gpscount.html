@@ -186,16 +186,16 @@ float: left;
 									<tr ng-repeat="x in data">
 										<!-- <td><input type="checkbox" name="tb-check"
 											value="{{x.id}}" index="{{$index}}" /></td> -->
-										<td>{{x.bsId}}</td>
-										<td>{{x.name}}</td>
-										<td>{{x.total}}</td>
-										<td>{{x.MaxUserRegCount}}</td>
-										<td>{{x.MaxGroupRegCount}}</td>
-										<td>{{x.QueueCount}}</td>
-										<td>{{x.MaxControlChanUpRate}}%</td>
-										<td>{{x.AvgControlChanUpRate}}%</td>
-										<td>{{x.MaxControlChanDownRate}}%</td>
-										<td>{{x.AvgControlChanDownRate}}%</td>
+										<td class="bg-blue">{{x.bsId}}</td>
+										<td class="bg-blue">{{x.name}}</td>
+										<td ng-class="{true:'bg-green',false:'bg-red'}[x.total<threshold_data.gps_count]">{{x.total}}</td>
+										<td ng-class="{true:'bg-green',false:'bg-red'}[x.MaxUserRegCount<threshold_data.max_reg_user]">{{x.MaxUserRegCount}}</td>
+										<td ng-class="{true:'bg-green',false:'bg-red'}[x.MaxGroupRegCount<threshold_data.max_reg_group]">{{x.MaxGroupRegCount}}</td>
+										<td ng-class="{true:'bg-green',false:'bg-red'}[x.QueueCount<threshold_data.queue_count]">{{x.QueueCount}}</td>
+										<td ng-class="{true:'bg-green',false:'bg-red'}[x.MaxControlChanUpRate<threshold_data.up_ctl]">{{x.MaxControlChanUpRate}}%</td>
+										<td ng-class="{true:'bg-green',false:'bg-red'}[x.AvgControlChanUpRate<threshold_data.up_ctl_avg]">{{x.AvgControlChanUpRate}}%</td>
+										<td ng-class="{true:'bg-green',false:'bg-red'}[x.MaxControlChanDownRate<threshold_data.down_ctl]">{{x.MaxControlChanDownRate}}%</td>
+										<td ng-class="{true:'bg-green',false:'bg-red'}[x.AvgControlChanDownRate<threshold_data.down_ctl_avg]">{{x.AvgControlChanDownRate}}%</td>
 									</tr>
 								</tbody>
 							</table>

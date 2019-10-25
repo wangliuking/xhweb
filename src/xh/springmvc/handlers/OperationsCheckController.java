@@ -526,12 +526,9 @@ public class OperationsCheckController {
 		checkBean.setUserId(FunUtil.StringToInt(FunUtil.loginUserInfo(request).get("userId").toString()));
 		
 		String month=request.getParameter("time");
+		String doc_name=request.getParameter("name");
 		int typestr=Integer.parseInt(request.getParameter("type"));
 		String files=request.getParameter("files");
-		
-		
-		
-		
 		List<Map<String,Object>> filelist=new ArrayList<Map<String,Object>>();
 		Type type = new TypeToken<ArrayList<Map<String,Object>>>() {}.getType(); 
 		filelist=GsonUtil.json2Object(files, type);
@@ -606,6 +603,12 @@ public class OperationsCheckController {
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("message",message);
+		result.put("doc_name", doc_name);
+		result.put("meet_name", fileName);
+		result.put("meet_path", "/doc/check/"+month.split("-")[0]+"/"+fileName);
+		
+		System.out.println("--------------------------------->"+result);
+		FunUtil.CreateSession(request, request.getSession().getId()+"meet_doc", result);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -1091,14 +1094,17 @@ public class OperationsCheckController {
 			}
 		});
 		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
-		for (File file2 : files) {
-			Map<String,Object> map=new HashMap<String, Object>();
-			map.put("fileName", file2.getName());
-			map.put("filePath", hz+"/"+file2.getName());
-			map.put("doc", file2.getName().substring(file2.getName().indexOf(".")+1));
-			list.add(map);
-			
+		if(files!=null){
+			for (File file2 : files) {
+				Map<String,Object> map=new HashMap<String, Object>();
+				map.put("fileName", file2.getName());
+				map.put("filePath", hz+"/"+file2.getName());
+				map.put("doc", file2.getName().substring(file2.getName().indexOf(".")+1));
+				list.add(map);
+				
+			}
 		}
+		
 		
 		HashMap result = new HashMap();
 		result.put("files", list);

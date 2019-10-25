@@ -420,6 +420,89 @@ xh.editDoc=function(path){
 	}
 	
 }
+xh.period=function(){
+	var tt=$("input[name='month']").val();
+	var type=$("select[name='type']").val();
+	type=parseInt(type);
+	//2019-10 属于第六期，
+	var a=parseInt(tt.split("-")[0]);
+	var b=parseInt(tt.split("-")[1]);
+	var rs=0;
+	if(type==3){
+		if(b>=8){
+			rs= (2+a-2015);
+		}else{
+			rs= (1+a-2015);
+		}
+	}else if(type==4){
+		if(b>=5){
+			rs= (2+a-2018);
+		}else{
+			rs= (1+a-2018);
+		}
+	}
+	
+	return xh.toChinesNum(rs);
+	
+}
+//年度
+xh.year=function(){
+	//2019-10 属于第六期，
+	var tt=$("input[name='month']").val();
+	var type=$("select[name='type']").val();
+	type=parseInt(type);
+	var a=parseInt(tt.split("-")[0]);
+	var b=parseInt(tt.split("-")[1]);
+	var rs=0;
+	if(type==3){
+		if(b>=8){
+			rs= a;
+		}else{
+			rs= a-1;
+		}
+	}else if(type==4){
+		if(b>=5){
+			rs= a;
+		}else{
+			rs= a-1;
+		}
+	}
+	return rs
+	
+}
+xh.jd=function(){
+	var tt=$("input[name='month']").val();
+	var a=parseInt(tt.split("-")[1]);
+	if(a==5){
+		return "一";
+	}else if(a>=6 && a<=10){
+		return "二";
+	}else if(a>=11 || a<=4){
+		return "三";
+	}else{
+		return "";
+	}
+}
+xh.getWordName=function(){
+	var tt=$("input[name='month']").val();
+	var type=$("select[name='type']").val();
+	var y=xh.year();
+	var x=xh.period();
+	type=parseInt(type);
+	var doc_name="";
+	if(type==3){
+       doc_name="成都市应急指挥调度无线通信网三期工程采购项目\r\n";
+	   doc_name+="第"+x+"期（"+y+"运维年度）\r\n";
+	   doc_name+=tt.split("-")[0]+tt.split("-")[1]+"月例会会议纪要";
+	}else if(type==4){
+		doc_name="成都市应急指挥调度无线通信网四期工程服务项目\r\n";
+		doc_name+="第"+x+"期（"+y+"运维年度）";
+		doc_name+="第"+xh.jd()+"阶段 \r\n";
+		doc_name+=tt.split("-")[0]+tt.split("-")[1]+"月例会会议纪要";
+	}
+	console.log("name:"+doc_name)
+	return doc_name;
+}
 xh.add = function() {
     var files=[];	
     var addfileNames=new Array();
@@ -447,10 +530,10 @@ xh.add = function() {
 	}
 	var month=$("input[name='month']").val();
 	var type=$("select[name='type']").val();
-	if(files.length<1){
+	/*if(files.length<1){
 		toastr.error("还没有上传文件", '提示');
 		return ;
-	}
+	}*/
 	if(month==""){
 		toastr.error("考核月份不能为空", '提示');
 		return ;
@@ -468,7 +551,7 @@ xh.add = function() {
 			cancelButtonText : "取消",
 			confirmButtonClass: 'btn btn-success',
 			  cancelButtonClass: 'btn btn-danger',
-		      closeOnConfirm : false, 
+		      closeOnConfirm : true, 
 		      closeOnCancel : true
 		 
 		}, function(isConfirm1) {
@@ -481,15 +564,17 @@ xh.add = function() {
 					data:{
 						time:month,
 						type:type,
+						name:xh.getWordName(),
 						files: JSON.stringify(files)
 					},
 					success : function(data) {
 						
 						
 						if (data.success) {
+							POBrowser.openWindowModeless(xh.getUrl()+'/Views/jsp/check_create_meet_doc.jsp','width=300px;height=200px;');
 							
 							//swal("提示","你还有文件没有上传完，禁止提交，待传文件:\r\n"+com.join("\r\n"),"info");
-							swal({
+							/*swal({
 								title : "提示",
 								text : "提交申请成功",
 								type : "success",
@@ -499,14 +584,12 @@ xh.add = function() {
 								cancelButtonText : "取消",
 								 closeOnConfirm : false, 
 							     closeOnCancel : true
-							/*
-							 * closeOnConfirm : false, closeOnCancel : false
-							 */
+							
 							}, function(isConfirm) {
 								if (isConfirm===true) {
 									window.location.href="operations_check.html"
 								}
-							});
+							});*/
 							
 						} else {
 							toastr.error(data.message, '提示');
@@ -528,11 +611,13 @@ xh.add = function() {
 			data:{
 				time:month,
 				type:type,
+				name:xh.getWordName(),
 				files: JSON.stringify(files)
 			},
 			success : function(data) {
 				if (data.success) {
-					swal({
+					POBrowser.openWindowModeless(xh.getUrl()+'/Views/jsp/check_create_meet_doc.jsp','width=300px;height=200px;');
+					/*swal({
 						title : "提示",
 						text : "提交申请成功",
 						type : "success",
@@ -542,14 +627,12 @@ xh.add = function() {
 						cancelButtonText : "取消",
 					    closeOnCancel : true,
 					    closeOnConfirm : false
-					/*
-					 * closeOnConfirm : false, closeOnCancel : false
-					 */
+					
 					}, function(isConfirm) {
 						if (isConfirm) {
 							window.location.href="operations_check.html"
 						}
-					});
+					});*/
 					
 				} else {
 					toastr.error(data.message, '提示');
@@ -562,6 +645,26 @@ xh.add = function() {
 	}
 	
 };
+xh.createMeetDocSussess=function(){
+	
+	swal({
+		title : "提示",
+		text : "提交记录成功",
+		type : "success",
+		showCancelButton : true,
+		confirmButtonColor : "#DD6B55",
+		confirmButtonText : "提交记录成功，返回申请列表",
+		cancelButtonText : "取消",
+	    closeOnCancel : true
+	/*
+	 * closeOnConfirm : false, closeOnCancel : false
+	 */
+	}, function(isConfirm) {
+		if (isConfirm) {
+			window.location.href="operations_check.html"
+		}
+	});
+}
 xh.isAdded = function(name) {
 	var success=0;
     var files=[];	
@@ -593,6 +696,23 @@ xh.isAdded = function(name) {
 	return success;
 	
 };
+xh.toChinesNum=function(num){
+    let changeNum = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九']; //changeNum[0] = "零"
+    let unit = ["", "十", "百", "千", "万"];
+    num = parseInt(num);
+    let getWan = (temp) => {
+    let strArr = temp.toString().split("").reverse();
+    let newNum = "";
+    for (var i = 0; i < strArr.length; i++) {
+      newNum = (i == 0 && strArr[i] == 0 ? "" : (i > 0 && strArr[i] == 0 && strArr[i - 1] == 0 ? "" : changeNum[strArr[i]] + (strArr[i] == 0 ? unit[0] : unit[i]))) + newNum;
+    }
+     return newNum;
+   }
+   let overWan = Math.floor(num / 10000);
+   let noWan = num % 10000;
+   if (noWan.toString().length < 4) noWan = "0" + noWan;
+   return overWan ? getWan(overWan) + "万" + getWan(noWan) : getWan(num);
+}
 
 
 

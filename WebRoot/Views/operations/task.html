@@ -159,11 +159,31 @@
 												<option value="-2">已撤销</option>
 												<option value="-1">已拒绝</option>
 												<option value="0">审核中</option>
-												<option value="1">等待回复</option>
-												<option value="2">已回复</option>
+												<option value="1">等待签收</option>
+												<option value="2">已签收，处理中</option>
+												<option value="3">等待填写总结</option>
+												<option value="4">已完成</option>
 											</select>
 										</div>
 									</div>
+									<div class="form-group">
+                                        <label>发文人</label>
+                                        <div>
+                                            <input type="text" class="form-control" id="send_user">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>审核人</label>
+                                        <div>
+                                            <input type="text" class="form-control" id="check_user">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>签收人</label>
+                                        <div>
+                                            <input type="text" class="form-control" id="sign_user">
+                                        </div>
+                                    </div>
 									<div class="form-group">
 										<label>开始时间</label>
 										<div>
@@ -244,9 +264,9 @@
 										<td><span ng-if="x.status==0">等待审核</span> <span
 											ng-if="x.status==-2" style="color:red">已撤销</span> <span
 											ng-if="x.status==-1" style="color:red">工联单被拒绝({{x.note}})</span>
-											<span ng-if="x.status==1" style="color:blue">等待签收</span> <span
-											ng-if="x.status==2" style="color:blue">已签收，处理中</span> <span
-											ng-if="x.status==3" style="color:blue">处理完成，等待填写完成总结</span> <span
+											<span ng-if="x.status==1" style="color:gray">等待签收</span> <span
+											ng-if="x.status==2" style="color:gray">已签收，处理中</span> <span
+											ng-if="x.status==3" style="color:gray">处理完成，等待填写完成总结</span> <span
 											ng-if="x.status==4" style="color:green">已完成</span></td>
 										<td><a href="#" ng-click="detail($index)"><img
 												src="../../Resources/images/icon/eye.png">查看工作联系单</a> <a
@@ -270,15 +290,15 @@
 										&&  x.status==1">|&nbsp;<img
 												src="../../Resources/images/icon/record.png">签收
 										</a> <a href="#" ng-click="showHandleWin($index)"
-											ng-if="loginUser.roleType==x.user_type 
+											ng-if="(loginUser.roleType==0 || loginUser.roleType==3)
                                         &&  x.status==2">|&nbsp;<img
 												src="../../Resources/images/icon/record.png">填写处理结果
 										</a> <a href="#" ng-click="showSummaryWin($index)"
-											ng-if="loginUser.roleType==x.user_type 
+											ng-if="(loginUser.roleType==0 || loginUser.roleType==3)
                                         &&  x.status==3">|&nbsp;<img
 												src="../../Resources/images/icon/record.png">填写总结
 										</a> <a href="#" ng-click="del($index)"
-											ng-if="up.o_delete=='on' && loginUser.roleType==0 ">|&nbsp;<img
+											ng-if="up.o_delete=='on' || loginUser.roleType==0 ">|&nbsp;<img
 												src="../../Resources/images/icon/del.png">删除
 										</a></td>
 
@@ -397,9 +417,24 @@
 					<div class="row">
 
 						<div class="col-md-12">
-							<textarea class="form-input" name="handle" rows="8"></textarea>
+							<textarea class="form-control" name="handle" rows="8"></textarea>
 
 						</div>
+						 <div class="form-group col-md-4" ng-show="editData.type=='通信保障'">
+                        <label>投入人力</label>
+                               <input type="number" class="form-control" name="person_num"
+                                required="required" value="0">
+                        </div>
+                        <div class="form-group col-md-4" ng-show="editData.type=='通信保障'">
+                        <label>移动卫星车使用时长（小时）</label>
+                                <input type="number" class="form-control" name="satellite_time"
+                                required="required" value="0">
+                        </div>
+                        <div class="form-group col-md-4" ng-show="editData.type=='通信保障'">
+                        <label>移动通讯车使用台次</label>
+                                <input type="number" class="form-control" name="bus_num"
+                                required="required" value="0">
+                        </div>
 					</div>
 
 
