@@ -1627,7 +1627,7 @@ public class Service {
 				paramMap.put("userId", userId);
 				paramMap.put("workman", receiveTable.getHandleusername());
 				Service.updateUserStatus(paramMap);
-				//更新故障接收人
+				//更新故障接收人及接单时间
 				mapper.updateReceverFault(paramMap);
 				//查询可接单人
 				String persons = mapper.searchReceverFault(receiveTable.getSerialnumber());

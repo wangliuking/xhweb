@@ -324,7 +324,7 @@
 
 	<!-- 根据订单号更新故障接单人 -->
 	<update id="updateReceverFault" parameterType="map">
-		update xhgmnet_operations_fault_task_order set handleUserid=#{userId},workman=#{workman} where serialnumber=#{serialNum}
+		update xhgmnet_operations_fault_task_order set handleUserid=#{userId},workman=#{workman},recvTime=now() where serialnumber=#{serialNum}
 	</update>
 
 	<!-- 根据订单号查询全部故障信息 -->

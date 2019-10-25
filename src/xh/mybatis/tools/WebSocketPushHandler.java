@@ -107,12 +107,11 @@ public class WebSocketPushHandler implements WebSocketHandler{
 			if (status == 0 && bsId!="") {
 				new StopStreamTaskThread(bsId).start();
 			}
+			users.remove(session);
+			System.out.println("用户名："+userId+" sessionId为： "+session.getId()+"---已经断开了websocket连接。。。");
 			if(session.isOpen()){
 				session.close();
 			}
-			users.remove(session);
-			System.out.println("用户名："+userId+" sessionId为： "+session.getId()+"---已经断开了websocket连接。。。");
-			
 		}		
 	}
 
