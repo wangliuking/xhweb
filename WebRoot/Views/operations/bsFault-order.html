@@ -262,7 +262,7 @@ to {
 										<tr>
 											<td style="width:100px">基站ID</td>
 											<td style="width:200px"><input ng-model="bsId"
-												name="bsId" class="form-control"></td>
+												name="bsId" class="form-control" ng-blur="writeBsName()"></td>
 											<td style="width:100px">基站名称</td>
 											<td style="width:200px">
 											<input ng-model="name"
@@ -285,7 +285,7 @@ to {
 													<option value="A级" selected="selected">A级</option>
 													<option value="B级">B级</option>
 													<option value="C级">C级</option>
-													<option value="D级">C级</option>
+													<option value="D级">D级</option>
 											</select></td>
 											<td colspan="4">
 												<p>A级，包括一级基站断站，1小时40分钟内处理恢复；</p>
@@ -307,7 +307,7 @@ to {
 												class="form-control"></td>
 										</tr>
 										<tr>
-											<td>处理进展</td>
+											<td>故障详情</td>
 											<td colspan="3"><textarea class="form-control" rows="4" name="progress"></textarea></td>
 										</tr>
 

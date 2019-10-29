@@ -33,6 +33,10 @@ xh.load = function() {
 		$scope.time=xh.getLastMonth();
 		$scope.id=0;
 		$scope.page=1;
+		var t=window.sessionStorage.getItem("search_check_month");
+		if(t!=null && t!=""){
+			$scope.time=t;
+		}
 		
 		// 获取登录用户
 		$http.get("../../web/loginUserInfo").success(function(response) {
@@ -866,7 +870,9 @@ xh.load = function() {
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
+			
 			var time = $("#time").val();
+			window.sessionStorage.setItem("search_check_month", time);
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);

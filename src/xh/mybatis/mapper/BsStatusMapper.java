@@ -92,7 +92,7 @@ public interface BsStatusMapper {
 	public int not_order_bs() throws Exception;
 	
 	public int stop_check_bs(List<String> list) throws Exception;
-	
+	public Map<String,Object> select_bs_by_bsid(int bsId) throws Exception;
 	
 	
 	/**

@@ -20,6 +20,7 @@ public class GpsSetStruct {
 	
 	private String ip;
 	private int port;
+	private int userId;
 	public int getSrcId() {
 		return srcId;
 	}
@@ -63,6 +64,12 @@ public class GpsSetStruct {
 		this.triggerPara = triggerPara;
 	}
 	
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 	public String getIp() {
 		return ip;
 	}

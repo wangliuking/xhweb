@@ -43,6 +43,13 @@ xh.load = function() {
 				$scope.data = response.items;
 			});
 		};
+		$scope.writeBsName=function(){
+			$scope.name="";
+			$http.get("../../bs/select_bs_by_bsid?bsId="+$scope.bsId).
+			success(function(response){
+				$scope.name = response.items.name;
+			});
+		}
 		$scope.nowInput=function(tt){
 			localStorage.setItem("nowinput", tt);
 			console.log(localStorage.getItem("nowinput"));
@@ -104,8 +111,13 @@ xh.order=function(){
 	var $scope = angular.element(appElement).scope();
 	var a=$("textarea[name='recvUser']").val().split(";");
 	var b=$("textarea[name='copyUser']").val().split(";");
+	var c=$("input[name='bsId']").val();
 	if(recvUser==""){
 		toastr.error("接单人不能为空", '提示');
+		return;
+	}
+	if(c==""){
+		toastr.error("基站不能为空", '提示');
 		return;
 	}
     var data=$scope.data;
@@ -133,6 +145,7 @@ xh.order=function(){
 		toastr.error("接单人填写出错，请重新填写", '提示');
 		return;
 	}
+	$("#order-btn").button('loading');
 	var formData={
 		id:$scope.id,
 		bsid:$("input[name='bsId']").val(),
@@ -158,6 +171,7 @@ xh.order=function(){
 		dataType : "json",
 		async : false,
 		success : function(response) {
+			$("#btn-excel").button('reset');
 			var data = response;
 			if(data.success){
 				var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
@@ -172,6 +186,7 @@ xh.order=function(){
 		},
 		failure : function(response) {
 			toastr.error("派单失败", '提示');
+			$("#btn-excel").button('reset');
 		}
 	});
 }

@@ -8,19 +8,19 @@
 			and time>=#{starttime}
 		</if>
 		<if test="endtime!=null and endtime!=''">
-            and time &lt;=#{endtime}
-        </if>
+			and time &lt;=#{endtime}
+		</if>
 		limit #{start},#{limit}
 	</select>
 	<select id="data_all_count" parameterType="map" resultType="int"
 		useCache="true">
 		select count(*) from xhgmnet_operations_userneed where 1=1
 		<if test="starttime!=null and starttime!=''">
-            and time>=#{starttime}
-        </if>
-        <if test="endtime!=null and endtime!=''">
-            and time &lt;=#{endtime}
-        </if>
+			and time>=#{starttime}
+		</if>
+		<if test="endtime!=null and endtime!=''">
+			and time &lt;=#{endtime}
+		</if>
 	</select>
 	<insert id="add" parameterType="xh.mybatis.bean.UserNeedBean"
 		useGeneratedKeys="true" keyProperty="id">
@@ -45,120 +45,136 @@
 		)
 	</delete>
 	<select id="communication_list" parameterType="map"
-        resultType="xh.mybatis.bean.RecordCommunicationBean" useCache="true">
-        select * from record_communication where 1=1
-  
-        <if test="starttime!=null and starttime!=''">
-            and start_time>=#{starttime}
-        </if>
-        <if test="endtime!=null and endtime!=''">
-            and start_time &lt;=#{endtime}
-        </if>
-         order by start_time desc
-         limit #{start},#{limit}
-    </select>
-    <select id="communication_list_count" parameterType="map" resultType="int"
-        useCache="true">
-        select count(*) from record_communication where 1=1
-         <if test="starttime!=null and starttime!=''">
-            and start_time>=#{starttime}
-        </if>
-        <if test="endtime!=null and endtime!=''">
-            and start_time &lt;=#{endtime}
-        </if>
-    </select>
-    <insert id="add_communication" parameterType="xh.mybatis.bean.RecordCommunicationBean"
-        useGeneratedKeys="true" keyProperty="id">
-        insert into
-        record_communication(name,start_time,end_time,zone,level,satellite_time,
-        bus_num,person_num)values
-        (#{name},#{start_time},#{end_time},#{zone},#{level},#{satellite_time},
-        #{bus_num},#{person_num})
-    </insert>
-    <update id="update_communication" parameterType="xh.mybatis.bean.RecordCommunicationBean">
-        update
-        record_communication set
-        name=#{name},start_time=#{start_time},end_time=#{end_time},
-        zone=#{zone},level=#{level},satellite_time=#{satellite_time},bus_num=#{bus_num},
-        person_num=#{person_num}
-        where id=#{id}
-    </update>
-    <update id="upload_communication" parameterType="xh.mybatis.bean.RecordCommunicationBean">
-        update
-        record_communication set
-        file_name=#{file_name},file_path=#{file_path} 
-        where id=#{id}
-    </update>
-    
-    <delete id="del_communication" parameterType="java.util.List">
-        delete from
-        record_communication where id in(
-        <foreach collection="list" item="id" separator=",">
-            #{id}
-        </foreach>
-        )
-    </delete>
+		resultType="xh.mybatis.bean.RecordCommunicationBean" useCache="true">
+		select * from record_communication where 1=1
 
-<select id="emergency_list" parameterType="map"
-        resultType="xh.mybatis.bean.RecordEmergencyBean" useCache="true">
-        select * from record_emergency where 1=1
-        
-        <if test="starttime!=null and starttime!=''">
-            and create_time>=#{starttime}
-        </if>
-        <if test="endtime!=null and endtime!=''">
-            and create_time &lt;=#{endtime}
-        </if>
-         limit #{start},#{limit}
-    </select>
-    <select id="emergency_list_count" parameterType="map" resultType="int"
-        useCache="true">
-        select count(*) from record_emergency where 1=1
-        <if test="starttime!=null and starttime!=''">
-            and create_time>=#{starttime}
-        </if>
-        <if test="endtime!=null and endtime!=''">
-            and create_time &lt;=#{endtime}
-        </if>
-    </select>
-    <insert id="add_emergency" parameterType="xh.mybatis.bean.RecordEmergencyBean"
-        useGeneratedKeys="true" keyProperty="id">
-        insert into
-        record_emergency(name,create_time,type,address,personnel,content,process,summary)values
-        (#{name},#{create_time},#{type},#{address},#{personnel},#{content},#{process},
-        #{summary})
-    </insert>
-    <update id="update_emergency" parameterType="xh.mybatis.bean.RecordEmergencyBean">
-        update
-        record_emergency set
-        name=#{name},create_time=#{create_time},type=#{type},address=#{address},
-        personnel=#{personnel},content=#{content},summary=#{summary}
-        where id=#{id}
-    </update>
-    <update id="upload_emergency" parameterType="xh.mybatis.bean.RecordEmergencyBean">
-        update
-        record_emergency set
-        file_name=#{file_name},file_path=#{file_path} 
-        where id=#{id}
-    </update>
-    
-    <delete id="del_emergency" parameterType="java.util.List">
-        delete from
-        record_emergency where id in (
-        <foreach collection="list" item="id" separator=",">
-            #{id}
-        </foreach>
-        )
-    </delete>
-     <insert id="addFile" parameterType="java.util.List">
-        insert into
-        record_emergency_pic(id,pic_path,pic_name)values
-        <foreach collection="list" item="x" separator=",">
-            (#{x.id},#{x.filePath},#{x.fileName})
-        </foreach>
-    </insert>
-    <select id="searchFile" parameterType="int" resultType="map">
-    select * from record_emergency_pic where id=#{id}
-    </select>
+		<if test="starttime!=null and starttime!=''">
+			and start_time>=#{starttime}
+		</if>
+		<if test="endtime!=null and endtime!=''">
+			and start_time &lt;=#{endtime}
+		</if>
+		order by start_time desc
+		limit #{start},#{limit}
+	</select>
+	<select id="communication_list_count" parameterType="map"
+		resultType="int" useCache="true">
+		select count(*) from record_communication where 1=1
+		<if test="starttime!=null and starttime!=''">
+			and start_time>=#{starttime}
+		</if>
+		<if test="endtime!=null and endtime!=''">
+			and start_time &lt;=#{endtime}
+		</if>
+	</select>
+	<insert id="add_communication" parameterType="xh.mybatis.bean.RecordCommunicationBean"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into
+		record_communication(name,start_time,end_time,zone,level,satellite_time,
+		bus_num,person_num)values
+		(#{name},#{start_time},#{end_time},#{zone},#{level},#{satellite_time},
+		#{bus_num},#{person_num})
+	</insert>
+	<update id="update_communication" parameterType="xh.mybatis.bean.RecordCommunicationBean">
+		update
+		record_communication set
+		name=#{name},start_time=#{start_time},end_time=#{end_time},
+		zone=#{zone},level=#{level},satellite_time=#{satellite_time},bus_num=#{bus_num},
+		person_num=#{person_num}
+		where id=#{id}
+	</update>
+	<update id="update_communication_by_task" parameterType="map">
+		<if test="type==1">
+			update
+			record_communication set
+			satellite_time=#{satellite_time},bus_num=#{bus_num},
+			person_num=#{person_num}
+			where taskId=#{id}
+		</if>
+		<if test="type==2">
+			update
+			record_communication set
+            file_name=#{file_name},file_path=#{file_path}
+			where taskId=#{id}
+		</if>
+
+	</update>
+	<update id="upload_communication" parameterType="xh.mybatis.bean.RecordCommunicationBean">
+		update
+		record_communication set
+		file_name=#{file_name},file_path=#{file_path}
+		where id=#{id}
+	</update>
+
+	<delete id="del_communication" parameterType="java.util.List">
+		delete from
+		record_communication where id in(
+		<foreach collection="list" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+	</delete>
+
+	<select id="emergency_list" parameterType="map"
+		resultType="xh.mybatis.bean.RecordEmergencyBean" useCache="true">
+		select * from record_emergency where 1=1
+
+		<if test="starttime!=null and starttime!=''">
+			and create_time>=#{starttime}
+		</if>
+		<if test="endtime!=null and endtime!=''">
+			and create_time &lt;=#{endtime}
+		</if>
+		limit #{start},#{limit}
+	</select>
+	<select id="emergency_list_count" parameterType="map"
+		resultType="int" useCache="true">
+		select count(*) from record_emergency where 1=1
+		<if test="starttime!=null and starttime!=''">
+			and create_time>=#{starttime}
+		</if>
+		<if test="endtime!=null and endtime!=''">
+			and create_time &lt;=#{endtime}
+		</if>
+	</select>
+	<insert id="add_emergency" parameterType="xh.mybatis.bean.RecordEmergencyBean"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into
+		record_emergency(name,create_time,type,address,personnel,content,process,summary)values
+		(#{name},#{create_time},#{type},#{address},#{personnel},#{content},#{process},
+		#{summary})
+	</insert>
+	<update id="update_emergency" parameterType="xh.mybatis.bean.RecordEmergencyBean">
+		update
+		record_emergency set
+		name=#{name},create_time=#{create_time},type=#{type},address=#{address},
+		personnel=#{personnel},content=#{content},summary=#{summary}
+		where id=#{id}
+	</update>
+	<update id="upload_emergency" parameterType="xh.mybatis.bean.RecordEmergencyBean">
+		update
+		record_emergency set
+		file_name=#{file_name},file_path=#{file_path}
+		where id=#{id}
+	</update>
+
+	<delete id="del_emergency" parameterType="java.util.List">
+		delete from
+		record_emergency where id in (
+		<foreach collection="list" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+	</delete>
+	<insert id="addFile" parameterType="java.util.List">
+		insert into
+		record_emergency_pic(id,pic_path,pic_name)values
+		<foreach collection="list" item="x" separator=",">
+			(#{x.id},#{x.filePath},#{x.fileName})
+		</foreach>
+	</insert>
+	<select id="searchFile" parameterType="int" resultType="map">
+		select * from record_emergency_pic where id=#{id}
+	</select>
 
 </mapper>

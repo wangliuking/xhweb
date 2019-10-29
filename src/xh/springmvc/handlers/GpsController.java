@@ -59,6 +59,7 @@ public class GpsController {
 			currentMonth=Integer.toString(temp);
 		}
 		String srcId=request.getParameter("srcId");
+		String bsId=request.getParameter("bsId");
 		String dstId=request.getParameter("dstId");
 		String startTime=request.getParameter("startTime");
 		String endTime=request.getParameter("endTime");
@@ -76,6 +77,7 @@ public class GpsController {
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("list", list);
+		map.put("bsId", bsId);
 		map.put("srcId", srcId);
 		map.put("dstId", dstId);
 		map.put("startTime", startTime);
@@ -97,6 +99,43 @@ public class GpsController {
 		result.put("success", success);
 		result.put("totals",data1);
 		result.put("items", data2);
+		response.setContentType("application/json;charset=utf-8");  
+		response.setHeader("Refresh", "1");  
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	@RequestMapping(value="/gps_count",method = RequestMethod.GET)
+	public void gps_count(HttpServletRequest request, HttpServletResponse response){
+	
+		int start=funUtil.StringToInt(request.getParameter("start"));
+		int limit=funUtil.StringToInt(request.getParameter("limit"));
+		String bsId=request.getParameter("bsId");
+		String start_time=request.getParameter("starttime");
+		String end_time=request.getParameter("endtime");
+		List<String> list=new ArrayList<String>();
+		if(bsId!=null && bsId!=""){
+			String[] a=bsId.split(",");
+			for (String string : a) {
+				list.add(string);
+			}
+		}
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("bsId", list);
+		map.put("start_time", start_time);
+		map.put("end_time", end_time);
+		map.put("start", start);
+		map.put("limit", limit);
+		HashMap result = new HashMap();
+		System.out.println(map);
+		
+		result.put("totals",GpsService.gps_count_total(map));
+		result.put("items", GpsService.gps_count(map));
 		response.setContentType("application/json;charset=utf-8");  
 		response.setHeader("Refresh", "1");  
 		String jsonstr = json.Encode(result);

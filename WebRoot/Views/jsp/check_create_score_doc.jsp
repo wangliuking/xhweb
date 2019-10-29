@@ -25,8 +25,6 @@ System.out.println("time->"+bean.toString());
     
         WordDocument doc = new WordDocument();
         String month=bean.getTime();
-        System.out.println("time->"+month);
-        System.out.println("time->type"+type);
         //String str=month.split("-")[0]+"年"+month.split("-")[0]+"月";
         doc.setEnableAllDataRegionsEditing(true); // 此属性可以设置在提交模式（docSubmitForm）下，所有的数据区域可以编辑
 

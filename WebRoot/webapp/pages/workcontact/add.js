@@ -17,6 +17,7 @@ loader.define(function(require,exports,module) {
             	No:code(),
             	content:content,
             	select:select_data(),
+            	showEnsure:true,
             	sendUnit:gl_para.sendUnit
             },
             methods:{
@@ -26,6 +27,15 @@ loader.define(function(require,exports,module) {
             	},
             	showFileWin:function(){
             		$("input[name='pathName']").click();
+            	},
+            	type_change:function(){
+            		var a=$("select[name='type']").val();
+            		if(a=="通信保障"){
+            			this.showEnsure=true;
+            		}else{
+            			this.showEnsure=false;
+            		}
+            		console.log(this.showEnsure)
             	}
                 
             }

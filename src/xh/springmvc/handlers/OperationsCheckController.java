@@ -272,6 +272,7 @@ public class OperationsCheckController {
 			rs.put("n_h1", "本月系统应急处置演练0次");
 			rs.put("n_i1", "本月运维资料齐全");
 			rs.put("n_j1", "本月无安全保密事故");
+			rs.put("n_k1", "本月无基站搬迁本月使用临时卫星链路22.84小时/1Mbps");
 		}else{
 			rs.put("n_a1", "交换中心本月运行正常");
 			rs.put("n_m1", "Moto交换中心本月运行正常");
@@ -525,12 +526,9 @@ public class OperationsCheckController {
 		checkBean.setUserId(FunUtil.StringToInt(FunUtil.loginUserInfo(request).get("userId").toString()));
 		
 		String month=request.getParameter("time");
+		String doc_name=request.getParameter("name");
 		int typestr=Integer.parseInt(request.getParameter("type"));
 		String files=request.getParameter("files");
-		
-		
-		
-		
 		List<Map<String,Object>> filelist=new ArrayList<Map<String,Object>>();
 		Type type = new TypeToken<ArrayList<Map<String,Object>>>() {}.getType(); 
 		filelist=GsonUtil.json2Object(files, type);
@@ -575,28 +573,42 @@ public class OperationsCheckController {
 		checkBean.setFileName(fileName);
 		checkBean.setFilePath("doc/check/"+month.split("-")[0]+"/"+fileName);
 
-		int rst=OperationsCheckService.add(checkBean);
-		if(rst>=1){
-			this.success=true;
-			this.message="提交文件成功";
-			/*OperationsCheckService.addScore(score3);
-			OperationsCheckService.addScore(score4);
-			OperationsCheckService.addDetail(money3);
-			OperationsCheckService.addDetail(money4);*/
-			webLogBean.setOperator(FunUtil.loginUser(request));
-			webLogBean.setOperatorIp(FunUtil.getIpAddr(request));
-			webLogBean.setStyle(1);
-			webLogBean.setContent("运维考核，data=" + checkBean.getApplyId());
-			WebLogService.writeLog(webLogBean);
-			createMeetFile(checkBean, request);
-			FunUtil.sendMsgToUserByPower("o_check_operations_check", 3, "运维考核", "请审核运维考核文件，并签章", request);	
+		int isExists=OperationsCheckService.isExists(checkBean);
+		
+		if(isExists==0){
+			int rst=OperationsCheckService.add(checkBean);
+			if(rst>=1){
+				this.success=true;
+				this.message="提交文件成功";
+				/*OperationsCheckService.addScore(score3);
+				OperationsCheckService.addScore(score4);
+				OperationsCheckService.addDetail(money3);
+				OperationsCheckService.addDetail(money4);*/
+				webLogBean.setOperator(FunUtil.loginUser(request));
+				webLogBean.setOperatorIp(FunUtil.getIpAddr(request));
+				webLogBean.setStyle(1);
+				webLogBean.setContent("运维考核，data=" + checkBean.getApplyId());
+				WebLogService.writeLog(webLogBean);
+				createMeetFile(checkBean, request);
+				FunUtil.sendMsgToUserByPower("o_check_operations_check", 3, "运维考核", "请审核运维考核文件，并签章", request);	
+			}else{
+				this.success=false;
+				this.message="提交文件失败";
+			}
 		}else{
 			this.success=false;
-			this.message="提交文件失败";
+			this.message="申请记录已经存在！";
 		}
+		
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("message",message);
+		result.put("doc_name", doc_name);
+		result.put("meet_name", fileName);
+		result.put("meet_path", "/doc/check/"+month.split("-")[0]+"/"+fileName);
+		
+		System.out.println("--------------------------------->"+result);
+		FunUtil.CreateSession(request, request.getSession().getId()+"meet_doc", result);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -1082,14 +1094,17 @@ public class OperationsCheckController {
 			}
 		});
 		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
-		for (File file2 : files) {
-			Map<String,Object> map=new HashMap<String, Object>();
-			map.put("fileName", file2.getName());
-			map.put("filePath", hz+"/"+file2.getName());
-			map.put("doc", file2.getName().substring(file2.getName().indexOf(".")+1));
-			list.add(map);
-			
+		if(files!=null){
+			for (File file2 : files) {
+				Map<String,Object> map=new HashMap<String, Object>();
+				map.put("fileName", file2.getName());
+				map.put("filePath", hz+"/"+file2.getName());
+				map.put("doc", file2.getName().substring(file2.getName().indexOf(".")+1));
+				list.add(map);
+				
+			}
 		}
+		
 		
 		HashMap result = new HashMap();
 		result.put("files", list);

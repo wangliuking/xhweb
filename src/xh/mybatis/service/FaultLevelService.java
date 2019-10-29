@@ -44,6 +44,19 @@ public class FaultLevelService {
 		}
 		return list;
 	}
+	public static List<FaultThreeBean> excel_three_list(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		FaultLevelMapper mapper=sqlSession.getMapper(FaultLevelMapper.class);
+		List<FaultThreeBean> list=new ArrayList<FaultThreeBean>();
+		try {
+			list=mapper.excel_three_list(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 	public static List<FaultFourBean> four_list(Map<String,Object> map){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		FaultLevelMapper mapper=sqlSession.getMapper(FaultLevelMapper.class);
@@ -131,6 +144,20 @@ public class FaultLevelService {
 		int count=0;
 		try {
 			count=mapper.three_update(bean);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	public static int three_update_by_order(FaultThreeBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		FaultLevelMapper mapper=sqlSession.getMapper(FaultLevelMapper.class);
+		int count=0;
+		try {
+			count=mapper.three_update_by_order(bean);
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {

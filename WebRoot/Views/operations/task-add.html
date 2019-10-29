@@ -31,7 +31,7 @@
 								<tr>
 									<td width="130px" class="w-tag">类&nbsp;&nbsp;&nbsp;&nbsp;型</td>
 									<td colspan="1">
-									<select name="type" class="form-select">
+									<select name="type" class="form-select" ng-mode="type" onchange="xh.typeChange()">
 									 <option ng-repeat="x in select_data" value="{{x.name}}">{{x.name}}</option>
 									
 									</select>
@@ -45,6 +45,23 @@
                                             </select>
                                     </td>
 								</tr>
+								<tr ng-show="type=='通信保障'">
+								<td width="130px" class="w-tag">保障开始时间</td>
+                                    <td><input type="text" class="form-input" name="ensure_starttime"
+                                    onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:00',firstDayOfWeek:1,isShowWeek:false})"
+                                                        placeholder="保障开始时间" value="" >
+                                    </td>
+                                    <td width="130px" class="w-tag">保障结束时间</td>
+                                    <td><input type="text" class="form-input" name="ensure_endtime"
+                                    onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:00',firstDayOfWeek:1,isShowWeek:false})"
+                                                        placeholder="保障结束时间"  value="" >
+                                    </td>
+								</tr>
+								<tr ng-show="type=='通信保障'">
+                                    <td width="130px" class="w-tag">保障区域</td>
+                                    <td colspan="3"><input type="text" class="form-input"
+                                        name="ensure_zone" value=""></td>
+                                </tr>
 								<tr>
 									<td width="130px" class="w-tag">发文单位 </td>
 									<td colspan="3">

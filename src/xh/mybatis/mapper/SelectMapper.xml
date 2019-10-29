@@ -11,4 +11,12 @@
 	<delete id="workcontact_del" parameterType="String">
 	delete from select_workcontact where name=#{name}
 	</delete>
+	<select id="ThresholdMap" resultType="xh.mybatis.bean.DataThresholdBean">
+	select * from data_threshold
+	</select>
+	<update id="updateThreshold" parameterType="xh.mybatis.bean.DataThresholdBean">
+	update data_threshold set gps_count=#{gps_count},max_reg_user=#{max_reg_user},max_reg_group=#{max_reg_group},
+	queue_count=#{queue_count},up_ctl=#{up_ctl},up_ctl_avg=#{up_ctl_avg},down_ctl=#{down_ctl},
+	down_ctl_avg=#{down_ctl_avg} where id=#{id}
+	</update>
 </mapper>

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 
 import xh.func.plugin.FunUtil;
+import xh.mybatis.bean.DataThresholdBean;
 import xh.mybatis.bean.WorkBean;
 import xh.mybatis.mapper.SelectMapper;
 import xh.mybatis.mapper.WorkMapper;
@@ -55,7 +56,32 @@ public class SelectServices {
 		}
 		return  count;
 	}
-	
-
+	public static  DataThresholdBean ThresholdMap(){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		SelectMapper mapper=sqlSession.getMapper(SelectMapper.class);
+		DataThresholdBean bean=new DataThresholdBean();
+		try {
+			bean=mapper.ThresholdMap();
+			sqlSession.close();					
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  bean;
+	}
+	public static int updateThreshold(DataThresholdBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		SelectMapper mapper=sqlSession.getMapper(SelectMapper.class);
+		int count=0;
+		try {
+			count=mapper.updateThreshold(bean);
+			sqlSession.commit();
+			sqlSession.close();					
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  count;
+	}
 
 }

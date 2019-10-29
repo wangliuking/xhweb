@@ -32,8 +32,52 @@ xh.load = function() {
 	app.controller("xhcontroller", function($scope,$http, $location) {
 		$scope.applyId = $location.search().applyId;
 		$scope.time = $location.search().checkMonth;
+		$scope.period=function(tt){
+			//2019-10 属于第六期，
+			var a=parseInt(tt.split("-")[0]);
+			var b=parseInt(tt.split("-")[1]);
+			var rs=0;
+			if(b>=5){
+				rs= (2+a-2018);
+			}else{
+				rs= (1+a-2018);
+			}
+			return xh.toChinesNum(rs);
+			
+		}
+		//年度
+		$scope.year=function(tt){
+			//2019-10 属于第六期，
+			var a=parseInt(tt.split("-")[0]);
+			var b=parseInt(tt.split("-")[1]);
+			var rs=0;
+			if(b>=5){
+				rs= a;
+			}else{
+				rs= a-1;
+			}
+			return rs
+			
+		}
+		$scope.jd=function(tt){
+			var a=parseInt(tt.split("-")[1]);
+			if(a==5){
+				return "一";
+			}else if(a>=6 && a<=10){
+				return "二";
+			}else if(a>=11 || a<=4){
+				return "三";
+			}else{
+				return "";
+			}
+		}
+		var tt=$scope.period($scope.time);
+		var y=$scope.year($scope.time);
 		
-		$scope.doc_name="成都市应急指挥调度无线通信网四期工程服务项目\r\n"+$scope.time+"项目服务扣分表";
+		$scope.doc_name="成都市应急指挥调度无线通信网四期工程服务项目\r\n";
+		$scope.doc_name+="第"+tt+"期（"+y+"运维年度）";
+		$scope.doc_name+="第"+$scope.jd($scope.time)+"阶段 \r\n";
+		$scope.doc_name+=$scope.time.split("-")[0]+$scope.time.split("-")[1]+"月考核表";
 		var files=$location.search().files;
 		var docName=$location.search().docName;
 		if(docName!=null && docName!="" && docName!="null"){
@@ -125,8 +169,10 @@ xh.load = function() {
 					  maxmin:true,
 					  title:'用户需要求处理列表',
 					  area: ['900px', '500px'],
-					  content: xh.getUrl()+'/Views/business/user_need.html?month='+$scope.time //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+					  content: xh.getUrl()+'/Views/operations/task_check_record.html?month='+$scope.time+"&type=用户响应" 
+					  //content: xh.getUrl()+'/Views/business/user_need.html?month='+$scope.time //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
 					}); 
+				layer.full(index);
 			}
 			 if(str=="应急通信保障"){
 					var index=layer.open({
@@ -148,8 +194,10 @@ xh.load = function() {
 					  title:'应急演练列表',
 					  maxmin:true,
 					  area: ['900px', '500px'],
-					  content: xh.getUrl()+'/Views/business/record_emergency.html?month='+$scope.time //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+					  content: xh.getUrl()+'/Views/operations/task_check_record.html?month='+$scope.time+"&type=应急演练"
+					  //content: xh.getUrl()+'/Views/business/record_emergency.html?month='+$scope.time //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
 					}); 
+				layer.full(index);
 			}
 		  if(str=="网络优化"){
 				var index=layer.open({
@@ -159,7 +207,7 @@ xh.load = function() {
 					  title:'网络优化列表',
 					  maxmin:true,
 					  area: ['900px', '500px'],
-					  content: xh.getUrl()+'/Views/operations/task_check_record.html?month='+$scope.time+"&type=网络优化与整改"  //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+					  content: xh.getUrl()+'/Views/operations/task_check_record.html?month='+$scope.time+"&type=优化整改"  //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
 					});
 				layer.full(index);
 			}
@@ -171,8 +219,10 @@ xh.load = function() {
 					  title:'培训及技术支持服务列表',
 					  maxmin:true,
 					  area: ['900px', '500px'],
-					  content: xh.getUrl()+'/Views/business/record_train.html?month='+$scope.time //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+					  content: xh.getUrl()+'/Views/operations/task_check_record.html?month='+$scope.time+"&type=培训"
+					 // content: xh.getUrl()+'/Views/business/record_train.html?month='+$scope.time //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
 					});
+				layer.full(index);
 			}
 		  if(str=="运维响应机制"){
 				var index=layer.open({
@@ -182,7 +232,8 @@ xh.load = function() {
 					  title:'运维响应机制',
 					  maxmin:true,
 					  area: ['900px', '500px'],
-					  content: xh.getUrl()+'/Views/operations/task_check_record.html?month='+$scope.time+"&type=支持与配合工作" //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+					  content: xh.getUrl()+'/Views/operations/task_check_record.html?month='+$scope.time+"&type=技术支持服务"
+					 //content: xh.getUrl()+'/Views/operations/task_check_record.html?month='+$scope.time+"&type=支持与配合工作" //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
 					});
 				layer.full(index);
 			}
@@ -239,4 +290,21 @@ xh.writeScoreSussess=function(){
 			window.location.href="operations_check.html"
 		}
 	});
+}
+xh.toChinesNum=function(num){
+    let changeNum = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九']; //changeNum[0] = "零"
+    let unit = ["", "十", "百", "千", "万"];
+    num = parseInt(num);
+    let getWan = (temp) => {
+    let strArr = temp.toString().split("").reverse();
+    let newNum = "";
+    for (var i = 0; i < strArr.length; i++) {
+      newNum = (i == 0 && strArr[i] == 0 ? "" : (i > 0 && strArr[i] == 0 && strArr[i - 1] == 0 ? "" : changeNum[strArr[i]] + (strArr[i] == 0 ? unit[0] : unit[i]))) + newNum;
+    }
+     return newNum;
+   }
+   let overWan = Math.floor(num / 10000);
+   let noWan = num % 10000;
+   if (noWan.toString().length < 4) noWan = "0" + noWan;
+   return overWan ? getWan(overWan) + "万" + getWan(noWan) : getWan(num);
 }

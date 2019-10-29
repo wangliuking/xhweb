@@ -44,6 +44,9 @@
 	</select>
 
 	<!-- 新增考核信息 -->
+	<select id="isExists" parameterType="xh.mybatis.bean.OperationsCheckBean" resultType="int">
+	select count(*) from xhgmnet_operations_check where checkMonth=#{checkMonth} and type=#{type}
+	</select>
 	<insert id="add" parameterType="xh.mybatis.bean.OperationsCheckBean"
 		useGeneratedKeys="true" keyProperty="id">
 		insert into

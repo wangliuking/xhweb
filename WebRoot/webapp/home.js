@@ -24,7 +24,7 @@ bui.ready(function(){
         id: "#bui-router"
     });
     var params = router.getPageParams();
-    console.log("dddd->"+JSON.stringify(params))
+   // console.log("dddd->"+JSON.stringify(params))
     if(params.userName!=undefined){
     	login(params);
     }; 

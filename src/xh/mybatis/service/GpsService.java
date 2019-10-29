@@ -70,5 +70,46 @@ public class GpsService {
 		}
 		return Integer.parseInt(count);
 	}
+	public static int add(List<Map<String, Object>> list) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		GpsMapper mapper = sqlSession.getMapper(GpsMapper.class);
+		int count = 0;
+		try {
+			count = mapper.add(list);
+		    sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	public static List<HashMap<String,String>> gps_count(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		GpsMapper mapper = sqlSession.getMapper(GpsMapper.class);
+		List<HashMap<String,String>> list = new ArrayList<HashMap<String,String>>();
+		try {
+			list = mapper.gps_count(map);
+			sqlSession.close();
 
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public static int gps_count_total(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		GpsMapper mapper = sqlSession.getMapper(GpsMapper.class);
+		int count=0;
+		try {
+			count = mapper.gps_count_total(map);
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
 }

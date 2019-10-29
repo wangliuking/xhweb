@@ -179,14 +179,16 @@ public class UcmController {
 		//int dstId=funUtil.StringToInt(request.getParameter("dstId"));
 		int operation=funUtil.StringToInt(request.getParameter("operation"));
 		int triggerParaTime=funUtil.StringToInt(request.getParameter("triggerParaTime"));
-		int locationDstId=funUtil.StringToInt(request.getParameter("locationDstId"));
+		//int locationDstId=funUtil.StringToInt(request.getParameter("locationDstId"));
 		int gpsen=funUtil.StringToInt(request.getParameter("gpsen"));
+		int userId=Integer.parseInt(FunUtil.loginUserInfo(request).get("userId").toString());
 		String table="xhgmnet_gpsinfo";
 		String now=funUtil.nowDateNotTime().split("-")[1];
 		table+=now;
 		
 		for(int i=0;i<data.length;i++){
 			GpsSetStruct struct=new GpsSetStruct();
+			struct.setUserId(userId);
 			Map<String,Object> mm=new HashMap<String,Object>();
 			int srcId=funUtil.StringToInt(data[i]);
 			mm.put("srcId", srcId);
@@ -198,7 +200,12 @@ public class UcmController {
 					this.message="【"+dstId+"】没有配置调度台IP地址，端口号";
 					this.success=false;
 				}else{
-					struct.setSrcId(dstId+1);
+					if(dstId==100267){
+						struct.setSrcId(dstId);
+					}else{
+						struct.setSrcId(dstId+1);
+					}
+					
 					struct.setDstId(srcId);
 					struct.setIp(ip_port.get("ip").toString());
 					struct.setPort(Integer.parseInt(ip_port.get("port").toString()));
@@ -207,7 +214,7 @@ public class UcmController {
 					case 1:
 						//立即请求
 						struct.setReferenceNumber(0);
-						struct.setLocationDstId(locationDstId);
+						struct.setLocationDstId(dstId);
 						message=UcmService.sendImmGps(struct);
 						if(message.equals("success")){
 							this.success=true;
@@ -218,7 +225,7 @@ public class UcmController {
 						break;
 					case 2:
 						//gps触发器
-						struct.setLocationDstId(locationDstId);
+						struct.setLocationDstId(dstId);
 						struct.setTriggerType(operation);
 						struct.setTriggerPara(triggerParaTime);
 						message=UcmService.sendGpsTrigger(struct);
