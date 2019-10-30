@@ -167,8 +167,8 @@
 										
 										<td>
 										<a href="#" ng-click="show_detail($index)">详情</a>
-										<a href="#" ng-if="up.o_add=='on' && x.file_name==null" ng-click="showUploadW($index)">|<span class="text-danger">上传文件</span></a>
-										<a href="#" ng-if="x.file_name!=null" ng-click="download($index)">|<span class="text-success">下载文件</span></a>
+										<!-- <a href="#" ng-if="up.o_add=='on' && x.file_name==null" ng-click="showUploadW($index)">|<span class="text-danger">上传文件</span></a>
+										<a href="#" ng-if="x.file_name!=null" ng-click="download($index)">|<span class="text-success">下载文件</span></a> -->
 										<a ng-if="up.o_delete=='on'" href="#" ng-click="del($index)">|删除</a>
 										<a ng-if="up.o_update=='on'" href="#" ng-click="show_edit($index)">|更新</a>
 										</td>
@@ -256,6 +256,31 @@
         </div>
     </div>
 </div>
+<div class="modal fade" style="z-index:100001" id="showPicWin"
+        tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="color-line"></div>
+                <div class="modal-header ">
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body pad-0" style="margin:2px;padding:2px;">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <img alt="" style="max-width:950px;max-height:600px;"
+                                ng-src="{{img_src}}">
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>

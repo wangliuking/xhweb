@@ -35,10 +35,10 @@ public class AuthorizationInterceptor implements HandlerInterceptor{
 	public boolean preHandle(HttpServletRequest arg0, HttpServletResponse arg1,
 			Object arg2) throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println("操作前");
+/*		System.out.println("操作前");
 		System.out.println("操作前:"+arg0.getMethod());
 		System.out.println("操作前:"+arg0.getRequestURI());
-		System.out.println("操作前:"+arg0.getRequestedSessionId());
+		System.out.println("操作前:"+arg0.getRequestedSessionId());*/
 		
 		String path=arg0.getRequestURI();
 		/*if(url.indexOf("login")>-1){

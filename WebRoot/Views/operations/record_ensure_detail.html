@@ -42,17 +42,34 @@
 								<td colspan="2">{{editData.level}}</td>
 							</tr>
 							<tr>
-                                <td style="text-align: center;">投入人力</td>
-                                <td colspan="2">{{editData.person_num}}</td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: center;">移动卫星车使用时长</td>
-                                <td colspan="2">{{editData.satellite_time}}小时</td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: center;">移动通讯车使用台次</td>
-                                <td colspan="2">{{editData.bus_num}}</td>
-                            </tr>
+								<td style="text-align: center;">投入人力</td>
+								<td colspan="2">{{editData.person_num}}</td>
+							</tr>
+							<tr>
+								<td style="text-align: center;">移动卫星车使用时长</td>
+								<td colspan="2">{{editData.satellite_time}}小时</td>
+							</tr>
+							<tr>
+								<td style="text-align: center;">移动通讯车使用台次</td>
+								<td colspan="2">{{editData.bus_num}}</td>
+							</tr>
+
+							<tr>
+								<td colspan="3">
+									<p ng-repeat="x in editData.files">
+										<a href="#" ng-click="download2(x.filePath)">{{x.fileName}}</a>
+										&nbsp;&nbsp; <a href="#" ng-click="download2(x.filePath)">|
+											下载</a> &nbsp;&nbsp;<a href="#" ng-click="previewDoc(x.filePath)">
+											| 预览</a>
+									</p>
+									<p ng-if="editData.file_name!=null">
+										<a href="#" ng-click="download2(editData.file_path)">{{editData.file_name}}</a>
+										&nbsp;&nbsp; <a href="#" ng-click="download2(editData.file_path)">|
+											下载</a> &nbsp;&nbsp;<a href="#" ng-click="previewDoc(editData.file_path)">
+											| 预览</a>
+									</p>
+								</td>
+							</tr>
 
 
 
