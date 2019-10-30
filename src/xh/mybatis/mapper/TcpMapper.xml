@@ -115,7 +115,7 @@
 	<update id="updateFaultOrder" parameterType="map">
 		update xhgmnet_operations_fault_task_order set bsid=#{bsid},bsname=#{bsname},dispatchtime=#{dispatchtime},dispatchman=#{dispatchman},
 		errtype=#{errtype},errlevel=#{errlevel},errfoundtime=#{errfoundtime},errslovetime=#{errslovetime},progress=#{progress},proresult=#{proresult},
-		workman=#{workman},auditor=#{auditor},longitude=#{longitude},latitude=#{latitude},address=#{address} where serialnumber=#{serialnumber}
+		workman=#{workman},auditor=#{auditor},longitude=#{longitude},latitude=#{latitude},address=#{address},status=4 where serialnumber=#{serialnumber}
 	</update>
 
 	<!-- 插入基站巡检表数据 表名待定！！！ -->
