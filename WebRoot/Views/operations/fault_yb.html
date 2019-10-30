@@ -80,11 +80,22 @@
 							<div id="search-div">
 								<form class="form-inline" role="form">
 								
+								    <div class="form-group">
+                                        <label for="contact">统计周期</label>
+                                        <div>
+                                           <select id="type" class="form-control" ng-model="type">
+                                           <option value="0" selected="selected">按天统计</option>
+                                           <option value="1">按月统计</option>
+                                           </select>
+                                        </div>
+                                    </div>
 									<div class="form-group">
 										<label for="contact">统计时间</label>
 										<div>
-											<input type="text" class="form-control" id="time"
-											onfocus="WdatePicker({dateFmt:'yyyy-MM'})" ng-model="time">
+											<input ng-if="type==0" type="text" class="form-control" id="time"
+											onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" ng-model="time_day">
+											<input ng-if="type==1" type="text" class="form-control" id="time"
+                                            onfocus="WdatePicker({dateFmt:'yyyy-MM'})" ng-model="time">
 										</div>
 									</div>
 									
@@ -93,6 +104,10 @@
 										<button type="submit" class="btn btn-sm btn-primary"
                                                 ng-click="search(1)">
                                                 <i class="fa fa-search"></i>&nbsp;查询
+                                            </button>
+                                            <button class="btn btn-sm btn-danger"
+                                                onclick="xh.excel()" id="btn-excel">
+                                                <i class="fa fa-excel"></i>&nbsp;导出数据
                                             </button>
                                        <!--  <button type="submit" class="btn btn-sm btn-success"
                                                 ng-click="show_add_win()" ng-disabled="up.o_add=='off'">
@@ -161,7 +176,7 @@
 										<td>{{x.level}}</td>
 										<td>{{x.time}}</td>
 										<!-- <td>{{x.fault_from}}</td> -->
-										<td>{{x.faultType}}</td>
+										<td>{{x.fault_type}}</td>
 										<td>{{x.reason}}</td>
 										<td>{{x.faultRecoveryTime}}</td>
 										<td>{{x.faultTimeTotal}}</td>

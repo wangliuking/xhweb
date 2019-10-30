@@ -326,6 +326,23 @@ public class BsstationController {
 		}
 		
 	}
+	@RequestMapping(value="/select_bs_by_bsid",method = RequestMethod.GET)
+	public void select_bs_by_bsid(
+			@RequestParam("bsId") int bsId,
+			HttpServletRequest request, 
+			HttpServletResponse response){
+		HashMap result = new HashMap();
+		result.put("items", BsstationService.select_bs_by_bsid(bsId));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	@RequestMapping(value="/bs_business_info",method = RequestMethod.GET)
 	public void bs_business_info(HttpServletRequest request, HttpServletResponse response){
 		/*int type=Integer.parseInt(request.getParameter("type"));*/

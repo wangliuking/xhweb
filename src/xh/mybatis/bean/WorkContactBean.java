@@ -34,8 +34,48 @@ public class WorkContactBean {
 	private String reply;
 	
 	
+	private String handle_user;
+	private String handle_time;
+	private String handle_note;
+	private String handleUserName;
+	
+	private String summary_user;
+	private String summaryUserName;
+	private String summary_time;
+	private String summary_note;
+	private String summary_fileName;
+	private String summary_filePath;
+	
+	private String ensure_starttime=null;
+	private String ensure_endtime=null;
+	private String ensure_zone;
+	
+	private String ensure_satellite_time;
+	private String ensure_bus_num;
+	private String person_num;
 	
 	
+	
+	
+
+	public String getEnsure_satellite_time() {
+		return ensure_satellite_time;
+	}
+	public String getEnsure_bus_num() {
+		return ensure_bus_num;
+	}
+	public String getPerson_num() {
+		return person_num;
+	}
+	public void setEnsure_satellite_time(String ensure_satellite_time) {
+		this.ensure_satellite_time = ensure_satellite_time;
+	}
+	public void setEnsure_bus_num(String ensure_bus_num) {
+		this.ensure_bus_num = ensure_bus_num;
+	}
+	public void setPerson_num(String person_num) {
+		this.person_num = person_num;
+	}
 	private List<Map<String,Object>> files;
 	
 	
@@ -156,8 +196,86 @@ public class WorkContactBean {
 		this.fileName = fileName;
 	}
 	
+	public String getHandleUserName() {
+		return handleUserName;
+	}
+	public String getSummaryUserName() {
+		return summaryUserName;
+	}
+	public void setHandleUserName(String handleUserName) {
+		this.handleUserName = handleUserName;
+	}
+	public void setSummaryUserName(String summaryUserName) {
+		this.summaryUserName = summaryUserName;
+	}
+	public String getSummary_user() {
+		return summary_user;
+	}
+	public String getSummary_time() {
+		return summary_time;
+	}
+	public String getSummary_note() {
+		return summary_note;
+	}
+	public String getSummary_fileName() {
+		return summary_fileName;
+	}
+	public String getSummary_filePath() {
+		return summary_filePath;
+	}
+	public void setSummary_user(String summary_user) {
+		this.summary_user = summary_user;
+	}
+	public void setSummary_time(String summary_time) {
+		this.summary_time = summary_time;
+	}
+	public void setSummary_note(String summary_note) {
+		this.summary_note = summary_note;
+	}
+	public void setSummary_fileName(String summary_fileName) {
+		this.summary_fileName = summary_fileName;
+	}
+	public void setSummary_filePath(String summary_filePath) {
+		this.summary_filePath = summary_filePath;
+	}
+	public String getHandle_user() {
+		return handle_user;
+	}
+	public String getHandle_time() {
+		return handle_time;
+	}
+	public String getHandle_note() {
+		return handle_note;
+	}
+	public void setHandle_user(String handle_user) {
+		this.handle_user = handle_user;
+	}
+	public void setHandle_time(String handle_time) {
+		this.handle_time = handle_time;
+	}
+	public void setHandle_note(String handle_note) {
+		this.handle_note = handle_note;
+	}
 	public String getLevel() {
 		return level;
+	}
+	public String getEnsure_starttime() {
+		return ensure_starttime;
+	}
+	public String getEnsure_endtime() {
+		return ensure_endtime;
+	}
+	public String getEnsure_zone() {
+		return ensure_zone;
+	}
+	public void setEnsure_starttime(String ensure_starttime) {
+		this.ensure_starttime = ensure_starttime;
+	}
+	public void setEnsure_endtime(String ensure_endtime) {
+		this.ensure_endtime = ensure_endtime;
+	}
+	public void setEnsure_zone(String ensure_zone) {
+		this.ensure_zone = ensure_zone;
 	}
 	public void setLevel(String level) {
 		this.level = level;
@@ -213,17 +331,29 @@ public class WorkContactBean {
 	@Override
 	public String toString() {
 		return "WorkContactBean [id=" + id + ", taskId=" + taskId + ", reason="
-				+ reason + ", type=" + type + ", sendUnit=" + sendUnit
-				+ ", recvUnit=" + recvUnit + ", copyUnit=" + copyUnit
-				+ ", time=" + time + ", code=" + code + ", content=" + content
-				+ ", addUser=" + addUser + ", user_type=" + user_type
-				+ ", checkUser=" + checkUser + ", checkTime=" + checkTime
-				+ ", userName=" + userName + ", checkUserName=" + checkUserName
-				+ ", filePath=" + filePath + ", fileName=" + fileName
-				+ ", status=" + status + ", file_name=" + file_name
+				+ reason + ", type=" + type + ", level=" + level
+				+ ", sendUnit=" + sendUnit + ", recvUnit=" + recvUnit
+				+ ", copyUnit=" + copyUnit + ", time=" + time + ", code="
+				+ code + ", content=" + content + ", addUser=" + addUser
+				+ ", user_type=" + user_type + ", checkUser=" + checkUser
+				+ ", checkTime=" + checkTime + ", userName=" + userName
+				+ ", checkUserName=" + checkUserName + ", signUserName="
+				+ signUserName + ", filePath=" + filePath + ", fileName="
+				+ fileName + ", status=" + status + ", file_name=" + file_name
 				+ ", file_path=" + file_path + ", check_person=" + check_person
-				+ ", check_time=" + check_time + ", note=" + note + ", files="
-				+ files + "]";
+				+ ", check_time=" + check_time + ", note=" + note + ", reply="
+				+ reply + ", handle_user=" + handle_user + ", handle_time="
+				+ handle_time + ", handle_note=" + handle_note
+				+ ", handleUserName=" + handleUserName + ", summary_user="
+				+ summary_user + ", summaryUserName=" + summaryUserName
+				+ ", summary_time=" + summary_time + ", summary_note="
+				+ summary_note + ", summary_fileName=" + summary_fileName
+				+ ", summary_filePath=" + summary_filePath
+				+ ", ensure_starttime=" + ensure_starttime
+				+ ", ensure_endtime=" + ensure_endtime + ", ensure_zone="
+				+ ensure_zone + ", ensure_satellite_time="
+				+ ensure_satellite_time + ", ensure_bus_num=" + ensure_bus_num
+				+ ", person_num=" + person_num + ", files=" + files + "]";
 	}
 	
 	

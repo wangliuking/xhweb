@@ -104,6 +104,7 @@ public class UserNeedService {
 		int count=0;
 		try {
 			count = mapper.communication_list_count(map);
+			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -117,6 +118,7 @@ public class UserNeedService {
 		try {
 			count = mapper.add_communication(bean);
 			sqlSession.commit();
+			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -130,6 +132,21 @@ public class UserNeedService {
 		try {
 			count = mapper.update_communication(bean);
 			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	public static int update_communication_by_task(Map<String, Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		UserNeedMapper mapper=sqlSession.getMapper(UserNeedMapper.class);
+		int count=0;
+		try {
+			count = mapper.update_communication_by_task(map);
+			sqlSession.commit();
+			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -143,6 +160,7 @@ public class UserNeedService {
 		try {
 			count = mapper.upload_communication(bean);
 			sqlSession.commit();
+			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -156,6 +174,7 @@ public class UserNeedService {
 		try {
 			count = mapper.del_communication(list);
 			sqlSession.commit();
+			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -192,6 +211,7 @@ public class UserNeedService {
 		int count=0;
 		try {
 			count = mapper.emergency_list_count(map);
+			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -205,6 +225,7 @@ public class UserNeedService {
 		try {
 			count = mapper.add_emergency(bean);
 			sqlSession.commit();
+			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -218,6 +239,7 @@ public class UserNeedService {
 		try {
 			count = mapper.update_emergency(bean);
 			sqlSession.commit();
+			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -231,6 +253,7 @@ public class UserNeedService {
 		try {
 			count = mapper.upload_emergency(bean);
 			sqlSession.commit();
+			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -244,6 +267,7 @@ public class UserNeedService {
 		try {
 			count = mapper.del_emergency(list);
 			sqlSession.commit();
+			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -2,7 +2,11 @@ package xh.springmvc.handlers;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +28,7 @@ import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
@@ -42,13 +47,17 @@ import com.zhuozhengsoft.pageoffice.FileSaver;
 import com.zhuozhengsoft.pageoffice.wordreader.DataRegion;
 import com.zhuozhengsoft.pageoffice.wordreader.WordDocument;
 
+import xh.constant.ConstantLog;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
+import xh.func.plugin.MapRemoveNullUtil;
 import xh.mybatis.bean.BsStatusBean;
+import xh.mybatis.bean.FaultThreeBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.bean.WebUserBean;
 import xh.mybatis.service.BsStatusService;
+import xh.mybatis.service.FaultLevelService;
 import xh.mybatis.service.OrderService;
 import xh.mybatis.service.WebLogService;
 import xh.mybatis.service.WebUserServices;
@@ -96,6 +105,33 @@ public class OrderController {
 		HashMap result = new HashMap();
 		result.put("items",OrderService.orderList(map));
 		result.put("totals", OrderService.orderListCount(map));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	@RequestMapping(value="/del", method = RequestMethod.GET)
+	public void del(
+			@RequestParam("id") int id,
+			HttpServletRequest request, HttpServletResponse response) {
+		
+		int rs = OrderService.del(id);
+		if(rs>0){
+			this.success=true;
+			this.message="删除成功";
+			FunUtil.WriteLog(request, ConstantLog.DELETE, "删除派单"+id);
+		}else{
+			this.success=false;
+			this.message="删除失败";
+		}
+		Map<String,Object> result= new HashMap<String, Object>();
+		result.put("success",this.success);
+		result.put("message", this.message);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -179,18 +215,26 @@ public class OrderController {
 	}
 	
 	@RequestMapping(value="/updateOrder", method = RequestMethod.POST)
-	public void updateOrder(HttpServletRequest request, HttpServletResponse response) {
+	public void updateOrder(HttpServletRequest request, HttpServletResponse response) throws ParseException {
 		int status = Integer.parseInt(request.getParameter("status"));
 		int id=FunUtil.StringToInt(request.getParameter("id"));
+		int alarmId=FunUtil.StringToInt(request.getParameter("alarmId"));
+		int level=FunUtil.StringToInt(request.getParameter("level"));
+		String dispatchtime=request.getParameter("dispatchtime");
+		String recvTime=request.getParameter("recvTime");
 		String from=request.getParameter("from");
 		String bsid=request.getParameter("bsId");
 		String zbdldm=request.getParameter("zbdldm");
 		String serialnumber=request.getParameter("serialnumber");
 		String userid=request.getParameter("userid");
+		
+		
+		
 		this.success=true;
 		
 		Map<String,Object> map=new HashMap<String, Object>();
 		map.put("status", status);
+		map.put("time", FunUtil.nowDate());
 		map.put("id", id);
 		System.out.println(map);
 		
@@ -204,8 +248,52 @@ public class OrderController {
 		errCheckAck.setResult("0");
 
 		demo.startMessageThread(userid, errCheckAck);
-		
+
 		if(code>0){
+			if(status==3){
+				FaultThreeBean faultBean=new FaultThreeBean();
+				faultBean.setFault_id(alarmId);
+				faultBean.setSend_order_time(dispatchtime);
+				faultBean.setReceipt_order_time(recvTime);
+				faultBean.setRecv_order_time(map.get("time").toString());
+			    SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			    //接单耗时
+			    long r=0;
+			    Date r1=sf.parse(dispatchtime);
+			    Date r2=sf.parse(faultBean.getReceipt_order_time());
+			    r=(r2.getTime()-r1.getTime())/60000;
+			    faultBean.setRecv_order_use_time(r);
+			    //接单超时
+			    long j=0;
+			    faultBean.setRecv_order_cs(0);
+			    //处理耗时
+			    long cs=0;
+			    Date t1=sf.parse(faultBean.getReceipt_order_time());
+			    Date t2=sf.parse(faultBean.getRecv_order_time());
+			    cs=(t2.getTime()-t1.getTime())/60000;
+			    faultBean.setHandle_order_user_time(cs);
+			    //处理超时
+			    //接单耗时超过规定时间（一般故障发生后，一级基站要求110分钟内恢复，
+			    //二级基站要求170分钟内恢复，三级基站要求290分钟内恢复）则为超时
+			    long cs_total=0;
+			    if(level==1){
+			    	if(cs>110){
+			    		cs_total=cs-110;
+			    	}
+			    }else if(level==2){
+			    	if(cs>170){
+			    		cs_total=cs-170;
+			    	}
+			    }else if(level==3){
+			    	if(cs>290){
+			    		cs_total=cs-290;
+			    	}
+			    }
+			    faultBean.setHandle_order_cs(cs_total>0?cs_total:0);
+			    
+				FaultLevelService.three_update_by_order(faultBean);
+			}
+			
 			/*if(from.equals("数据分析")){
 				ErrProTable bean=new ErrProTable();
 				bean.setBsid(bsid);
@@ -242,7 +330,20 @@ public class OrderController {
 	@RequestMapping(value="/writeOrder", method = RequestMethod.POST)
 	public void writeOrder(HttpServletRequest request, HttpServletResponse response) {
 		String fromData=request.getParameter("formData");
-		ErrProTable bean=GsonUtil.json2Object(fromData, ErrProTable.class);
+		Map<String,Object> mm=GsonUtil.json2Object(fromData, Map.class);
+		MapRemoveNullUtil.removeNullValue(mm);
+		
+		
+		ErrProTable bean=new ErrProTable();
+		try {
+			BeanUtils.populate(bean, mm);
+		} catch (IllegalAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (InvocationTargetException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		bean.setSerialnumber(FunUtil.RandomWord(8));
 		bean.setOrderAccount(funUtil.loginUser(request));
 		bean.setDispatchtime(FunUtil.nowDate());
@@ -256,8 +357,14 @@ public class OrderController {
 		
 		int code=OrderService.addOrder(bean);
 		
+		
 		if(code>0){
 			this.success=true;
+			FaultThreeBean faultBean=new FaultThreeBean();
+			faultBean.setFault_id(id);
+			faultBean.setSend_order_time(bean.getDispatchtime());
+			FaultLevelService.three_update_by_order(faultBean);
+			
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(1);
@@ -295,9 +402,9 @@ public class OrderController {
 			}
 			
 			//发送抄送人
-			String[] b1=copy_user.split(",");
-			String[] b2=copy_user_name.split(";");
 			if(copy_user!=null && !copy_user.equals("")){
+				String[] b1=copy_user.split(",");
+				String[] b2=copy_user_name.split(";");
 				for(int i=0;i<b1.length;i++){
 					bean.setUserid(b1[i]);
 					bean.setWorkman(b2[i]);
@@ -306,11 +413,6 @@ public class OrderController {
 					log.info("派单：抄送》userId="+bean.getUserid()+";bean="+bean);
 				}
 			}
-			
-			
-			
-			
-			
 			
 			
 		}else{

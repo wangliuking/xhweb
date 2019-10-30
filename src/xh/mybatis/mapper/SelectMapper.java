@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import xh.mybatis.bean.DataThresholdBean;
 import xh.mybatis.bean.WorkBean;
 
 public interface SelectMapper {	
@@ -13,5 +14,8 @@ public interface SelectMapper {
 	public int workcontact_add(Map<String,Object> map)throws Exception;
 	
 	public int workcontact_del(String name)throws Exception;
+	
+	public DataThresholdBean ThresholdMap()throws Exception;
+	public int updateThreshold(DataThresholdBean bean)throws Exception;
 
 }

@@ -28,6 +28,8 @@ public interface UserNeedMapper {
 
 	int update_communication(RecordCommunicationBean bean) throws Exception;
 	
+	int update_communication_by_task(Map<String, Object> map) throws Exception;
+	
 	int upload_communication(RecordCommunicationBean bean) throws Exception;
 	
 	int del_communication(List<String> list) throws Exception;

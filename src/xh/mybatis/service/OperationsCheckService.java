@@ -193,6 +193,23 @@ public class OperationsCheckService {
 		}
 		return count;
 	}
+	public static int isExists(OperationsCheckBean checkBean) {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		// detailBean.setApplyId(checkBean.getApplyId());
+		int count = 0;
+		int r = 0;
+		try {
+			count = mapper.isExists(checkBean);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
 	
 	public static int addScore(ScoreBean bean) {
 		SqlSession session = MoreDbTools

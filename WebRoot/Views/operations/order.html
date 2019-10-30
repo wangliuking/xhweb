@@ -139,7 +139,7 @@
 										<th >基站</th>
 										<th width="180px">派单时间</th>
 										<th >故障类型</th>
-										<th >处理进展</th>
+										<th >故障描述</th>
 										<th width="120px">派单人</th>
 										<th width="80px">状态</th>
 										<th width="120px">接单人</th>
@@ -169,6 +169,10 @@
 										</td>
 										<td>{{x.userName}}</td>
 										<td>
+										<a href="#" ng-click="del($index)"
+                                class="text-danger" ng-if="(userL.roleType==3 && up.o_delete=='on') || userL.roleType==0"> 
+                                <img src="../../Resources/images/icon/del.png">&nbsp;删除
+                                          </a>
 									<!-- 	<a href="#" ng-click="resend($index)"
 								 ng-if="x.status==0 && up.o_order=='on'" style="color:green"> <i class="fa fa-hand-stop-o"></i>&nbsp;重新发送
 							</a> --><a href="#" ng-click="check($index)"

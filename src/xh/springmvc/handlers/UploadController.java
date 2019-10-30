@@ -429,7 +429,7 @@ public class UploadController {
 		}
 	}
 
-	public Boolean uploadFile(HttpServletRequest request, MultipartFile file,String filePath) {
+	public static Boolean uploadFile(HttpServletRequest request, MultipartFile file,String filePath) {
 		String fileName = file.getOriginalFilename();
 		File targetFile = new File(filePath, fileName);
 		if (!targetFile.exists()) {

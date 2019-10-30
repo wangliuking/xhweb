@@ -22,7 +22,7 @@
 					class="bui-label">类型:</label>
 					<div class="span1">
 						<div class="bui-input">
-							<select name="type" class="bui-input" id="add-select">
+							<select name="type" class="bui-input" id="add-select" b-click="page.type_change">
 								<!-- <option value="通信保障">通信保障</option>
 								<option value="应急处置演练">应急处置演练</option>
 								<option value="服务抽检">服务抽检</option>
@@ -46,6 +46,32 @@
 							</select>
 						</div>
 					</div></li>
+				<li class="bui-btn bui-box clearactive" b-show="page.showEnsure"><label
+                    class="bui-label">开始时间:</label>
+                    <div class="span1">
+                        <div class="bui-input">
+                           <input type="text" class="bui-input" name="ensure_starttime"
+                                    onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:00',firstDayOfWeek:1,isShowWeek:false})"
+                                                        placeholder="保障开始时间" value="" >
+                        </div>
+                    </div></li>
+                <li class="bui-btn bui-box clearactive" b-show="page.showEnsure"><label
+                    class="bui-label">结束时间:</label>
+                    <div class="span1">
+                        <div class="bui-input">
+                            <input type="text" class="bui-input" name="ensure_endtime"
+                                    onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:00',firstDayOfWeek:1,isShowWeek:false})"
+                                                        placeholder="保障结束时间"  value="" >
+                        </div>
+                    </div></li>
+                <li class="bui-btn bui-box clearactive" b-show="page.showEnsure"><label
+                    class="bui-label">保障区域:</label>
+                    <div class="span1">
+                        <div class="bui-input">
+                           <input type="text" class="bui-input"
+                                        name="ensure_zone" value="">
+                        </div>
+                    </div></li>
 				<li class="bui-btn bui-box clearactive"><label
 					class="bui-label">发文单位:</label>
 					<div class="span1">

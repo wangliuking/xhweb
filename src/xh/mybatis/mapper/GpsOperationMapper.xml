@@ -5,10 +5,12 @@
 	<!--根据源ID，目标ID，写入时间查找gps记录 -->
 	<select id="gpsOperationInfo" parameterType="map" resultType="java.util.HashMap"
 		useCache="true">
-		select * from xhgmnet_gpsoperation where 1=1
+		select a.*,b.userName from xhgmnet_gpsoperation as a
+		left join xhgmnet.xhgmnet_web_user as b on a.userId=b.userId
+		 where 1=1
 
 		<if test="list.size()>0">
-			and srcId in(
+			and a.srcId in(
 			<foreach collection="list" item="id" separator=",">
 				#{id}
 			</foreach>
@@ -16,15 +18,15 @@
 		</if>
 
 		<if test="srcId!=null and srcId!=''">
-			and srcId like concat('%',#{srcId},'%')
+			and a.srcId like concat('%',#{srcId},'%')
 		</if>
 		<if test="dstId!=null and dstId!=''">
-			and dstId like concat('%',#{dstId},'%')
+			and a.dstId like concat('%',#{dstId},'%')
 		</if>
 		<if test="startTime!=null and startTime!=''">
-			and infoTime between #{startTime} and #{endTime}
+			and a.infoTime between #{startTime} and #{endTime}
 		</if>
-		order by writeTime desc limit #{start},#{limit}
+		order by a.writeTime desc limit #{start},#{limit}
 	</select>
 	<!--根据源ID，目标ID，写入时间查找gps记录 -->
 	<select id="gpsOperationCount" parameterType="map" resultType="int"
@@ -54,21 +56,25 @@
 	</select>
 	<select id="now_operation_record" parameterType="map"
 		resultType="map" useCache="true">
-		select id,writeTime,operationOpt,dstId,status  FROM xhgmnet_gpsoperation
-		WHERE id IN(select MAX(id) as id FROM xhgmnet_gpsoperation GROUP BY
+		select id,writeTime,operationOpt,dstId,status FROM
+		xhgmnet_gpsoperation
+		WHERE id IN(select MAX(id) as id FROM
+		xhgmnet_gpsoperation GROUP BY
 		dstId) and dstId in(
-        <foreach collection="list" item="x" separator=",">
-            #{x}
-        </foreach>
-        ) and operationOpt=#{type}
-        GROUP BY dstId
+		<foreach collection="list" item="x" separator=",">
+			#{x}
+		</foreach>
+		) and operationOpt=#{type}
+		GROUP BY dstId
 	</select>
 	<select id="now_gps_close" parameterType="map" resultType="map"
 		useCache="true">
 		select id,writeTime,operationOpt,dstId as userId FROM
 		xhgmnet_gpsoperation
 		WHERE id IN(select MAX(id) as id FROM xhgmnet_gpsoperation WHERE
-		operationOpt=0 AND `status`=0 GROUP BY dstId) ORDER BY userId asc;
+		(operationOpt=1 AND `status`=1) or(operationOpt=0 AND `status`=0)
+		GROUP BY dstId)
+		AND operationOpt=0 AND `status`=0 ORDER BY userId asc;
 	</select>
 
 </mapper>

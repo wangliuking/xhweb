@@ -453,6 +453,8 @@
 		and voiceTag=0)
 		or(sysType=4 and neType=101 and alarmTag=0 and
 		voiceTag=0)
+		or(code=112 and alarmTag=0 and
+        voiceTag=0)
 
 	</update>
 	<!-- 基站断站统计 -->

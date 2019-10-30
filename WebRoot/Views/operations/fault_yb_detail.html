@@ -25,58 +25,100 @@
 						<tbody>
 
 							<tr>
-								<td style="text-align: center;">建设期</td>
-								<td colspan="2">{{editData.period}}</td>
+								<td style="text-align: center;font-weight: 800">建设期</td>
+								<td>{{editData.period}}</td>
+								<td style="text-align: center;font-weight: 800">基站ID</td>
+								<td>{{editData.bsId}}</td>
+								<td style="text-align: center;font-weight: 800">基站名称</td>
+								<td>{{editData.name}}</td>
+								<td style="text-align: center;font-weight: 800">基站分级</td>
+								<td>{{editData.level}}</td>
 							</tr>
 							<tr>
-								<td style="text-align: center;">基站ID</td>
-								<td colspan="2">{{editData.bsId}}</td>
+								<td style="text-align: center;font-weight: 800">故障类别</td>
+								<td colspan="3">{{editData.fault_type}}</td>
+								<td style="text-align: center;font-weight: 800">故障发生时间</td>
+								<td colspan="3">{{editData.time}}</td>
 							</tr>
 							<tr>
-								<td style="text-align: center;">基站名称</td>
-								<td colspan="2">{{editData.name}}</td>
+								<td style="text-align: center;font-weight: 800">故障原因</td>
+								<td colspan="7">{{editData.reason}}</td>
 							</tr>
 							<tr>
-								<td style="text-align: center;">基站分级</td>
-								<td colspan="2">{{editData.level}}</td>
+								<td style="text-align: center;font-weight: 800">故障分析</td>
+								<td colspan="7">{{editData.nowDeal}}</td>
 							</tr>
 							<tr>
-                                <td style="text-align: center;">故障时间</td>
-                                <td colspan="2">{{editData.time}}</td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: center;">故障恢复时间</td>
-                                <td colspan="2">{{editData.faultRecoveryTime}}</td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: center;">故障类型</td>
-                                <td colspan="2">{{editData.fault_type}}</td>
-                            </tr>
-                             <tr>
-                                <td style="text-align: center;">故障原因</td>
-                                <td colspan="2">{{editData.reason}}</td>
-                            </tr>
-                             <tr>
-                                <td style="text-align: center;">备注</td>
-                                <td colspan="2">{{editData.content}}</td>
-                            </tr>
-                             <tr>
-                                <td style="text-align: center;">故障来源</td>
-                                <td colspan="2">{{editData.fault_from}}</td>
-                            </tr>
-                             <tr>
-                                <td style="text-align: center;">故障历时(分钟)</td>
-                                <td colspan="2">{{editData.faultTimeTotal}}</td>
-                            </tr>
-                             <tr>
-                                <td style="text-align: center;">故障处理人员</td>
-                                <td colspan="2">{{editData.faultHandlePerson}}</td>
-                            </tr>
-                             <tr>
-                                <td style="text-align: center;">故障记录人员</td>
-                                <td colspan="2">{{editData.faultRecordPerson}}</td>
-                            </tr>
-                            
+								<td style="text-align: center;font-weight: 800">故障恢复时间</td>
+								<td>{{editData.faultRecoveryTime}}</td>
+
+								<td style="text-align: center;font-weight: 800">故障历时(分钟)</td>
+								<td>{{editData.faultTimeTotal}}</td>
+
+								<td style="text-align: center;font-weight: 800">是否核减</td>
+								<td>{{editData.checkTag}}</td>
+
+								<td style="text-align: center;font-weight: 800">登记人</td>
+								<td>{{editData.faultRecordPerson}}</td>
+							</tr>
+
+							<tr>
+								<td style="text-align: center;font-weight: 800">是否自动恢复</td>
+								<td colspan="3">{{editData.self_recovery}}</td>
+
+								<td style="text-align: center;font-weight: 800">处理人员</td>
+								<td colspan="3">{{editData.faultHandlePerson}}</td>
+							</tr>
+							<tr>
+								<td style="text-align: center;font-weight: 800">操作详情</td>
+								<td colspan="7">{{editData.handle_detail}}</td>
+							</tr>
+							<tr>
+								<td style="text-align: center;font-weight: 800">备注</td>
+								<td colspan="7">{{editData.content}}</td>
+							</tr>
+							<tr>
+								<td style="text-align: center;font-weight: 800">责任方</td>
+								<td colspan="7">{{editData.reponse_part}}</td>
+							</tr>
+							<tr>
+								<td style="text-align: center;font-weight: 800" rowspan="4">派单情况</td>
+								<td style="text-align: center;font-weight: 800">维护</td>
+								<td>{{editData.order_wh}}</td>
+
+								<td style="text-align: center;font-weight: 800">移动</td>
+								<td>{{editData.order_dx}}</td>
+
+								<td style="text-align: center;font-weight: 800">电信</td>
+								<td colspan="2">{{editData.order_yd}}</td>
+							</tr>
+							<tr>
+								<td style="text-align: center;font-weight: 800">派单时间</td>
+								<td>{{editData.send_order_time}}</td>
+
+								<td style="text-align: center;font-weight: 800">接单时间</td>
+								<td>{{editData.receipt_order_time}}</td>
+
+								<td style="text-align: center;font-weight: 800">回单时间</td>
+								<td colspan="2">{{editData.recv_order_time}}</td>
+							</tr>
+							<tr>
+								<td style="text-align: center;font-weight: 800">接单耗时(/分钟)</td>
+								<td colspan="3">{{editData.recv_order_use_time}}</td>
+
+								<td style="text-align: center;font-weight: 800">接单超时(分钟)</td>
+								<td colspan="2">{{editData.recv_order_cs}}</td>
+							</tr>
+							<tr>
+								<td style="text-align: center;font-weight: 800">处理耗时(分钟)</td>
+								<td colspan="3">{{editData.handle_order_user_time}}</td>
+								<td style="text-align: center;font-weight: 800">处理超时(分钟)</td>
+								<td colspan="2">{{editData.handle_order_cs}}</td>
+							</tr>
+
+
+
+
 
 
 

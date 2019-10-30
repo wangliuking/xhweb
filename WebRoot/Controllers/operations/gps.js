@@ -28,6 +28,24 @@ xh.load = function() {
 	var startTime = $("#startTime").val();
 	var endTime = $("#endTime").val();
 	var pageSize = $("#page-limit").val();
+	
+	
+	app.filter('speedStr', function() { // 可以注入依赖
+		return function(text) {
+			var tt=parseInt(text);
+			if(tt<=28){
+				return tt+"(km/h)";
+			}else if(tt>28 && tt<=125){
+				return 16*pow(1.038,(tt-13));
+			}else if(tt==126){
+				return "速度异常";
+			}else if(tt>=127){
+				return "未知";
+			}else{
+				return "未知";
+			}
+		};
+	});
 
 	app.controller("gps", function($scope, $http) {
 		//xh.maskShow();
@@ -43,6 +61,7 @@ xh.load = function() {
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$("#srcId").val("");
+			$("#bsId").val("");
 			$("#dstId").val("");
 			$("#startTime").val("");
 			$("#endTime").val("");
@@ -54,6 +73,7 @@ xh.load = function() {
 			var pageSize = $("#page-limit").val();
 			var srcId = $("#srcId").val();
 			var dstId = $("#dstId").val();
+			var bsId = $("#bsId").val();
 			var startTime = $("#startTime").val();
 			var endTime = $("#endTime").val();
 			//时间比对
@@ -75,7 +95,7 @@ xh.load = function() {
 			}
 			console.log("limit=" + limit);
 			xh.maskShow();
-			$http.get("../../gps/list?srcId="+srcId+"&dstId="+dstId+"&startTime="+startTime+"&endTime="+endTime+"&start="+start+"&limit="+limit).
+			$http.get("../../gps/list?bsId="+bsId+"&srcId="+srcId+"&dstId="+dstId+"&startTime="+startTime+"&endTime="+endTime+"&start="+start+"&limit="+limit).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -87,6 +107,7 @@ xh.load = function() {
 		$scope.pageClick = function(page, totals, totalPages) {
 			var pageSize = $("#page-limit").val();
 			var srcId = $("#srcId").val();
+			var bsId = $("#bsId").val();
 			var dstId = $("#dstId").val();
 			var startTime = $("#startTime").val();
 			var endTime = $("#endTime").val();
@@ -98,7 +119,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../gps/list?srcId="+srcId+"&dstId="+dstId+"&startTime="+startTime+"&endTime="+endTime+"&start="+start+"&limit="+pageSize).
+			$http.get("../../gps/list?bsId="+bsId+"&srcId="+srcId+"&dstId="+dstId+"&startTime="+startTime+"&endTime="+endTime+"&start="+start+"&limit="+pageSize).
 			success(function(response){
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;

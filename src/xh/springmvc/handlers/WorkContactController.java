@@ -2,6 +2,7 @@ package xh.springmvc.handlers;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -12,26 +13,33 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 
 import xh.constant.ConstantLog;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
+import xh.func.plugin.MapRemoveNullUtil;
 import xh.mybatis.bean.MeetBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.bean.WorkContactBean;
+import xh.mybatis.service.UserNeedService;
 import xh.mybatis.service.WebLogService;
 import xh.mybatis.service.WorkContactService;
 
@@ -46,6 +54,22 @@ public class WorkContactController {
 	private FlexJSON json=new FlexJSON();
 	private WebLogBean webLogBean=new WebLogBean();
 	
+	@RequestMapping("/data_by_taskId")
+	public void data_by_taskId(
+			@RequestParam("taskId") String taskId,
+			HttpServletRequest request, HttpServletResponse response){
+		
+		HashMap result = new HashMap();
+		result.put("items", WorkContactService.data_by_taskId(taskId));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	@RequestMapping("/list")
 	public void list(HttpServletRequest request, HttpServletResponse response){
 		int start=funUtil.StringToInt(request.getParameter("start"));
@@ -55,6 +79,13 @@ public class WorkContactController {
 		String type=request.getParameter("type");
 		String status=request.getParameter("status");
 		String key=request.getParameter("key");
+		
+		String send_user=request.getParameter("send_user");
+		String check_user=request.getParameter("check_user");
+		String sign_user=request.getParameter("sign_user");
+		
+		
+		
 		
 		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("start", start);
@@ -67,6 +98,9 @@ public class WorkContactController {
 		map.put("user",FunUtil.loginUser(request));
 		map.put("power", FunUtil.loginUserPower(request).get("o_task"));
 		map.put("roleType",FunUtil.loginUserInfo(request).get("roleType"));
+		map.put("send_user",send_user);
+		map.put("check_user",check_user);
+		map.put("sign_user",sign_user);
 		HashMap result = new HashMap();
 		result.put("totals",WorkContactService.list_count(map));
 		result.put("items", WorkContactService.list(map));
@@ -135,17 +169,24 @@ public class WorkContactController {
 		}
 	}
 	@RequestMapping("/add")
-	public void add(HttpServletRequest request, HttpServletResponse response){
+	public void add(HttpServletRequest request, HttpServletResponse response) throws IllegalAccessException, InvocationTargetException{
 		String data=request.getParameter("formData");
 		String files=request.getParameter("files");
-		WorkContactBean bean=GsonUtil.json2Object(data, WorkContactBean.class);
-		WorkContactBean bean2=GsonUtil.json2Object(data, WorkContactBean.class);
+		Map<String,Object> mm=GsonUtil.json2Object(data, Map.class);
+		MapRemoveNullUtil.removeNullValue(mm);
+		
+		
+		WorkContactBean bean=new WorkContactBean();
+		BeanUtils.populate(bean, mm);
+		WorkContactBean bean2=new WorkContactBean();
+		BeanUtils.populate(bean2, mm);
 		bean.setAddUser(funUtil.loginUser(request));
 		bean.setTaskId(FunUtil.RandomAlphanumeric(20));
 		bean.setTime(bean.getTime().split(" ")[0]);
 		bean.setUser_type(Integer.parseInt(FunUtil.loginUserInfo(request).get("roleType").toString()));
 		bean.setContent(bean.getContent().replaceAll("(\r\n|\r|\n|\n\r)", "<br>"));
 		bean.setContent(bean.getContent().replaceAll(" ", "&nbsp;"));
+		
 		
 		String savePath="doc/WorkContact/"+FunUtil.nowDateNotTime().split("-")[0];	
 		String fileName=FunUtil.MD5(String.valueOf(new Date().getTime()))+".doc";
@@ -170,6 +211,7 @@ public class WorkContactController {
 			}
 			WorkContactService.addFile(filelist);
 		}
+		System.out.println(bean);
 		
 		
 		int rst=WorkContactService.add(bean);
@@ -278,25 +320,136 @@ public class WorkContactController {
 		bean.setTaskId(taskId);
 		bean.setAddUser(addUser);
 		bean.setCheckUser(FunUtil.loginUser(request));
-		bean.setCheckTime(FunUtil.nowDateNoTime());
+		bean.setCheckTime(FunUtil.nowDate());
 		bean.setReply(reply);
 		int rst=WorkContactService.sign(bean);
 		if(rst>0){
-			this.message="回复工作联系单成功";
+			this.message="签收工作联系单成功";
 			this.success=true;
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(2);
-			webLogBean.setContent("回复工作联系单信息，data=" + bean.getTaskId());
+			webLogBean.setContent("签收工作联系单信息，data=" + bean.getTaskId());
 			WebLogService.writeLog(webLogBean);
 			if(Integer.parseInt(FunUtil.loginUserInfo(request).get("roleType").toString())==2){
-			  FunUtil.sendMsgToOneUser(addUser, "工作联系单","管理方已经回复了工作联系单", request);
+			  FunUtil.sendMsgToOneUser(addUser, "工作联系单","管理方已经签收了工作联系单", request);
 			}else{
-		      FunUtil.sendMsgToOneUser(addUser, "工作联系单","服务提供方已经回复了工作联系单", request);
+		      FunUtil.sendMsgToOneUser(addUser, "工作联系单","服务提供方已经签收了工作联系单", request);
 			}
 			
 		}else{
-			this.message="工作联系单回复失败";
+			this.message="工作联系单签收失败";
+			this.success=false;
+		}
+		
+		HashMap result = new HashMap();
+		result.put("success",success);
+		result.put("message", message);
+		return result;
+	}	
+	@RequestMapping("/handle")
+	@ResponseBody
+	public Map<String,Object> handle(HttpServletRequest request, HttpServletResponse response){
+		String taskId=request.getParameter("taskId");
+		String addUser=request.getParameter("addUser");
+		String checkUser=request.getParameter("checkUser");
+		String type=request.getParameter("type");
+		String reply=request.getParameter("note");
+		
+		String person_num=request.getParameter("person_num");
+		String satellite_time=request.getParameter("satellite_time");
+		String bus_num=request.getParameter("bus_num");
+		WorkContactBean bean=new WorkContactBean();
+		bean.setTaskId(taskId);
+		bean.setAddUser(addUser);
+		bean.setCheckUser(checkUser);
+		bean.setPerson_num(person_num);
+		bean.setEnsure_satellite_time(satellite_time);
+		bean.setEnsure_bus_num(bus_num);
+		bean.setHandle_time(FunUtil.nowDate());
+		bean.setHandle_user(FunUtil.loginUser(request));
+		bean.setHandle_note(reply);
+		int rst=WorkContactService.handle(bean);
+		if(rst>0){
+			this.message="填写处理结果成功";
+			this.success=true;
+			
+			if(type.equals("通信保障")){
+				Map<String,Object> mm=new HashMap<String, Object>();
+				mm.put("id", taskId);
+				mm.put("type", 1);
+				mm.put("satellite_time", satellite_time);
+				mm.put("person_num", person_num);
+				mm.put("bus_num", bus_num);
+				UserNeedService.update_communication_by_task(mm);
+			}
+			
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(2);
+			webLogBean.setContent("填写处理结果，data=" + bean.getTaskId());
+			WebLogService.writeLog(webLogBean);
+			if(Integer.parseInt(FunUtil.loginUserInfo(request).get("roleType").toString())==2){
+			  FunUtil.sendMsgToOneUser(checkUser, "工作联系单","管理方已经填写了处理结果", request);
+			}else{
+		      FunUtil.sendMsgToOneUser(checkUser, "工作联系单","服务提供方已经填写了处理结果", request);
+			}
+			
+		}else{
+			this.message="失败";
+			this.success=false;
+		}
+		
+		HashMap result = new HashMap();
+		result.put("success",success);
+		result.put("message", message);
+		return result;
+	}	
+	@RequestMapping("/summary")
+	@ResponseBody
+	public Map<String,Object> summary(HttpServletRequest request, HttpServletResponse response){
+		String taskId=request.getParameter("taskId");
+		String addUser=request.getParameter("addUser");
+		String checkUser=request.getParameter("checkUser");
+		String reply=request.getParameter("summary_note");
+		String fileName=request.getParameter("fileName");
+		String filePath=request.getParameter("filePath");
+		String type=request.getParameter("type");
+		WorkContactBean bean=new WorkContactBean();
+		bean.setTaskId(taskId);
+		bean.setAddUser(addUser);
+		bean.setCheckUser(checkUser);
+		bean.setSummary_time(FunUtil.nowDate());
+		bean.setSummary_user(FunUtil.loginUser(request));
+		bean.setSummary_note(reply);
+		bean.setSummary_fileName(fileName);
+		bean.setSummary_filePath(filePath);
+	
+		int rst=WorkContactService.summary(bean);
+		if(rst>0){
+			this.message="填写总结成功";
+			this.success=true;
+			if(type.equals("通信保障")){
+				Map<String,Object> mm=new HashMap<String, Object>();
+				mm.put("id", taskId);
+				mm.put("type", 2);
+				mm.put("file_name", fileName);
+				mm.put("file_path", filePath);
+				UserNeedService.update_communication_by_task(mm);
+			}
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(2);
+			webLogBean.setContent("填写总结，data=" + bean.getTaskId());
+			WebLogService.writeLog(webLogBean);
+			if(Integer.parseInt(FunUtil.loginUserInfo(request).get("roleType").toString())==2){
+			  FunUtil.sendMsgToOneUser(checkUser, "工作联系单","管理方已经填写了本次工单总结", request);
+			}else{
+		      FunUtil.sendMsgToOneUser(checkUser, "工作联系单","服务提供方已经填写了本次工单总结", request);
+			}
+			
+		}else{
+			this.message="失败";
 			this.success=false;
 		}
 		
@@ -313,7 +466,7 @@ public class WorkContactController {
 		int state=Integer.parseInt(request.getParameter("state"));
 		WorkContactBean bean=GsonUtil.json2Object(data, WorkContactBean.class);
 		bean.setCheck_person(FunUtil.loginUser(request));
-		bean.setCheck_time(FunUtil.nowDateNoTime());
+		bean.setCheck_time(FunUtil.nowDate());
 		bean.setStatus(state);
 		bean.setNote(note);
 		int rst=WorkContactService.check(bean);
@@ -429,6 +582,97 @@ public class WorkContactController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	@RequestMapping("/summaryFile")
+	@ResponseBody
+	public void fileUpload(@RequestParam("summaryFile") CommonsMultipartFile file,
+			@RequestParam("time") String time,
+			@RequestParam("type") String type,
+			HttpSession session, HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		System.out.println("time->"+time);
+		System.out.println("type->"+type);
+		String path = request.getSession().getServletContext().getRealPath("")+ "/upload/";
+		String name = file.getOriginalFilename();
+		// 获取当前时间
+		Date d = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String[] data = sdf.format(d).split(" ")[0].split("-");
+		path += data[0] + "/" + data[1] + "/" + data[2];
+		String savePath = "/upload/" + data[0] + "/" + data[1] + "/"+ data[2];
+		String now=FunUtil.MD5(String.valueOf(System.currentTimeMillis()));
+        String rename=now+name;
+		if(uploadFile(request,file,path,rename)){
+			this.success = true;
+			this.message = "文件上传成功";
+			if(type.equals("通信保障")){
+				File srcFile = new File(path+"/"+rename);
+				String destDir1=request.getSession().getServletContext()
+						.getRealPath("/upload/check");
+				destDir1=destDir1+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/3/通信保障报告";
+				File Path1 = new File(destDir1);
+				if (!Path1.exists()) {
+					Path1.mkdirs();
+				}
+				
+				String destDir2=request.getSession().getServletContext()
+						.getRealPath("/upload/check");
+				destDir2=destDir2+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/4/通信保障报告";
+				File Path2 = new File(destDir2);
+				if (!Path2.exists()) {
+					Path2.mkdirs();
+				}
+				File file1 = new File(destDir1+"/"+name);
+				File file2 = new File(destDir2+"/"+name);
+				FunUtil.copyFile(srcFile, file1);
+				FunUtil.copyFile(srcFile, file2);
+			}
+			
+			
+			
+		}else{
+			this.success = false;
+			this.message = "文件上传失败";
+		}
+
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message", message);
+		result.put("fileName", name);
+		result.put("filePath", savePath + "/" + rename);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public static Boolean uploadFile(
+			HttpServletRequest request, 
+			MultipartFile file,
+			String filePath,
+			String rename) {
+		String fileName = file.getOriginalFilename();
+		File targetFile = new File(filePath, fileName);
+		if (!targetFile.exists()) {
+			targetFile.mkdirs();
+		}
+		// 保存
+		try {
+			file.transferTo(targetFile);
+			 //想命名的原文件的路径  
+	        File file2 = new File(filePath+"/"+fileName); 
+	        
+	        file2.renameTo(new File(filePath+"/"+rename));  
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+
 	}
 
 }

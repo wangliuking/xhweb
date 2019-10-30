@@ -79,6 +79,20 @@ public class OrderService {
 		}
 		return count;
 	}
+	public static int del(int id){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		OrderMapper mapper=sqlSession.getMapper(OrderMapper.class);
+		int count=0;
+		try{
+			count=mapper.del(id);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
 	//新增派单
 	public static int addOrder(ErrProTable bean){
 			SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
