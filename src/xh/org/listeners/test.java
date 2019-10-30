@@ -63,6 +63,8 @@ import java.util.regex.Pattern;
 
 
 
+
+
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
@@ -126,27 +128,34 @@ public class test {
 
 	public static void main(String[] args) {
 
-		String writeTime=FunUtil.nowDate();
-		int x=4350000;
-		for(int i=0;i<20000;i++){
-			int a=7260235;
-			List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
-			for(int j=0;j<2000;j++){
-				a++;
-				Map<String,Object> m=new HashMap<String, Object>();
-				m.put("id", x);
-				m.put("writeTime", FunUtil.nowDate());
-				m.put("srcId", a);
-				m.put("infoTime", FunUtil.nowDate());
-				list.add(m);	
-				x++;
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		
+		for(int i=0;i<10;i++){
+			Map<String,Object> map=new HashMap<String, Object>();
+			map.put("index", i);
+			map.put("index", df.format(new Date()));
+			list.add(map);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			GpsService.add(list);
-			System.out.println(i*2000);
 		}
-		
-		
-		
+		System.out.println(list);
+		for(int i=0;i<list.size();i++){
+			System.out.println(list.get(i));
+		}
+		if (list.size() >9) {
+			for (int i = 0; i < (list.size()-4); i++) {
+				list.remove(0);
+			}
+		}
+		System.out.println("山粗后");
+		for(int i=0;i<list.size();i++){
+			System.out.println(list.get(i));
+		}
 
 	}
 	public static List<Map<String,Object>> readFileTree(String path){

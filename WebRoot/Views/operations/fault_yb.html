@@ -90,14 +90,42 @@
                                         </div>
                                     </div>
 									<div class="form-group">
-										<label for="contact">统计时间</label>
+										<label for="contact" ng-if="type==0">统计时间范围</label>
+										<label for="contact" ng-if="type==1">统计时间</label>
 										<div>
 											<input ng-if="type==0" type="text" class="form-control" id="time"
-											onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" ng-model="time_day">
+											onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" placeholder="起始时间" ng-model="time_day">
+											<input ng-if="type==0" type="text" class="form-control" id="time2"
+                                            onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" placeholder="结束时间" ng-model="time_day">
 											<input ng-if="type==1" type="text" class="form-control" id="time"
                                             onfocus="WdatePicker({dateFmt:'yyyy-MM'})" ng-model="time">
 										</div>
 									</div>
+									<div class="form-group">
+                                        <label for="contact">基站区域</label>
+                                        <div>
+                                           <select class="form-control" id="zone">
+                                           <option value="">==不限区域==</option>
+                                           <option ng-repeat="x in bszone" value="{{x.zone}}">{{x.zone}}</option>
+                                           </select>
+                                        </div>
+                                    </div>
+									<div class="form-group">
+                                        <label for="contact">基站ID</label>
+                                        <div>
+                                           <input type="number" class="form-control" id="bsId">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contact">基站提供商</label>
+                                        <div>
+                                           <select id="bsType" class="form-control">
+                                           <option value="" selected="selected">==不限提供商==</option>
+                                           <option value="0">东信</option>
+                                           <option value="1">moto</option>
+                                           </select>
+                                        </div>
+                                    </div>
 									
 
 									<div class="btn-group" style="margin-top:20px">

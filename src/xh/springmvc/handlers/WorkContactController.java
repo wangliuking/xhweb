@@ -356,16 +356,13 @@ public class WorkContactController {
 		String type=request.getParameter("type");
 		String reply=request.getParameter("note");
 		
-		String person_num=request.getParameter("person_num");
-		String satellite_time=request.getParameter("satellite_time");
-		String bus_num=request.getParameter("bus_num");
+		String files=request.getParameter("files");
+		
+		
 		WorkContactBean bean=new WorkContactBean();
 		bean.setTaskId(taskId);
 		bean.setAddUser(addUser);
 		bean.setCheckUser(checkUser);
-		bean.setPerson_num(person_num);
-		bean.setEnsure_satellite_time(satellite_time);
-		bean.setEnsure_bus_num(bus_num);
 		bean.setHandle_time(FunUtil.nowDate());
 		bean.setHandle_user(FunUtil.loginUser(request));
 		bean.setHandle_note(reply);
@@ -373,16 +370,26 @@ public class WorkContactController {
 		if(rst>0){
 			this.message="填写处理结果成功";
 			this.success=true;
+			Type filetype = new TypeToken<ArrayList<Map<String,Object>>>() {}.getType(); 
 			
-			if(type.equals("通信保障")){
+			List<Map<String,Object>> filelist=new ArrayList<Map<String,Object>>();
+			filelist=GsonUtil.json2Object(files, filetype);
+			if(filelist.size()>0){
+				for(int i=0;i<filelist.size();i++){
+					Map<String,Object> map=filelist.get(i);
+					map.put("taskId", bean.getTaskId());
+					filelist.set(i, map);
+				}
+				WorkContactService.addHandleFile(filelist);
+			}
+			
+			/*if(type.equals("通信保障")){
 				Map<String,Object> mm=new HashMap<String, Object>();
 				mm.put("id", taskId);
 				mm.put("type", 1);
-				mm.put("satellite_time", satellite_time);
-				mm.put("person_num", person_num);
-				mm.put("bus_num", bus_num);
+				
 				UserNeedService.update_communication_by_task(mm);
-			}
+			}*/
 			
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
@@ -415,6 +422,10 @@ public class WorkContactController {
 		String fileName=request.getParameter("fileName");
 		String filePath=request.getParameter("filePath");
 		String type=request.getParameter("type");
+		String person_num=request.getParameter("person_num");
+		String satellite_time=request.getParameter("satellite_time");
+		String bus_num=request.getParameter("bus_num");
+		String files=request.getParameter("files");
 		WorkContactBean bean=new WorkContactBean();
 		bean.setTaskId(taskId);
 		bean.setAddUser(addUser);
@@ -424,17 +435,34 @@ public class WorkContactController {
 		bean.setSummary_note(reply);
 		bean.setSummary_fileName(fileName);
 		bean.setSummary_filePath(filePath);
+		bean.setPerson_num(person_num);
+		bean.setEnsure_satellite_time(satellite_time);
+		bean.setEnsure_bus_num(bus_num);
 	
 		int rst=WorkContactService.summary(bean);
 		if(rst>0){
 			this.message="填写总结成功";
 			this.success=true;
+			
+           Type filetype = new TypeToken<ArrayList<Map<String,Object>>>() {}.getType(); 
+			
+			List<Map<String,Object>> filelist=new ArrayList<Map<String,Object>>();
+			filelist=GsonUtil.json2Object(files, filetype);
+			if(filelist.size()>0){
+				for(int i=0;i<filelist.size();i++){
+					Map<String,Object> map=filelist.get(i);
+					map.put("taskId", bean.getTaskId());
+					filelist.set(i, map);
+				}
+				WorkContactService.addSummaryFile(filelist);
+			}
 			if(type.equals("通信保障")){
 				Map<String,Object> mm=new HashMap<String, Object>();
 				mm.put("id", taskId);
-				mm.put("type", 2);
-				mm.put("file_name", fileName);
-				mm.put("file_path", filePath);
+				mm.put("type", 1);
+				mm.put("satellite_time", satellite_time);
+				mm.put("bus_num", bus_num);
+				mm.put("person_num", person_num);
 				UserNeedService.update_communication_by_task(mm);
 			}
 			webLogBean.setOperator(funUtil.loginUser(request));
@@ -583,9 +611,72 @@ public class WorkContactController {
 			e.printStackTrace();
 		}
 	}
+	@RequestMapping("/handleFile")
+	@ResponseBody
+	public void handleFile(@RequestParam("handle_file_upload") CommonsMultipartFile file,
+			HttpSession session, HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		String path = request.getSession().getServletContext().getRealPath("")+ "/upload/";
+		String name = file.getOriginalFilename();
+		// 获取当前时间
+		Date d = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String[] data = sdf.format(d).split(" ")[0].split("-");
+		path += data[0] + "/" + data[1] + "/" + data[2];
+		String savePath = "/upload/" + data[0] + "/" + data[1] + "/"+ data[2];
+		String now=FunUtil.MD5(String.valueOf(System.currentTimeMillis()));
+        String rename=now+name;
+		if(uploadFile(request,file,path,rename)){
+			this.success = true;
+			this.message = "文件上传成功";
+			
+		}else{
+			this.success = false;
+			this.message = "文件上传失败";
+		}
+
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message", message);
+		result.put("fileName", name);
+		result.put("filePath", savePath + "/" + rename);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public static Boolean uploadFile(
+			HttpServletRequest request, 
+			MultipartFile file,
+			String filePath,
+			String rename) {
+		String fileName = file.getOriginalFilename();
+		File targetFile = new File(filePath, fileName);
+		if (!targetFile.exists()) {
+			targetFile.mkdirs();
+		}
+		// 保存
+		try {
+			file.transferTo(targetFile);
+			 //想命名的原文件的路径  
+	        File file2 = new File(filePath+"/"+fileName); 
+	        
+	        file2.renameTo(new File(filePath+"/"+rename));  
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+
+	}
 	@RequestMapping("/summaryFile")
 	@ResponseBody
-	public void fileUpload(@RequestParam("summaryFile") CommonsMultipartFile file,
+	public void fileUpload(@RequestParam("summary_file_upload") CommonsMultipartFile file,
 			@RequestParam("time") String time,
 			@RequestParam("type") String type,
 			HttpSession session, HttpServletRequest request,
@@ -649,30 +740,6 @@ public class WorkContactController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	public static Boolean uploadFile(
-			HttpServletRequest request, 
-			MultipartFile file,
-			String filePath,
-			String rename) {
-		String fileName = file.getOriginalFilename();
-		File targetFile = new File(filePath, fileName);
-		if (!targetFile.exists()) {
-			targetFile.mkdirs();
-		}
-		// 保存
-		try {
-			file.transferTo(targetFile);
-			 //想命名的原文件的路径  
-	        File file2 = new File(filePath+"/"+fileName); 
-	        
-	        file2.renameTo(new File(filePath+"/"+rename));  
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-
 	}
 
 }

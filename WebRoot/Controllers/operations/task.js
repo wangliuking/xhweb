@@ -144,6 +144,12 @@ xh.load = function() {
 		$scope.showFileWin=function(){
 			$("input[name='pathName']").click();
 		}
+		$scope.showHandle_file_upload_Win=function(){
+			$("#handle_file_upload").click();
+		}
+		$scope.showSummary_file_upload_Win=function(){
+			$("#summary_file_upload").click();
+		}
 		$scope.showUpdateFileWin=function(){
 			$("input[name='pathName2']").click();
 		}
@@ -332,6 +338,20 @@ xh.load = function() {
 		};
 		$scope.handle = function() {
 			var id =$scope.editData.taskId;
+			var files=[];
+			
+			
+			$("#handle_file_area ul li").each(function(){
+			    var name = $(this).children().first().text();
+			    var path = $(this).children(".path").text();
+			    if(name!="" && path!=""){
+			    	var a={
+			    			fileName:name,
+			    			filePath:path
+			    	}
+			    	files.push(a);
+			    }			   
+			});
 			$.ajax({
 				url : '../../WorkContact/handle',
 				type : 'POST',
@@ -343,14 +363,15 @@ xh.load = function() {
 					checkUser : $scope.editData.checkUser,
 					type:$scope.editData.type,
 					note:$("#handleWin").find("textarea[name='handle']").val(),
-					person_num:$("#handleWin").find("input[name='person_num']").val(),
-					satellite_time:$("#handleWin").find("input[name='satellite_time']").val(),
-					bus_num:$("#handleWin").find("input[name='bus_num']").val()
+					files: JSON.stringify(files)
+					
 				},
 				success : function(data) {
 
 					if (data.success) {
 						xh.refresh();
+						 $("#handle_file_area ul").children().remove();
+						 $("#handleWin").find("textarea[name='handle']").val("")
 						toastr.success(data.message, '提示');
 						$("#handleWin").modal("hide");
 					} else {
@@ -365,11 +386,22 @@ xh.load = function() {
 		};
 		$scope.summary = function() {
 			var id =$scope.editData.taskId;
-			var rs=$("#summaryWin").find("input[name='result2']").val();
 			var note=$("#summaryWin").find("textarea[name='summary_note']").val();
-			console.log("rs:"+rs);
-			console.log("note:"+note);
-			if(rs!=1 && note==""){
+            var files=[];
+			
+			
+			$("#summary_file_area ul li").each(function(){
+			    var name = $(this).children().first().text();
+			    var path = $(this).children(".path").text();
+			    if(name!="" && path!=""){
+			    	var a={
+			    			fileName:name,
+			    			filePath:path
+			    	}
+			    	files.push(a);
+			    }			   
+			});
+			if(files.length==0 && note==""){
 				alert("未填写内容或者上传文件，禁止提交");
 				return
 			}
@@ -385,7 +417,11 @@ xh.load = function() {
 					type:$scope.editData.type,
 					summary_note:$("#summaryWin").find("textarea[name='summary_note']").val(),
 					fileName:$("#summaryWin").find("input[name='fileName2']").val(),
-					filePath:$("#summaryWin").find("input[name='filePath2']").val()
+					filePath:$("#summaryWin").find("input[name='filePath2']").val(),
+					person_num:$("#summaryWin").find("input[name='person_num']").val(),
+					satellite_time:$("#summaryWin").find("input[name='satellite_time']").val(),
+					bus_num:$("#summaryWin").find("input[name='bus_num']").val(),
+					files: JSON.stringify(files)
 				},
 				success : function(data) {
 

@@ -1,6 +1,7 @@
 package xh.org.filter;
 
 import java.io.IOException;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -11,8 +12,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.WebUserBean;
 import xh.mybatis.service.WebUserServices;
@@ -36,6 +39,7 @@ public class LoginFilter extends HttpServlet implements Filter {
 		String root = funUtil.getCookie(servletRequest,"");*/
 		// 获得用户请求的URI
 		String path = servletRequest.getRequestURI();
+		System.out.println("path->"+path);
 		//陆页面无需过滤
 		try {
 			if (path.indexOf("/login.html") > -1) {

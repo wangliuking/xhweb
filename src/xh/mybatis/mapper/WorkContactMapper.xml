@@ -135,6 +135,21 @@
 			(#{x.taskId},#{x.filePath},#{x.fileName})
 		</foreach>
 	</insert>
+	<insert id="addHandleFile" parameterType="java.util.List">
+        insert into
+        xhgmnet_operations_workcontact_handle_file(taskId,filePath,fileName)values
+        <foreach collection="list" item="x" separator=",">
+            (#{x.taskId},#{x.filePath},#{x.fileName})
+        </foreach>
+    </insert>
+
+<insert id="addSummaryFile" parameterType="java.util.List">
+        insert into
+        xhgmnet_operations_workcontact_summary_file(taskId,filePath,fileName)values
+        <foreach collection="list" item="x" separator=",">
+            (#{x.taskId},#{x.filePath},#{x.fileName})
+        </foreach>
+    </insert>
 
 	<delete id="delFile" parameterType="int">
 		delete from xhgmnet_operations_workcontact_file where id=#{id}
@@ -143,6 +158,14 @@
 		select * from xhgmnet_operations_workcontact_file where
 		taskId=#{taskId}
 	</select>
+	   <select id="searchHandleFile" parameterType="String" resultType="map">
+        select * from xhgmnet_operations_workcontact_handle_file where
+        taskId=#{taskId}
+    </select>
+       <select id="searchSummaryFile" parameterType="String" resultType="map">
+        select * from xhgmnet_operations_workcontact_summary_file where
+        taskId=#{taskId}
+    </select>
 	<select id="isFileExistis" parameterType="map" resultType="int">
 		select count(*) from xhgmnet_operations_workcontact_file where
 		taskId=#{taskId}
@@ -156,8 +179,7 @@
 	<update id="handle" parameterType="xh.mybatis.bean.WorkContactBean">
 		update xhgmnet_operations_workcontact set
 		status=3,handle_time=#{handle_time},
-		handle_user=#{handle_user},handle_note=#{handle_note},ensure_satellite_time=#{ensure_satellite_time},
-		ensure_bus_num=#{ensure_bus_num},person_num=#{person_num}
+		handle_user=#{handle_user},handle_note=#{handle_note}
 		where taskId=#{taskId}
 	</update>
 	<update id="summary" parameterType="xh.mybatis.bean.WorkContactBean">
@@ -165,8 +187,9 @@
         status=4,summary_time=#{summary_time},
         summary_user=#{summary_user},summary_note=#{summary_note},
         summary_fileName=#{summary_fileName},
-        summary_filePath=#{summary_filePath}
-        
+        summary_filePath=#{summary_filePath},
+        ensure_satellite_time=#{ensure_satellite_time},
+        ensure_bus_num=#{ensure_bus_num},person_num=#{person_num}       
         where taskId=#{taskId}
     </update>
 	<update id="check" parameterType="xh.mybatis.bean.WorkContactBean">

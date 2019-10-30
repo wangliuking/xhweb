@@ -53,11 +53,25 @@ public class WorkContactBean {
 	private String ensure_satellite_time;
 	private String ensure_bus_num;
 	private String person_num;
-	
+	private List<Map<String,Object>> files;
+	private List<Map<String,Object>> handle_files;
+	private List<Map<String,Object>> summary_files;
 	
 	
 	
 
+	public List<Map<String, Object>> getSummary_files() {
+		return summary_files;
+	}
+	public void setSummary_files(List<Map<String, Object>> summary_files) {
+		this.summary_files = summary_files;
+	}
+	public List<Map<String, Object>> getHandle_files() {
+		return handle_files;
+	}
+	public void setHandle_files(List<Map<String, Object>> handle_files) {
+		this.handle_files = handle_files;
+	}
 	public String getEnsure_satellite_time() {
 		return ensure_satellite_time;
 	}
@@ -76,7 +90,7 @@ public class WorkContactBean {
 	public void setPerson_num(String person_num) {
 		this.person_num = person_num;
 	}
-	private List<Map<String,Object>> files;
+
 	
 	
 	public List<Map<String, Object>> getFiles() {

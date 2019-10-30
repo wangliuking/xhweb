@@ -14,7 +14,11 @@ public interface WorkContactMapper {
 	
 	int update(WorkContactBean bean) throws Exception;
 	int addFile(List<Map<String,Object>> list) throws Exception;
+	int addHandleFile(List<Map<String,Object>> list) throws Exception;
+	int addSummaryFile(List<Map<String,Object>> list) throws Exception;
 	List<Map<String,Object>> searchFile(String taskId) throws Exception;
+	List<Map<String,Object>> searchHandleFile(String taskId) throws Exception;
+	List<Map<String,Object>> searchSummaryFile(String taskId) throws Exception;
 	int sign(WorkContactBean bean) throws Exception;
 	int handle(WorkContactBean bean) throws Exception;
 	int summary(WorkContactBean bean) throws Exception;

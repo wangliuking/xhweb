@@ -41,6 +41,11 @@ xh.load = function() {
 		$scope.time=xh.dateNowFormat("month");
 		$scope.time_day=xh.dateNowFormat("day");
 		$scope.type="0";
+		/* 获取基站区域*/
+		$http.get("../../bs/map/area").success(
+				function(response) {
+					$scope.bszone = response.items;
+				});
 		/* 获取用户权限 */
 		$http.get("../../web/loginUserPower").success(
 				function(response) {
@@ -129,6 +134,10 @@ xh.load = function() {
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
 			var starttime=$("#time").val();
+			var endtime=$("#time2").val();
+			var zone=$("#zone").val();
+			var bsId=$("#bsId").val();
+			var bsType=$("#bsType").val();
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -139,7 +148,8 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../faultlevel/three_list?type="+$scope.type+"&start="+start+"&time="+starttime+"" +
+			$http.get("../../faultlevel/three_list?bsType="+bsType+"&bsId="+bsId+"&zone="+zone+"&endtime="+endtime+"&" +
+					"type="+$scope.type+"&start="+start+"&time="+starttime+"" +
 					"&limit=" + pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.data = response.items;
@@ -152,6 +162,10 @@ xh.load = function() {
 		$scope.pageClick = function(page, totals, totalPages) {
 			var pageSize = $("#page-limit").val();
 			var starttime=$("#time").val();
+			var endtime=$("#time2").val();
+			var zone=$("#zone").val();
+			var bsId=$("#bsId").val();
+			var bsType=$("#bsType").val();
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
 			if (page <= 1) {
@@ -161,7 +175,8 @@ xh.load = function() {
 			}
 			xh.maskShow();
 			$http.get(
-					"../../faultlevel/three_list?type="+$scope.type+"&start="+start+"&time="+starttime+"" +
+					"../../faultlevel/three_list?bsType="+bsType+"&bsId="+bsId+"&zone="+zone+"&endtime="+endtime+"&" +
+					"type="+$scope.type+"&start="+start+"&time="+starttime+"" +
 					"&limit=" + pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;

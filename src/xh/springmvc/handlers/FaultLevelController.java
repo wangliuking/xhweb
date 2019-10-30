@@ -89,11 +89,20 @@ public class FaultLevelController {
 		int limit = funUtil.StringToInt(request.getParameter("limit"));
 		int type = funUtil.StringToInt(request.getParameter("type"));
 		String time=request.getParameter("time");
+		String endtime=request.getParameter("endtime");
+		String zone=request.getParameter("zone");
+		String bsId=request.getParameter("bsId");
+		String bsType=request.getParameter("bsType");
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
 		map.put("time",time);
 		map.put("type",type);
+		map.put("endtime",endtime);
+		map.put("zone",zone);
+		map.put("bsId",bsId);
+		map.put("bsType",bsType);
+		
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("items", FaultLevelService.three_list(map));

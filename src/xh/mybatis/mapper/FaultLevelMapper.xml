@@ -21,13 +21,32 @@
 		where 1=1
 		<if test="time!=null and time!=''">
 			<if test="type==0">
-				and date_format(a.time,'%Y-%m-%d')=#{time}
+				and date_format(a.time,'%Y-%m-%d')>=#{time}
 			</if>
 			<if test="type==1">
 				and date_format(a.time,'%Y-%m')=#{time}
 			</if>
 
 		</if>
+		<if test="endtime!=null and endtime!=''">
+            <if test="type==0">
+                and date_format(a.time,'%Y-%m-%d')&lt;=#{endtime}
+            </if>
+        </if>
+        <if test="zone!=null and zone!=''">
+           and a.bsId in(select bsId from xhgmnet_bs_station where zone=#{zone})
+        </if>
+        <if test="bsId!=null and bsId!=''">
+           and a.bsId=#{bsId}
+        </if>
+        <if test="bsType!=null and bsType!=''">
+            <if test="bsType==0">
+                and a.bsId&lt;2000
+            </if>
+             <if test="bsType==1">
+                and a.bsId>2000
+            </if>
+        </if>
 		order by a.id asc limit #{start},#{limit}
 	</select>
 	<select id="excel_three_list" parameterType="map"
@@ -47,6 +66,7 @@
             </if>
 
         </if>
+        
         order by a.time asc
     </select>
 	<select id="four_list" parameterType="map"
@@ -104,11 +124,13 @@
 		order_wh=#{order_wh},
 		order_dx=#{order_dx},
 		order_yd=#{order_yd},
-		send_order_time=#{send_order_time},
-		recv_order_time=#{recv_order_time},
-		order_use_time=#{order_use_time},
-		order_cs=#{order_cs},
-		order_cs_total=#{order_cs_total}
+	   send_order_time=#{send_order_time},
+        recv_order_time=#{recv_order_time},
+        receipt_order_time=#{receipt_order_time},
+        recv_order_use_time=#{recv_order_use_time},
+        recv_order_cs=#{recv_order_cs},
+        handle_order_user_time=#{handle_order_user_time},
+        handle_order_cs=#{handle_order_cs}
 		where id=#{id}
 	</update>
 	<update id="three_update_by_order" parameterType="xh.mybatis.bean.FaultThreeBean">
@@ -151,6 +173,25 @@
 			</if>
 
 		</if>
+		<if test="endtime!=null and endtime!=''">
+            <if test="type==0">
+                and date_format(time,'%Y-%m-%d')&lt;=#{endtime}
+            </if>
+        </if>
+        <if test="zone!=null and zone!=''">
+           and bsId in(select bsId from xhgmnet_bs_station where zone=#{zone})
+        </if>
+        <if test="bsId!=null and bsId!=''">
+           and bsId=#{bsId}
+        </if>
+        <if test="bsType!=null and bsType!=''">
+            <if test="bsType==0">
+                and bsId&lt;2000
+            </if>
+             <if test="bsType==1">
+                and bsId>2000
+            </if>
+        </if>
 	</select>
 	<select id="four_count" parameterType="map" resultType="int"
 		useCache="true">
