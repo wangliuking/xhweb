@@ -56,7 +56,9 @@ xh.load = function() {
 			xh.maskHide();
 			$scope.userL = response;
 		});
-		$http.get("../../faultlevel/three_list?type="+$scope.type+"&time="+$scope.time+"&start=0&limit=" + $scope.count).success(
+		
+		$http.get("../../faultlevel/three_list?bsType=&bsId=&zone=&endtime="+$scope.time+"&" +
+				"type="+$scope.type+"&time="+$scope.time+"&start=0&limit=" + $scope.count).success(
 				function(response) {
 					xh.maskHide();
 					$scope.data = response.items;
@@ -68,6 +70,65 @@ xh.load = function() {
 		$scope.refresh = function() {
 			$scope.search($scope.page);
 		};
+		$scope.timeJS=function(level){
+			
+			//var data=$scope.data[index];
+			var t1=$("#editForm").find("input[name='send_order_time']").val();
+			var t2=$("#editForm").find("input[name='receipt_order_time']").val();
+			var t3=$("#editForm").find("input[name='recv_order_time']").val();
+		
+			console.log("t1:"+t1);
+			console.log("t2:"+t2);
+			console.log("t3:"+t3);
+			/*if(t1=="" || t2=="" || t3==""){
+				return;
+			}*/
+			var d1=new Date(t1);
+			var d2=new Date(t2);
+			var d3=new Date(t3);
+			//接单耗时
+			var r1=parseInt((d2.getTime()-d1.getTime())/60000);
+			//接单超时
+			var r2=0;
+			//处理耗时
+			var r3=parseInt((d3.getTime()-d2.getTime())/60000);
+			//处理超时
+			var r4=0;
+			var cs_total=0;
+			console.log("level:"+level);
+		    if(level==1){
+		    	if(r3>110){
+		    		cs_total=r3-110;
+		    	}
+		    }else if(level==2){
+		    	if(r3>170){
+		    		cs_total=r3-170;
+		    	}
+		    }else if(level==3){
+		    	if(r3>290){
+		    		cs_total=r3-290;
+		    	}
+		    }
+		    
+		    r4=cs_total>0?cs_total:0;
+		    console.log("r1:"+r1);
+			console.log("r2:"+r2);
+			console.log("r3:"+r3);
+			console.log("r4:"+r4);
+			if(t1!="" && t2!=""){
+				$("#editForm").find("input[name='recv_order_use_time']").val(r1);
+				$("#editForm").find("input[name='recv_order_cs']").val(r2);
+			}
+			if(t1!="" && t2!="" && t3!=""){
+				$("#editForm").find("input[name='handle_order_user_time']").val(r3);
+				$("#editForm").find("input[name='handle_order_cs']").val(r4);
+			}
+			
+		
+			
+		    
+			
+		}
 	
 		$scope.del=function(id){
 			$scope.oneData = $scope.data[id];
@@ -335,9 +396,12 @@ xh.print=function() {
 	 LODOP.PREVIEW();  	
 };
 xh.excel=function(){
-	
-	var starttime=$("#time").val();
 	var type=$("#type").val();
+	var starttime=$("#time").val();
+	var endtime=$("#time2").val();
+	var zone=$("#zone").val();
+	var bsId=$("#bsId").val();
+	var bsType=$("#bsType").val();
 	if(starttime==""){
 		toastr.error("时间不能为空", '提示');
 		return;
@@ -350,6 +414,10 @@ xh.excel=function(){
 		dataType : "json",
 		data : {
 			time:starttime,
+			endtime:endtime,
+			zone:zone,
+			bsId:bsId,
+			bsType:bsType,
 			type:type
 		},
 		async : true,

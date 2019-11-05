@@ -12,7 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 import xh.org.listeners.SingLoginListener;
 
 
-@ControllerAdvice
 public class IsLoginHandler implements HandlerInterceptor{
 	@Override
 	public void afterCompletion(HttpServletRequest arg0,

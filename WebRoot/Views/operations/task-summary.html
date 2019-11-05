@@ -151,6 +151,13 @@
 			}); */
 </script>
 <script type="text/javascript">
+$(document).on("click",".del-summary-file",function(){
+    $(this).parent().remove();
+    var vm=$(this).parent()
+    var name = vm.children().first().text();
+    var path = vm.children(".path").text();
+    xh.del_summary_file(name,path);
+})
     function upload_summary_file(){
         
         var name=$("input[id=summary_file_upload]").val();
@@ -169,7 +176,7 @@
         str+="<span class='path' style='display:none;' id='summary_filepath"+fileNum+"'></span>";
         str+="<span>("+size+")</span>"
         str+="<span style='color:red;margin-left:20px' id='summary_upresult"+fileNum+"'></span>"
-        str+="<span style='color:blue;margin-left:20px;cursor:pointer' class='del-file' >删除</span>"
+        str+="<span style='color:blue;margin-left:20px;cursor:pointer' class='del-summary-file' >删除</span>"
         str+="</li>"
         $("#summary_file_area ul").append(str);
         upload_summary("summary_upresult"+fileNum,"summary_filepath"+fileNum);

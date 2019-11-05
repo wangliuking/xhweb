@@ -32,7 +32,8 @@ xh.load = function() {
 		});
 	} ]);
 	app.controller("bs", function($scope, $http,$location) {
-		var obj =eval('(' + $location.search().data + ')');
+		//var obj =eval('(' + $location.search().data + ')');
+		var obj=JSON.parse(window.sessionStorage.getItem("update_bs_info"))
 		page=$location.search().page;
 		
 		$scope.data =obj;

@@ -285,16 +285,20 @@
 										</a> <a href="#" ng-click="showCheck($index)"
 											ng-if="up.o_task=='on' && x.status==0">|&nbsp;<img
 												src="../../Resources/images/icon/sign.png">审核
-										</a> <a href="#" ng-click="showReplyWin($index)"
-											ng-if="loginUser.roleType!=x.user_type 
-										&&  x.status==1">|&nbsp;<img
+										</a> 
+										
+										<a href="#" ng-click="showReplyWin($index)"
+											ng-if="(loginUser.roleType!=x.user_type || x.recvUnit==x.sendUnit)
+                                        &&  x.status==1">|&nbsp;<img
 												src="../../Resources/images/icon/record.png">签收
-										</a> <a href="#" ng-click="showHandleWin($index)"
-											ng-if="(loginUser.roleType==0 || loginUser.roleType==3)
+										</a> 
+										
+										<a href="#" ng-click="showHandleWin($index)"
+											ng-if="(loginUser.roleType==0 || loginUser.roleType==3 || x.recvUnit==x.sendUnit)
                                         &&  x.status==2">|&nbsp;<img
 												src="../../Resources/images/icon/record.png">处理跟踪
 										</a> <a href="#" ng-click="showSummaryWin($index)"
-											ng-if="(loginUser.roleType==0 || loginUser.roleType==3)
+											ng-if="(loginUser.roleType==0 || loginUser.roleType==3|| x.recvUnit==x.sendUnit)
                                         &&  x.status==3">|&nbsp;<img
 												src="../../Resources/images/icon/record.png">完成总结
 										</a> <a href="#" ng-click="del($index)"

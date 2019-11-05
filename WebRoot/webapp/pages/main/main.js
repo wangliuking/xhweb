@@ -22,6 +22,7 @@ loader.define(function(require,exports,module) {
     var pageview = {},uiNavtab,store;
     var params = router.getPageParams();
     if(params.userName!=undefined){
+    	
     	login(params);
     }; 
 

@@ -589,7 +589,7 @@ public class OperationsCheckController {
 				webLogBean.setStyle(1);
 				webLogBean.setContent("运维考核，data=" + checkBean.getApplyId());
 				WebLogService.writeLog(webLogBean);
-				createMeetFile(checkBean, request);
+				createMeetFile(checkBean, request,month);
 				FunUtil.sendMsgToUserByPower("o_check_operations_check", 3, "运维考核", "请审核运维考核文件，并签章", request);	
 			}else{
 				this.success=false;
@@ -1959,10 +1959,10 @@ public class OperationsCheckController {
 		}
 		
 	}
-	public void createMeetFile(OperationsCheckBean bean,HttpServletRequest request) {
+	public void createMeetFile(OperationsCheckBean bean,HttpServletRequest request,String month) {
 		String path=request.getSession().getServletContext().getRealPath("")+"/doc/template/meet2.doc";
 		String savePath=request.getSession().getServletContext().getRealPath("")+"/doc/check/";
-		savePath +=FunUtil.nowDateNotTime().split("-")[0];
+		savePath +=month.split("-")[0];
 		
 		System.out.println("地址："+savePath);
 		String filePath=savePath+"/"+bean.getFileName();

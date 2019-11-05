@@ -273,11 +273,19 @@ public class FaultLevelController {
 	}
 	@RequestMapping(value = "/faultlevel/excel_fault_three", method = RequestMethod.GET)
 	public void excel_fault_three(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		String time=request.getParameter("time");
 		int type = funUtil.StringToInt(request.getParameter("type"));
+		String time=request.getParameter("time");
+		String endtime=request.getParameter("endtime");
+		String zone=request.getParameter("zone");
+		String bsId=request.getParameter("bsId");
+		String bsType=request.getParameter("bsType");
 		Map<String,Object> map=new HashMap<String, Object>();
-		map.put("time", time);
+		map.put("time",time);
 		map.put("type",type);
+		map.put("endtime",endtime);
+		map.put("zone",zone);
+		map.put("bsId",bsId);
+		map.put("bsType",bsType);
 		try {
 			String saveDir = request.getSession().getServletContext().getRealPath("/upload/dayreport");
 			String pathname = saveDir + "/故障记录表"+time+".xls";

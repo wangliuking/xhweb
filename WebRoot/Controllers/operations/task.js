@@ -414,6 +414,7 @@ xh.load = function() {
 					taskId : id,
 					addUser : $scope.editData.addUser,
 					checkUser : $scope.editData.checkUser,
+					ensure_time : $scope.editData.ensure_starttime,
 					type:$scope.editData.type,
 					summary_note:$("#summaryWin").find("textarea[name='summary_note']").val(),
 					fileName:$("#summaryWin").find("input[name='fileName2']").val(),
@@ -428,6 +429,7 @@ xh.load = function() {
 					if (data.success) {
 						xh.refresh();
 						$("#summary_file_form")[0].reset();
+						$("#summary_file_area ul li").remove();
 						toastr.success(data.message, '提示');
 						$("#summaryWin").find("input[name='ensure_starttime_edit']").val("");
 						$("#summaryWin").find("input[name='type_edit']").val("");
@@ -581,12 +583,28 @@ xh.typeChange=function(){
 	var $scope = angular.element(appElement).scope();
 	$scope.type=$("#addForm").find("select[name='type']").val();
 }
-/* 添加 */
+/* 删除 */
+xh.del_summary_file=function(name,path){
+	$.ajax({
+		url : '../../WorkContact/del_summary_file',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data : {
+			name:name,
+			path:path
+		// 将表单序列化为JSON对象
+		},
+		success : function(data) {
+			
+		},
+		error : function() {
+		}
+	});
+}
 xh.add = function() {
 	var $scope = angular.element(appElement).scope();
 	var files=[];
-	
-	
 	$("#fileArea ul li").each(function(){
 	    var name = $(this).children().first().text();
 	    var path = $(this).children(".path").text();

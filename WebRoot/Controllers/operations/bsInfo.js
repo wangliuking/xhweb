@@ -99,7 +99,9 @@ xh.load = function() {
 		$scope.editModel = function(id) {
 			$scope.editData = $scope.data[id];
 			var url="bsInfo-edit.html";
-			url+="?page="+$scope.page+"&data="+JSON.stringify($scope.editData);
+			window.sessionStorage.setItem("update_bs_info", JSON.stringify($scope.editData));
+			//url+="?page="+$scope.page+"&data="+JSON.stringify($scope.editData);
+			url+="?page="+$scope.page
 			window.location.href=url;
 			/*$scope.editData.type = $scope.editData.type.toString();
 			$scope.editData.level = $scope.editData.level.toString();
