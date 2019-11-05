@@ -128,7 +128,7 @@ public class Util {
 				paramMap.put("serialNum", serialNum);
 				paramMap.put("status", "0");
 				paramMap.put("break_order", "");
-				Service.updateUserStatus(paramMap);
+				//Service.updateUserStatus(paramMap);
 				//更新四方伟业库
 				Map<String,Object> orderMap = OrderService.selectBySerialnumber(serialNum);
 				ErrProTable bean = new ErrProTable();
@@ -136,7 +136,7 @@ public class Util {
 				bean.setZbdldm(orderMap.get("zbdldm")+"");
 				bean.setStatus("接单中");
 				System.out.println(bean);
-				OrderService.updateSfOrder(bean);
+				//OrderService.updateSfOrder(bean);
 				map.put("returnMessage", "");
 				return map;
 			}else if("errcheck".equals(cmdtype)){
