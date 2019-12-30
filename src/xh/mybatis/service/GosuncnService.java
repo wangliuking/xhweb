@@ -592,5 +592,22 @@ public class GosuncnService {
 		}
 		return list;
 	}
+
+	/**
+	 * 查询IP
+	 */
+	public static String searchFSUIP(String bsId){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		String str = "";
+		try {
+			str = mapper.searchFSUIP(bsId);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return str;
+	}
 	
 }

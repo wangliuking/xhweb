@@ -112,6 +112,7 @@
 							</div>
 							视频监控   当前网络模式：<span class="currentNet">内网</span>
 						<button type="submit" id="changeNet">切换网络</button>
+							当前IP：{{emhData.fsuIp}}
 						</div>
 						<div class="panel-body">
 							<div id="mediaspace" class=""
@@ -461,6 +462,7 @@
 							<span ng-if="x.singleId=='092004'">交流电压过高告警</span>
 							<span ng-if="x.singleId=='092005'">交流电压过低告警</span>
 							<span ng-if="x.singleId=='076002'">非智能设备采集器通信状态告警</span>
+							<span ng-if="x.singleId=='076003'">一体化设备采集器通信状态告警</span>
 							<span ng-if="x.singleId=='076501'">电磁防护设备通信状态告警</span>
 							<span ng-if="x.singleId=='076507'">UPS设备通信状态告警</span>
 							<span ng-if="x.singleId=='076509'">智能电表通信状态告警</span>

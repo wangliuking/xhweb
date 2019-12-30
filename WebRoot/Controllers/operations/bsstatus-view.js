@@ -512,7 +512,6 @@ xh.load = function() {
 							+ $scope.period).success(function(response) {
 				$scope.emhData = response;
 				$scope.emhAlarm = response.alarmItems;
-
 				/*$scope.loadTemp($scope.emhData.temp);
 				$scope.loadDamp($scope.emhData.damp);*/
 				

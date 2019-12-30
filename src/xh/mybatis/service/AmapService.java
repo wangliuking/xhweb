@@ -462,6 +462,35 @@ public class AmapService {
 		return res;
 	}
 
+	public static int searchCount(Map<String,String> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AmapMapper mapper=sqlSession.getMapper(AmapMapper.class);
+		int res = 0;
+		try{
+			res = mapper.searchCount(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public static int insertTemp(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AmapMapper mapper=sqlSession.getMapper(AmapMapper.class);
+		int res = 0;
+		try{
+			res = mapper.insertTemp(map);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+
 	public static void main(String[] args) throws Exception {
 		/*Map<String,Object> param = new HashMap<>();
 		param.put("preMonth","xhgmnet_emh_sensor_history07");

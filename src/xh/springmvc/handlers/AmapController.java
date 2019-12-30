@@ -582,6 +582,38 @@ public class AmapController {
 		ee.exportExcel(headers,finalList,fileName,response);
 	}
 
+	public static void main(String[] args) throws Exception {
+		//analysisModel("2019-07-01 00:00:00","2019-07-31 23:59:00");
+		List<Map<String,Object>> list = new LinkedList<Map<String,Object>>();
+		for(int i=1;i<=13;i++){
+			String d = "";
+			if(i<10){
+				d = "0"+i;
+			}else {
+				d = ""+i;
+			}
+			Map<String,String> map = new HashMap<String,String>();
+			map.put("startTime","2019-11-"+d+" 00:00:00");
+			map.put("endTime","2019-11-"+d+" 23:59:59");
+			map.put("id","1011");
+			int count1 = AmapService.searchCount(map);
+			map.put("id","57703001");
+			int count2 = AmapService.searchCount(map);
+			map.put("id","57703002");
+			int count3 = AmapService.searchCount(map);
+			Map<String,Object> resMap = new HashMap<String,Object>();
+			resMap.put("id_1",count1);
+			resMap.put("id_2",count2);
+			resMap.put("id_3",count3);
+			resMap.put("time","2019-11-"+d);
+			list.add(resMap);
+		}
+		System.out.println(list);
+		Map<String,Object> tMap = new HashMap<String,Object>();
+		tMap.put("list",list);
+		AmapService.insertTemp(tMap);
+	}
+
 	public static List<PowerOffRes> analysisModel(String start,String end) throws Exception{
 		List<PowerOffRes> finalList = new LinkedList<PowerOffRes>();
 		Map<String,Object> parameter = new HashMap<String,Object>();
@@ -670,13 +702,13 @@ public class AmapController {
 						}
 					}else{
 						//电表无读数，判断eps
-						if(powerOffIndex == powerOnIndex && Double.parseDouble(ups1Pre) > 100 && Double.parseDouble(ups1Next) < 20){
+						if(powerOffIndex == powerOnIndex && Double.parseDouble(ups1Pre) > 100 && Double.parseDouble(ups1Next) < 50){
 							//停电
 							powerOffIndex++;
 							temp1.put("powerOffIndex",powerOffIndex);
 							analysisList.add(temp1);
 						}
-						if(powerOffIndex != powerOnIndex && Double.parseDouble(ups1Pre) < 20 && Double.parseDouble(ups1Next) > 100){
+						if(powerOffIndex != powerOnIndex && Double.parseDouble(ups1Pre) < 50 && Double.parseDouble(ups1Next) > 100){
 							powerOnIndex++;
 							temp1.put("powerOnIndex",powerOnIndex);
 							analysisList.add(temp1);
@@ -699,8 +731,11 @@ public class AmapController {
 						powerOffRes.setPowerOffVol(tempMap1.get("ups4")+"");
 						powerOffRes.setPowerOnTime(tempMap2.get("createTime")+"");
 						powerOffRes.setPowerOnVol(tempMap2.get("ups4")+"");
-						powerOffRes.setCalcTime(calcTime(tempMap1.get("createTime")+"",tempMap2.get("createTime")+""));
-						calcList.add(powerOffRes);
+						String tempStr = calcTime(tempMap1.get("createTime")+"",tempMap2.get("createTime")+"");
+						powerOffRes.setCalcTime(tempStr);
+						if(!"".equals(tempStr)){
+							calcList.add(powerOffRes);
+						}
 					}
 				}
 				//综合分析
@@ -708,16 +743,24 @@ public class AmapController {
 				List<String> timeList = new LinkedList<String>();
 				//System.out.println(calcList);
 				if(calcList.size()>0){
-					for(int y=calcList.size()-1;y>=0;y--){
+					for(int y=0;y<calcList.size();y++){
 						PowerOffRes powerOffRes = calcList.get(y);
-						String powerOffVol = powerOffRes.getPowerOffVol()==null?"":powerOffRes.getPowerOffVol();
+						//String powerOffVol = powerOffRes.getPowerOffVol()==null?"":powerOffRes.getPowerOffVol();
+						String powerOnVol = powerOffRes.getPowerOnVol()==null?"":powerOffRes.getPowerOnVol();
 						String powerOffTime = powerOffRes.getPowerOffTime()==null?"":powerOffRes.getPowerOffTime();
 						String powerOnTime = powerOffRes.getPowerOnTime()==null?"":powerOffRes.getPowerOnTime();
 						if(centerVol == 0){
-							String tempTime = calcTime(powerOffTime,powerOnTime);
+							String tempTime;
+							if(y == calcList.size()-1){
+								//最后一条计算停电时间到断站时间的间隔
+								tempTime = calcTimeForBsOff(powerOffTime,bsOffTime);
+								powerOffRes.setCalcTime(tempTime);
+							}else{
+								tempTime = calcTime(powerOffTime,powerOnTime);
+							}
 							timeList.add(tempTime);
-							centerVol = Double.parseDouble(powerOffVol);
-						}else if(Double.parseDouble(powerOffVol) > centerVol){
+							centerVol = Double.parseDouble(powerOnVol);
+						}else if(Double.parseDouble(powerOnVol) < centerVol){
 							Map<String,Object> searchParam = new HashMap<String,Object>();
 							searchParam.put("bsId",bsId);
 							searchParam.put("startTime",powerOffTime);
@@ -730,12 +773,19 @@ public class AmapController {
 								if(!"".equals(searchVolVal) && Double.parseDouble(searchVolVal) <= centerVol){
 									//下降到该电压时计算时间
 									String searchTime = volList.get(z).get("createTime")==null?"":volList.get(z).get("createTime")+"";
-									String tempTime = calcTime(powerOffTime,searchTime);
+									String tempTime;
+									if(y == calcList.size()-1){
+										//最后一条计算停电时间到断站时间的间隔
+										tempTime = calcTimeForBsOff(searchTime,bsOffTime);
+										powerOffRes.setCalcTime(tempTime);
+									}else{
+										tempTime = calcTime(searchTime,powerOnTime);
+									}
 									timeList.add(tempTime);
 									break;
 								}
 							}
-							centerVol = Double.parseDouble(powerOffVol);
+							centerVol = Double.parseDouble(powerOnVol);
 						}
 					}
 
@@ -743,24 +793,20 @@ public class AmapController {
 					PowerOffRes sumTimeMap = calcList.get(calcList.size()-1);
 					sumTimeMap.setFinalTime(sumTime(timeList));
 					System.out.println(calcList);
-				}else{
+				}/*else{
 					PowerOffRes sumTimeMap = new PowerOffRes();
 					sumTimeMap.setBsId(bsId);
 					sumTimeMap.setName(name);
 					sumTimeMap.setFinalTime("该基站需手动分析");
 					calcList.add(sumTimeMap);
 					System.out.println(calcList);
-				}
+				}*/
 				for(PowerOffRes po : calcList){
 					finalList.add(po);
 				}
 			}
 		}
 		return finalList;
-	}
-	
-	public static void main(String[] args) throws Exception {
-		analysisModel("2019-07-01 00:00:00","2019-07-29 07:33:00");
 	}
 
 	public static boolean compareTime(String time1,String time2) {
@@ -792,7 +838,34 @@ public class AmapController {
 			long l1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(time1).getTime();
 			long l2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(time2).getTime();
 			long diff = l2 - l1;
+			long temp = diff / nm;
+			if(temp < 20){
+				return "";
+			}
 			long day = diff / nd;
+			long hour = diff % nd / nh;
+			long min = diff % nd % nh / nm;
+			return hour + "小时" + min + "分钟";
+		}catch (Exception e){
+			System.out.println(time1+"============="+time2);
+		}
+		return "";
+	}
+
+	public static String calcTimeForBsOff(String time1,String time2) {
+		long nd = 1000 *24 * 60 * 60;
+		long nh = 1000 * 60 * 60;
+		long nm = 1000 * 60;
+		if(time1 == null || "".equals(time1)){
+			return "";
+		}
+		try {
+			long l1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(time1).getTime();
+			long l2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(time2).getTime();
+			if(l2 < l1){
+				return "0小时0分钟";
+			}
+			long diff = l2 - l1;
 			long hour = diff % nd / nh;
 			long min = diff % nd % nh / nm;
 			return hour + "小时" + min + "分钟";

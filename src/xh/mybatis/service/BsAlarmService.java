@@ -468,15 +468,16 @@ public class BsAlarmService {
 						}
 
 					} else {// 已整改
-						if (yes_a_off) {
+						boolean yes_a_off_elec = (fsu4 == 1 && e4Pre.equals(e4Next));
+						boolean yes_a_on_elec = (fsu4 == 0);
+						if (yes_a_off && yes_a_off_elec) {
 							bean.setDescription("市电中断");
 							eps = bs_emh_eps(bean);
 							if (eps == 0) {
-
 								write_bs_emh_eps(bean);
 							}
 						}
-						if (yes_a_on) {
+						if (yes_a_on && yes_a_on_elec) {
 							bean.setDescription("市电中断");
 							eps = bs_emh_eps(bean);
 							if (eps > 0) {

@@ -32,7 +32,7 @@
             and breakTime BETWEEN #{startTime} and #{endTime}
         </if>
         <if test="roleId != null  and roleId == 10002 ">
-            and a.checked BETWEEN 1 and 4
+            and a.checked in (-1,1,2)
         </if>
         <if test="imgName != null  and imgName != ''">
             and (a.fileName1 like concat('%',#{imgName},'%')
@@ -67,7 +67,7 @@
             and breakTime BETWEEN #{startTime} and #{endTime}
         </if>
         <if test="roleId != null  and roleId == 10002 ">
-            and a.checked BETWEEN 1 and 4
+            and a.checked in (-1,1,2)
         </if>
         <if test="imgName != null  and imgName != ''">
             and (a.fileName1 like concat('%',#{imgName},'%')

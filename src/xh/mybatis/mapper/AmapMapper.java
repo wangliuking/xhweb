@@ -121,4 +121,8 @@ public interface AmapMapper {
 	public List<Map<String,Object>> selectVolWhenPowerOff(Map<String,Object> map)throws Exception;
 
 	public List<Map<String,Object>> selectHistoryByTime(Map<String,Object> map)throws Exception;
+
+	public int searchCount(Map<String,String> map)throws Exception;
+
+	public int insertTemp(Map<String,Object> map)throws Exception;
 }
