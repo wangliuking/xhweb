@@ -88,22 +88,22 @@
 									<td>具体项目</td>
 									<td style="width:130px;" colspan="5">具体操作</td>
 									<td style="width:250px;" colspan="1">执行情况</td>
-									<td style="width:130px;" colspan="3">备注</td>
+									<td style="width:130px;" colspan="3">备注</br>(需注明异常情况)</td>
 								</tr>
 								<tr>
 									<td rowspan="2">天面</td>
 									<td>防倾斜</td>
-									<td colspan="5">观测铁塔、抱杆、天线是否有明显倾斜</td>
+									<td colspan="5">观测铁塔、抱杆、天线是否正常（有无明显倾斜）</td>
 									<td><input id="1-1" class="magic-checkbox" type="checkbox"
-										ng-checked="sbsOneData.d1=='有'"> <label><span>有</span></label>
+										ng-checked="sbsOneData.d1=='正常'"> <label><span>正常</span></label>
 										<input id="1-2" class="magic-checkbox" type="checkbox"
-										ng-checked="sbsOneData.d1=='无'"> <label><span>无</span></label>
+										ng-checked="sbsOneData.d1=='异常'"> <label><span>异常</span></label>
 									</td>
 									<td style="width:130px;" colspan="2">{{sbsOneData.c1}}</td>
 								</tr>
 								<tr>
 									<td>防雷情况</td>
-									<td style="width:330px;" colspan="5">避雷针是否正常，接地线焊点是否锈蚀，天线支架、走线架是否接地，馈线是否三点接地</td>
+									<td style="width:330px;" colspan="5">防雷情况是否正常（避雷针、接地线及焊点是否锈蚀，天线支架、走线架、馈线接地情况）</td>
 									<td><input class="magic-checkbox" type="checkbox"
 										ng-checked="sbsOneData.d2=='正常'"> <label><span>正常</span></label>
 										<input class="magic-checkbox" type="checkbox"
@@ -113,44 +113,44 @@
 								<tr>
 									<td rowspan="7">防雷情况</td>
 									<td rowspan="4">机房安全</td>
-									<td colspan="5">机房有无灭火设备</td>
+									<td colspan="5">机房灭火设备是否正常</td>
 									<td><input class="magic-checkbox" type="checkbox"
-										ng-checked="sbsOneData.d3=='有'"> <label><span>有</span></label>
+										ng-checked="sbsOneData.d3=='正常'"> <label><span>正常</span></label>
 										<input class="magic-checkbox" type="checkbox"
-										ng-checked="sbsOneData.d3=='无'"> <label><span>无</span></label></td>
+										ng-checked="sbsOneData.d3=='异常'"> <label><span>异常</span></label></td>
 									<td style="width:130px;" colspan="2">{{sbsOneData.c3}}</td>
 								</tr>
 								<tr>
-									<td colspan="5">门、窗、锁是否完好，密封是否严实</td>
+									<td colspan="5">门、窗、锁是否正常</td>
 									<td><input class="magic-checkbox" type="checkbox"
-										ng-checked="sbsOneData.d4=='是'"> <label><span>是</span></label>
+										ng-checked="sbsOneData.d4=='正常'"> <label><span>正常</span></label>
 										<input class="magic-checkbox" type="checkbox"
-										ng-checked="sbsOneData.d4=='否'"> <label><span>否</span></label></td>
+										ng-checked="sbsOneData.d4=='异常'"> <label><span>异常</span></label></td>
 									<td style="width:130px;" colspan="2">{{sbsOneData.c4}}</td>
 								</tr>
 								<tr>
-									<td colspan="5">门窗、馈线孔等缝隙密封是否严实</td>
+									<td colspan="5">门窗、馈线孔等缝隙密封是否正常</td>
 									<td><input class="magic-checkbox" type="checkbox"
-										ng-checked="sbsOneData.d5=='是'"> <label><span>是</span></label>
+										ng-checked="sbsOneData.d5=='正常'"> <label><span>正常</span></label>
 										<input class="magic-checkbox" type="checkbox"
-										ng-checked="sbsOneData.d5=='否'"> <label><span>否</span></label></td>
+										ng-checked="sbsOneData.d5=='异常'"> <label><span>异常</span></label></td>
 									<td style="width:130px;" colspan="2">{{sbsOneData.c5}}</td>
 								</tr>
 								<tr>
-									<td colspan="5">机房走线架及室内、室外铜牌安装是否规范</td>
+									<td colspan="5">机房走线架及室内、室外铜牌安装是否正常</td>
 									<td><input class="magic-checkbox" type="checkbox"
-										ng-checked="sbsOneData.d6=='是'"> <label><span>是</span></label>
+										ng-checked="sbsOneData.d6=='正常'"> <label><span>正常</span></label>
 										<input class="magic-checkbox" type="checkbox"
-										ng-checked="sbsOneData.d6=='否'"> <label><span>否</span></label></td>
+										ng-checked="sbsOneData.d6=='异常'"> <label><span>异常</span></label></td>
 									<td style="width:130px;" colspan="2">{{sbsOneData.c6}}</td>
 								</tr>
 								<tr>
 									<td>机房温度</td>
-									<td colspan="5">空调制冷效果、温度设置及运行状态是否正常</td>
+									<td colspan="5">空调运行状态是否正常（制冷效果和温度设置）</td>
 									<td><input class="magic-checkbox" type="checkbox"
-										ng-checked="sbsOneData.d7=='是'"> <label><span>是</span></label>
+										ng-checked="sbsOneData.d7=='正常'"> <label><span>正常</span></label>
 										<input class="magic-checkbox" type="checkbox"
-										ng-checked="sbsOneData.d7=='否'"> <label><span>否</span></label></td>
+										ng-checked="sbsOneData.d7=='异常'"> <label><span>异常</span></label></td>
 									<td style="width:130px;" colspan="2">{{sbsOneData.c7}}</td>
 								</tr>
 
@@ -158,7 +158,7 @@
 
 								<tr>
 									<td rowspan="2">积水情况</td>
-									<td colspan="5">空调有无漏水情况</td>
+									<td colspan="5">空调排水情况是否正常</td>
 									<td><input class="magic-checkbox" type="checkbox"
 										ng-checked="sbsOneData.d8=='正常'"> <label><span>正常</span></label>
 										<input class="magic-checkbox" type="checkbox"
@@ -166,7 +166,7 @@
 									<td style="width:130px;" colspan="2">{{sbsOneData.c8}}</td>
 								</tr>
 								<tr>
-									<td colspan="5">机房有无裂缝、渗水、漏水等情况</td>
+									<td colspan="5">机房防水情况是否正常（有无裂缝、渗水、漏水等情况）</td>
 									<td><input class="magic-checkbox" type="checkbox"
 										ng-checked="sbsOneData.d9=='正常'"> <label><span>正常</span></label>
 										<input class="magic-checkbox" type="checkbox"
@@ -175,9 +175,9 @@
 								</tr>
 
 								<tr>
-									<td style="width:130px;" rowspan="7">电源配套</td>
+									<td style="width:130px;" rowspan="6">电源配套</td>
 									<td style="width:130px;" rowspan="1">油机</td>
-									<td colspan="5">油机是否能正常运行、油机及油机线缆有无安全隐患</td>
+									<td colspan="5">油机运行是否正常（油机及油机线缆有无安全隐患）</td>
 									<td><input class="magic-checkbox" type="checkbox"
 										ng-checked="sbsOneData.d10=='正常'"> <label><span>正常</span></label>
 										<input class="magic-checkbox" type="checkbox"
@@ -186,24 +186,24 @@
 								</tr>
 
 								<tr>
-									<td style="width:130px;" rowspan="3">后备电源</td>
-									<td colspan="5">电源线连接是否正常，有无松动、老化、发热等情况</td>
+									<td style="width:130px;" rowspan="2">后备电源</td>
+									<td colspan="5">后备电源工作是否正常（电池连接线及电池状态是否正常）</td>
 									<td><input class="magic-checkbox" type="checkbox"
 										ng-checked="sbsOneData.d11=='正常'"> <label><span>正常</span></label>
 										<input class="magic-checkbox" type="checkbox"
 										ng-checked="sbsOneData.d11=='异常'"> <label><span>异常</span></label></td>
 									<td style="width:130px;" colspan="2">{{sbsOneData.c11}}</td>
 								</tr>
-								<tr>
+								<!-- <tr>
 									<td colspan="5">电池壳体有无渗漏和变形，极柱、安全阀周围是否有酸雾酸液逸出</td>
 									<td><input class="magic-checkbox" type="checkbox"
 										ng-checked="sbsOneData.d12=='正常'"> <label><span>正常</span></label>
 										<input class="magic-checkbox" type="checkbox"
 										ng-checked="sbsOneData.d12=='异常'"> <label><span>异常</span></label></td>
 									<td style="width:130px;" colspan="2">{{sbsOneData.c12}}</td>
-								</tr>
+								</tr> -->
 								<tr>
-									<td colspan="5">查看EPS/UPS/逆变器是否正常工作</td>
+									<td colspan="5">EPS/UPS/逆变器是否正常工作</td>
 									<td><input class="magic-checkbox" type="checkbox"
 										ng-checked="sbsOneData.d13=='正常'"> <label><span>正常</span></label>
 										<input class="magic-checkbox" type="checkbox"
@@ -212,7 +212,7 @@
 								</tr>
 								<tr>
 									<td style="width:130px;">配电箱</td>
-									<td colspan="5">机房配电柜安装是否规范，电压是否稳定，有无安全隐患</td>
+									<td colspan="5">配电柜工作状态是否正常（电压稳定、线缆破损和空开容量等情况）</td>
 									<td><input class="magic-checkbox" type="checkbox"
 										ng-checked="sbsOneData.d14=='正常'"> <label><span>正常</span></label>
 										<input class="magic-checkbox" type="checkbox"
@@ -221,33 +221,33 @@
 								</tr>
 								<tr>
 									<td>照明</td>
-									<td colspan="5">机房照明设施是否完好</td>
+									<td colspan="5">机房照明设施是否正常</td>
 									<td><input class="magic-checkbox" type="checkbox"
-										ng-checked="sbsOneData.d15=='是'"> <label><span>是</span></label>
+										ng-checked="sbsOneData.d15=='正常'"> <label><span>正常</span></label>
 										<input class="magic-checkbox" type="checkbox"
-										ng-checked="sbsOneData.d15=='否'"> <label><span>否</span></label></td>
+										ng-checked="sbsOneData.d15=='异常'"> <label><span>异常</span></label></td>
 									<td style="width:130px;" colspan="2">{{sbsOneData.c15}}</td>
 								</tr>
 								<tr>
 									<td>插座</td>
-									<td colspan="5">机房插座是否有电</td>
+									<td colspan="5">机房插座是否正常</td>
 									<td><input class="magic-checkbox" type="checkbox"
-										ng-checked="sbsOneData.d16=='是'"> <label><span>是</span></label>
+										ng-checked="sbsOneData.d16=='正常'"> <label><span>正常</span></label>
 										<input class="magic-checkbox" type="checkbox"
-										ng-checked="sbsOneData.d16=='否'"> <label><span>否</span></label></td>
+										ng-checked="sbsOneData.d16=='异常'"> <label><span>异常</span></label></td>
 									<td style="width:130px;" colspan="2">{{sbsOneData.c16}}</td>
 								</tr>
 								<tr>
-									<td rowspan="5">主体设备</td>
+									<td rowspan="4">主体设备</td>
 									<td>单板状态</td>
-									<td colspan="5">检查各单板运行状态、供电情况是否正常，设备是否有明显告警</td>
+									<td colspan="5">检查各单板运行状态是否正常（设备是否有明显告警）</td>
 									<td><input class="magic-checkbox" type="checkbox"
 										ng-checked="sbsOneData.d17=='正常'"> <label><span>正常</span></label>
 										<input class="magic-checkbox" type="checkbox"
 										ng-checked="sbsOneData.d17=='异常'"> <label><span>异常</span></label></td>
 									<td style="width:130px;" colspan="2">{{sbsOneData.c17}}</td>
 								</tr>
-								<tr>
+								<!-- <tr>
 									<td>告警确认</td>
 									<td colspan="5">通过与监控后台联系确认设备有无告警</td>
 									<td><input class="magic-checkbox" type="checkbox"
@@ -255,10 +255,10 @@
 										<input class="magic-checkbox" type="checkbox"
 										ng-checked="sbsOneData.d18=='异常'"> <label><span>异常</span></label></td>
 									<td style="width:130px;" colspan="2">{{sbsOneData.c18}}</td>
-								</tr>
+								</tr> -->
 								<tr>
 									<td>连线状态</td>
-									<td colspan="5">电源/信号/射频/地线/网线是否分开，机架内各连线是否接触良好并正确无误</td>
+									<td colspan="5">设备连线是否正常（电源/信号是否分开，连线接触是否良好）</td>
 									<td><input class="magic-checkbox" type="checkbox"
 										ng-checked="sbsOneData.d19=='正常'"> <label><span>正常</span></label>
 										<input class="magic-checkbox" type="checkbox"
@@ -267,7 +267,7 @@
 								</tr>
 								<tr>
 									<td>设备加固</td>
-									<td colspan="5">设备安装是否牢固</td>
+									<td colspan="5">设备加固是否正常</td>
 									<td><input class="magic-checkbox" type="checkbox"
 										ng-checked="sbsOneData.d20=='正常'"> <label><span>正常</span></label>
 										<input class="magic-checkbox" type="checkbox"
@@ -276,7 +276,7 @@
 								</tr>
 								<tr>
 									<td>设备温度</td>
-									<td colspan="5">设备是否有高温、异味</td>
+									<td colspan="5">设备温度是否正常</td>
 									<td><input class="magic-checkbox" type="checkbox"
 										ng-checked="sbsOneData.d21=='正常'"> <label><span>正常</span></label>
 										<input class="magic-checkbox" type="checkbox"
@@ -295,7 +295,7 @@
 								</tr>
 								<tr>
 									<td>安全监测</td>
-									<td colspan="5">查看门磁、红外传感器、烟感、摄像头是否正常(需值班人员配合完成)</td>
+									<td colspan="5">门磁、红外、烟感、摄像头是否正常(需值班人员配合完成)</td>
 									<td><input class="magic-checkbox" type="checkbox"
 										ng-checked="sbsOneData.d23=='正常'"> <label><span>正常</span></label>
 										<input class="magic-checkbox" type="checkbox"
@@ -304,7 +304,7 @@
 								</tr>
 								<tr>
 									<td>交直流电流电压</td>
-									<td colspan="5">查看交直流是否正常(需值班人员配合完成)</td>
+									<td colspan="5">交直流检测是否正常(需值班人员配合完成)</td>
 									<td><input class="magic-checkbox" type="checkbox"
 										ng-checked="sbsOneData.d24=='正常'"> <label><span>正常</span></label>
 										<input class="magic-checkbox" type="checkbox"
@@ -313,7 +313,7 @@
 								</tr>
 								<tr>
 									<td>EPS/UPS</td>
-									<td colspan="5">查看EPS/UPS输入、输出及电池组状态(需值班人员配合完成)</td>
+									<td colspan="5">EPS/UPS输入、输出及电池组状态是否正常(需值班人员配合完成)</td>
 									<td><input class="magic-checkbox" type="checkbox"
 										ng-checked="sbsOneData.d25=='正常'"> <label><span>正常</span></label>
 										<input class="magic-checkbox" type="checkbox"
@@ -323,26 +323,26 @@
 								<tr>
 									<td rowspan="2">清洁</td>
 									<td>机房清洁</td>
-									<td colspan="5">清洁机房内门窗、地面、墙面卫生</td>
+									<td colspan="5">机房内门窗、地面、墙面卫生是否正常</td>
 									<td><input class="magic-checkbox" type="checkbox"
-										ng-checked="sbsOneData.d26=='已执行'"> <label><span>已执行</span></label>
+										ng-checked="sbsOneData.d26=='正常'"> <label><span>正常</span></label>
 										<input class="magic-checkbox" type="checkbox"
-										ng-checked="sbsOneData.d26=='未执行'"> <label><span>未执行</span></label></td>
+										ng-checked="sbsOneData.d26=='异常'"> <label><span>异常</span></label></td>
 									<td style="width:130px;" colspan="2">{{sbsOneData.c26}}</td>
 								</tr>
 								<tr>
 									<td>设备除尘</td>
-									<td colspan="5">清洁设备表面、内部、主体设备滤网</td>
+									<td colspan="5">设备表面及设备滤网卫生是否正常</td>
 									<td><input class="magic-checkbox" type="checkbox"
-										ng-checked="sbsOneData.d27=='已执行'"> <label><span>已执行</span></label>
+										ng-checked="sbsOneData.d27=='正常'"> <label><span>正常</span></label>
 										<input class="magic-checkbox" type="checkbox"
-										ng-checked="sbsOneData.d27=='未执行'"> <label><span>未执行</span></label></td>
+										ng-checked="sbsOneData.d27=='异常'"> <label><span>异常</span></label></td>
 									<td style="width:130px;" colspan="2">{{sbsOneData.c27}}</td>
 								</tr>
 								<tr>
 									<td>功能</td>
 									<td>呼叫功能</td>
-									<td colspan="5">沿途呼叫测试</td>
+									<td colspan="5">语音呼叫测试是否正常</td>
 									<td><input class="magic-checkbox" type="checkbox"
 										ng-checked="sbsOneData.d28=='正常'"> <label><span>正常</span></label>
 										<input class="magic-checkbox" type="checkbox"
