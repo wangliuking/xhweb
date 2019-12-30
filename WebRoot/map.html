@@ -199,7 +199,7 @@ html,body {
 	border:1px solid blue;
 	position:fixed;
 	top:32px;
-	left:65%;
+	right:10%;
 	z-index:900;
 	display:none;
 }
@@ -219,10 +219,10 @@ html,body {
 	</div>
 	<!-- 右上角显示框 -->
 	<div class="info_right">
-		<div class="btn-group active">		
+		<div class="btn-group active">
 			<button type="button" class="btn btn-primary btn-sm dropdown-toggle"
-				ng-click="chooseLayerType()">
-				检索 <span class="caret"></span>
+					ng-click="chooseTypes()">
+				隐藏
 			</button>
 		</div>
 		<div class="btn-group">
@@ -298,7 +298,7 @@ html,body {
 			</button>
 			<div class="dropdown-menu pre-scrollable" role="menu">
 				<ul ng-repeat="x in levelData">
-					<li ng-if="x.level!=0"><label class="levelChoose"><input
+					<li><label class="levelChoose"><input
 							type="checkbox" ng-click="bothChoose(x.level)"
 							ng-value="x.level">{{x.level}}级基站</label></li>
 				</ul>
@@ -329,13 +329,13 @@ html,body {
 				</ul>
 			</div>
 		</div>
-		
-		<div class="btn-group active">		
+		<div class="btn-group active">
 			<button type="button" class="btn btn-primary btn-sm dropdown-toggle"
-				ng-click="chooseTypes()">
-				隐藏
+					ng-click="chooseLayerType()">
+				检索 <span class="caret"></span>
 			</button>
 		</div>
+
 		
 	</div>
 	

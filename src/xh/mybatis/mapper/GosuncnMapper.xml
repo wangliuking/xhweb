@@ -559,4 +559,9 @@
 		select * from xhgmnet_emh_sensor_status order by updateTime desc limit 1
 	</select>
 
+	<!-- 根据基站号查询FSUIP -->
+	<select id="searchFSUIP" resultType="String" parameterType="String" useCache="true">
+		select fsuIp from xhgmnet_emh_fsuid4bsid a left join xhgmnet_emh_login b on a.fsuId=b.fsuId where a.siteId=#{bsId} limit 1
+	</select>
+
 </mapper>

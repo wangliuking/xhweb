@@ -198,5 +198,10 @@ public interface GosuncnMapper {
 	 * 查询环控状态
 	 */
 	public List<Map<String,Object>> getEMHStatus(Map<String,Object> map)throws Exception;
+
+	/**
+	 * 查询环控IP
+	 */
+	public String searchFSUIP(String bsId)throws Exception;
 	
 }

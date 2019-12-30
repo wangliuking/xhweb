@@ -201,7 +201,12 @@ app.controller("map", function($scope, $http) {
 			});
 	$http.get("bs/map/level").success(
 			function(response) {
-				$scope.levelData = response.items;
+                var levelArr = response.items;
+                var finalArr = [];
+                for(var i=1;i<levelArr.length;i++){
+                	finalArr.push(levelArr[i])
+				}
+				$scope.levelData = finalArr;
 			});
 	$http.get("amap/map/road").success(
 			function(response) {			
@@ -209,6 +214,7 @@ app.controller("map", function($scope, $http) {
 			});
 	/* 级别和区域选择 */
 	var level={
+        	"0":{"lat":"30.6670418358257","lng":"104.07508986582853","zoom":"3"},
 			"1":{"lat":"30.6670418358257","lng":"104.07508986582853","zoom":"3"},
 			"2":{"lat":"30.69982302288963","lng":"104.06099782211035","zoom":"3"},
 			"3":{"lat":"30.694667397139078","lng":"104.04991322674667","zoom":"2"}
@@ -274,7 +280,8 @@ app.controller("map", function($scope, $http) {
 							option.series[4].markPoint.data=baseMark(tempData)[4];
 							option.series[5].markPoint.data=baseMark(tempData)[5];
 							option.series[6].markPoint.data=flashMark(tempData);//闪烁效果
-							console.log(baseMark(tempData));
+                            console.log(baseMark(tempData));
+							console.log(option);
 							overlay.setOption(option);
 						}else{
 							var tempD = response.items;	
@@ -403,7 +410,7 @@ app.controller("map", function($scope, $http) {
 				t.push($(this).val());
 			});
 			roadtest.clear();
-			if(t.length!=0 || z.length!=0){
+			if(t.length!=0){
 				$http.get("amap/map/roadById?bsId="+t).success(
 						function(response) {
 							var roadData = response.items;
@@ -1753,20 +1760,7 @@ function init(data,markData) {
 		$(function() {
 			$("#bsInfo").click(function() {
 				if ($(this).prop("checked") == true) {
-					option.series[0].markPoint.data=objConnect;
-					option.series[1].markPoint.data=baseMark(tempData)[1];
-					option.series[2].markPoint.data=baseMark(tempData)[2];
-					option.series[3].markPoint.data=baseMark(tempData)[3];
-					option.series[4].markPoint.data=baseMark(tempData)[4];
-					option.series[5].markPoint.data=baseMark(tempData)[5];
-					option.series[6].markPoint.data=flashMark(tempData);//闪烁效果
-					option.series[0].markPoint.symbolSize=myMap.getZoom()*2;
-					option.series[1].markPoint.symbolSize=myMap.getZoom()*2;
-					option.series[2].markPoint.symbolSize=myMap.getZoom()*2;
-					option.series[3].markPoint.symbolSize=myMap.getZoom()*2;
-					option.series[4].markPoint.symbolSize=myMap.getZoom()*2;
-					option.series[5].markPoint.symbolSize=myMap.getZoom()*2;
-					overlay.setOption(option);
+                    window.location.href="map.html";
 				} else {
 					var point = new esri.geometry.Point(104.04800077323965, 30.675192748658024,new esri.SpatialReference({wkid:parseInt(4490)}));
 					myMap.centerAndZoom(point, 2);// 地图首次加载显示的位置和放大级别

@@ -193,5 +193,17 @@
 		</if>
 	</select>
 
-	
+	<select id="searchCount" parameterType="map" resultType="int">
+		select COUNT(*) from table_callInfo where calledId=#{id} and startTime BETWEEN #{startTime} and #{endTime}
+	</select>
+
+	<insert id="insertTemp" parameterType="map">
+		INSERT INTO
+		table_temp(id_1,id_2,id_3,time)
+		values
+		<foreach collection="list" item="item" index="index"
+				 separator=",">
+			(#{item.id_1},#{item.id_2},#{item.id_3},#{item.time})
+		</foreach>
+	</insert>
 </mapper>

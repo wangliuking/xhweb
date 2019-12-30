@@ -57,15 +57,7 @@ import xh.mybatis.bean.BsStatusBean;
 import xh.mybatis.bean.EmhBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.bean.WebUserBean;
-import xh.mybatis.service.BsStatusService;
-import xh.mybatis.service.BsstationService;
-import xh.mybatis.service.BusinessService;
-import xh.mybatis.service.DispatchStatusService;
-import xh.mybatis.service.EmhService;
-import xh.mybatis.service.PublicVariableService;
-import xh.mybatis.service.ServerStatusService;
-import xh.mybatis.service.SqlServerService;
-import xh.mybatis.service.WebLogService;
+import xh.mybatis.service.*;
 
 @Controller
 @RequestMapping(value = "/bsstatus")
@@ -1418,11 +1410,12 @@ public class BsStatusController {
 				result=SqlServerService.bsmonitorList(siteId);
 				result.put("alarmItems",SqlServerService.bsmonitorAlarmList(siteId));
 				result.put("alarmTotals",SqlServerService.bsmonitorAlarmList(siteId).size());	
-				
+				result.put("fsuIp", GosuncnService.searchFSUIP(siteId+""));
 			}else{
 				result = BsStatusService.bsEmh(siteId);
 				result.put("alarmItems",BsStatusService.bsEmhAlarm(siteId));
 				result.put("alarmTotals",BsStatusService.bsEmhAlarm(siteId).size());
+				result.put("fsuIp", GosuncnService.searchFSUIP(siteId+""));
 			}
 			
 			result.put("totals",result.size());
