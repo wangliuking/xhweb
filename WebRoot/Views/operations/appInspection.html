@@ -214,11 +214,24 @@ input[type="text"] {
 																<td><input type="checkbox" name="tb-check"
 																	id="bs-check" value="{{x.id}}" index="{{$index}}" /></td>
 																<td><span
-																	ng-if="x.c1!='' || x.c2!='' || x.c3!='' || x.c4!='' || x.c5!='' 
-																|| x.c6!='' || x.c7!='' || x.c8!='' || x.c9!='' || x.c10!='' || x.c11!='' || x.c12!='' || x.c13!='' 
-																|| x.c14!='' || x.c15!='' || x.c16!='' || x.c17!='' || x.c18!='' || x.c19!='' || x.c20!='' 
-																|| x.c21!='' || x.c22!='' || x.c23!='' || x.c24!='' || x.c25!='' || x.c26!='' || x.c27!='' 
-																|| x.c28!=''"><img
+																	ng-if="
+																	(x.c1!='' && x.c1!=null) 
+																	|| (x.c2!='' && x.c2!=null) 
+																	|| (x.c3!='' && x.c3!=null) 
+																	|| (x.c4!='' && x.c4!=null) 
+																	|| (x.c5!='' && x.c5!=null) 
+																|| (x.c6!='' && x.c6!=null) ||( x.c7!='' &&  x.c7!=null) 
+																|| (x.c8!='' && x.c8!=null) || (x.c9!='' && x.c9!=null)
+																|| (x.c10!='' && x.c10!=null)|| (x.c11!='' && x.c11!=null)
+																|| (x.c12!='' && x.c12!=null)|| (x.c13!='' && x.c13!=null)
+																|| (x.c14!='' && x.c14!=null)|| (x.c15!='' && x.c15!=null)
+																|| (x.c16!='' && x.c16!=null)|| (x.c17!='' && x.c17!=null)
+																|| (x.c18!='' && x.c18!=null)|| (x.c19!='' && x.c19!=null)
+																|| (x.c20!='' && x.c20!=null)
+																|| (x.c21!='' && x.c21!=null)|| (x.c22!='' && x.c22!=null)
+																|| (x.c23!='' && x.c23!=null)|| (x.c24!='' && x.c24!=null) 
+																|| (x.c25!='' && x.c25!=null)|| (x.c26!='' && x.c26!=null)
+																|| (x.c27!='' && x.c27!=null)|| (x.c28!='' && x.c28!=null)"><img
 																		src='../../Resources/images/icon/16/1.png'></span>
 
 																	{{x.bsid}}-{{x.bsname}}</td>

@@ -2956,7 +2956,7 @@ public class AppInspectionController {
 		sheet.addCell(new Label(7, 5, bean.getC2(), fontFormat_Content));
 
 		// 第6行
-		Label label_6_0 = new Label(0, 6, "防雷情况", fontFormat_Content);// 创建单元格
+		Label label_6_0 = new Label(0, 6, "隐患检查", fontFormat_Content);// 创建单元格
 		sheet.mergeCells(0, 6, 0, 12);
 		Label label_6_1 = new Label(1, 6, "机房安全", fontFormat_Content);// 创建单元格
 		sheet.mergeCells(1, 6, 1, 9);
@@ -3922,7 +3922,7 @@ public class AppInspectionController {
 		sheet.addCell(new Label(7, 5, bean.getC2(), fontFormat_Content));
 
 		// 第6行
-		sheet.addCell(new Label(0, 6, "防雷情况", fontFormat_Content));
+		sheet.addCell(new Label(0, 6, "隐患检查", fontFormat_Content));
 		sheet.mergeCells(0, 6, 0, 12);
 		sheet.addCell(new Label(1, 6, "机房安全", fontFormat_Content));
 		sheet.mergeCells(1, 6, 1, 9);

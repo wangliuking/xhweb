@@ -12,6 +12,18 @@
 		<if test="bs!=null and bs!=''">
 			and (a.bsid=#{bs} or a.bsname like concat(#{bs},'%'))
 		</if>
+		<if test="copy_user!=null and copy_user!=''">
+			and (a.copy_user_name like concat('%',#{copy_user},'%'))
+		</if>
+		<if test="dispatchman!=null and dispatchman!=''">
+			and (a.dispatchman like concat(#{dispatchman},'%'))
+		</if>
+		<if test="recv_user!=null and recv_user!=''">
+			and (a.recv_user_name  like concat('%',#{recv_user},'%'))
+		</if>
+		<if test="errtype!=null and errtype!=''">
+			and a.errtype =#{errtype}
+		</if>
 		<if test="starttime!=null and starttime!=''">
 			and date_format(a.dispatchtime,"%Y-%m-%d") &gt;=#{starttime}
 		</if>
@@ -45,6 +57,18 @@
 		<if test="bs!=null and bs!=''">
             and (bsid=#{bs} or bsname like concat(#{bs},'%'))
         </if>
+        	<if test="copy_user!=null and copy_user!=''">
+			and (copy_user_name like concat('%',#{copy_user},'%'))
+		</if>
+		<if test="dispatchman!=null and dispatchman!=''">
+			and (dispatchman like concat(#{dispatchman},'%'))
+		</if>
+		<if test="recv_user!=null and recv_user!=''">
+			and (recv_user_name  like concat('%',#{recv_user},'%'))
+		</if>
+		<if test="errtype!=null and errtype!=''">
+			and errtype =#{errtype}
+		</if>
         <if test="starttime!=null and starttime!=''">
             and date_format(dispatchtime,"%Y-%m-%d") &gt;=#{starttime}
         </if>
@@ -65,6 +89,11 @@
 		#{errfoundtime},#{errslovetime},#{progress},#{proresult},#{workman},#{auditor},#{serialnumber},#{userid},
 		#{orderAccount},#{id},#{from},#{zbdldm},#{recv_user_name},#{copy_user_name},#{recv_user},#{copy_user})
 	</insert>
+	<!-- 修改派单 -->
+	<update id="updateOrderData" parameterType="com.tcpBean.ErrProTable">
+	update xhgmnet_operations_fault_task_order set errtype=#{errtype},errlevel=#{errlevel},errfoundtime=#{errfoundtime},
+	errslovetime=#{errslovetime},progress=#{progress} where id=#{id}
+	</update>
 	<!-- 更新拍单记录 -->
 	<update id="updateOrder" parameterType="map">
 		update xhgmnet_operations_fault_task_order set `status`=#{status},endTime=#{time} where

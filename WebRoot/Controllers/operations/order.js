@@ -49,13 +49,13 @@ xh.load = function() {
 			$scope.userL = response;
 		});
 		//获取派单列表
-		$http.get("../../order/orderlist?start=0&limit=" + pageSize).success(
+	/*	$http.get("../../order/orderlist?start=0&limit=" + pageSize).success(
 				function(response) {
 					xh.maskHide();
 					$scope.data = response.items;
 					$scope.totals = response.totals;
 					xh.pagging(1, parseInt($scope.totals), $scope);
-				});
+				});*/
 		
 		/* 刷新数据 */
 		$scope.refresh = function() {
@@ -168,6 +168,10 @@ xh.load = function() {
 			/**/
 			
 		};
+		$scope.showOrderUpdateWin=function(index){
+			$scope.updateData=$scope.data[index];
+			$("#orderUpdateWin").modal('show');
+		}
 		//确认派单完成
 		$scope.check=function(id){
 			console.log($scope.data[id])
@@ -202,7 +206,6 @@ xh.load = function() {
 				}
 			});
 		};
-
         $scope.checkFail=function(id){
             $.ajax({
                 url : '../../order/updateOrder',
@@ -220,7 +223,7 @@ xh.load = function() {
 					dispatchtime:$scope.data[id].dispatchtime,
 					recvTime:$scope.data[id].recvTime,
 					level:$scope.data[id].level,
-                    userid:$scope.data[id].userid
+                    userid:$scope.data[id].handleUserid
                 },
                 success : function(data) {
 
@@ -235,6 +238,29 @@ xh.load = function() {
                 }
             });
         };
+        $scope.updateOrderData=function(){
+        	 $.ajax({
+                 url : '../../order/updateOrderData',
+                 type : 'POST',
+                 dataType : "json",
+                 async : true,
+                 data:{
+                	 formData:JSON.stringify($scope.updateData)
+                 },
+                 success : function(data) {
+
+                     if (data.success) {
+                         $scope.refresh();
+                         toastr.success("修改成功", '提示');
+                         $("#orderUpdateWin").modal('hide')
+                     } else {
+                         toastr.success("确认失败", '提示');
+                     }
+                 },
+                 error : function() {
+                 }
+             });
+        }
 
 		$scope.excel = function(page) {
 			var bs=$("#bs").val();
@@ -281,6 +307,10 @@ xh.load = function() {
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
 			var bs=$("#bs").val();
+			var copy_user = $("#copy_user").val();
+			var dispatchman = $("#dispatchman").val();
+			var recv_user = $("#recv_user").val();
+			var type = $("#type").val();
 			var starttime=$("#starttime").val();
 			var endtime=$("#endtime").val();
 			var start = 1, limit = pageSize;
@@ -295,6 +325,7 @@ xh.load = function() {
 			console.log("limit=" + limit);
 			xh.maskShow();
 			$http.get("../../order/orderlist?start="+start+"&bs="+bs+"&starttime="+starttime+"" +
+					"&copy_user="+copy_user+"&dispatchman="+dispatchman+"&recv_user="+recv_user+"&type="+type+"" +
 					"&endtime="+endtime+"&limit=" + pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.data = response.items;
@@ -307,6 +338,10 @@ xh.load = function() {
 		$scope.pageClick = function(page, totals, totalPages) {
 			var pageSize = $("#page-limit").val();
 			var bs=$("#bs").val();
+			var copy_user = $("#copy_user").val();
+			var dispatchman = $("#dispatchman").val();
+			var recv_user = $("#recv_user").val();
+			var type = $("#type").val();
 			var starttime=$("#starttime").val();
 			var endtime=$("#endtime").val();
 			var start = 1, limit = pageSize;
@@ -317,8 +352,8 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get(
-					"../../order/orderlist?start="+start+"&bs="+bs+"&starttime="+starttime+"" +
+			$http.get("../../order/orderlist?start="+start+"&bs="+bs+"&starttime="+starttime+"" +
+					"&copy_user="+copy_user+"&dispatchman="+dispatchman+"&recv_user="+recv_user+"&type="+type+"" +
 					"&endtime="+endtime+"&limit=" + pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
@@ -337,6 +372,7 @@ xh.load = function() {
 			});
 
 		};
+		$scope.search(1);
 	});
 };
 //刷新数据

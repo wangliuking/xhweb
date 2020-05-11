@@ -15,6 +15,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.EastBsCallDataBean;
+import xh.mybatis.bean.EastDsCallBean;
 import xh.mybatis.bean.EastMscCallBean;
 import xh.mybatis.bean.EastMscCallDetailBean;
 import xh.mybatis.bean.EastMscDayBean;
@@ -333,6 +334,20 @@ public class EastComService {
 		try {
 
 			list=mapper.chart_bs_call(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public static List<EastDsCallBean> chart_ds_call(Map<String,Object> map){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		EastComMapper mapper=session.getMapper(EastComMapper.class);
+		List<EastDsCallBean> list=new ArrayList<EastDsCallBean>();
+		try {
+
+			list=mapper.chart_ds_call(map);
 			session.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import xh.mybatis.bean.EastBsCallDataBean;
+import xh.mybatis.bean.EastDsCallBean;
 import xh.mybatis.bean.EastMscCallBean;
 import xh.mybatis.bean.EastMscCallDetailBean;
 import xh.mybatis.bean.EastMscDayBean;
@@ -40,7 +41,7 @@ public interface EastComMapper {
 	public List<EastBsCallDataBean>chart_bs_area_call(Map<String, Object> map)throws Exception;
 	public List<EastBsCallDataBean>chart_bs_zone_call(Map<String, Object> map)throws Exception;
 	public List<EastBsCallDataBean>chart_bs_zone_top10_call(Map<String, Object> map)throws Exception;
-	
+	public List<EastDsCallBean>chart_ds_call(Map<String, Object> map)throws Exception;
 	
 	
 	public List<EastBsCallDataBean>chart_bs_call_top10(Map<String, Object> map)throws Exception;

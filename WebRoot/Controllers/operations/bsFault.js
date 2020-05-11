@@ -372,7 +372,8 @@ xh.load = function() {
 			url+="?bsId="+$scope.data[index].bsId;
 			url+="&name="+$scope.data[index].name;
 			url+="&time="+$scope.data[index].time;	
-			url+="&id="+$scope.data[index].id;	
+			url+="&id="+$scope.data[index].id;
+			url+="&neType="+$scope.data[index].neType;
 			var index=layer.open({
 				  type: 2, 
 				  shade: 0,
