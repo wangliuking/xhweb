@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import jxl.CellView;
+import jxl.HeaderFooter;
 import jxl.Workbook;
 import jxl.format.Alignment;
 import jxl.format.Border;
@@ -150,177 +151,179 @@ public class AppInspectionExcelController {
 			sheet.setRowView(0, 600, false); // 设置行高
 			sheet.setPageSetup(PageOrientation.LANDSCAPE.LANDSCAPE,
 					PaperSize.A4, 0.5d, 0.5d);
+			setHeader(sheet, "数据来源<<综合应用与管理平台>>\"运维巡检模块 \"自动生成");
 
 			// 第2行
 
-			sheet.setColumnView(0, 10);
-			sheet.setColumnView(1, 25);
-			sheet.setColumnView(2, 40);
-			sheet.setColumnView(3, 25);
-			sheet.setColumnView(4, 30);
+						sheet.setColumnView(0, 10);
+						sheet.setColumnView(1, 25);
+						sheet.setColumnView(2, 40);
+						sheet.setColumnView(3, 25);
+						sheet.setColumnView(4, 30);
+						
 
-			sheet.addCell(new Label(0, 1, "基站名称", fontFormat_Content));
-			sheet.addCell(new Label(1, 1, bean.getName(), fontFormat_Content));
-			sheet.addCell(new Label(2, 1, "巡检人", fontFormat_Content));
-			sheet.addCell(new Label(3, 1, bean.getCheckman(),
-					fontFormat_Content));
-			sheet.mergeCells(3, 1, 4, 1);
+						sheet.addCell(new Label(0, 1, "基站名称", fontFormat_Content));
+						sheet.addCell(new Label(1, 1, bean.getName(), fontFormat_Content));
+						sheet.addCell(new Label(2, 1, "巡检人", fontFormat_Content));
+						sheet.addCell(new Label(3, 1, bean.getCheckman(),
+								fontFormat_Content));
+						sheet.mergeCells(3, 1, 4, 1);
 
-			sheet.addCell(new Label(0, 2, "巡检时间", fontFormat_Content));
-			sheet.addCell(new Label(1, 2, bean.getCommitdate().split(" ")[0],
-					fontFormat_Content));
-			sheet.addCell(new Label(2, 2, "电表", fontFormat_Content));
-			sheet.addCell(new Label(3, 2, bean.getAmmeternumber(),
-					fontFormat_Content));
-			sheet.mergeCells(3, 2, 4, 2);
+						sheet.addCell(new Label(0, 2, "巡检时间", fontFormat_Content));
+						sheet.addCell(new Label(1, 2, bean.getCommitdate().split(" ")[0],
+								fontFormat_Content));
+						sheet.addCell(new Label(2, 2, "电表", fontFormat_Content));
+						sheet.addCell(new Label(3, 2, bean.getAmmeternumber(),
+								fontFormat_Content));
+						sheet.mergeCells(3, 2, 4, 2);
 
-			// 第3行
-			// sheet.mergeCells(6, 2, 7, 2);
+						// 第3行
+						// sheet.mergeCells(6, 2, 7, 2);
 
-			sheet.addCell(new Label(0, 3, "巡检项目", fontFormat_h));
-			sheet.addCell(new Label(1, 3, "具体项目", fontFormat_h));
-			sheet.addCell(new Label(2, 3, "具体操作", fontFormat_h));
-			sheet.addCell(new Label(3, 3, "执行情况", fontFormat_h));
-			sheet.addCell(new Label(4, 3, "备注", fontFormat_h));
+						sheet.addCell(new Label(0, 3, "巡检项目", fontFormat_h));
+						sheet.addCell(new Label(1, 3, "具体项目", fontFormat_h));
+						sheet.addCell(new Label(2, 3, "具体操作", fontFormat_h));
+						sheet.addCell(new Label(3, 3, "执行情况", fontFormat_h));
+						sheet.addCell(new Label(4, 3, "备注", fontFormat_h));
 
-			// 第4行
-			sheet.addCell(new Label(0, 4, "基站清洁", fontFormat_Content));
-			sheet.mergeCells(0, 4, 0, 5);
-			sheet.addCell(new Label(1, 4, "机房清洁", fontFormat_Content));
-			sheet.addCell(new Label(2, 4, "清洁机房内门窗、地面、墙面卫生", fontFormat_Content));
-			sheet.addCell(new Label(3, 4, checkbox(bean.getD1()),
-					fontFormat_Content));
-			sheet.addCell(new Label(4, 4, bean.getComment1(),
-					fontFormat_Content));
-			// 第5行
-			sheet.addCell(new Label(1, 5, "设备除尘", fontFormat_Content));
-			sheet.addCell(new Label(2, 5, "清洁设备表面及内部", fontFormat_Content));
-			sheet.addCell(new Label(3, 5, checkbox(bean.getD2()),
-					fontFormat_Content));
-			sheet.addCell(new Label(4, 5, bean.getComment2(),
-					fontFormat_Content));
-			// 第6行
-			sheet.addCell(new Label(0, 6, "基站环境", fontFormat_Content));
-			sheet.mergeCells(0, 6, 0, 11);
-			sheet.addCell(new Label(1, 6, "基站安全", fontFormat_Content));
-			sheet.mergeCells(1, 6, 1, 8);
-			sheet.addCell(new Label(2, 6, "门锁、门窗是否完好", fontFormat_Content));
-			sheet.addCell(new Label(3, 6, checkbox(bean.getD3()),
-					fontFormat_Content));
-			sheet.addCell(new Label(4, 6, bean.getComment3(),
-					fontFormat_Content));
-			// 第7行
+						// 第4行
+						sheet.addCell(new Label(0, 4, "基站清洁", fontFormat_Content));
+						sheet.mergeCells(0, 4, 0, 5);
+						sheet.addCell(new Label(1, 4, "机房清洁", fontFormat_Content));
+						sheet.addCell(new Label(2, 4, "机房门窗、地面、墙面是否整洁正常", fontFormat_Content));
+						sheet.addCell(new Label(3, 4, checkbox(bean.getD1()),
+								fontFormat_Content));
+						sheet.addCell(new Label(4, 4, bean.getComment1(),
+								fontFormat_Content));
+						// 第5行
+						sheet.addCell(new Label(1, 5, "设备除尘", fontFormat_Content));
+						sheet.addCell(new Label(2, 5, "设备表面及内部卫生是否正常", fontFormat_Content));
+						sheet.addCell(new Label(3, 5, checkbox(bean.getD2()),
+								fontFormat_Content));
+						sheet.addCell(new Label(4, 5, bean.getComment2(),
+								fontFormat_Content));
+						// 第6行
+						sheet.addCell(new Label(0, 6, "基站环境", fontFormat_Content));
+						sheet.mergeCells(0, 6, 0, 11);
+						sheet.addCell(new Label(1, 6, "基站安全", fontFormat_Content));
+						sheet.mergeCells(1, 6, 1, 8);
+						sheet.addCell(new Label(2, 6, "门锁、门窗是否正常", fontFormat_Content));
+						sheet.addCell(new Label(3, 6, checkbox(bean.getD3()),
+								fontFormat_Content));
+						sheet.addCell(new Label(4, 6, bean.getComment3(),
+								fontFormat_Content));
+						// 第7行
 
-			sheet.addCell(new Label(2, 7, "清理可燃物", fontFormat_Content));
-			sheet.addCell(new Label(3, 7, checkbox(bean.getD4()),
-					fontFormat_Content));
-			sheet.addCell(new Label(4, 7, bean.getComment4(),
-					fontFormat_Content));
-			// 第8行
-			sheet.addCell(new Label(2, 8, "机房是否存在裂缝、渗水、漏水等情况	",
-					fontFormat_Content));
-			sheet.addCell(new Label(3, 8, checkbox(bean.getD5()),
-					fontFormat_Content));
-			sheet.addCell(new Label(4, 8, bean.getComment5(),
-					fontFormat_Content));
-			// 第9行
-			sheet.addCell(new Label(1, 9, "机房配套", fontFormat_Content));
-			sheet.mergeCells(1, 9, 1, 11);
-			sheet.addCell(new Label(2, 9, "机房照明设施是否完好", fontFormat_Content));
-			sheet.addCell(new Label(3, 9, checkbox(bean.getD6()),
-					fontFormat_Content));
-			sheet.addCell(new Label(4, 9, bean.getComment6(),
-					fontFormat_Content));
-			// 第10行
-			sheet.addCell(new Label(2, 10, "机房插座是否有电", fontFormat_Content));
-			sheet.addCell(new Label(3, 10, checkbox(bean.getD7()),
-					fontFormat_Content));
-			sheet.addCell(new Label(4, 10, bean.getComment7(),
-					fontFormat_Content));
-			// 第11行
-			sheet.addCell(new Label(2, 10, "灭火设备是否完好", fontFormat_Content));
-			sheet.addCell(new Label(3, 10, checkbox(bean.getD8()),
-					fontFormat_Content));
-			sheet.addCell(new Label(4, 10, bean.getComment8(),
-					fontFormat_Content));
-			// 第12行
-			sheet.addCell(new Label(0, 11, "主体设备", fontFormat_Content));
-			sheet.mergeCells(0, 11, 0, 16);
-			sheet.addCell(new Label(1, 11, "基站运行状态", fontFormat_Content));
-			sheet.addCell(new Label(2, 11, "基站设备是否正常运行，供电是否正常，设备有无明显告警",
-					fontFormat_Content));
-			sheet.addCell(new Label(3, 11, checkbox(bean.getD9()),
-					fontFormat_Content));
-			sheet.addCell(new Label(4, 11, bean.getComment9(),
-					fontFormat_Content));
-			// 第13行
-			sheet.addCell(new Label(1, 12, "告警确认", fontFormat_Content));
-			sheet.addCell(new Label(2, 12, "通过与监控后台联系确认设备运行是否正常",
-					fontFormat_Content));
-			sheet.addCell(new Label(3, 12, checkbox(bean.getD10()),
-					fontFormat_Content));
-			sheet.addCell(new Label(4, 12, bean.getComment10(),
-					fontFormat_Content));
-			// 第14行
-			sheet.addCell(new Label(1, 13, "风扇运行检查", fontFormat_Content));
-			sheet.addCell(new Label(2, 13, "检查风扇是否正常运转、无告警", fontFormat_Content));
-			sheet.addCell(new Label(3, 13, checkbox(bean.getD11()),
-					fontFormat_Content));
-			sheet.addCell(new Label(4, 13, bean.getComment11(),
-					fontFormat_Content));
-			// 第15行
-			sheet.addCell(new Label(1, 14, "检查各连线状态", fontFormat_Content));
-			sheet.addCell(new Label(2, 14,
-					"电源/信号/射频/地线/网线是否分开，机架内各连线是否接触良好并正确无误", fontFormat_Content));
-			sheet.addCell(new Label(3, 14, checkbox(bean.getD12()),
-					fontFormat_Content));
-			sheet.addCell(new Label(4, 14, bean.getComment12(),
-					fontFormat_Content));
-			// 第16行
-			sheet.addCell(new Label(1, 15, "设备加固", fontFormat_Content));
-			sheet.addCell(new Label(2, 15, "各设备是否安装牢固", fontFormat_Content));
-			sheet.addCell(new Label(3, 15, checkbox(bean.getD13()),
-					fontFormat_Content));
-			sheet.addCell(new Label(4, 15, bean.getComment13(),
-					fontFormat_Content));
-			// 第17行
-			sheet.addCell(new Label(1, 16, "设备温度", fontFormat_Content));
-			sheet.addCell(new Label(2, 16, "各设备是否有高温、异味", fontFormat_Content));
-			sheet.addCell(new Label(3, 16, checkbox(bean.getD14()),
-					fontFormat_Content));
-			sheet.addCell(new Label(4, 16, bean.getComment14(),
-					fontFormat_Content));
-			// 第18行
-			sheet.addCell(new Label(0, 17, "空调", fontFormat_Content));
-			sheet.mergeCells(0, 17, 0, 18);
-			sheet.addCell(new Label(1, 17, "制冷效果", fontFormat_Content));
-			sheet.addCell(new Label(2, 17, "空调制冷效果是否正常", fontFormat_Content));
-			sheet.addCell(new Label(3, 17, checkbox(bean.getD15()),
-					fontFormat_Content));
-			sheet.addCell(new Label(4, 17, bean.getComment16(),
-					fontFormat_Content));
-			// 第19行
-			sheet.addCell(new Label(1, 18, "温度设置", fontFormat_Content));
-			sheet.addCell(new Label(2, 18, "机房温度是否正常（建议空调设置25℃，最终情况以机房环境为主）",
-					fontFormat_Content));
-			sheet.addCell(new Label(3, 18, checkbox(bean.getD16()),
-					fontFormat_Content));
-			sheet.addCell(new Label(4, 18, bean.getComment16(),
-					fontFormat_Content));
-			// 第20行
-			sheet.addCell(new Label(0, 19, "功能", fontFormat_Content));
-			sheet.addCell(new Label(1, 19, "呼叫功能", fontFormat_Content));
-			sheet.addCell(new Label(2, 19, "沿途呼叫测试", fontFormat_Content));
-			sheet.addCell(new Label(3, 19, checkbox(bean.getD17()),
-					fontFormat_Content));
-			sheet.addCell(new Label(4, 19, bean.getComment17(),
-					fontFormat_Content));
-			// 第20行
-			sheet.addCell(new Label(0, 20, "遗留问题", fontFormat_Content));
-			sheet.addCell(new Label(1, 20, bean.getQuestion(),
-					fontFormat_Content));
-			sheet.mergeCells(1, 20, 4, 20);
-			sheet.setRowView(20, 600);
+						sheet.addCell(new Label(2, 7, "机房内消防设施是否正常", fontFormat_Content));
+						sheet.addCell(new Label(3, 7, checkbox(bean.getD4()),
+								fontFormat_Content));
+						sheet.addCell(new Label(4, 7, bean.getComment4(),
+								fontFormat_Content));
+						// 第8行
+						sheet.addCell(new Label(2, 8, "机房防水情况是否正常（裂缝、渗水、漏水等情况	）	",
+								fontFormat_Content));
+						sheet.addCell(new Label(3, 8, checkbox(bean.getD5()),
+								fontFormat_Content));
+						sheet.addCell(new Label(4, 8, bean.getComment5(),
+								fontFormat_Content));
+						// 第9行
+						sheet.addCell(new Label(1, 9, "机房配套", fontFormat_Content));
+						sheet.mergeCells(1, 9, 1, 11);
+						sheet.addCell(new Label(2, 9, "机房照明设施是否正常", fontFormat_Content));
+						sheet.addCell(new Label(3, 9, checkbox(bean.getD6()),
+								fontFormat_Content));
+						sheet.addCell(new Label(4, 9, bean.getComment6(),
+								fontFormat_Content));
+						// 第10行
+						sheet.addCell(new Label(2, 10, "灭火设备是否正常", fontFormat_Content));
+						sheet.addCell(new Label(3, 10, checkbox(bean.getD7()),
+								fontFormat_Content));
+						sheet.addCell(new Label(4, 10, bean.getComment7(),
+								fontFormat_Content));
+						// 第11行
+						sheet.addCell(new Label(2, 11, "机房插座是否运行正常", fontFormat_Content));
+						sheet.addCell(new Label(3, 11, checkbox(bean.getD8()),
+								fontFormat_Content));
+						sheet.addCell(new Label(4, 11, bean.getComment8(),
+								fontFormat_Content));
+						// 第12行
+						sheet.addCell(new Label(0, 12, "主体设备", fontFormat_Content));
+						sheet.mergeCells(0, 12, 0, 17);
+						sheet.addCell(new Label(1, 12, "基站运行状态", fontFormat_Content));
+						sheet.addCell(new Label(2, 12, "基站设备是否正常运行（供电是否正常，设备有无明显告警）",
+								fontFormat_Content));
+						sheet.addCell(new Label(3, 12, checkbox(bean.getD9()),
+								fontFormat_Content));
+						sheet.addCell(new Label(4, 12, bean.getComment9(),
+								fontFormat_Content));
+						// 第13行
+						sheet.addCell(new Label(1, 13, "告警确认", fontFormat_Content));
+						sheet.addCell(new Label(2, 13, "与监控后台联系确认设备运行是否正常",
+								fontFormat_Content));
+						sheet.addCell(new Label(3, 13, checkbox(bean.getD10()),
+								fontFormat_Content));
+						sheet.addCell(new Label(4, 13, bean.getComment10(),
+								fontFormat_Content));
+						// 第14行
+						sheet.addCell(new Label(1, 14, "风扇运行检查", fontFormat_Content));
+						sheet.addCell(new Label(2, 14, "设备风扇运转动是否正常", fontFormat_Content));
+						sheet.addCell(new Label(3, 14, checkbox(bean.getD11()),
+								fontFormat_Content));
+						sheet.addCell(new Label(4, 14, bean.getComment11(),
+								fontFormat_Content));
+						// 第15行
+						sheet.addCell(new Label(1, 15, "检查各连线状态", fontFormat_Content));
+						sheet.addCell(new Label(2, 15,
+								"设备连线是否正常（电源/信号是否分开，连线接触是否良好）", fontFormat_Content));
+						sheet.addCell(new Label(3, 15, checkbox(bean.getD12()),
+								fontFormat_Content));
+						sheet.addCell(new Label(4, 15, bean.getComment12(),
+								fontFormat_Content));
+						// 第16行
+						sheet.addCell(new Label(1, 16, "设备加固", fontFormat_Content));
+						sheet.addCell(new Label(2, 16, "各设备加固是否正常", fontFormat_Content));
+						sheet.addCell(new Label(3, 16, checkbox(bean.getD13()),
+								fontFormat_Content));
+						sheet.addCell(new Label(4, 16, bean.getComment13(),
+								fontFormat_Content));
+						// 第17行
+						sheet.addCell(new Label(1, 17, "设备温度", fontFormat_Content));
+						sheet.addCell(new Label(2, 17, "各设备温度是否正常", fontFormat_Content));
+						sheet.addCell(new Label(3, 17, checkbox(bean.getD14()),
+								fontFormat_Content));
+						sheet.addCell(new Label(4, 17, bean.getComment14(),
+								fontFormat_Content));
+						// 第18行
+						sheet.addCell(new Label(0, 18, "空调", fontFormat_Content));
+						sheet.mergeCells(0, 18, 0, 19);
+						sheet.addCell(new Label(1, 18, "制冷效果", fontFormat_Content));
+						sheet.addCell(new Label(2, 18, "空调制冷效果是否正常", fontFormat_Content));
+						sheet.addCell(new Label(3, 18, checkbox(bean.getD15()),
+								fontFormat_Content));
+						sheet.addCell(new Label(4, 18, bean.getComment16(),
+								fontFormat_Content));
+						// 第19行
+						sheet.addCell(new Label(1, 19, "温度设置", fontFormat_Content));
+						sheet.addCell(new Label(2, 19, "机房温度是否正常（建议25℃，最终情况以机房环境为主）",
+								fontFormat_Content));
+						sheet.addCell(new Label(3, 19, checkbox(bean.getD16()),
+								fontFormat_Content));
+						sheet.addCell(new Label(4, 19, bean.getComment16(),
+								fontFormat_Content));
+						// 第20行
+						sheet.addCell(new Label(0, 20, "功能", fontFormat_Content));
+						sheet.addCell(new Label(1, 20, "呼叫功能", fontFormat_Content));
+						sheet.addCell(new Label(2, 20, "语音呼叫测试是否正常", fontFormat_Content));
+						sheet.addCell(new Label(3, 20, checkbox(bean.getD17()),
+								fontFormat_Content));
+						sheet.addCell(new Label(4, 20, bean.getComment17(),
+								fontFormat_Content));
+						// 第20行
+						sheet.addCell(new Label(0, 21, "遗留问题", fontFormat_Content));
+						sheet.addCell(new Label(1, 21, bean.getQuestion(),
+								fontFormat_Content));
+						sheet.mergeCells(1, 21, 4, 21);
+						sheet.setRowView(21, 600);
 			book.write();
 			book.close();
 			String destDir1="";
@@ -414,6 +417,7 @@ public class AppInspectionExcelController {
 			WritableSheet sheet = book.createSheet("室内覆盖站巡检表", 0);
 			CellView cellView = new CellView();
 			cellView.setAutosize(true); // 设置自动大小
+			setHeader(sheet, "数据来源<<综合应用与管理平台>>\"运维巡检模块 \"自动生成");
 
 			// 第1行
 			Label title = new Label(0, 0, "室内覆盖站巡检表", fontFormat);
@@ -684,6 +688,7 @@ public class AppInspectionExcelController {
 			WritableSheet sheet = book.createSheet("网管巡检表", 0);
 			CellView cellView = new CellView();
 			cellView.setAutosize(true); // 设置自动大小
+			setHeader(sheet, "数据来源<<综合应用与管理平台>>\"运维巡检模块 \"自动生成");
 
 			// 第1行
 			Label title = new Label(0, 0, "网管巡检表", fontFormat);
@@ -1024,6 +1029,7 @@ public class AppInspectionExcelController {
 			WritableSheet sheet = book.createSheet("调度台巡检表", 0);
 			CellView cellView = new CellView();
 			cellView.setAutosize(true); // 设置自动大小
+			setHeader(sheet, "数据来源<<综合应用与管理平台>>\"运维巡检模块 \"自动生成");
 
 			// 第1行
 			Label title = new Label(0, 0, "调度台巡检表", fontFormat);
@@ -1295,6 +1301,7 @@ public class AppInspectionExcelController {
 			WritableSheet sheet = book.createSheet("网管巡检表", 0);
 			CellView cellView = new CellView();
 			cellView.setAutosize(true); // 设置自动大小
+			setHeader(sheet, "数据来源<<综合应用与管理平台>>\"运维巡检模块 \"自动生成");
 
 			// 第1行
 			Label title = new Label(0, 0, "交换中心月度维护", fontFormat);
@@ -1307,6 +1314,7 @@ public class AppInspectionExcelController {
 			sheet.getSettings().setRightMargin(0.50);
 			sheet.getSettings().setTopMargin(0.5);
 			sheet.getSettings().setBottomMargin(0.5);
+			
 
 			// 第2行
 
@@ -1556,9 +1564,10 @@ public class AppInspectionExcelController {
 			WritableSheet sheet = book.createSheet("卫星通信车载便携站巡检表", 0);
 			CellView cellView = new CellView();
 			cellView.setAutosize(true); // 设置自动大小
+			setHeader(sheet, "数据来源<<综合应用与管理平台>>\"运维巡检模块 \"自动生成");
 
 			// 第1行
-			Label title = new Label(0, 0, "卫星通信车载便携站巡检表", fontFormat);
+			Label title = new Label(0, 0, "卫星通信车载&便携站巡检表", fontFormat);
 			sheet.mergeCells(0, 0, 4, 0);
 			sheet.addCell(title);
 			sheet.setRowView(0, 600, false); // 设置行高
@@ -1571,9 +1580,9 @@ public class AppInspectionExcelController {
 			// 第2行
 
 			sheet.setColumnView(0, 10);
-			sheet.setColumnView(1, 28);
-			sheet.setColumnView(2, 40);
-			sheet.setColumnView(3, 25);
+			sheet.setColumnView(1, 18);
+			sheet.setColumnView(2, 60);
+			sheet.setColumnView(3, 15);
 			sheet.setColumnView(4, 30);
 
 			sheet.addCell(new Label(0, 1, "基站名称:" + bean.getName(),
@@ -1634,10 +1643,10 @@ public class AppInspectionExcelController {
 			sheet.addCell(new Label(4, 7, bean.getComment4(),
 					fontFormat_Content));
 			// 第8行
-			sheet.addCell(new Label(0, 8, "主体设备", fontFormat_Content));
+			sheet.addCell(new Label(0, 8, "基站设备", fontFormat_Content));
 			sheet.mergeCells(0, 8, 0, 10);
 			sheet.addCell(new Label(1, 8, "单板状态", fontFormat_Content));
-			sheet.addCell(new Label(2, 8, "检查各单板运行状态、供电情况是否正常，设备是否有明显告警	",
+			sheet.addCell(new Label(2, 8, "各单板运行状态是否正常",
 					fontFormat_Content));
 			sheet.addCell(new Label(3, 8, checkbox(bean.getD5()),
 					fontFormat_Content));
@@ -1645,189 +1654,188 @@ public class AppInspectionExcelController {
 					fontFormat_Content));
 			// 第9行
 			sheet.addCell(new Label(1, 9, "设备加固", fontFormat_Content));
-			sheet.addCell(new Label(2, 9, "设备安装是否牢固", fontFormat_Content));
+			sheet.addCell(new Label(2, 9, "设备加固是否正常", fontFormat_Content));
 			sheet.addCell(new Label(3, 9, checkbox(bean.getD6()),
 					fontFormat_Content));
 			sheet.addCell(new Label(4, 9, bean.getComment6(),
 					fontFormat_Content));
 			// 第10行
 			sheet.addCell(new Label(1, 10, "设备温度", fontFormat_Content));
-			sheet.addCell(new Label(2, 10, "设备是否有高温、异味", fontFormat_Content));
+			sheet.addCell(new Label(2, 10, "设备温度是否正常", fontFormat_Content));
 			sheet.addCell(new Label(3, 10, checkbox(bean.getD7()),
 					fontFormat_Content));
 			sheet.addCell(new Label(4, 10, bean.getComment7(),
 					fontFormat_Content));
 			// 第11行
 			// 第12行
-			sheet.addCell(new Label(0, 11, "电源配套", fontFormat_Content));
-			sheet.mergeCells(0, 11, 0, 17);
+			sheet.addCell(new Label(0, 11, "电源", fontFormat_Content));
+			sheet.mergeCells(0, 11, 0, 15);
 			sheet.addCell(new Label(1, 11, "发电机", fontFormat_Content));
-			sheet.mergeCells(1, 11, 1, 12);
-			sheet.addCell(new Label(2, 11, "发电机是否能正常运行", fontFormat_Content));
+			sheet.addCell(new Label(2, 11, "发电机运行状态是否正常（线缆有无老化、发热等情况", fontFormat_Content));
 			sheet.addCell(new Label(3, 11, checkbox(bean.getD8()),
 					fontFormat_Content));
 			sheet.addCell(new Label(4, 11, bean.getComment8(),
 					fontFormat_Content));
 			// 第13行
-			sheet.addCell(new Label(2, 12, "发电机及引电线缆有无老化、发热等情况",
+		/*	sheet.addCell(new Label(2, 12, "发电机及引电线缆有无老化、发热等情况",
 					fontFormat_Content));
 			sheet.addCell(new Label(3, 12, checkbox(bean.getD9()),
 					fontFormat_Content));
 			sheet.addCell(new Label(4, 12, bean.getComment9(),
-					fontFormat_Content));
+					fontFormat_Content));*/
 			// 第14行
-			sheet.addCell(new Label(1, 13, "UPS", fontFormat_Content));
-			sheet.mergeCells(1, 13, 1, 15);
-			sheet.addCell(new Label(2, 13, "电源连接线有无松动、老化、发热等情况",
+			sheet.addCell(new Label(1, 12, "UPS", fontFormat_Content));
+			sheet.mergeCells(1, 12, 1, 13);
+			sheet.addCell(new Label(2, 12, "后备电源运行状态是否正常（电源连接线和电池状态）",
 					fontFormat_Content));
-			sheet.addCell(new Label(3, 13, checkbox(bean.getD10()),
+			sheet.addCell(new Label(3, 12, checkbox(bean.getD10()),
 					fontFormat_Content));
-			sheet.addCell(new Label(4, 13, bean.getComment10(),
+			sheet.addCell(new Label(4, 12, bean.getComment10(),
 					fontFormat_Content));
 			// 第15行
-			sheet.addCell(new Label(2, 14, "电池壳体有无渗漏和变形，极柱、安全阀周围是否有酸雾、酸液逸出",
+			sheet.addCell(new Label(2, 13, "断开交流电及发电机电源输入，查看UPS输出是否正常",
 					fontFormat_Content));
-			sheet.addCell(new Label(3, 14, checkbox(bean.getD11()),
+			sheet.addCell(new Label(3, 13, checkbox(bean.getD11()),
 					fontFormat_Content));
-			sheet.addCell(new Label(4, 14, bean.getComment11(),
+			sheet.addCell(new Label(4, 13, bean.getComment11(),
 					fontFormat_Content));
 			
 			
 			
 			// 第16行
-			sheet.addCell(new Label(2, 15, "断开交流电及发电机电源输入，查看UPS输出是否正常",
+			/*sheet.addCell(new Label(2, 15, "断开交流电及发电机电源输入，查看UPS输出是否正常",
 					fontFormat_Content));
 			sheet.addCell(new Label(3, 15, checkbox(bean.getD12()),
 					fontFormat_Content));
 			sheet.addCell(new Label(4, 15, bean.getComment12(),
-					fontFormat_Content));
+					fontFormat_Content));*/
 			// 第17行
-			sheet.addCell(new Label(1, 16, "照明", fontFormat_Content));
-			sheet.addCell(new Label(2, 16, "车内照明设施是否完好", fontFormat_Content));
-			sheet.addCell(new Label(3, 16, checkbox(bean.getD13()),
+			sheet.addCell(new Label(1, 14, "照明", fontFormat_Content));
+			sheet.addCell(new Label(2, 14, "车内照明设施是否正常", fontFormat_Content));
+			sheet.addCell(new Label(3, 14, checkbox(bean.getD13()),
 					fontFormat_Content));
-			sheet.addCell(new Label(4, 16, bean.getComment13(),
+			sheet.addCell(new Label(4, 14, bean.getComment13(),
 					fontFormat_Content));
 			// 第18行
-			sheet.addCell(new Label(1, 17, "插座", fontFormat_Content));
-			sheet.addCell(new Label(2, 17, "车内插座是否有电", fontFormat_Content));
-			sheet.addCell(new Label(3, 17, checkbox(bean.getD14()),
+			sheet.addCell(new Label(1, 15, "插座", fontFormat_Content));
+			sheet.addCell(new Label(2, 15, "车内插座运行是否正常", fontFormat_Content));
+			sheet.addCell(new Label(3, 15, checkbox(bean.getD14()),
 					fontFormat_Content));
-			sheet.addCell(new Label(4, 17, bean.getComment14(),
+			sheet.addCell(new Label(4, 15, bean.getComment14(),
 					fontFormat_Content));
 			// 第19行
-			sheet.addCell(new Label(0, 18, "隐患检查", fontFormat_Content));
-			sheet.mergeCells(0, 18, 0, 23);
-			sheet.addCell(new Label(1, 18, "车内安全", fontFormat_Content));
-			sheet.mergeCells(1, 18, 1, 22);
-			sheet.addCell(new Label(2, 18, "灭火设备是否完好", fontFormat_Content));
-			sheet.addCell(new Label(3, 18, checkbox(bean.getD15()),
+			sheet.addCell(new Label(0, 16, "隐患检查", fontFormat_Content));
+			sheet.mergeCells(0, 16, 0, 20);
+			sheet.addCell(new Label(1, 16, "车内安全", fontFormat_Content));
+			sheet.mergeCells(1, 16, 1, 19);
+			sheet.addCell(new Label(2, 16, "灭火设备状态是否正常", fontFormat_Content));
+			sheet.addCell(new Label(3, 16, checkbox(bean.getD15()),
 					fontFormat_Content));
-			sheet.addCell(new Label(4, 18, bean.getComment15(),
+			sheet.addCell(new Label(4, 16, bean.getComment15(),
 					fontFormat_Content));
 			// 第20行
-			sheet.addCell(new Label(2, 19, "车门、车窗、车锁是否完好", fontFormat_Content));
-			sheet.addCell(new Label(3, 19, checkbox(bean.getD16()),
+			sheet.addCell(new Label(2, 17, "车门、车窗、车锁是否正常", fontFormat_Content));
+			sheet.addCell(new Label(3, 17, checkbox(bean.getD16()),
 					fontFormat_Content));
-			sheet.addCell(new Label(4, 19, bean.getComment16(),
+			sheet.addCell(new Label(4, 17, bean.getComment16(),
 					fontFormat_Content));
 			// 第21行
-			sheet.addCell(new Label(2, 20, "车门、车窗、馈线孔等缝隙密封是否严实",
+			sheet.addCell(new Label(2, 18, "车门、车窗、馈线孔等缝隙密封是否正常",
 					fontFormat_Content));
-			sheet.addCell(new Label(3, 20, checkbox(bean.getD17()),
+			sheet.addCell(new Label(3, 18, checkbox(bean.getD17()),
 					fontFormat_Content));
-			sheet.addCell(new Label(4, 20, bean.getComment17(),
+			sheet.addCell(new Label(4, 18, bean.getComment17(),
 					fontFormat_Content));
 			// 第22行
-			sheet.addCell(new Label(2, 21, "空调有无漏水情况", fontFormat_Content));
-			sheet.addCell(new Label(3, 21, checkbox(bean.getD18()),
+			sheet.addCell(new Label(2, 19, "车体防水情况是否正常（有无裂缝、渗水等情况）", fontFormat_Content));
+			sheet.addCell(new Label(3, 19, checkbox(bean.getD18()),
 					fontFormat_Content));
-			sheet.addCell(new Label(4, 21, bean.getComment18(),
+			sheet.addCell(new Label(4, 19, bean.getComment18(),
 					fontFormat_Content));
 			// 第23行
-			sheet.addCell(new Label(2, 22, "车体有无裂缝、渗水、漏水等情况",
+			/*sheet.addCell(new Label(2, 22, "车体有无裂缝、渗水、漏水等情况",
 					fontFormat_Content));
 			sheet.addCell(new Label(3, 22, checkbox(bean.getD19()),
 					fontFormat_Content));
 			sheet.addCell(new Label(4, 22, bean.getComment19(),
-					fontFormat_Content));
+					fontFormat_Content));*/
 			// 第24行
-			sheet.addCell(new Label(1, 23, "车内温度", fontFormat_Content));
-			sheet.addCell(new Label(2, 23, "空调制冷效果及运行状态是否正常",
+			sheet.addCell(new Label(1, 20, "车内温度", fontFormat_Content));
+			sheet.addCell(new Label(2, 20, "空调运行状态是否正常（运行状态）",
 					fontFormat_Content));
-			sheet.addCell(new Label(3, 23, checkbox(bean.getD20()),
+			sheet.addCell(new Label(3, 20, checkbox(bean.getD20()),
 					fontFormat_Content));
-			sheet.addCell(new Label(4, 23, bean.getComment20(),
+			sheet.addCell(new Label(4, 20, bean.getComment20(),
 					fontFormat_Content));
 			// 第25行
-			sheet.addCell(new Label(0, 24, "车    辆", fontFormat_Content));
-			sheet.mergeCells(0, 24, 0, 28);
-			sheet.addCell(new Label(1, 24, "外观", fontFormat_Content));
-			sheet.addCell(new Label(2, 24, "车辆外观是否正常，有无擦挂、破损",
+			sheet.addCell(new Label(0, 21, "车    辆", fontFormat_Content));
+			sheet.mergeCells(0, 21, 0, 25);
+			sheet.addCell(new Label(1, 21, "外观", fontFormat_Content));
+			sheet.addCell(new Label(2, 21, "车辆外观是否正常（有无擦挂、破损）",
 					fontFormat_Content));
-			sheet.addCell(new Label(3, 24, checkbox(bean.getD21()),
+			sheet.addCell(new Label(3, 21, checkbox(bean.getD21()),
 					fontFormat_Content));
-			sheet.addCell(new Label(4, 24, bean.getComment21(),
+			sheet.addCell(new Label(4, 21, bean.getComment21(),
 					fontFormat_Content));
 			// 第26行
-			sheet.addCell(new Label(1, 25, "仪表盘", fontFormat_Content));
-			sheet.addCell(new Label(2, 25, "显示是否正常", fontFormat_Content));
-			sheet.addCell(new Label(3, 25, checkbox(bean.getD22()),
+			sheet.addCell(new Label(1, 22, "仪表盘", fontFormat_Content));
+			sheet.addCell(new Label(2, 22, "仪表盘显示是否正常", fontFormat_Content));
+			sheet.addCell(new Label(3, 22, checkbox(bean.getD22()),
 					fontFormat_Content));
-			sheet.addCell(new Label(4, 25, bean.getComment22(),
+			sheet.addCell(new Label(4, 22, bean.getComment22(),
 					fontFormat_Content));
 			// 第27行
-			sheet.addCell(new Label(1, 26, "指示灯", fontFormat_Content));
-			sheet.addCell(new Label(2, 26, "各指示灯是否正常", fontFormat_Content));
-			sheet.addCell(new Label(3, 26, checkbox(bean.getD23()),
+			sheet.addCell(new Label(1, 23, "指示灯", fontFormat_Content));
+			sheet.addCell(new Label(2, 23, "各指示灯是否正常", fontFormat_Content));
+			sheet.addCell(new Label(3, 23, checkbox(bean.getD23()),
 					fontFormat_Content));
-			sheet.addCell(new Label(4, 26, bean.getComment23(),
+			sheet.addCell(new Label(4, 23, bean.getComment23(),
 					fontFormat_Content));
 			// 第28行
-			sheet.addCell(new Label(1, 27, "操作", fontFormat_Content));
-			sheet.addCell(new Label(2, 27, "刹车、启动、运行是否正常", fontFormat_Content));
-			sheet.addCell(new Label(3, 27, checkbox(bean.getD24()),
+			sheet.addCell(new Label(1, 24, "操作", fontFormat_Content));
+			sheet.addCell(new Label(2, 24, "刹车、启动、运行是否正常", fontFormat_Content));
+			sheet.addCell(new Label(3, 24, checkbox(bean.getD24()),
 					fontFormat_Content));
-			sheet.addCell(new Label(4, 27, bean.getComment24(),
+			sheet.addCell(new Label(4, 24, bean.getComment24(),
 					fontFormat_Content));
 			// 第29行
-			sheet.addCell(new Label(1, 28, "顶起装置", fontFormat_Content));
-			sheet.addCell(new Label(2, 28, "是否收放正常", fontFormat_Content));
-			sheet.addCell(new Label(3, 28, checkbox(bean.getD25()),
+			sheet.addCell(new Label(1, 25, "顶起装置", fontFormat_Content));
+			sheet.addCell(new Label(2, 25, "顶起装置收放是否正常", fontFormat_Content));
+			sheet.addCell(new Label(3, 25, checkbox(bean.getD25()),
 					fontFormat_Content));
-			sheet.addCell(new Label(4, 28, bean.getComment25(),
+			sheet.addCell(new Label(4, 25, bean.getComment25(),
 					fontFormat_Content));
 			// 第30行
-			sheet.addCell(new Label(0, 29, "清    洁", fontFormat_Content));
-			sheet.mergeCells(0, 29, 0, 30);
-			sheet.addCell(new Label(1, 29, "车内清洁", fontFormat_Content));
-			sheet.addCell(new Label(2, 29, "清洁车内门、窗、地面、桌椅卫生",
+			sheet.addCell(new Label(0, 26, "清    洁", fontFormat_Content));
+			sheet.mergeCells(0, 26, 0, 27);
+			sheet.addCell(new Label(1, 26, "车内清洁", fontFormat_Content));
+			sheet.addCell(new Label(2, 26, "车内门、窗、地面、桌椅卫生是否正常",
 					fontFormat_Content));
-			sheet.addCell(new Label(3, 29, checkbox(bean.getD26()),
+			sheet.addCell(new Label(3, 26, checkbox(bean.getD26()),
 					fontFormat_Content));
-			sheet.addCell(new Label(4, 29, bean.getComment26(),
+			sheet.addCell(new Label(4, 26, bean.getComment26(),
 					fontFormat_Content));
 			// 第31行
-			sheet.addCell(new Label(1, 30, "设备除尘", fontFormat_Content));
-			sheet.addCell(new Label(2, 30, "清洁设备表面、内部", fontFormat_Content));
-			sheet.addCell(new Label(3, 30, checkbox(bean.getD27()),
+			sheet.addCell(new Label(1, 27, "设备除尘", fontFormat_Content));
+			sheet.addCell(new Label(2, 27, "设备表面、内部清洁是否正常", fontFormat_Content));
+			sheet.addCell(new Label(3, 27, checkbox(bean.getD27()),
 					fontFormat_Content));
-			sheet.addCell(new Label(4, 30, bean.getComment27(),
+			sheet.addCell(new Label(4, 27, bean.getComment27(),
 					fontFormat_Content));
 			// 第32行
-			sheet.addCell(new Label(0, 31, "功    能", fontFormat_Content));
-			sheet.addCell(new Label(1, 31, "呼叫功能", fontFormat_Content));
-			sheet.addCell(new Label(2, 31, "基站覆盖范围内呼叫测试", fontFormat_Content));
-			sheet.addCell(new Label(3, 31, checkbox(bean.getD28()),
+			sheet.addCell(new Label(0, 28, "功    能", fontFormat_Content));
+			sheet.addCell(new Label(1, 28, "呼叫功能", fontFormat_Content));
+			sheet.addCell(new Label(2, 28, "基站覆盖范围内语音呼叫是否正常", fontFormat_Content));
+			sheet.addCell(new Label(3, 28, checkbox(bean.getD28()),
 					fontFormat_Content));
-			sheet.addCell(new Label(4, 31, bean.getComment28(),
+			sheet.addCell(new Label(4, 28, bean.getComment28(),
 					fontFormat_Content));
 			// 第23行
-			sheet.addCell(new Label(0, 32, "遗留问题", fontFormat_Content));
-			sheet.addCell(new Label(1, 32, bean.getQuestion(),
+			sheet.addCell(new Label(0, 29, "遗留问题", fontFormat_Content));
+			sheet.addCell(new Label(1, 29, bean.getQuestion(),
 					fontFormat_Content));
-			sheet.mergeCells(1, 32, 4, 32);
-			sheet.setRowView(32, 600);
+			sheet.mergeCells(1, 29, 4, 29);
+			sheet.setRowView(29, 600);
 			book.write();
 			book.close();
 		} catch (Exception e) {
@@ -1835,6 +1843,32 @@ public class AppInspectionExcelController {
 
 		}
 	}
+	 /** *//**向Excel中加入页眉页脚
+     * @param dataSheet 待加入页眉的工作表
+     * @param left
+     * @param center
+     * @param right
+     */
+    public static void setHeader(WritableSheet dataSheet,String left,String center,String right){
+        HeaderFooter hf = new HeaderFooter();
+        hf.getLeft().append(left);
+       /* hf.getCentre().append(center);
+        hf.getRight().append(right);*/
+        //加入页眉
+       // dataSheet.getSettings().setHeader(hf);
+        //加入页脚
+        dataSheet.getSettings().setFooter(hf);
+    }
+    public static void setHeader(WritableSheet dataSheet,String left){
+        HeaderFooter hf = new HeaderFooter();
+        hf.getLeft().append(left);
+       /* hf.getCentre().append(center);
+        hf.getRight().append(right);*/
+        //加入页眉
+       // dataSheet.getSettings().setHeader(hf);
+        //加入页脚
+        dataSheet.getSettings().setFooter(hf);
+    }
 
 	public String checkbox(String str) {
 		if (str == null) {

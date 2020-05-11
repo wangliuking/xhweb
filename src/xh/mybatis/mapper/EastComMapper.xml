@@ -461,6 +461,21 @@
 
 
 	</select>
+	<select id="chart_ds_call" parameterType="map" resultType="xh.mybatis.bean.EastDsCallBean">
+	select a.dstId,a.dstName,b.totalActiveCalls,b.averageCallDuration,b.totalActiveCallDuration,b.dsid from xhgmnet.xhgmnet_dispatch as a 
+	left join (select dsid,
+	    sum(totalActiveCalls) AS totalActiveCalls,
+		sum(totalActiveCallDuration) AS totalActiveCallDuration,
+		round(avg(averageCallDuration), 0) AS averageCallDuration from xhgmnet_gps_voice.pef_newdstotal where 1=1
+		<if test="type==1">
+			and date_format(begintime,'%Y-%m-%d') between #{time} and
+			#{endtime}
+		</if>
+		<if test="type==2">
+			and date_format(begintime,'%Y-%m') = #{time}
+		</if>
+		 GROUP BY dsid) as b on a.dstId=b.dsid where a.flag=1 ORDER BY a.dstId ASC
+	</select>
 	<!-- 虚拟专网话务统计数据 -->
 	<select id="chart_vpn_call" parameterType="map"
 		resultType="xh.mybatis.bean.EastVpnCallBean">

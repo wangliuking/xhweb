@@ -13,6 +13,8 @@ public interface OrderMapper {
 	public int orderListCount(Map<String,Object> map) throws Exception;
 	//新增派单
 	public int addOrder(ErrProTable bean) throws Exception;
+	//更新派单
+	public int updateOrderData(ErrProTable bean)throws Exception;
 	//修改确认派单
 	public int updateOrder(Map<String,Object> map) throws Exception;
 	public int updateSfOrder(ErrProTable bean) throws Exception;

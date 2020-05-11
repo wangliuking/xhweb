@@ -84,7 +84,7 @@
 							</tr>
 
 							<tr ng-if="detailData.status>=2">
-								<td>签收</td>
+								<td>接单响应</td>
 								<td colspan="3" style="min-height:40px;">
 									<p style="font-style: oblique;color:green;font-weight: 800">
 										<img src="../../Resources/images/img/user.png"
@@ -101,7 +101,7 @@
 								</td>
 							</tr>
 							<tr ng-if="detailData.status>=3">
-								<td>处理结果</td>
+								<td>处理跟踪</td>
 								<td colspan="3"
 									style="min-height:40px;word-wrap:break-word;word-break:break-all;">
 
@@ -111,8 +111,11 @@
 											{{detailData.handleUserName}}</span> <span>时间：
 											{{detailData.handle_time}}</span>
 									</p>
-									<p ng-if="detailData.type=='通信保障'">
-										投入情况：{{detailData.person_num}}人次，卫星{{detailData.ensure_satellite_time}}小时，车辆{{detailData.ensure_bus_num}}台次
+									<p ng-repeat="x in detailData.handle_files">
+										<a href="#" ng-click="download(x.filePath)">{{x.fileName}}</a>
+										&nbsp;&nbsp; <a href="#" ng-click="download(x.filePath)">|
+											下载</a> &nbsp;&nbsp;<a href="#" ng-click="previewDoc(x.filePath)">
+											| 预览</a>
 									</p>
 									<p>
 										<span>{{detailData.handle_note}}</span>
@@ -129,9 +132,9 @@
 											style="height:20px;width:20px;"> <span>
 											{{detailData.summaryUserName}}</span> <span>时间：
 											{{detailData.summary_time}}</span>
-									</p>
-									<p>
-										<span ng-if="detailData.summary_filePath!==null">
+									</p> <!-- <p>
+										<span
+											ng-if="detailData.summary_filePath!==null && detailData.summary_filePath!==''">
 											{{detailData.summary_fileName}} <a href="#"
 											ng-click="download(detailData.summary_filePath)">| 下载</a>
 											&nbsp;&nbsp; <a href="#"
@@ -139,6 +142,15 @@
 										</span>
 
 
+									</p> -->
+									<p ng-repeat="x in detailData.summary_files">
+										<a href="#" ng-click="download(x.filePath)">{{x.fileName}}</a>
+										&nbsp;&nbsp; <a href="#" ng-click="download(x.filePath)">|
+											下载</a> &nbsp;&nbsp;<a href="#" ng-click="previewDoc(x.filePath)">
+											| 预览</a>
+									</p>
+									<p ng-if="detailData.type=='通信保障'">
+										投入情况：{{detailData.person_num}}人次，卫星{{detailData.ensure_satellite_time}}小时，车辆{{detailData.ensure_bus_num}}台次
 									</p>
 									<p>{{detailData.summary_note}}</p>
 

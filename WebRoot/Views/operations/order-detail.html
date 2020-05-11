@@ -11,112 +11,133 @@
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
 				<div class="row" style="margin-bottom:5px;">
 					<div class="col-md-12">
-						  <div class="btn-group">
-							<button type="button" class="btn btn-success btn-sm" onclick="xh.print_order()">
+					<p>接单人：{{editData.recv_user_name}}</p>
+					<p>抄送人：{{editData.copy_user_name}}</p>
+					</div>
+					<div class="col-md-12">
+                    
+                    </div>
+				</div>
+				<div class="row" style="margin-bottom:5px;">
+					<div class="col-md-12">
+						<div class="btn-group">
+							<button type="button" class="btn btn-success btn-sm"
+								onclick="xh.print_order()">
 								<i class="fa fa-print"></i>&nbsp;打印
 							</button>
-						
-						</div> 
+
+						</div>
 					</div>
 				</div>
 				<div class="order" id="print_order">
-											<style type="text/css" id="style1">
-.table-view{border-collapse:collapse;}
-.table-view td{border:1px solid #ccc;border-collapse:collapse;}
+					<style type="text/css" id="style1">
+.table-view {
+	border-collapse: collapse;
+}
 
+.table-view td {
+	border: 1px solid #ccc;
+	border-collapse: collapse;
+}
 </style>
-				<form action="" onsubmit="false" id="order-form">
-					<table id="order-table"
-						style="width:100%;border-collapse: collapse;" class="table-view">
-						<!-- <thead>
+					<form action="" onsubmit="false" id="order-form">
+						<table id="order-table"
+							style="width:100%;border-collapse: collapse;" class="table-view">
+							<!-- <thead>
 					<tr>
 					<th></th>
 					</tr>
 					</thead> -->
-						<tbody>
-							<tr>
-								<td colspan="4" style="text-align: center;"><!-- 【<span style="color:blue;font-weight: 700;">{{editData.bsid}}-{{editData.bsname}}</span>】 -->故障处理跟踪单</td>
-							</tr>
-							<tr>
-								<td colspan="6" style="text-align: center;">
-									基站ID：{{editData.bsid}}&nbsp;&nbsp;&nbsp;基站名称：{{editData.bsname}}
+							<tbody>
+								<tr>
+									<td colspan="4" style="text-align: center;">
+										<!-- 【<span style="color:blue;font-weight: 700;">{{editData.bsid}}-{{editData.bsname}}</span>】 -->故障处理跟踪单
 									</td>
 								</tr>
-							<tr>
-								<td style="height:40px;width:130px;">派单时间</td>
-								<td style="height:40px;width:250px;"><div contenteditable="true" class="input-div">{{editData.dispatchtime}}</div></td>
-								<td style="height:40px;width:130px;">派单人</td>
-								<td><div contenteditable="true" class="input-div" name="dispatchman">{{editData.dispatchman}}</div></td>
-							</tr>
-							<tr style="height:60px;">
-								<td>故障类型</td>
-								<td>
-									<div contenteditable="true" class="input-div" name="errtype">{{editData.errtype}}</div> 
-								
-								</td>
-								<td colspan="2">1、断站故障 2、隐患故障 3、机房配套问题</td>
-							</tr>
-							<tr style="height:80px;">
-								<td>故障等级</td>
-								<td>
-								<div contenteditable="true" class="input-div" name="errlevel">{{editData.errlevel}}</div> 
-								
-									
-								</td>
-								<td colspan="2">
-									<p>A级，包括一级基站断站，2小时内处理恢复；</p>
-									<p>B级，包括二级基站断站，3小时内处理恢复；</p>
-									<p>C级，包括三级基站断站，5小时内处理恢复；</p>
-									<p>D级，包括隐患故障和机房配套问题，3天内处理恢复</p>
-								</td>
-							</tr>
-							<tr>
-								<td>故障发现时间</td>
-								<td><div contenteditable="true" class="input-div"
-										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" name="errfoundtime">{{editData.errfoundtime}}</div></td>
-								<td>故障恢复时间</td>
-								<td><div contenteditable="true" class="input-div"
-										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" name="errslovetime">{{editData.errslovetime}}</div></td>
-							</tr>
-							<tr>
-								<td>故障详情</td>
-								<td colspan="3"><div contenteditable="true"
-										class="textarea-div" name="progress">{{editData.progress}}</div></td>
-							</tr>
-							<tr>
-								<td colspan="4" style="color:red">注：故障处理暂未恢复或预处理临时恢复，交付抢修组进行下一步处理。</td>
-							</tr>
-							<tr>
-								<td>处理结果</td>
-								<td colspan="3"><div contenteditable="true"
-										class="textarea-div" name="proresult">{{editData.proresult}}</div></td>
-							</tr>
-							<tr>
-								<td>处理人</td>
-								<td><div contenteditable="true" class="input-div" name="workman">{{editData.workman}}</div></td>
-								<td>审核人</td>
-								<td><div contenteditable="true" class="input-div" name="auditor">{{editData.auditor}}</div></td>
-							</tr>
-						</tbody>
-					</table>
+								<tr>
+									<td colspan="6" style="text-align: center;">
+										基站ID：{{editData.bsid}}&nbsp;&nbsp;&nbsp;基站名称：{{editData.bsname}}
+									</td>
+								</tr>
+								<tr>
+									<td style="height:40px;width:130px;">派单时间</td>
+									<td style="height:40px;width:250px;"><div
+											contenteditable="true" class="input-div">{{editData.dispatchtime}}</div></td>
+									<td style="height:40px;width:130px;">派单人</td>
+									<td><div contenteditable="true" class="input-div"
+											name="dispatchman">{{editData.dispatchman}}</div></td>
+								</tr>
+								<tr style="height:60px;">
+									<td>故障类型</td>
+									<td>
+										<div contenteditable="true" class="input-div" name="errtype">{{editData.errtype}}</div>
+
+									</td>
+									<td colspan="2">1、断站故障 2、隐患故障 3、机房配套问题</td>
+								</tr>
+								<tr style="height:80px;">
+									<td>故障等级</td>
+									<td>
+										<div contenteditable="true" class="input-div" name="errlevel">{{editData.errlevel}}</div>
+
+
+									</td>
+									<td colspan="2">
+										<p>A级，包括一级基站断站，2小时内处理恢复；</p>
+										<p>B级，包括二级基站断站，3小时内处理恢复；</p>
+										<p>C级，包括三级基站断站，5小时内处理恢复；</p>
+										<p>D级，包括隐患故障和机房配套问题，3天内处理恢复</p>
+									</td>
+								</tr>
+								<tr>
+									<td>故障发现时间</td>
+									<td><div contenteditable="true" class="input-div"
+											onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+											name="errfoundtime">{{editData.errfoundtime}}</div></td>
+									<td>故障恢复时间</td>
+									<td><div contenteditable="true" class="input-div"
+											onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+											name="errslovetime">{{editData.errslovetime}}</div></td>
+								</tr>
+								<tr>
+									<td>故障详情</td>
+									<td colspan="3"><div contenteditable="true"
+											class="textarea-div" name="progress">{{editData.progress}}</div></td>
+								</tr>
+								<tr>
+									<td colspan="4" style="color:red">注：故障处理暂未恢复或预处理临时恢复，交付抢修组进行下一步处理。</td>
+								</tr>
+								<tr>
+									<td>处理结果</td>
+									<td colspan="3"><div contenteditable="true"
+											class="textarea-div" name="proresult">{{editData.proresult}}</div></td>
+								</tr>
+								<tr>
+									<td>处理人</td>
+									<td><div contenteditable="true" class="input-div"
+											name="workman">{{editData.workman}}</div></td>
+									<td>审核人</td>
+									<td><div contenteditable="true" class="input-div"
+											name="auditor">{{editData.auditor}}</div></td>
+								</tr>
+							</tbody>
+						</table>
 					</form>
 				</div>
 
 
 			</div>
-			<div class="modal-footer">
-				
-			</div>
+			<div class="modal-footer"></div>
 		</div>
 	</div>
 </div>
 <script type="text/javascript">
-$(".type-div>ul>li").on('click',function(){
-	$("div[name='errtype']").html($(this).html())
-})
-$(".level-div>ul>li").on('click',function(){
-	$("div[name='errlevel']").html($(this).html())
-})
+	$(".type-div>ul>li").on('click', function() {
+		$("div[name='errtype']").html($(this).html())
+	})
+	$(".level-div>ul>li").on('click', function() {
+		$("div[name='errlevel']").html($(this).html())
+	})
 </script>
 <script type="text/javascript">
 	$("#order-btn").click(function() {

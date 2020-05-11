@@ -33,6 +33,12 @@ xh.load = function() {
 		$scope.name = $location.search().name;
 		$scope.time = $location.search().time;
 		$scope.id = $location.search().id;
+		$scope.neType=$location.search().neType;
+		if($scope.neType==4){
+			$scope.neType="断站故障";
+		}else{
+			$scope.neType="隐患故障"
+		}
 		$scope.users=[];
 		$scope.recvUsers=[];
 		$scope.copyUsers=[];

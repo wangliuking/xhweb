@@ -240,6 +240,15 @@ xh.load = function() {
 			case "会议纪要":
 				url="../operations/meet.html";
 			    break;
+			case "发电结束审核":
+				url="../operations/elec_generation.html";
+			    break;
+			case "会议纪要":
+				url="../operations/meet.html";
+			    break;
+			case "会议纪要":
+				url="../operations/meet.html";
+			    break;
 			default:
 				url="email.html";
 				

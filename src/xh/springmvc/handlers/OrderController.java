@@ -85,6 +85,10 @@ public class OrderController {
 		String bs=request.getParameter("bs");
 		String starttime=request.getParameter("starttime");
 		String endtime=request.getParameter("endtime");
+		String copy_user=request.getParameter("copy_user");
+		String dispatchman=request.getParameter("dispatchman");
+		String recv_user=request.getParameter("recv_user");
+		String type=request.getParameter("type");
 		
 		String user = funUtil.loginUser(request);
 		WebUserBean userbean = WebUserServices.selectUserByUser(user);
@@ -98,8 +102,13 @@ public class OrderController {
 		map.put("user",user);
 		map.put("roleId", roleId);
 		map.put("bs", bs);
+		map.put("copy_user", copy_user);
+		map.put("dispatchman", dispatchman);
+		map.put("recv_user", recv_user);
+		map.put("errtype", type);
 		map.put("starttime", starttime);
 		map.put("endtime", endtime);
+		
 		
 		map.put("type", 10);
 		HashMap result = new HashMap();
@@ -245,7 +254,7 @@ public class OrderController {
 		errCheckAck.setSerialnumber(serialnumber);
 		errCheckAck.setUserid(userid);
 		errCheckAck.setAuditor(SingLoginListener.getLogUserMap().get(request.getSession().getId())+"");
-		errCheckAck.setResult("0");
+		errCheckAck.setResult(status==-1?String.valueOf(status):"0");
 
 		demo.startMessageThread(userid, errCheckAck);
 
@@ -454,6 +463,109 @@ public class OrderController {
 		HashMap result = new HashMap();
 		result.put("success",success);
 		result.put("message",message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	@RequestMapping(value="/updateOrderData", method = RequestMethod.POST)
+	public void updateOrderData(HttpServletRequest request, HttpServletResponse response) {
+		String fromData=request.getParameter("formData");
+		Map<String,Object> mm=GsonUtil.json2Object(fromData, Map.class);
+		MapRemoveNullUtil.removeNullValue(mm);
+		
+		ErrProTable bean=new ErrProTable();
+		try {
+			BeanUtils.populate(bean, mm);
+		} catch (IllegalAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (InvocationTargetException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		/*bean.setSerialnumber(FunUtil.RandomWord(8));
+		bean.setOrderAccount(funUtil.loginUser(request));
+		bean.setDispatchtime(FunUtil.nowDate());
+		bean.setDispatchman(FunUtil.loginUserInfo(request).get("userName").toString());*/
+		log.info("ErrProTab->"+bean.toString());
+		
+		int id=bean.getId();
+		
+		
+		this.success=true;
+		
+		int code=OrderService.updateOrderData(bean);
+		
+		
+		/*if(code>0){
+			this.success=true;
+			FaultThreeBean faultBean=new FaultThreeBean();
+			faultBean.setFault_id(id);
+			faultBean.setSend_order_time(bean.getDispatchtime());
+			FaultLevelService.three_update_by_order(faultBean);
+			
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(1);
+			webLogBean.setContent("派单");
+			webLogBean.setCreateTime(funUtil.nowDate());
+			WebLogService.writeLog(webLogBean);
+			
+			Map<String,Object> map=new HashMap<String, Object>();
+			map.put("status", 1);
+			map.put("orderId",bean.getSerialnumber());
+			map.put("id", id);
+			log.info("id->"+id);
+			
+			if(id>0){
+				OrderService.updateBsFault(map);	
+				
+			}
+			String recv_user=bean.getRecv_user();
+			String copy_user=bean.getCopy_user();
+			String recv_user_name=bean.getRecv_user_name();
+			String copy_user_name=bean.getCopy_user_name();
+			ServerDemo demo=new ServerDemo();
+			//发送接单人
+			String[] a1=recv_user.split(",");
+			String[] a2=recv_user_name.split(";");
+			if(recv_user!=null && !recv_user.equals("")){
+				for(int i=0;i<a1.length;i++){
+					bean.setUserid(a1[i]);
+					bean.setWorkman(a2[i]);
+					bean.setHandlepower("0");
+					demo.startMessageThread(bean.getUserid(), bean);
+					
+					log.info("派单：接收》userId="+bean.getUserid()+";bean="+bean);
+				}
+			}
+			
+			//发送抄送人
+			if(copy_user!=null && !copy_user.equals("")){
+				String[] b1=copy_user.split(",");
+				String[] b2=copy_user_name.split(";");
+				for(int i=0;i<b1.length;i++){
+					bean.setUserid(b1[i]);
+					bean.setWorkman(b2[i]);
+					bean.setHandlepower("2");
+					demo.startMessageThread(bean.getUserid(), bean);
+					log.info("派单：抄送》userId="+bean.getUserid()+";bean="+bean);
+				}
+			}
+			
+			
+		}else{
+			this.success=false;
+		}*/
+
+		HashMap result = new HashMap();
+		result.put("success",success);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {

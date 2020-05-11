@@ -12,7 +12,7 @@
 			<div class="modal-body pad-0">
 				<div class="row">
 				<div class="col-md-12" ng-show=false>
-				<input type="text" name="ensure_starttime_edit" ng-model="editData.ensure_starttime">
+				<input type="text" name="ensure_starttime_edit" ng-model="editData.ensure_endtime">
                 <input type="text" name="type_edit" ng-model="editData.type">
 				</div>
 					
@@ -27,7 +27,21 @@
                         <input type="hidden" name="filePath2" value="" /> 
                         <input type="hidden" name="result2" value="" />
                     </div>
-								<div class="col-md-8">
+                    <div class="col-md-12">
+                            <a href="#" style="font-weight:800" ng-click="showSummary_file_upload_Win()">添加附件</a>
+                        </div>
+                        <div class="col-md-12">
+                            <input class="form-control" type="file" id="summary_file_upload"
+                            name="summary_file_upload"    onchange="upload_summary_file()" style="display: none;" />
+                            <div id="summary_file_area">
+                                <ul>
+
+                                </ul>
+                            </div>
+                        </div>
+                    
+                    
+								<!-- <div class="col-md-8">
 									<div class="form-group col-md-10" style="padding-right:0px;">
 
 										<label>附件</label> <input class="form-control" type="file"
@@ -42,7 +56,7 @@
 								</div>
 								<div class="col-md-4">
 									<span style="color:red" id="uploadResult2"></span>
-								</div>
+								</div> -->
 
 							</div>
 						</form>
@@ -56,6 +70,21 @@
 							name="summary_note" rows="8"></textarea>
 
 					</div>
+					 <div class="form-group col-md-4" ng-show="editData.type=='通信保障'">
+                        <label>投入人力</label>
+                               <input type="number" class="form-control" name="person_num"
+                                required="required" value="0">
+                        </div>
+                        <div class="form-group col-md-4" ng-show="editData.type=='通信保障'">
+                        <label>移动卫星车使用时长（小时）</label>
+                                <input type="number" class="form-control" name="satellite_time"
+                                required="required" value="0">
+                        </div>
+                        <div class="form-group col-md-4" ng-show="editData.type=='通信保障'">
+                        <label>移动通讯车使用台次</label>
+                                <input type="number" class="form-control" name="bus_num"
+                                required="required" value="0">
+                        </div>
 				</div>
 
 
@@ -74,7 +103,7 @@
 	</div>
 </div>
 <script type="text/javascript">
-	$("#uploadfile2").click(function() {
+	/* $("#uploadfile2").click(function() {
 		if ($('#summaryFile').val() == "") {
 			alert("请选择需要上传的文件！");
 			return false;
@@ -83,38 +112,114 @@
 		$("#uploadfile2").attr("disabled", true);
 		xh.maskShow("正在上传文件，请耐心等待");
 		$.ajaxFileUpload({
-			url : '../../WorkContact/summaryFile', //用于文件上传的服务器端请求地址
-			secureuri : false, //是否需要安全协议，一般设置为false
-			fileElementId : 'summaryFile', //文件上传域的ID
-			dataType : 'json', // 返回值类型 一般设置为json
-			type : 'POST',
-			  data:{
-                  time:$("#summaryWin").find("input[name='ensure_starttime_edit']").val(),
-                  type:$("#summaryWin").find("input[name='type_edit']").val()
-              },
-			success : function(data, status) //服务器成功响应处理函数
-			{
-				$("#uploadfile2").attr("disabled", false);
-				xh.maskHide();
-				if (data.success) {
-					$("input[name='result2']").val(1);
-					$("input[name='fileName2']").val(data.fileName);
-					$("input[name='filePath2']").val(data.filePath);
-					$("#uploadResult2").html("文件上传成功");
-					toastr.success("文件上传成功", '提示');
-				} else {
-					$("input[name='result2']").val(0);
-					toastr.error("文件上传失败", '提示');
-					$("#uploadResult2").html("文件上传失败");
-				}
+			url : '../../WorkContact/
+	summaryFile', //用于文件上传的服务器端请求地址
+					secureuri : false, //是否需要安全协议，一般设置为false
+					fileElementId : 'summaryFile', //文件上传域的ID
+					dataType : 'json', // 返回值类型 一般设置为json
+					type : 'POST',
+					data : {
+						time : $("#summaryWin").find(
+								"input[name='ensure_starttime_edit']").val(),
+						type : $("#summaryWin").find("input[name='type_edit']")
+								.val()
+					},
+					success : function(data, status) //服务器成功响应处理函数
+					{
+						$("#uploadfile2").attr("disabled", false);
+						xh.maskHide();
+						if (data.success) {
+							$("input[name='result2']").val(1);
+							$("input[name='fileName2']").val(data.fileName);
+							$("input[name='filePath2']").val(data.filePath);
+							$("#uploadResult2").html("文件上传成功");
+							toastr.success("文件上传成功", '提示');
+						} else {
+							$("input[name='result2']").val(0);
+							toastr.error("文件上传失败", '提示');
+							$("#uploadResult2").html("文件上传失败");
+						}
 
-			},
-			error : function(data, status, e)//服务器响应失败处理函数
-			{
-				alert(e);
-				$("#uploadfile2").attr("disabled", false);
-				xh.maskHide();
-			}
-		});
-	});
+					},
+					error : function(data, status, e)//服务器响应失败处理函数
+					{
+						alert(e);
+						$("#uploadfile2").attr("disabled", false);
+						xh.maskHide();
+					}
+				});
+			}); */
 </script>
+<script type="text/javascript">
+$(document).on("click",".del-summary-file",function(){
+    $(this).parent().remove();
+    var vm=$(this).parent()
+    var name = vm.children().first().text();
+    var path = vm.children(".path").text();
+    //xh.del_summary_file(name,path);
+})
+    function upload_summary_file(){
+        
+        var name=$("input[id=summary_file_upload]").val();
+        var mm=$("input[id=summary_file_upload]").get(0).files;
+        var size=0;
+        if (mm[0].size > 1024 * 1024) {
+            size = (Math.round(mm[0].size / (1024 * 1024))).toString()
+                    + 'MB';
+        } else {
+            size = (Math.round(mm[0].size / 1024)).toString() + 'KB';
+        }
+        
+        var str="";
+        str+="<li>";
+        str+="<span>"+mm[0].name+"</span>";
+        str+="<span class='path' style='display:none;' id='summary_filepath"+fileNum+"'></span>";
+        str+="<span>("+size+")</span>"
+        str+="<span style='color:red;margin-left:20px' id='summary_upresult"+fileNum+"'></span>"
+        str+="<span style='color:blue;margin-left:20px;cursor:pointer' class='del-summary-file' >删除</span>"
+        str+="</li>"
+        $("#summary_file_area ul").append(str);
+        upload_summary("summary_upresult"+fileNum,"summary_filepath"+fileNum);
+        fileNum++;
+    }
+    function upload_summary(r,p){
+        if ($('#summary_file_upload').val() == "") {
+            alert("请选择需要上传的文件！");
+            return false;
+        }
+        $("input[name='result']").val(2);
+        xh.maskShow("正在上传文件，请耐心等待");
+        $.ajaxFileUpload({
+            url : '../../WorkContact/summaryFile', //用于文件上传的服务器端请求地址
+            secureuri : false, //是否需要安全协议，一般设置为false
+            fileElementId : 'summary_file_upload', //文件上传域的ID
+            dataType : 'json', // 返回值类型 一般设置为json
+            type : 'POST',
+            data : {
+                time : $("#summaryWin").find(
+                        "input[name='ensure_starttime_edit']").val(),
+                type : $("#summaryWin").find("input[name='type_edit']")
+                        .val()
+            },
+            success : function(data, status) //服务器成功响应处理函数
+            {
+                xh.maskHide();
+                if (data.success) {
+                    $("#"+r).html("文件上传成功");
+                    $("#"+p).html(data.filePath);
+                    
+                    toastr.success("文件上传成功", '提示');
+                } else {
+                    toastr.error("文件上传失败", '提示');
+                    $("#"+r).html("文件上传失败");
+                }
+
+            },
+            error : function(data, status, e)//服务器响应失败处理函数
+            {
+                alert(e);
+                xh.maskHide();
+            }
+        });
+    }
+    </script>

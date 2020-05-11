@@ -80,14 +80,46 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="contact">起始时间</label>
+										<label for="filename">派单人</label>
+										<div>
+											<input type="text" class="form-control" id="dispatchman"
+												width="20px">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="filename">接单人</label>
+										<div>
+											<input type="text" class="form-control" id="recv_user"
+												width="20px">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="filename">抄送人</label>
+										<div>
+											<input type="text" class="form-control" id="copy_user"
+												width="20px">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="filename">故障类型</label>
+										<div>
+											<select  class="form-control" id="type" width="20px">	
+												<option value="" selected="selected">==所有==</option>
+												<option value="断站故障">断站故障</option>
+												<option value="隐患故障">隐患故障</option>
+												<option value="机房配套问题">机房配套问题</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="contact">派单时间（起始）</label>
 										<div>
 											<input type="text" class="form-control" id="starttime"
 											onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
 										</div>
 									</div>
 									<div class="form-group">
-                                        <label for="contact">结束时间</label>
+                                        <label for="contact">派单时间（结束）</label>
                                         <div>
                                             <input type="text" class="form-control" id="endtime"
                                             onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
@@ -162,10 +194,11 @@
 										<td>
 										<strong ng-if="x.status==-2" style="red">挂单中</strong>
 										<strong ng-if="x.status==-1" style="color:red">审核未通过，等待再次提交</strong>
-										<strong ng-if="x.status==0" class="text-danger">接单中</strong> 
-										<strong ng-if="x.status==1" style="color:blue">处理中</strong> 
-										<strong ng-if="x.status==2" style="color:green">请求审核</strong>
-										<strong ng-if="x.status==3" style="color:black">工单结束</strong>											
+										<strong ng-if="x.status==0" style="color:gray">接单中</strong> 
+										<strong ng-if="x.status==1" style="color:gray">处理中</strong> 
+										<strong ng-if="x.status==2" style="color:gray">审核中</strong>
+										<strong ng-if="x.status==3" style="color:blue">审核通过</strong>
+										<strong ng-if="x.status==4" style="color:green">工单结束</strong>											
 										</td>
 										<td>{{x.userName}}</td>
 										<td>
@@ -177,7 +210,11 @@
 								 ng-if="x.status==0 && up.o_order=='on'" style="color:green"> <i class="fa fa-hand-stop-o"></i>&nbsp;重新发送
 							</a> --><a href="#" ng-click="check($index)"
 								class="text-success" ng-if="(x.status==2) && up.o_order=='on'"> <i class="fa fa-hand-stop-o"></i>&nbsp;请确认已解决
-							</a><a href="#" ng-click="checkFail($index)"
+							</a>
+							<a href="#" ng-click="showOrderUpdateWin($index)"
+								class="text-success" ng-if="(x.status==0) && up.o_order=='on'"> <i class="fa fa-edit text-success"></i>&nbsp;修改
+							</a>
+							<a href="#" ng-click="checkFail($index)"
 								   class="text-success" ng-if="x.status==2"> <i class="fa fa-hand-stop-o"></i>&nbsp;该故障未解决
 										</a><span ng-if="x.status==3" style="color:gray">该单号结束!</span>
 										</td>
@@ -279,6 +316,7 @@
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
 	<div ng-include="'order-detail.html'"></div>
+	<div ng-include="'order-update.html'"></div>
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>

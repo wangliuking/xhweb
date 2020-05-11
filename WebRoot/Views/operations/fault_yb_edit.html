@@ -140,13 +140,13 @@
 									<tr>
 										<td><label>派单时间</label></td>
 										<td><input class="form-control" name="send_order_time"
-											ng-model="editData.send_order_time"></td>
+											ng-model="editData.send_order_time" ng-blur="timeJS(editData.level)"></td>
 										<td><label>接单时间</label></td>
                                         <td><input class="form-control" name="receipt_order_time"
-                                            ng-model="editData.receipt_order_time"></td>
+                                            ng-model="editData.receipt_order_time" ng-blur="timeJS(editData.level)"></td>
 										<td><label>回单时间</label></td>
 										<td colspan="2"><input class="form-control" name="recv_order_time"
-											ng-model="editData.recv_order_time"></td>
+											ng-model="editData.recv_order_time" ng-blur="timeJS(editData.level)"></td>
 										
 
 									</tr>

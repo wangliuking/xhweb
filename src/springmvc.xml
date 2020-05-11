@@ -13,6 +13,26 @@
 	<mvc:resources location="/lib/" mapping="/lib/**" />
 	<mvc:resources location="/Views/" mapping="/Views/**" />
 	<mvc:resources location="/" mapping="/**" />
+	   
+<!-- 配置拦截器, -->  
+  <mvc:interceptors>  
+        <mvc:interceptor>  
+           
+             <mvc:mapping path="/**"/>  
+             <mvc:exclude-mapping path="/webapp/**" />
+             <mvc:exclude-mapping path="/lib/**" />
+             <mvc:exclude-mapping path="/Resources/**" />
+             <mvc:exclude-mapping path="/Views/jsp/**" />
+           <!--<mvc:exclude-mapping path="/system/login" />
+            <mvc:exclude-mapping path="/system/lan/**" /> -->
+            <!-- <mvc:exclude-mapping path="/images/**" />
+            <mvc:exclude-mapping path="/css/**" />
+            <mvc:exclude-mapping path="/font/**" />
+            <mvc:exclude-mapping path="/js/**" />
+            <mvc:exclude-mapping path="/webapp/**" /> -->
+            <bean class="xh.func.plugin.AuthorizationInterceptor"></bean>
+        </mvc:interceptor>  
+    </mvc:interceptors>
 
 
 	<!-- 配置自动扫描的包 -->
@@ -37,7 +57,6 @@
 	</bean>
 	
 	<!-- <bean id="myExceptionResolver" class="xh.func.plugin.GlobalExceptionHandler"></bean> -->
-	
 	
 	
 

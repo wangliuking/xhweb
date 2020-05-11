@@ -1,7 +1,11 @@
 package xh.mybatis.bean;
 
+import java.util.List;
+import java.util.Map;
+
 public class RecordCommunicationBean {
 	private int id;
+	private String taskId;
 	private String name;
 	private String start_time;
 	private String end_time;
@@ -12,6 +16,22 @@ public class RecordCommunicationBean {
 	private String satellite_time;
 	private String bus_num;
 	private String person_num;
+	
+	private List<Map<String,Object>> files;
+	
+	
+	public String getTaskId() {
+		return taskId;
+	}
+	public void setTaskId(String taskId) {
+		this.taskId = taskId;
+	}
+	public List<Map<String, Object>> getFiles() {
+		return files;
+	}
+	public void setFiles(List<Map<String, Object>> files) {
+		this.files = files;
+	}
 	public int getId() {
 		return id;
 	}

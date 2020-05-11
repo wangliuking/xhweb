@@ -167,23 +167,23 @@
 										</div>
 									</div>
 									<div class="form-group">
-                                        <label>发文人</label>
-                                        <div>
-                                            <input type="text" class="form-control" id="send_user">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>审核人</label>
-                                        <div>
-                                            <input type="text" class="form-control" id="check_user">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>签收人</label>
-                                        <div>
-                                            <input type="text" class="form-control" id="sign_user">
-                                        </div>
-                                    </div>
+										<label>发文人</label>
+										<div>
+											<input type="text" class="form-control" id="send_user">
+										</div>
+									</div>
+									<div class="form-group">
+										<label>审核人</label>
+										<div>
+											<input type="text" class="form-control" id="check_user">
+										</div>
+									</div>
+									<div class="form-group">
+										<label>签收人</label>
+										<div>
+											<input type="text" class="form-control" id="sign_user">
+										</div>
+									</div>
 									<div class="form-group">
 										<label>开始时间</label>
 										<div>
@@ -285,18 +285,22 @@
 										</a> <a href="#" ng-click="showCheck($index)"
 											ng-if="up.o_task=='on' && x.status==0">|&nbsp;<img
 												src="../../Resources/images/icon/sign.png">审核
-										</a> <a href="#" ng-click="showReplyWin($index)"
-											ng-if="loginUser.roleType!=x.user_type 
-										&&  x.status==1">|&nbsp;<img
+										</a> 
+										
+										<a href="#" ng-click="showReplyWin($index)"
+											ng-if="(loginUser.roleType!=x.user_type || x.recvUnit==x.sendUnit)
+                                        &&  x.status==1">|&nbsp;<img
 												src="../../Resources/images/icon/record.png">签收
-										</a> <a href="#" ng-click="showHandleWin($index)"
-											ng-if="(loginUser.roleType==0 || loginUser.roleType==3)
+										</a> 
+										
+										<a href="#" ng-click="showHandleWin($index)"
+											ng-if="(loginUser.roleType==0 || loginUser.roleType==3 || x.recvUnit==x.sendUnit)
                                         &&  x.status==2">|&nbsp;<img
-												src="../../Resources/images/icon/record.png">填写处理结果
+												src="../../Resources/images/icon/record.png">处理跟踪
 										</a> <a href="#" ng-click="showSummaryWin($index)"
-											ng-if="(loginUser.roleType==0 || loginUser.roleType==3)
+											ng-if="(loginUser.roleType==0 || loginUser.roleType==3|| x.recvUnit==x.sendUnit)
                                         &&  x.status==3">|&nbsp;<img
-												src="../../Resources/images/icon/record.png">填写总结
+												src="../../Resources/images/icon/record.png">完成总结
 										</a> <a href="#" ng-click="del($index)"
 											ng-if="up.o_delete=='on' || loginUser.roleType==0 ">|&nbsp;<img
 												src="../../Resources/images/icon/del.png">删除
@@ -376,7 +380,7 @@
 				<div class="modal-header ">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<span>回复意见</span>
+					<span>接单响应</span>
 				</div>
 				<div class="modal-body pad-0">
 					<div class="row">
@@ -411,7 +415,7 @@
 				<div class="modal-header ">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<span>处理结果</span>
+					<span>处理跟踪</span>
 				</div>
 				<div class="modal-body pad-0">
 					<div class="row">
@@ -420,21 +424,19 @@
 							<textarea class="form-control" name="handle" rows="8"></textarea>
 
 						</div>
-						 <div class="form-group col-md-4" ng-show="editData.type=='通信保障'">
-                        <label>投入人力</label>
-                               <input type="number" class="form-control" name="person_num"
-                                required="required" value="0">
-                        </div>
-                        <div class="form-group col-md-4" ng-show="editData.type=='通信保障'">
-                        <label>移动卫星车使用时长（小时）</label>
-                                <input type="number" class="form-control" name="satellite_time"
-                                required="required" value="0">
-                        </div>
-                        <div class="form-group col-md-4" ng-show="editData.type=='通信保障'">
-                        <label>移动通讯车使用台次</label>
-                                <input type="number" class="form-control" name="bus_num"
-                                required="required" value="0">
-                        </div>
+						<div class="col-md-12">
+							<a href="#" style="font-weight:800" ng-click="showHandle_file_upload_Win()">添加附件</a>
+						</div>
+						<div class="col-md-12">
+							<input class="form-control" type="file" id="handle_file_upload"
+							name="handle_file_upload"	 onchange="upload_handle_file()" style="display: none;" />
+							<div id="handle_file_area">
+								<ul>
+
+								</ul>
+							</div>
+						</div>
+
 					</div>
 
 
@@ -496,6 +498,66 @@
 		src="../../Resources/js/ajaxfileupload.js"></script>
 	<script type="text/javascript">
 		xh.load();
+	</script>
+	<script type="text/javascript">
+    function upload_handle_file(){
+        
+        var name=$("input[id=handle_file_upload]").val();
+        var mm=$("input[id=handle_file_upload]").get(0).files;
+        var size=0;
+        if (mm[0].size > 1024 * 1024) {
+            size = (Math.round(mm[0].size / (1024 * 1024))).toString()
+                    + 'MB';
+        } else {
+            size = (Math.round(mm[0].size / 1024)).toString() + 'KB';
+        }
+        
+        var str="";
+        str+="<li>";
+        str+="<span>"+mm[0].name+"</span>";
+        str+="<span class='path' style='display:none;' id='handle_filepath"+fileNum+"'></span>";
+        str+="<span>("+size+")</span>"
+        str+="<span style='color:red;margin-left:20px' id='handle_upresult"+fileNum+"'></span>"
+        str+="<span style='color:blue;margin-left:20px;cursor:pointer' class='del-file' >删除</span>"
+        str+="</li>"
+        $("#handle_file_area ul").append(str);
+        upload_handle("handle_upresult"+fileNum,"handle_filepath"+fileNum);
+        fileNum++;
+    }
+    function upload_handle(r,p){
+        if ($('#handle_file_upload').val() == "") {
+            alert("请选择需要上传的文件！");
+            return false;
+        }
+        $("input[name='result']").val(2);
+        xh.maskShow("正在上传文件，请耐心等待");
+        $.ajaxFileUpload({
+            url : '../../WorkContact/handleFile', //用于文件上传的服务器端请求地址
+            secureuri : false, //是否需要安全协议，一般设置为false
+            fileElementId : 'handle_file_upload', //文件上传域的ID
+            dataType : 'json', // 返回值类型 一般设置为json
+            type : 'POST',
+            success : function(data, status) //服务器成功响应处理函数
+            {
+                xh.maskHide();
+                if (data.success) {
+                    $("#"+r).html("文件上传成功");
+                    $("#"+p).html(data.filePath);
+                    
+                    toastr.success("文件上传成功", '提示');
+                } else {
+                    toastr.error("文件上传失败", '提示');
+                    $("#"+r).html("文件上传失败");
+                }
+
+            },
+            error : function(data, status, e)//服务器响应失败处理函数
+            {
+                alert(e);
+                xh.maskHide();
+            }
+        });
+    }
 	</script>
 </body>
 </html>

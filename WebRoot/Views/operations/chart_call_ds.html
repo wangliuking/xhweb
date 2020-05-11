@@ -1,0 +1,38 @@
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="hpanel">
+			<div class="panel-heading hbuilt" style="color:#000;border-left:2px solid green">
+
+				 调度台话务统计
+			</div>
+			<div class="panel-body">
+
+				<table id="tb-info" class="xh-table table-hover">
+					<thead>
+						<tr class="tr-gray">
+						<th>调度台名称</th>
+							<th>活动呼叫总数</th>
+							<th>活动呼叫总持续时间</th>
+							<th>平均呼叫持续时间</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-if="totals==0">
+							<td colspan="15" class="text-center">没有记录！</td>
+						</tr>
+						<tr ng-repeat="x in data">
+						
+						    <td>{{x.dstName}}</td>
+							<td>{{x.totalActiveCalls}}</td>
+							<td>{{x.totalActiveCallDuration |timeFormat}}</td>
+							<td>{{x.averageCallDuration |timeFormat}}</td>
+						</tr>
+						
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+</div>

@@ -108,6 +108,21 @@ public class OrderService {
 			}
 			return count;
 	}
+	//更新派单
+		public static int updateOrderData(ErrProTable bean){
+				SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+				OrderMapper mapper=sqlSession.getMapper(OrderMapper.class);
+				int count=0;
+				try{
+					count=mapper.updateOrderData(bean);
+					sqlSession.commit();
+					sqlSession.close();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return count;
+		}
 	//更新四方伟业告警状态
 	public static int updateSfOrder(ErrProTable bean){
 			SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);

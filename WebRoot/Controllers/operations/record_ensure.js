@@ -71,6 +71,46 @@ xh.load = function() {
 		$scope.refresh = function() {
 			$scope.search($scope.page);
 		};
+		$scope.previewDoc=function(path){
+			console.log(path)
+			if(path.toLowerCase().indexOf("doc")!=-1){
+				console.log("doc")
+				POBrowser.openWindowModeless(xh.getUrl()+'/office/previewWord?path='+
+						path,'width=1200px;height=800px;');
+			}else if(path.toLowerCase().indexOf("xls")!=-1){
+				console.log("xls")
+				POBrowser.openWindowModeless(xh.getUrl()+'/office/previewExcel?path='+
+						path,'width=1200px;height=800px;');
+			}else if(path.toLowerCase().indexOf("pdf")!=-1){
+				console.log("pdf")
+				POBrowser.openWindowModeless(xh.getUrl()+'/office/previewPDF?path='+
+						path,'width=1200px;height=800px;');
+			}else if(path.toLowerCase().indexOf("jpeg")!=-1){
+				$("#showPicWin").modal('show');
+				$scope.img_src=xh.getUrl()+"/"+path;
+			}else if(path.toLowerCase().indexOf("jpg")!=-1){
+				$("#showPicWin").modal('show');
+				$scope.img_src=xh.getUrl()+"/"+path;
+			}else if(path.toLowerCase().indexOf("png")!=-1){
+				$("#showPicWin").modal('show');
+				$scope.img_src=xh.getUrl()+"/"+path;
+			}else{
+				alert("该文件类型不支持在线预览")
+			}
+		}
+			$scope.download2 = function(path) {
+				var index=path.lastIndexOf("/");
+				var name=path.substring(index+1,path.length);	
+				var downUrl = "../../uploadFile/downfile?filePath="+path+"&fileName=" + name;
+				if(xh.isfile(path)){
+					window.open(downUrl, '_self',
+					'width=1,height=1,toolbar=no,menubar=no,location=no');
+				}else{
+					toastr.error("文件不存在", '提示');
+				}
+				
+			};
+		
 	
 		$scope.del=function(id){
 			$scope.oneData = $scope.data[id];
@@ -150,6 +190,7 @@ xh.load = function() {
 				toastr.error("文件不存在", '提示');
 			}
 		};
+		
 		$scope.showUploadW = function(index) {
 			$scope.editData = $scope.data[index];
 			$("#upload").modal('show');

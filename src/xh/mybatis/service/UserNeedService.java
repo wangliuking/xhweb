@@ -10,6 +10,7 @@ import xh.mybatis.bean.RecordCommunicationBean;
 import xh.mybatis.bean.RecordEmergencyBean;
 import xh.mybatis.bean.RecordTrainBean;
 import xh.mybatis.bean.UserNeedBean;
+import xh.mybatis.bean.WorkContactBean;
 import xh.mybatis.mapper.RecordTrainMapper;
 import xh.mybatis.mapper.UserNeedMapper;
 import xh.mybatis.tools.MoreDbTools;
@@ -91,6 +92,14 @@ public class UserNeedService {
 		List<RecordCommunicationBean> list=new ArrayList<RecordCommunicationBean>();
 		try{
 			list=mapper.communication_list(map);
+			if(list.size()>0){
+				for(int i=0;i<list.size();i++){
+					RecordCommunicationBean bean=new RecordCommunicationBean();
+					bean=list.get(i);
+					bean.setFiles(WorkContactService.searchSummaryFile(bean.getTaskId()));
+					list.set(i, bean);
+				}
+			}
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

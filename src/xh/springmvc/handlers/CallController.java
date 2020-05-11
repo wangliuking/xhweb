@@ -43,6 +43,7 @@ import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.BsStatusBean;
 import xh.mybatis.bean.EastBsCallDataBean;
+import xh.mybatis.bean.EastDsCallBean;
 import xh.mybatis.bean.EastMscDayBean;
 import xh.mybatis.bean.EastVpnCallBean;
 import xh.mybatis.service.BsStatusService;
@@ -742,7 +743,30 @@ public class CallController {
 		return null;
 		
 	}
+	@RequestMapping(value = "/chart_ds_call", method = RequestMethod.GET)
+	public void chart_ds_call(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		String time=request.getParameter("time");
+		String endtime=request.getParameter("endtime");
+		int type=Integer.parseInt(request.getParameter("type"));
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("time", time);
+		map.put("type", type);
+		map.put("endtime", endtime);
+		List<EastDsCallBean> list=EastComService.chart_ds_call(map);
+		
+		HashMap result = new HashMap();
+		result.put("totals", list.size());
+		result.put("items", list);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 	
+	}
 	public  void  excel_msc_call(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,
 			WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content,WritableCellFormat wcfN){
 		String time=map.get("time").toString();
@@ -1655,4 +1679,163 @@ public class CallController {
 		}
 		
 	}
+	@RequestMapping(value = "/excel_ds", method = RequestMethod.GET)
+	@ResponseBody
+	public  HashMap<String, Object> excel_ds(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		String time=request.getParameter("time");
+		String endtime=request.getParameter("endtime");
+		int type=Integer.parseInt(request.getParameter("type"));
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("time", time);
+		map.put("type", type);
+		map.put("endtime", endtime);
+		 this.success=true;
+		 HashMap<String, Object> result = new HashMap<String, Object>();
+		try {
+			String saveDir = request.getSession().getServletContext().getRealPath("/upload");
+			String pathname = saveDir + "/调度台话务统计["+time.replace(":", "")+"].xls";
+			if(!endtime.equals("")){
+				pathname=saveDir + "/调度台话务统计-["+time.replace(":", "")+"-"+endtime.replace(":", "")+"].xls";
+			}
+			File Path = new File(saveDir);
+			if (!Path.exists()) {
+				Path.mkdirs();
+			}
+			File file = new File(pathname);	
+			/*if(file.exists()){
+				result.put("success", success);
+				 result.put("pathName", pathname);
+				 log.info("文件存在，直接下载");
+				return result;
+			}*/
+			WritableWorkbook book = Workbook.createWorkbook(file);
+			WritableFont font = new WritableFont(WritableFont.createFont("微软雅黑"), 15, WritableFont.NO_BOLD,
+					false, UnderlineStyle.NO_UNDERLINE, Colour.BLACK);
+			
+			// 设置头部字体格式
+			WritableFont font_header = new WritableFont(WritableFont.TIMES,13,
+								WritableFont.BOLD, false, UnderlineStyle.NO_UNDERLINE,
+								Colour.BLACK);
+			
+			WritableCellFormat fontFormat = new WritableCellFormat(font);
+			fontFormat.setAlignment(Alignment.CENTRE); // 水平居中
+			fontFormat.setVerticalAlignment(VerticalAlignment.JUSTIFY);// 垂直居中
+			fontFormat.setWrap(true); // 自动换行
+			fontFormat.setBackground(Colour.WHITE);// 背景颜色
+			fontFormat.setBorder(Border.ALL, BorderLineStyle.THIN,
+					Colour.BLACK);
+			fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
+
+			
+			// 应用字体
+			WritableCellFormat fontFormat_h = new WritableCellFormat(font_header);
+			// 设置其他样式
+			fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
+			fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			fontFormat_h.setBackground(Colour.WHITE);// 背景色
+			fontFormat_h.setWrap(true);// 不自动换行
+
+			// 设置主题内容字体格式
+			WritableFont font_Content = new WritableFont(WritableFont.TIMES,
+					12, WritableFont.NO_BOLD, false,
+					UnderlineStyle.NO_UNDERLINE, Colour.GRAY_80);
+			// 应用字体
+			WritableCellFormat fontFormat_Content = new WritableCellFormat(font_Content);
+			// 设置其他样式
+			fontFormat_Content.setAlignment(Alignment.CENTRE);// 水平对齐
+			fontFormat_Content.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			fontFormat_Content.setBackground(Colour.WHITE);// 背景色
+			fontFormat_Content.setWrap(true);// 自动换行
+		
+			
+			//总计内容字体格式
+			WritableFont total_font = new WritableFont(WritableFont.COURIER,
+					13, WritableFont.BOLD, false,
+					UnderlineStyle.NO_UNDERLINE, Colour.RED);
+			// 应用字体
+			WritableCellFormat total_fontFormat = new WritableCellFormat(total_font);
+			total_fontFormat.setAlignment(Alignment.CENTRE);// 水平对齐
+			total_fontFormat.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			total_fontFormat.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			total_fontFormat.setBackground(Colour.WHITE);// 背景色
+			total_fontFormat.setWrap(true);// 自动换行
+			
+			
+			
+			
+			
+			
+
+			// 设置数字格式
+			jxl.write.NumberFormat nf = new jxl.write.NumberFormat("0.00%"); // 设置数字格式
+			jxl.write.WritableCellFormat wcfN = new jxl.write.WritableCellFormat(nf); // 设置表单格式
+			wcfN.setAlignment(Alignment.CENTRE);// 水平对齐
+			wcfN.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			wcfN.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			wcfN.setBackground(Colour.WHITE);// 背景色
+			wcfN.setFont(font_Content);
+			wcfN.setWrap(true);// 自动换行
+			
+
+			WritableSheet sheet1 = book.createSheet("调度台话务统计", 0);
+			excel_ds_call(map,sheet1,fontFormat,fontFormat_h,fontFormat_Content,wcfN);
+		
+			
+			
+
+			book.write();
+			book.close();
+			 result.put("success", success);
+			 result.put("pathName", pathname);
+			 return result;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		return null;
+		
+	}
+	public  void  excel_ds_call(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,
+			WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content,WritableCellFormat wcfN){
+		String time=map.get("time").toString();
+		try {
+		sheet.addCell(new Label(0, 0, time+"-调度台话务统计"+time, fontFormat));
+		sheet.mergeCells(0,0,4,0);
+		sheet.setRowView(0, 600);
+		sheet.setColumnView(0, 20);
+		sheet.setColumnView(1, 20);
+		sheet.setColumnView(2, 20);
+		sheet.setColumnView(3, 30);
+		sheet.setColumnView(4, 30);
+		sheet.addCell(new Label(0, 1, "测量时间", fontFormat_h));
+		sheet.addCell(new Label(1, 1, "调度台名称", fontFormat_h));
+		sheet.addCell(new Label(2, 1, "活动呼叫总数", fontFormat_h));
+		sheet.addCell(new Label(3, 1, "活动呼叫总持续时间", fontFormat_h));
+		sheet.addCell(new Label(4, 1, "平均呼叫持续时间", fontFormat_h));
+		List<EastDsCallBean> list=EastComService.chart_ds_call(map);
+		int total=0;
+		for(int i=0;i<list.size();i++){
+			EastDsCallBean bean=list.get(i);
+			total+=bean.getTotalActiveCalls();
+			sheet.setRowView(2, 400);
+			sheet.addCell(new Label(0, 2+i, time, fontFormat_Content));
+			sheet.addCell(new Label(1, 2+i, bean.getDstName(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(2, 2+i, bean.getTotalActiveCalls(), fontFormat_Content));
+			sheet.addCell(new Label(3, 2+i, funUtil.second_time((int) bean.getTotalActiveCallDuration()), fontFormat_Content));
+			sheet.addCell(new Label(4, 2+i, funUtil.second_time((int) bean.getAverageCallDuration()), fontFormat_Content));
+		}
+		
+		sheet.addCell(new Label(0, list.size()+2, "汇总", fontFormat_h));
+		sheet.mergeCells(list.size()+2,0,list.size()+2,1);
+		sheet.addCell(new jxl.write.Number(2, list.size()+2, total, fontFormat_Content));
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		
+	}
+	
 }

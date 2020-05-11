@@ -60,15 +60,15 @@
 									<td>防倾斜</td>
 									<td colspan="2">集群天线是否竖起正常</td>
 									<td colspan="2">
-									<input id="hh1" ng-show="false" type="radio" value="是-" name="d1" ng-checked="starOneData.d1=='是-'"> 
+									<input id="hh1" ng-show="false" type="radio" value="正常-" name="d1" ng-checked="starOneData.d1=='是-'"> 
                                     <label for="hh1">
                                     <span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span>
                                     </label>
 									<input id="s-edita1" class="magic-radio"
-										type="radio" value="是" name="d1" ng-checked="starOneData.d1=='是'"> <label
-										for="s-edita1"><span>是</span></label> <input id="s-editb1"
-										class="magic-radio" type="radio" value="否" ng-checked="starOneData.d1=='否'" name="d1">
-										<label for="s-editb1"><span>否</span></label></td>
+										type="radio" value="正常" name="d1" ng-checked="starOneData.d1=='正常'"> <label
+										for="s-edita1"><span>正常</span></label> <input id="s-editb1"
+										class="magic-radio" type="radio" value="异常" ng-checked="starOneData.d1=='异常'" name="d1">
+										<label for="s-editb1"><span>异常</span></label></td>
 									<td colspan="2"><input type="text" ng-model="starOneData.comment1" name="comment1"></td>
 								</tr>
 
@@ -120,9 +120,9 @@
 								</tr>
 
 								<tr>
-									<td rowspan="3">主体设备</td>
+									<td rowspan="3">基站设备</td>
 									<td>单板状态</td>
-									<td colspan="2">检查各单板运行状态、供电情况是否正常，设备是否有明显告警</td>
+									<td colspan="2">各单板运行状态是否正常</td>
 									<td colspan="2">
 									<input id="hh5" ng-show="false" type="radio" value="正常-" name="d5" ng-checked="starOneData.d5=='正常-'"> 
                                     <label for="hh5">
@@ -138,7 +138,7 @@
 
 								<tr>
 									<td>设备加固</td>
-									<td colspan="2">设备安装是否牢固</td>
+									<td colspan="2">设备加固是否正常</td>
 									<td colspan="2">
 									<input id="hh6" ng-show="false" type="radio" value="正常-" name="d6" ng-checked="starOneData.d6=='正常-'"> 
                                     <label for="hh6">
@@ -154,7 +154,7 @@
 
 								<tr>
 									<td>设备温度</td>
-									<td colspan="2">设备是否有高温、异味</td>
+									<td colspan="2">设备温度是否正常</td>
 									<td colspan="2">
 									<input id="hh7" ng-show="false" type="radio" value="正常-" name="d7" ng-checked="starOneData.d7=='正常-'"> 
                                     <label for="hh7">
@@ -169,9 +169,9 @@
 								</tr>
 
 								<tr>
-									<td rowspan="7">电源配套</td>
-									<td rowspan="2">发电机</td>
-									<td colspan="2">发电机是否能正常运行</td>
+									<td rowspan="5">电源配套</td>
+									<td rowspan="1">发电机</td>
+									<td colspan="2">发电机运行状态是否正常（线缆有无老化、发热等情况）</td>
 									<td colspan="2">
 									<input id="hh8" ng-show="false" type="radio" value="正常-" name="d8" ng-checked="starOneData.d8=='正常-'"> 
                                     <label for="hh8">
@@ -185,7 +185,7 @@
 									<td colspan="2"><input type="text" ng-model="starOneData.comment8" name="comment8"></td>
 								</tr>
 
-								<tr>
+								<!-- <tr>
 									<td colspan="2">发电机及引电线缆有无老化、发热等情况</td>
 									<td colspan="2">
 									<input id="hh9" ng-show="false" type="radio" value="正常-" name="d9" ng-checked="starOneData.d9=='正常-'"> 
@@ -198,11 +198,11 @@
 										class="magic-radio" type="radio" value="异常" ng-checked="starOneData.d9=='异常'" name="d9">
 										<label for="s-editb9"><span>异常</span></label></td>
 									<td colspan="2"><input type="text" ng-model="starOneData.comment9" name="comment9"></td>
-								</tr>
+								</tr> -->
 
 								<tr>
-									<td rowspan="3">UPS</td>
-									<td colspan="2">电源连接线有无松动、老化、发热等情况</td>
+									<td rowspan="2">UPS</td>
+									<td colspan="2">后备电源运行状态是否正常（电源连接线和电池状态）</td>
 									<td colspan="2">
 									<input id="hh10" ng-show="false" type="radio" value="正常-" name="d10" ng-checked="starOneData.d10=='正常-'"> 
                                     <label for="hh10">
@@ -217,7 +217,7 @@
 								</tr>
 
 								<tr>
-									<td colspan="2">电池壳体有无渗漏和变形，极柱、安全阀周围是否有酸雾、酸液逸出</td>
+									<td colspan="2">断开交流电及发电机电源输入，查看UPS输出是否正常</td>
 									<td colspan="2">
 									<input id="hh11" ng-show="false" type="radio" value="正常-" name="d11" ng-checked="starOneData.d11=='正常-'"> 
                                     <label for="hh11">
@@ -231,7 +231,7 @@
 									<td colspan="2"><input type="text" ng-model="starOneData.comment11" name="comment11"></td>
 								</tr>
 
-								<tr>
+								<!-- <tr>
 									<td colspan="2">断开交流电及发电机电源输入，查看UPS输出是否正常</td>
 									<td colspan="2">
 									<input id="hh12" ng-show="false" type="radio" value="正常-" name="d12" ng-checked="starOneData.d12=='正常-'"> 
@@ -244,88 +244,88 @@
 										class="magic-radio" type="radio" value="异常" ng-checked="starOneData.d12=='异常'" name="d12">
 										<label for="s-editb12"><span>异常</span></label></td>
 									<td colspan="2"><input type="text" ng-model="starOneData.comment12" name="comment12"></td>
-								</tr>
+								</tr> -->
 
 								<tr>
 									<td>照明</td>
-									<td colspan="2">车内照明设施是否完好</td>
+									<td colspan="2">车内照明设施是否正常</td>
 									<td colspan="2">
-									<input id="hh13" ng-show="false" type="radio" value="是-" name="d13" ng-checked="starOneData.d13=='是-'"> 
+									<input id="hh13" ng-show="false" type="radio" value="正常-" name="d13" ng-checked="starOneData.d13=='是-'"> 
                                     <label for="hh13">
                                     <span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span>
                                     </label>
 									<input id="s-edita13" class="magic-radio"
-										type="radio" value="是" name="d13" ng-checked="starOneData.d13=='是'"> <label
-										for="s-edita13"><span>是</span></label> <input id="s-editb13"
-										class="magic-radio" type="radio" value="否" ng-checked="starOneData.d13=='否'" name="d13">
-										<label for="s-editb13"><span>否</span></label></td>
+										type="radio" value="正常" name="d13" ng-checked="starOneData.d13=='正常'"> <label
+										for="s-edita13"><span>正常</span></label> <input id="s-editb13"
+										class="magic-radio" type="radio" value="异常" ng-checked="starOneData.d13=='异常'" name="d13">
+										<label for="s-editb13"><span>异常</span></label></td>
 									<td colspan="2"><input type="text" ng-model="starOneData.comment13" name="comment13"></td>
 								</tr>
 
 								<tr>
 									<td>插座</td>
-									<td colspan="2">车内插座是否有电</td>
+									<td colspan="2">车内插座运行是否正常</td>
 									<td colspan="2">
-									<input id="hh14" ng-show="false" type="radio" value="是-" name="d14" ng-checked="starOneData.d14=='是-'"> 
+									<input id="hh14" ng-show="false" type="radio" value="正常-" name="d14" ng-checked="starOneData.d14=='是-'"> 
                                     <label for="hh14">
                                     <span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span>
                                     </label>
 									<input id="s-edita14" class="magic-radio"
-										type="radio" value="是" name="d14" ng-checked="starOneData.d14=='是'"> <label
-										for="s-edita14"><span>是</span></label> <input id="s-editb14"
-										class="magic-radio" type="radio" value="否" ng-checked="starOneData.d14=='否'" name="d14">
-										<label for="s-editb14"><span>否</span></label></td>
+										type="radio" value="正常" name="d14" ng-checked="starOneData.d14=='正常'"> <label
+										for="s-edita14"><span>正常</span></label> <input id="s-editb14"
+										class="magic-radio" type="radio" value="异常" ng-checked="starOneData.d14=='异常'" name="d14">
+										<label for="s-editb14"><span>异常</span></label></td>
 									<td colspan="2"><input type="text" ng-model="starOneData.comment14" name="comment14"></td>
 								</tr>
 
 
 								<tr>
-									<td rowspan="6">隐患检查</td>
-									<td rowspan="5">车内安全</td>
-									<td colspan="2">灭火设备是否完好</td>
+									<td rowspan="5">隐患检查</td>
+									<td rowspan="4">车内安全</td>
+									<td colspan="2">灭火设备状态是否正常</td>
 									<td colspan="2">
-									<input id="hh15" ng-show="false" type="radio" value="是-" name="d15" ng-checked="starOneData.d15=='是-'"> 
+									<input id="hh15" ng-show="false" type="radio" value="正常-" name="d15" ng-checked="starOneData.d15=='是-'"> 
                                     <label for="hh15">
                                     <span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span>
                                     </label>
 									<input id="s-edita15" class="magic-radio"
-										type="radio" value="是" name="d15" ng-checked="starOneData.d15=='是'"> <label
-										for="s-edita15"><span>是</span></label> <input id="s-editb15"
-										class="magic-radio" type="radio" value="否" ng-checked="starOneData.d15=='否'" name="d15">
-										<label for="s-editb15"><span>否</span></label></td>
+										type="radio" value="正常" name="d15" ng-checked="starOneData.d15=='正常'"> <label
+										for="s-edita15"><span>正常</span></label> <input id="s-editb15"
+										class="magic-radio" type="radio" value="异常" ng-checked="starOneData.d15=='异常'" name="d15">
+										<label for="s-editb15"><span>异常</span></label></td>
 									<td colspan="2"><input type="text" ng-model="starOneData.comment15" name="comment15"></td>
 								</tr>
 
 								<tr>
-									<td colspan="2">车门、车窗、车锁是否完好</td>
+									<td colspan="2">车门、车窗、车锁是否正常</td>
 									<td colspan="2">
-									<input id="hh16" ng-show="false" type="radio" value="是-" name="d16" ng-checked="starOneData.d16=='是-'"> 
+									<input id="hh16" ng-show="false" type="radio" value="正常-" name="d16" ng-checked="starOneData.d16=='是-'"> 
                                     <label for="hh16">
                                     <span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span>
                                     </label>
 									<input id="s-edita16" class="magic-radio"
-										type="radio" value="是" name="d16" ng-checked="starOneData.d16=='是'"> <label
-										for="s-edita16"><span>是</span></label> <input id="s-editb16"
-										class="magic-radio" type="radio" value="否" ng-checked="starOneData.d16=='否'" name="d16">
-										<label for="s-editb16"><span>否</span></label></td>
+										type="radio" value="正常" name="d16" ng-checked="starOneData.d16=='正常'"> <label
+										for="s-edita16"><span>正常</span></label> <input id="s-editb16"
+										class="magic-radio" type="radio" value="异常" ng-checked="starOneData.d16=='异常'" name="d16">
+										<label for="s-editb16"><span>异常</span></label></td>
 									<td colspan="2"><input type="text" ng-model="starOneData.comment16" name="comment16"></td>
 								</tr>
 								<tr>
-									<td colspan="2">车门、车窗、馈线孔等缝隙密封是否严实</td>
+									<td colspan="2">车门、车窗、馈线孔等缝隙密封是否正常</td>
 									<td colspan="2">
-									<input id="hh17" ng-show="false" type="radio" value="是-" name="d17" ng-checked="starOneData.d17=='是-'"> 
+									<input id="hh17" ng-show="false" type="radio" value="正常-" name="d17" ng-checked="starOneData.d17=='是-'"> 
                                     <label for="hh17">
                                     <span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span>
                                     </label>
 									<input id="s-edita17" class="magic-radio"
-										type="radio" value="是" name="d17" ng-checked="starOneData.d17=='是'"> <label
-										for="s-edita17"><span>是</span></label> <input id="s-editb17"
-										class="magic-radio" type="radio" value="否" ng-checked="starOneData.d17=='否'" name="d17">
-										<label for="s-editb17"><span>否</span></label></td>
+										type="radio" value="正常" name="d17" ng-checked="starOneData.d17=='正常'"> <label
+										for="s-edita17"><span>正常</span></label> <input id="s-editb17"
+										class="magic-radio" type="radio" value="异常" ng-checked="starOneData.d17=='异常'" name="d17">
+										<label for="s-editb17"><span>异常</span></label></td>
 									<td colspan="2"><input type="text" ng-model="starOneData.comment17" name="comment17"></td>
 								</tr>
 								<tr>
-									<td colspan="2">空调有无漏水情况</td>
+									<td colspan="2">车体防水情况是否正常（有无裂缝、渗水等情况）</td>
 									<td colspan="2">
 									<input id="hh18" ng-show="false" type="radio" value="正常-" name="d18" ng-checked="starOneData.d18=='正常-'"> 
                                     <label for="hh18">
@@ -338,7 +338,7 @@
 										<label for="s-editb18"><span>异常</span></label></td>
 									<td colspan="2"><input type="text" ng-model="starOneData.comment18" name="comment18"></td>
 								</tr>
-								<tr>
+								<!-- <tr>
 									<td colspan="2">车体有无裂缝、渗水、漏水等情况</td>
 									<td colspan="2">
 									<input id="hh19" ng-show="false" type="radio" value="正常-" name="d19" ng-checked="starOneData.d19=='正常-'"> 
@@ -351,28 +351,28 @@
 										class="magic-radio" type="radio" value="异常" ng-checked="starOneData.d19=='异常'" name="d19">
 										<label for="s-editb19"><span>异常</span></label></td>
 									<td colspan="2"><input type="text" ng-model="starOneData.comment19" name="comment19"></td>
-								</tr>
+								</tr> -->
 
 								<tr>
 									<td>车内温度</td>
-									<td colspan="2">空调制冷效果及运行状态是否正常</td>
+									<td colspan="2">空调运行状态是否正常（运行状态）</td>
 									<td colspan="2">
-									<input id="hh20" ng-show="false" type="radio" value="是-" name="d20" ng-checked="starOneData.d20=='是-'"> 
+									<input id="hh20" ng-show="false" type="radio" value="正常-" name="d20" ng-checked="starOneData.d20=='是-'"> 
                                     <label for="hh20">
                                     <span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span>
                                     </label>
 									<input id="s-edita20" class="magic-radio"
-										type="radio" value="是" name="d20" ng-checked="starOneData.d20=='是'"> <label
-										for="s-edita20"><span>是</span></label> <input id="s-editb20"
-										class="magic-radio" type="radio" value="否" ng-checked="starOneData.d20=='否'" name="d20">
-										<label for="s-editb20"><span>否</span></label></td>
+										type="radio" value="正常" name="d20" ng-checked="starOneData.d20=='正常'"> <label
+										for="s-edita20"><span>正常</span></label> <input id="s-editb20"
+										class="magic-radio" type="radio" value="异常" ng-checked="starOneData.d20=='异常'" name="d20">
+										<label for="s-editb20"><span>异常</span></label></td>
 									<td colspan="2"><input type="text"  ng-model="starOneData.comment20" name="comment20"></td>
 								</tr>
 
 								<tr>
 									<td rowspan="5">车 辆</td>
 									<td >外观</td>
-									<td colspan="2">车辆外观是否正常，有无擦挂、破损</td>
+									<td colspan="2">车辆外观是否正常（有无擦挂、破损）</td>
 									<td colspan="2">
 									<input id="hh21" ng-show="false" type="radio" value="正常-" name="d21" ng-checked="starOneData.d21=='正常-'"> 
                                     <label for="hh21">
@@ -388,7 +388,7 @@
 								
 								<tr>
                                     <td>仪表盘</td>
-                                    <td colspan="2">显示是否正常</td>
+                                    <td colspan="2">仪表盘显示是否正常</td>
                                     <td colspan="2">
                                     <input id="hh22" ng-show="false" type="radio" value="正常-" name="d22" ng-checked="starOneData.d22=='正常-'"> 
                                     <label for="hh22">
@@ -436,7 +436,7 @@
                                 
                                 <tr>
                                     <td>顶起装置</td>
-                                    <td colspan="2">是否收放正常</td>
+                                    <td colspan="2">顶起装置收放是否正常</td>
                                     <td colspan="2">
                                     <input id="hh25" ng-show="false" type="radio" value="正常-" name="d25" ng-checked="starOneData.d25=='正常-'"> 
                                     <label for="hh25">
@@ -453,40 +453,40 @@
                                 <tr>
                                     <td rowspan="2">清    洁</td>
                                     <td>车内清洁</td>
-                                    <td colspan="2">清洁车内门、窗、地面、桌椅卫生</td>
+                                    <td colspan="2">车内门、窗、地面、桌椅卫生是否正常</td>
                                     <td colspan="2">
-                                    <input id="hh26" ng-show="false" type="radio" value="已执行-" name="d26" ng-checked="starOneData.d26=='已执行-'"> 
+                                    <input id="hh26" ng-show="false" type="radio" value="正常-" name="d26" ng-checked="starOneData.d26=='正常-'"> 
                                     <label for="hh26">
                                     <span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span>
                                     </label>
                                     <input id="s-edita26" class="magic-radio"
-                                        type="radio" value="已执行" name="d26" ng-checked="starOneData.d26=='已执行'"> <label
-                                        for="s-edita26"><span>已执行</span></label> <input id="s-editb26"
-                                        class="magic-radio" type="radio" value="未执行" ng-checked="starOneData.d26=='未执行'" name="d26">
-                                        <label for="s-editb26"><span>未执行</span></label></td>
+                                        type="radio" value="正常" name="d26" ng-checked="starOneData.d26=='正常'"> <label
+                                        for="s-edita26"><span>正常</span></label> <input id="s-editb26"
+                                        class="magic-radio" type="radio" value="异常" ng-checked="starOneData.d26=='异常'" name="d26">
+                                        <label for="s-editb26"><span>异常</span></label></td>
                                     <td colspan="2"><input type="text" ng-model="starOneData.comment26" name="comment26"></td>
                                 </tr>
                                 
                                 <tr>
                                     <td>设备除尘</td>
-                                    <td colspan="2">清洁设备表面、内部</td>
+                                    <td colspan="2">设备表面、内部清洁是否正常</td>
                                     <td colspan="2">
-                                    <input id="hh27" ng-show="false" type="radio" value="已执行-" name="d27" ng-checked="starOneData.d27=='已执行-'"> 
+                                    <input id="hh27" ng-show="false" type="radio" value="正常-" name="d27" ng-checked="starOneData.d27=='正常-'"> 
                                     <label for="hh27">
                                     <span title="点击取消选中" style="color:blue;cursor: pointer; font-weight: 800;margin-right:20px;">不选</span>
                                     </label>
                                     <input id="s-edita27" class="magic-radio"
-                                        type="radio" value="已执行" name="d27" ng-checked="starOneData.d27=='已执行'"> <label
-                                        for="s-edita27"><span>已执行</span></label> <input id="s-editb27"
-                                        class="magic-radio" type="radio" value="未执行" ng-checked="starOneData.d27=='未执行'" name="d27">
-                                        <label for="s-editb27"><span>未执行</span></label></td>
+                                        type="radio" value="正常" name="d27" ng-checked="starOneData.d27=='正常'"> <label
+                                        for="s-edita27"><span>正常</span></label> <input id="s-editb27"
+                                        class="magic-radio" type="radio" value="异常" ng-checked="starOneData.d27=='异常'" name="d27">
+                                        <label for="s-editb27"><span>异常</span></label></td>
                                     <td colspan="2"><input type="text" ng-model="starOneData.comment27" name="comment27"></td>
                                 </tr>
 
 								<tr>
 									<td>功 能</td>
 									<td>呼叫功能</td>
-									<td colspan="2">基站覆盖范围内呼叫测试</td>
+									<td colspan="2">基站覆盖范围内语音呼叫是否正常</td>
 									<td colspan="2">
 									<input id="hh28" ng-show="false" type="radio" value="正常-" name="d28" ng-checked="starOneData.d28=='正常-'"> 
                                     <label for="hh28">
