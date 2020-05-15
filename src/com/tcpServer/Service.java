@@ -1692,7 +1692,7 @@ public class Service {
 				String status = map.get("status")==null?"":map.get("status")+"";
 				getTableInfoAck.setStatus(status);
 
-				String userid = map.get("userid")==null?"":map.get("userid")+"";
+				String userid = map.get("handleUserid")==null?"":map.get("handleUserid")+"";
 				String recv_user = map.get("recv_user")==null?"":map.get("recv_user")+"";
 				String copy_user = map.get("copy_user")==null?"":map.get("copy_user")+"";
 				List<String> receList = Arrays.asList(recv_user.split(","));
@@ -1780,7 +1780,7 @@ public class Service {
 					String status = map.get("status")==null?"":map.get("status")+"";
 					getTableInfoAck.setStatus(status);
 
-					String userid = map.get("userid")==null?"":map.get("userid")+"";
+					String userid = map.get("handleUserid")==null?"":map.get("handleUserid")+"";
 					String recv_user = map.get("recv_user")==null?"":map.get("recv_user")+"";
 					String copy_user = map.get("copy_user")==null?"":map.get("copy_user")+"";
 					List<String> receList = Arrays.asList(recv_user.split(","));
