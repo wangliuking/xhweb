@@ -167,3 +167,14 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+$(".table-check").bind("click", function() {
+	var checkVal = [];
+	var flag = $(this).is(':checked') ? 1 : 0;
+	if ($(this).is(':checked')) {
+		$("[name='tb-check']").prop("checked", true);// 全选
+	} else {
+		$("[name='tb-check']").prop("checked", false);// 反选
+	}
+});
+</script>

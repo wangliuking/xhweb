@@ -45,6 +45,7 @@ $(document).ready(function() {
 	})
 	/* 表格全选 */
 	$(".table-check").bind("click", function() {
+		console.log("dfdfdfdfdfd")
 		var checkVal = [];
 		var flag = $(this).is(':checked') ? 1 : 0;
 		if ($(this).is(':checked')) {

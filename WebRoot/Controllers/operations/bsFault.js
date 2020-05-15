@@ -36,6 +36,7 @@ xh.load = function() {
 		var bsId=$("#bsId").val();
 		var starttime=$("#starttime").val();
 		var endtime=$("#endtime").val();
+	
 		
 		
 		// 获取登录用户

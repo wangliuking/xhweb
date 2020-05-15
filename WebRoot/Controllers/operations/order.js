@@ -38,6 +38,17 @@ xh.load = function() {
 		$scope.count = "20";// 每页数据显示默认值
 		var pageSize = $("#page-limit").val();
 		$scope.page=1;
+		
+		$scope.selectAll=function(){
+			console.log("dfdfdfdfdfd")
+			/*var checkVal = [];
+			var flag = $(this).is(':checked') ? 1 : 0;
+			if ($(this).is(':checked')) {
+				$("[name='tb-check']").prop("checked", true);// 全选
+			} else {
+				$("[name='tb-check']").prop("checked", false);// 反选
+			}*/
+		}
 		/* 获取用户权限 */
 		$http.get("../../web/loginUserPower").success(
 				function(response) {
@@ -413,6 +424,60 @@ xh.add = function() {
 		error : function() {
 		}
 	});
+};
+/* 批量删除 */
+xh.delMore = function() {
+	var checkVal = [];
+	$("[name='tb-check']:checkbox").each(function() {
+		if ($(this).is(':checked')) {
+			checkVal.push($(this).attr("value"));
+		}
+	});
+	if (checkVal.length < 1) {
+		swal({
+			title : "提示",
+			text : "请至少选择一条数据",
+			type : "error"
+		});
+		return;
+	}
+	swal({
+		title : "提示",
+		text : "确定要删除吗？",
+		type : "info",
+		showCancelButton : true,
+		confirmButtonColor : "#DD6B55",
+		confirmButtonText : "确定",
+		cancelButtonText : "取消"
+	/*
+	 * closeOnConfirm : false, closeOnCancel : false
+	 */
+	}, function(isConfirm) {
+		if (isConfirm) {
+	$.ajax({
+		url : '../../order/del',
+		type : 'get',
+		dataType : "json",
+		data : {
+			id : checkVal.join(",")
+		},
+		async : false,
+		success : function(data) {
+			if (data.success) {
+				toastr.success("删除用户成功", '提示');
+				xh.refresh();
+			} else {
+				swal({
+					title : "提示",
+					text : "失败",
+					type : "error"
+				});
+			}
+		},
+		error : function() {
+		}
+	});
+		}})
 };
 /* 数据分页 */
 xh.pagging = function(currentPage, totals, $scope) {

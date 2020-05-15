@@ -48,7 +48,9 @@ public class AuthorizationInterceptor implements HandlerInterceptor{
 			return true;
 		}else if (path.indexOf("/Views/business/sign") > -1) {
 			return true;
-		}else if (path.indexOf("/webapp/index") > -1) {
+		}else if (path.indexOf("/Views/business/sign") > -1) {
+			return true;
+		}else if (path.indexOf("/wav") > -1) {
 			return true;
 		}
 		else if (path.indexOf("/Views/jsp") > -1) {

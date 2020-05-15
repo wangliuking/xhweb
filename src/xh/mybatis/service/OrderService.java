@@ -10,16 +10,17 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.tcpBean.ErrProTable;
 
+import xh.mybatis.bean.OrderDataBean;
 import xh.mybatis.mapper.OrderMapper;
 import xh.mybatis.tools.MoreDbTools;
 
 public class OrderService {
 	
 	//派单列表
-	public static List<Map<String,Object>> orderList(Map<String,Object> map){
+	public static List<OrderDataBean> orderList(Map<String,Object> map){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		OrderMapper mapper=sqlSession.getMapper(OrderMapper.class);
-		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		List<OrderDataBean> list=new ArrayList<OrderDataBean>();
 		try{
 			list=mapper.orderList(map);
 			sqlSession.close();
@@ -79,12 +80,12 @@ public class OrderService {
 		}
 		return count;
 	}
-	public static int del(int id){
+	public static int del(List<Integer> list){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		OrderMapper mapper=sqlSession.getMapper(OrderMapper.class);
 		int count=0;
 		try{
-			count=mapper.del(id);
+			count=mapper.del(list);
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {

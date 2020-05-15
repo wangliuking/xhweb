@@ -476,6 +476,23 @@
 		</if>
 		 GROUP BY dsid) as b on a.dstId=b.dsid where a.flag=1 ORDER BY a.dstId ASC
 	</select>
+	<select id="chart_vpn_group_call" parameterType="map" resultType="xh.mybatis.bean.EastGroupCallBean">
+	select a.TalkgroupID as groupid,a.E_name as name,b.TotalActiveCalls,b.TotalActiveCallDuration,b.AverageCallDuration
+
+    from (select TalkgroupID,E_name from xhgmnet.xhgmnet_talkgroup WHERE E_vpnId=2 AND time>=DATE_SUB(now(),INTERVAL 2 DAY)) as a 
+	left join (select groupid,
+	    sum(TotalActiveCalls) AS TotalActiveCalls,
+		sum(TotalActiveCallDuration) AS TotalActiveCallDuration,
+		round(avg(AverageCallDuration), 0) AS AverageCallDuration from xhgmnet_gps_voice.pef_newgroupcall where 1=1
+		<if test="type==1">
+			and date_format(starttime,'%Y-%m-%d') between #{time} and
+			#{endtime}
+		</if>
+		<if test="type==2">
+			and date_format(starttime,'%Y-%m') = #{time}
+		</if>
+		 GROUP BY groupid) as b on a.TalkgroupID=b.groupid ORDER BY a.TalkgroupID ASC
+	</select>
 	<!-- 虚拟专网话务统计数据 -->
 	<select id="chart_vpn_call" parameterType="map"
 		resultType="xh.mybatis.bean.EastVpnCallBean">
@@ -521,7 +538,10 @@
 			date_format(starttime,'%Y-%m-%d %H:00:00') between #{time} and
 			#{endtime}
 		</if>
-		group by vpnid) AS y ON x.vpnId = y.vpnid
+		group by vpnid) AS y ON x.vpnId = y.vpnid where 1=1
+		<if test="vpnid!=null and vpnid!=''">
+		and x.vpnid=#{vpnid}
+		</if>
 		ORDER BY
 		x.vpnid ASC
 

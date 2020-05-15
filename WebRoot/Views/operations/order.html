@@ -162,12 +162,16 @@
 							<i class="fa fa-list"></i> 派单列表
 						</div>
 						<div class="panel-body" style="padding:0;margin:0">
+						<button class="btn btn-danger btn-sm" onclick="xh.delMore()"
+										ng-if="(userL.roleType==3 && up.o_delete=='on') || userL.roleType==0">
+										<i class="fa fa-trash"></i>&nbsp;批量删除
+									</button>
 						<table id="tb-info" class="xh-table table-hover"
 								style="table-layout:fixed">
 								<thead>
 									<tr class="tr-gray">
-										<!-- <th width="30px"><input type="checkbox"
-											id="table-checkbox" class="table-check" /></th> -->
+										<th width="30px"><input type="checkbox"
+											id="table-checkbox" class="table-check" /></th> 
 										<th >基站</th>
 										<th width="180px">派单时间</th>
 										<th >故障类型</th>
@@ -180,11 +184,11 @@
 								</thead>
 								<tbody>
 									<tr ng-if="totals==0">
-										<td colspan="8" class="text-center">没有记录！</td>
+										<td colspan="9" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
-										<!-- <td><input type="checkbox" name="tb-check"
-											value="{{x.id}}" index="{{$index}}" /></td> -->
+										<td><input type="checkbox" name="tb-check"
+											value="{{x.id}}" index="{{$index}}" /></td>
 										<td><a href="" ng-click="editModel($index)" data-toggle="modal" style="color:blue;">
 									【{{x.bsid}}-{{x.bsname}}】 </a></td>
 										<td>{{x.dispatchtime}}</td>

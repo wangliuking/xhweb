@@ -211,9 +211,9 @@ xh.load = function() {
 		setInterval(function() {
 			$scope.voice_not_check();
 		}, 2*60*60*1000);
-		setInterval(function() {
+		/*setInterval(function() {
 			$scope.voice_not_order();
-		}, 10*60*1000);
+		}, 10*60*1000);*/
 
 		/*
 		 * setInterval(function(){ $scope.alarmCount(); }, 15000); //每隔 10 秒
