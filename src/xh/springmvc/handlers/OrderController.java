@@ -363,6 +363,7 @@ public class OrderController {
 		bean.setOrderAccount(funUtil.loginUser(request));
 		bean.setDispatchtime(FunUtil.nowDate());
 		bean.setDispatchman(FunUtil.loginUserInfo(request).get("userName").toString());
+		bean.setStatus("0");
 		log.info("ErrProTab->"+bean.toString());
 		
 		int id=bean.getId();
@@ -422,7 +423,7 @@ public class OrderController {
 				String[] b2=copy_user_name.split(";");
 				for(int i=0;i<b1.length;i++){
 					bean.setUserid(b1[i]);
-					bean.setWorkman(b2[i]);
+					//bean.setWorkman(b2[i]);
 					bean.setHandlepower("2");
 					demo.startMessageThread(bean.getUserid(), bean);
 					log.info("派单：抄送》userId="+bean.getUserid()+";bean="+bean);
@@ -509,7 +510,7 @@ public class OrderController {
 		int code=OrderService.updateOrderData(bean);
 		
 		
-		/*if(code>0){
+		if(code>0){
 			this.success=true;
 			FaultThreeBean faultBean=new FaultThreeBean();
 			faultBean.setFault_id(id);
@@ -544,7 +545,7 @@ public class OrderController {
 			if(recv_user!=null && !recv_user.equals("")){
 				for(int i=0;i<a1.length;i++){
 					bean.setUserid(a1[i]);
-					bean.setWorkman(a2[i]);
+					//bean.setWorkman(a2[i]);
 					bean.setHandlepower("0");
 					demo.startMessageThread(bean.getUserid(), bean);
 					
@@ -558,7 +559,7 @@ public class OrderController {
 				String[] b2=copy_user_name.split(";");
 				for(int i=0;i<b1.length;i++){
 					bean.setUserid(b1[i]);
-					bean.setWorkman(b2[i]);
+					//bean.setWorkman(b2[i]);
 					bean.setHandlepower("2");
 					demo.startMessageThread(bean.getUserid(), bean);
 					log.info("派单：抄送》userId="+bean.getUserid()+";bean="+bean);
@@ -568,7 +569,7 @@ public class OrderController {
 			
 		}else{
 			this.success=false;
-		}*/
+		}
 
 		HashMap result = new HashMap();
 		result.put("success",success);

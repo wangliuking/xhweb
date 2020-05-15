@@ -161,7 +161,7 @@ xh.order=function(){
 		recv_user_name:$("textarea[name='recvUser']").val(),
 		copy_user_name:$("textarea[name='copyUser']").val(),
 		
-		errtype:$("select[name='type']").val(),
+		errtype:$("select[name='neType']").val(),
 		errlevel:$("select[name='level']").val(),
 		errfoundtime:$("input[name='errfoundtime']").val(),
 		errslovetime:$("input[name='errslovetime']").val(),
