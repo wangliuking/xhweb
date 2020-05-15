@@ -265,7 +265,7 @@ public class OrderController {
 		demo.startMessageThread(userid, errCheckAck);
 
 		if(code>0){
-			if(status==3){
+			/*if(status==3){
 				FaultThreeBean faultBean=new FaultThreeBean();
 				faultBean.setFault_id(alarmId);
 				faultBean.setSend_order_time(dispatchtime);
@@ -306,8 +306,8 @@ public class OrderController {
 			    }
 			    faultBean.setHandle_order_cs(cs_total>0?cs_total:0);
 			    
-				//FaultLevelService.three_update_by_order(faultBean);
-			}
+			FaultLevelService.three_update_by_order(faultBean);
+			}*/
 			
 			/*if(from.equals("数据分析")){
 				ErrProTable bean=new ErrProTable();
