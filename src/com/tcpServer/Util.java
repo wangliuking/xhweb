@@ -54,6 +54,7 @@ public class Util {
 	private static GenOffCheck genOffCheck;
 	private static ReceiveTable receiveTable;
 	private static GetTableInfo getTableInfo;
+	private static SynTableInfo synTableInfo;
 	private static PushIPCStream pushIPCStream;
 	private static StopIPCStream stopIPCStream;
 	private static GetUnsentMessage getUnsentMessage;
@@ -408,6 +409,16 @@ public class Util {
 				getTableInfo = (GetTableInfo) JSONObject.toBean(jsonObject, GetTableInfo.class);
 				GetTableInfoAck getTableInfoAck = Service.appGetTableInfoAck(getTableInfo);
 				map.put("returnMessage", Object2Json(getTableInfoAck));
+				return map;
+			} else if("syntableinfo".equals(cmdtype)){
+				synTableInfo = (SynTableInfo) JSONObject.toBean(jsonObject, SynTableInfo.class);
+				List<SynTableInfoAck> list = Service.appSynTableInfoAck(synTableInfo);
+				for (int i=0;i<list.size();i++) {
+					String key = "returnMessage"+i;
+					map.put(key, Object2Json(list.get(i)));
+				}
+				map.put("returnMessage", "for");
+
 				return map;
 			}else if("pushIPCStream".equals(cmdtype)){
 				pushIPCStream = (PushIPCStream) JSONObject.toBean(jsonObject, PushIPCStream.class);
