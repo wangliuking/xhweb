@@ -1,0 +1,49 @@
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="hpanel">
+			<!-- <div class="panel-heading hbuilt" style="color:#000;border-left:2px solid green">
+
+				 基站话务统计
+			</div> -->
+			<div class="panel-body">
+
+				<table id="tb-info" class="xh-table table-hover">
+					<thead>
+						<tr class="tr-gray">
+							<th>组ID</th>
+							<th>名称</th>
+							<th>活动呼叫总数</th>
+							<th>活动呼叫总持续时间</th>
+							<th>平均呼叫持续时间</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-if="vpnGrupCalltotal==0">
+							<td colspan="5" class="text-center">没有记录！</td>
+						</tr>
+						<tr ng-if="vpnGrupCalltotal>0" style="color:red; font-weight:800"><td colspan="1">统计</td>
+						<td>--</td>
+						<td>{{a}}</td>
+						<td>{{b |timeFormat}}</td>
+						<td>{{c |timeFormat}}</td>
+						<td>{{d}}</td>
+						<td>{{e}}</td>
+						<td>{{f}}</td>
+						<td>{{g}}</td>
+						</tr>
+						<tr ng-repeat="x in vpnGrupCalldata">
+						
+							<td>{{x.groupid}}</td>
+							<td>{{x.name}}</td>
+							<td>{{x.totalActiveCalls}}</td>
+							<td>{{x.totalActiveCallDuration |timeFormat}}</td>
+							<td>{{x.averageCallDuration |timeFormat}}</td>
+						
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+</div>

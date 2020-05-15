@@ -415,6 +415,15 @@ public class FunUtil {
 		}
 		return str;
 	}
+	public String second_to_hour(int time){
+		if(time<=0){
+			return "0";
+		}
+		
+		double h=(double)time/60;
+		return String.format("%.2f", h);
+		
+	}
 
 	// 生成数字加字符串的随机字符串
 	public static String RandomWord(int num) {
@@ -867,4 +876,27 @@ public class FunUtil {
 	public static boolean isNumber(Object o){
 	    return  (Pattern.compile("[0-9]*")).matcher(String.valueOf(o)).matches();
 	}
+	public static Map<String, Object> BeanToMap(Object object) {
+        Map<String, Object> keyValues = new HashMap<String, Object>();
+        Method[] methods = object.getClass().getMethods();
+        try {
+            for (Method method : methods) {
+                String methodName = method.getName();
+                if (methodName.contains("get") && !methodName.contains("Class")) {
+                    //invoke 执行get方法获取属性值
+                    Object value = method.invoke(object);
+                    //根据setXXXX 通过以下算法取得属性名称
+                    String key = methodName.substring(methodName.indexOf("get") + 3);
+                    Object temp = key.substring(0, 1).toString().toLowerCase();
+                    key = key.substring(1);
+                    //最终得到属性
+                    key = temp + key;
+                    keyValues.put(key, value);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return keyValues;
+    }
 }

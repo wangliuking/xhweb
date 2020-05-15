@@ -44,6 +44,7 @@ import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.BsStatusBean;
 import xh.mybatis.bean.EastBsCallDataBean;
 import xh.mybatis.bean.EastDsCallBean;
+import xh.mybatis.bean.EastGroupCallBean;
 import xh.mybatis.bean.EastMscDayBean;
 import xh.mybatis.bean.EastVpnCallBean;
 import xh.mybatis.service.BsStatusService;
@@ -397,10 +398,12 @@ public class CallController {
 	public void chart_vpn_call(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		String time=request.getParameter("time");
 		String endtime=request.getParameter("endtime");
+		String vpnid=request.getParameter("vpnid");
 		int type=Integer.parseInt(request.getParameter("type"));
 		Map<String,Object> map=new HashMap<String, Object>();
 		map.put("time", time);
 		map.put("type", type);
+		map.put("vpnid", vpnid);
 		map.put("endtime", endtime);
 		List<EastVpnCallBean> list=EastComService.chart_vpn_call(map);
 		
@@ -753,6 +756,30 @@ public class CallController {
 		map.put("type", type);
 		map.put("endtime", endtime);
 		List<EastDsCallBean> list=EastComService.chart_ds_call(map);
+		
+		HashMap result = new HashMap();
+		result.put("totals", list.size());
+		result.put("items", list);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	
+	}
+	@RequestMapping(value = "/chart_vpn_group_call", method = RequestMethod.GET)
+	public void chart_vpn_group_call(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		String time=request.getParameter("time");
+		String endtime=request.getParameter("endtime");
+		int type=Integer.parseInt(request.getParameter("type"));
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("time", time);
+		map.put("type", type);
+		map.put("endtime", endtime);
+		List<EastGroupCallBean> list=EastComService.chart_vpn_group_call(map);
 		
 		HashMap result = new HashMap();
 		result.put("totals", list.size());
@@ -1831,6 +1858,208 @@ public class CallController {
 		sheet.addCell(new Label(0, list.size()+2, "汇总", fontFormat_h));
 		sheet.mergeCells(list.size()+2,0,list.size()+2,1);
 		sheet.addCell(new jxl.write.Number(2, list.size()+2, total, fontFormat_Content));
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		
+	}
+	@RequestMapping(value = "/excel_vpn_group", method = RequestMethod.GET)
+	@ResponseBody
+	public  HashMap<String, Object> excel_vpn_group(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		String time=request.getParameter("time");
+		String endtime=request.getParameter("endtime");
+		int type=Integer.parseInt(request.getParameter("type"));
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("time", time);
+		map.put("type", type);
+		map.put("vpnid", 2);
+		map.put("endtime", endtime);
+		 this.success=true;
+		 HashMap<String, Object> result = new HashMap<String, Object>();
+		try {
+			String saveDir = request.getSession().getServletContext().getRealPath("/upload");
+			String pathname = saveDir + "/110话务统计["+time.replace(":", "")+"].xls";
+			if(!endtime.equals("")){
+				pathname=saveDir + "/110话务统计-["+time.replace(":", "")+"-"+endtime.replace(":", "")+"].xls";
+			}
+			File Path = new File(saveDir);
+			if (!Path.exists()) {
+				Path.mkdirs();
+			}
+			File file = new File(pathname);	
+			/*if(file.exists()){
+				result.put("success", success);
+				 result.put("pathName", pathname);
+				 log.info("文件存在，直接下载");
+				return result;
+			}*/
+			WritableWorkbook book = Workbook.createWorkbook(file);
+			WritableFont font = new WritableFont(WritableFont.createFont("微软雅黑"), 15, WritableFont.NO_BOLD,
+					false, UnderlineStyle.NO_UNDERLINE, Colour.BLACK);
+			
+			// 设置头部字体格式
+			WritableFont font_header = new WritableFont(WritableFont.TIMES,13,
+								WritableFont.BOLD, false, UnderlineStyle.NO_UNDERLINE,
+								Colour.BLACK);
+			
+			WritableCellFormat fontFormat = new WritableCellFormat(font);
+			fontFormat.setAlignment(Alignment.CENTRE); // 水平居中
+			fontFormat.setVerticalAlignment(VerticalAlignment.JUSTIFY);// 垂直居中
+			fontFormat.setWrap(true); // 自动换行
+			fontFormat.setBackground(Colour.WHITE);// 背景颜色
+			fontFormat.setBorder(Border.ALL, BorderLineStyle.THIN,
+					Colour.BLACK);
+			fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
+
+			
+			// 应用字体
+			WritableCellFormat fontFormat_h = new WritableCellFormat(font_header);
+			// 设置其他样式
+			fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
+			fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			fontFormat_h.setBackground(Colour.WHITE);// 背景色
+			fontFormat_h.setWrap(true);// 不自动换行
+
+			// 设置主题内容字体格式
+			WritableFont font_Content = new WritableFont(WritableFont.TIMES,
+					12, WritableFont.NO_BOLD, false,
+					UnderlineStyle.NO_UNDERLINE, Colour.GRAY_80);
+			// 应用字体
+			WritableCellFormat fontFormat_Content = new WritableCellFormat(font_Content);
+			// 设置其他样式
+			fontFormat_Content.setAlignment(Alignment.CENTRE);// 水平对齐
+			fontFormat_Content.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			fontFormat_Content.setBackground(Colour.WHITE);// 背景色
+			fontFormat_Content.setWrap(true);// 自动换行
+		
+			
+			//总计内容字体格式
+			WritableFont total_font = new WritableFont(WritableFont.COURIER,
+					13, WritableFont.BOLD, false,
+					UnderlineStyle.NO_UNDERLINE, Colour.RED);
+			// 应用字体
+			WritableCellFormat total_fontFormat = new WritableCellFormat(total_font);
+			total_fontFormat.setAlignment(Alignment.CENTRE);// 水平对齐
+			total_fontFormat.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			total_fontFormat.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			total_fontFormat.setBackground(Colour.WHITE);// 背景色
+			total_fontFormat.setWrap(true);// 自动换行
+			
+			
+			
+			
+			
+			
+
+			// 设置数字格式
+			jxl.write.NumberFormat nf = new jxl.write.NumberFormat("0.00%"); // 设置数字格式
+			jxl.write.WritableCellFormat wcfN = new jxl.write.WritableCellFormat(nf); // 设置表单格式
+			wcfN.setAlignment(Alignment.CENTRE);// 水平对齐
+			wcfN.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			wcfN.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			wcfN.setBackground(Colour.WHITE);// 背景色
+			wcfN.setFont(font_Content);
+			wcfN.setWrap(true);// 自动换行
+			
+
+			WritableSheet sheet1 = book.createSheet("通话组话务统计", 0);
+			WritableSheet sheet2 = book.createSheet("虚拟专网话务总计", 1);
+			excel_vpn_group_data(map,sheet1,fontFormat,fontFormat_h,fontFormat_Content,wcfN);
+			excel_vpn_group_totaldata(map,sheet2,fontFormat,fontFormat_h,fontFormat_Content,wcfN);
+		
+			
+			
+
+			book.write();
+			book.close();
+			 result.put("success", success);
+			 result.put("pathName", pathname);
+			 return result;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		return null;
+		
+	}
+	public  void  excel_vpn_group_data(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,
+			WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content,WritableCellFormat wcfN){
+		String time=map.get("time").toString();
+		try {
+		sheet.setColumnView(0, 20);
+		sheet.setColumnView(1, 20);
+		sheet.setColumnView(2, 20);
+		sheet.setColumnView(3, 30);
+		sheet.setColumnView(4, 30);
+		sheet.addCell(new Label(0, 0, "标识", fontFormat_h));
+		sheet.addCell(new Label(1, 0, "名称", fontFormat_h));
+		sheet.addCell(new Label(2, 0, "有效呼叫总数", fontFormat_h));
+		sheet.addCell(new Label(3, 0, "有效呼叫总持续时间", fontFormat_h));
+		sheet.addCell(new Label(4, 0, "换算（小时）", fontFormat_h));
+		List<EastGroupCallBean> list=EastComService.chart_vpn_group_call(map);
+		int total=0;
+		for(int i=0;i<list.size();i++){
+			EastGroupCallBean bean=list.get(i);
+			total+=bean.getTotalActiveCalls();
+			sheet.setRowView(i+1, 400);
+			sheet.addCell(new jxl.write.Number(0, 1+i, bean.getGroupid(), fontFormat_Content));
+			sheet.addCell(new Label(1, 1+i, bean.getName(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(2, 1+i, bean.getTotalActiveCalls(), fontFormat_Content));
+			sheet.addCell(new Label(3, 1+i, funUtil.second_time((int) bean.getTotalActiveCallDuration()), fontFormat_Content));
+			sheet.addCell(new Label(4, 1+i, funUtil.second_to_hour((int) bean.getTotalActiveCallDuration()), fontFormat_Content));
+		}
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		
+	}
+	public  void  excel_vpn_group_totaldata(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,
+			WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content,WritableCellFormat wcfN){
+		String time=map.get("time").toString();
+		try {
+		sheet.addCell(new Label(0, 0,"虚拟专网话务量总计", fontFormat));
+		sheet.mergeCells(0,0,7,0);
+		sheet.setRowView(0, 600);
+		sheet.addCell(new Label(0, 1,"对象110（2）测量有效期 "+time, fontFormat));
+		sheet.mergeCells(0,1,7,1);
+		sheet.setRowView(0, 400);
+		sheet.setColumnView(0, 30);
+		sheet.setColumnView(1, 30);
+		sheet.setColumnView(2, 30);
+		sheet.setColumnView(3, 30);
+		sheet.setColumnView(4, 20);
+		sheet.setColumnView(5, 20);
+		sheet.setColumnView(6, 20);
+		sheet.setColumnView(7, 30);
+		
+		sheet.addCell(new Label(0, 2, "测量开始时间", fontFormat_h));
+		sheet.addCell(new Label(1, 2, "有效呼叫总数", fontFormat_h));
+		sheet.addCell(new Label(2, 2, "有效呼叫总持续时间", fontFormat_h));
+		sheet.addCell(new Label(3, 2, "平均呼叫持续时间", fontFormat_h));
+		sheet.addCell(new Label(4, 2, "呼叫总数", fontFormat_h));
+		sheet.addCell(new Label(5, 2, "呼损总数", fontFormat_h));
+		sheet.addCell(new Label(6, 2, "呼损率",fontFormat_h));
+		sheet.addCell(new Label(7, 2, "未成功呼叫总数", fontFormat_h));
+		
+		
+		
+		List<EastVpnCallBean> list=EastComService.chart_vpn_call(map);
+		for (int i = 0; i < list.size(); i++) {
+			EastVpnCallBean bean = (EastVpnCallBean) list.get(i);
+			sheet.addCell(new Label(0, i + 3, "总计", fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(1, i + 3,bean.getTotalActiveCalls(), fontFormat_Content));
+			sheet.addCell(new Label(2, i + 3, FunUtil.second_time(bean.getTotalActiveCallDuration()), fontFormat_Content));
+			sheet.addCell(new Label(3, i + 3, FunUtil.second_time(bean.getAverageCallDuration()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(4, i + 3,bean.getDexTotalCalls(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(5, i + 3,bean.getTotalFailedCalls(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(6, i + 3, (float)bean.getFailedPercentage()/100, wcfN));
+			sheet.addCell(new jxl.write.Number(7, i + 3,bean.getNoEffectCalls(), fontFormat_Content));
+		}
 		} catch (Exception e) {
 			e.printStackTrace();
 

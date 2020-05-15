@@ -17,8 +17,10 @@
 				<table id="tb-info" class="xh-table table-hover">
 					<thead>
 						<tr class="tr-gray">
-							<th width="30px"><input type="checkbox" id="table-checkbox"
-								class="table-check" /></th>
+							<th width="30px">
+							<!-- <input type="checkbox"
+											id="table-checkbox" class="table-check" />
+							</th>  -->
 
 							<th width="80px">网元类型</th>
 							<th width="180px">网元名称</th>
@@ -35,8 +37,8 @@
 							<td colspan="9" class="text-center">没有记录！</td>
 						</tr>
 						<tr ng-repeat="x in data">
-							<td><input type="checkbox" name="tb-check" value="{{x.id}}"
-								index="{{$index}}" /></td>
+							<!-- <td><input type="checkbox" name="tb-check" value="{{x.id}}"
+								index="{{$index}}" ng-click="selectAll()" /></td> -->
 							<td><img
 								ng-if="(x.neType==4 || x.neType==102 || x.neType==101 || x.neType==100) && x.voiceTag==0"
 								src="../../Resources/images/icon/new.png" width="20px"
@@ -103,3 +105,6 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+
+</script>

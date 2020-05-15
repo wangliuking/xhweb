@@ -3,7 +3,7 @@
 <mapper namespace="xh.mybatis.mapper.OrderMapper">
 
 	<!--派单记录 -->
-	<select id="orderList" parameterType="map" resultType="map"
+	<select id="orderList" parameterType="map" resultType="xh.mybatis.bean.OrderDataBean"
 		useCache="true">
 		select a.*,b.userName,c.period,c.level from xhgmnet_operations_fault_task_order as a
 		left join xhgmnet_web_user as b on a.handleUserid=b.user 
@@ -19,7 +19,7 @@
 			and (a.dispatchman like concat(#{dispatchman},'%'))
 		</if>
 		<if test="recv_user!=null and recv_user!=''">
-			and (a.recv_user_name  like concat('%',#{recv_user},'%'))
+		and a.handleUserid in (select user from xhgmnet_web_user where userName like concat('%',#{recv_user},'%') )
 		</if>
 		<if test="errtype!=null and errtype!=''">
 			and a.errtype =#{errtype}
@@ -64,7 +64,7 @@
 			and (dispatchman like concat(#{dispatchman},'%'))
 		</if>
 		<if test="recv_user!=null and recv_user!=''">
-			and (recv_user_name  like concat('%',#{recv_user},'%'))
+			and handleUserid in (select user from xhgmnet_web_user where userName like concat('%',#{recv_user},'%') )
 		</if>
 		<if test="errtype!=null and errtype!=''">
 			and errtype =#{errtype}
@@ -125,8 +125,12 @@
 		select * from xhgmnet_operations_fault_task_order where
 		serialnumber=#{serialnumber}
 	</select>
-	<delete id="del" parameterType="int">
-	delete from xhgmnet_operations_fault_task_order where id=#{id}
+	<delete id="del" parameterType="java.util.List">
+	delete from xhgmnet_operations_fault_task_order where id in(
+	<foreach collection="list" item="x" separator=",">
+	#{x}
+	</foreach>
+	)
 	</delete>
 
 

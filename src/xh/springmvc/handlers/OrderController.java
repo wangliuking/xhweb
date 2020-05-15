@@ -40,6 +40,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spire.ms.System.Collections.ArrayList;
 import com.tcpBean.ErrCheckAck;
 import com.tcpBean.ErrProTable;
 import com.tcpServer.ServerDemo;
@@ -54,6 +55,7 @@ import xh.func.plugin.GsonUtil;
 import xh.func.plugin.MapRemoveNullUtil;
 import xh.mybatis.bean.BsStatusBean;
 import xh.mybatis.bean.FaultThreeBean;
+import xh.mybatis.bean.OrderDataBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.bean.WebUserBean;
 import xh.mybatis.service.BsStatusService;
@@ -126,10 +128,14 @@ public class OrderController {
 	}
 	@RequestMapping(value="/del", method = RequestMethod.GET)
 	public void del(
-			@RequestParam("id") int id,
+			@RequestParam("id") String id,
 			HttpServletRequest request, HttpServletResponse response) {
-		
-		int rs = OrderService.del(id);
+		String[] ids=id.split(",");
+		List<Integer> list=new ArrayList();
+		for (String string : ids) {
+			list.add(Integer.parseInt(string));
+		}
+		int rs = OrderService.del(list);
 		if(rs>0){
 			this.success=true;
 			this.message="删除成功";
@@ -300,7 +306,7 @@ public class OrderController {
 			    }
 			    faultBean.setHandle_order_cs(cs_total>0?cs_total:0);
 			    
-				FaultLevelService.three_update_by_order(faultBean);
+				//FaultLevelService.three_update_by_order(faultBean);
 			}
 			
 			/*if(from.equals("数据分析")){
@@ -590,7 +596,7 @@ public class OrderController {
 		map.put("endtime", endtime);
 		map.put("type", 10);
 		
-		List<Map<String,Object>> list=OrderService.orderList(map);
+		List<OrderDataBean> list=OrderService.orderList(map);
 		try {
 			String saveDir = request.getSession().getServletContext().getRealPath("/upload");
 			String pathname = saveDir + "/派单记录表["+starttime+"-"+endtime+"].xls";
@@ -687,7 +693,8 @@ public class OrderController {
 
 			
 			for (int i = 0; i < list.size(); i++) {
-				Map<String,Object> m=list.get(i);
+				OrderDataBean bean=list.get(i);
+				Map<String,Object> m=FunUtil.BeanToMap(bean);
 				
 				sheet.addCell(new Label(0, i + 1, m.get("period")==null?"":m.get("period").toString(), fontFormat_Content));
 				sheet.addCell(new Label(1, i + 1, m.get("bsid")==null?"":m.get("bsid").toString(), fontFormat_Content));

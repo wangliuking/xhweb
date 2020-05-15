@@ -7,7 +7,7 @@
   </resultMap>
   
   <select id="selectAllName" resultType="java.util.HashMap" parameterType="map">
-  	select vpnId,pId,c_name from xhgmnet_vpn where 1=1
+  	select vpnId,pId,sn,name as c_name from xhgmnet_vpn where 1=1
   	<if test="vpnId !=null and vpnId !='' and pId == '0'">
   		and pId=#{vpnId} or vpnId=#{vpnId}
   	</if>
