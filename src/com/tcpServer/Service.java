@@ -225,6 +225,15 @@ public class Service {
 	}
 
 	public static void main(String[] args) throws Exception {
+		SynTableInfo synTableInfo = new SynTableInfo();
+		synTableInfo.setSerialnumber("aaa");
+		synTableInfo.setUserid("ytest");
+		synTableInfo.setType("2");
+		synTableInfo.setTime("2019-10-15 16:36:18.0");
+		synTableInfo.setNum("31");
+		List<SynTableInfoAck> list = Service.appSynTableInfoAck(synTableInfo);
+		System.out.println(list);
+		System.out.println(list.size());
 		/*GetPowerOnTime getPowerOnTime = new GetPowerOnTime();
 		getPowerOnTime.setBsid("47");
 		getPowerOnTime.setSerialnumber("gRI7DGYl");
@@ -247,7 +256,7 @@ public class Service {
 		userLogin.setSerialnumber("m22W0zFj");
 		LoginAck loginAck = Service.appLogin(userLogin);
 		System.out.println(loginAck);*/
-		GetBsInfo getBsInfo = new GetBsInfo();
+		/*GetBsInfo getBsInfo = new GetBsInfo();
 		getBsInfo.setSerialnumber("v9W1dZRD");
 		getBsInfo.setUserid("appTest");
 		getBsInfo.setBsid("154");
@@ -256,7 +265,7 @@ public class Service {
 			String res = Util.Object2Json(getBsInfoAck);
 			System.out.println(res);
 			System.out.println(res.length());
-		}
+		}*/
 		/*Map<String,List<Map<String,Object>>> res = getBsStatusInfo("126");
 		System.out.println(res.get("bsr"));
 		System.out.println(res.get("bsc"));
@@ -1719,6 +1728,122 @@ public class Service {
 			e.printStackTrace();
 		}
 		return getTableInfoAck;
+	}
+
+	/**
+	 * 请求同步故障派单
+	 */
+	public static List<SynTableInfoAck> appSynTableInfoAck(SynTableInfo synTableInfo){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		List<SynTableInfoAck> finalList = new LinkedList<SynTableInfoAck>();
+		SynTableInfoAck synTableInfoAck = new SynTableInfoAck();
+		synTableInfoAck.setSerialnumber(synTableInfo.getSerialnumber());
+		String userId = synTableInfo.getUserid();
+		synTableInfoAck.setUserid(userId);
+		try{
+			Map<String,Object> param = new HashMap<String,Object>();
+			param.put("userId",userId);
+			param.put("type",Integer.parseInt(synTableInfo.getType()));
+			param.put("time",synTableInfo.getTime());
+			String dataNum = synTableInfo.getNum()==null?"":synTableInfo.getNum();
+			param.put("num", "".equals(dataNum)?"":Integer.parseInt(dataNum));
+			List<Map<String,Object>> list = mapper.synTableInfo(param);
+			List<GetTableInfoAck> resList = new LinkedList<GetTableInfoAck>();
+			if(list != null && list.size() > 0){
+				for(int i=0;i<list.size();i++){
+					Map<String,Object> map = list.get(i);
+					GetTableInfoAck getTableInfoAck = new GetTableInfoAck();
+					getTableInfoAck.setSerialnumber(map.get("serialnumber")==null?"":map.get("serialnumber")+"");
+
+					String id = map.get("id")==null?"":map.get("id")+"";
+					getTableInfoAck.setId(Integer.parseInt(id));
+					getTableInfoAck.setUserid(map.get("userid")==null?"":map.get("userid")+"");
+					getTableInfoAck.setBsname(map.get("bsname")==null?"":map.get("bsname")+"");
+					getTableInfoAck.setBsid(map.get("bsid")==null?"":map.get("bsid")+"");
+					getTableInfoAck.setOrderAccount(map.get("orderAccount")==null?"":map.get("orderAccount")+"");
+					getTableInfoAck.setDispatchtime(map.get("dispatchtime")==null?"":map.get("dispatchtime")+"");
+					getTableInfoAck.setDispatchman(map.get("dispatchman")==null?"":map.get("dispatchman")+"");
+					getTableInfoAck.setErrtype(map.get("errtype")==null?"":map.get("errtype")+"");
+					getTableInfoAck.setErrlevel(map.get("errlevel")==null?"":map.get("errlevel")+"");
+					getTableInfoAck.setErrfoundtime(map.get("errfoundtime")==null?"":map.get("errfoundtime")+"");
+					getTableInfoAck.setErrslovetime(map.get("errslovetime")==null?"":map.get("errslovetime")+"");
+					getTableInfoAck.setProgress(map.get("progress")==null?"":map.get("progress")+"");
+					getTableInfoAck.setProresult(map.get("proresult")==null?"":map.get("proresult")+"");
+					getTableInfoAck.setHungup(map.get("break_order")==null?"":map.get("break_order")+"");
+					getTableInfoAck.setWorkman(map.get("workman")==null?"":map.get("workman")+"");
+					getTableInfoAck.setAuditor(map.get("auditor")==null?"":map.get("auditor")+"");
+					getTableInfoAck.setLongitude(map.get("longitude")==null?"":map.get("longitude")+"");
+					getTableInfoAck.setLatitude(map.get("latitude")==null?"":map.get("latitude")+"");
+					getTableInfoAck.setAddress(map.get("address")==null?"":map.get("address")+"");
+					getTableInfoAck.setFrom(map.get("from")==null?"":map.get("from")+"");
+					String status = map.get("status")==null?"":map.get("status")+"";
+					getTableInfoAck.setStatus(status);
+
+					String userid = map.get("userid")==null?"":map.get("userid")+"";
+					String recv_user = map.get("recv_user")==null?"":map.get("recv_user")+"";
+					String copy_user = map.get("copy_user")==null?"":map.get("copy_user")+"";
+					List<String> receList = Arrays.asList(recv_user.split(","));
+					List<String> copiList = Arrays.asList(copy_user.split(","));
+					if(Integer.parseInt(status) == 0){
+						//接单中
+						for(String user : receList){
+							if(user.equals(userId)){
+								//为可接单人
+								getTableInfoAck.setHandlepower("0");
+							}
+						}
+						for(String user : copiList){
+							if(user.equals(userId)){
+								//为抄送人
+								getTableInfoAck.setHandlepower("2");
+							}
+						}
+					}else if(Integer.parseInt(status) > 0){
+						//有人已接单
+						if(userid.equals(userId)){
+							getTableInfoAck.setHandlepower("1");
+						}else{
+							getTableInfoAck.setHandlepower("2");
+						}
+					}
+					resList.add(getTableInfoAck);
+				}
+			}
+			synTableInfoAck.setTableinfolist(resList);
+			//防止tableinfolist过大，进行拆分
+			int listLen = resList.size();
+			if(listLen > 10){
+				int max;
+				if(listLen%10 == 0){
+					max = listLen/10;
+				}else{
+					max = listLen/10 + 1;
+				}
+				for(int i=0;i<max;i++){
+					SynTableInfoAck synBean = new SynTableInfoAck();
+					synBean.setSerialnumber(synTableInfo.getSerialnumber());
+					synBean.setUserid(userId);
+					List<GetTableInfoAck> tempList = new LinkedList<GetTableInfoAck>();
+					int dataLen = (i+1)*10;
+					int lastIndex = dataLen<=listLen?dataLen:listLen;
+					for(int j=i*10;j<lastIndex;j++){
+						GetTableInfoAck tempTableInfo = resList.get(j);
+						tempList.add(tempTableInfo);
+					}
+					synBean.setTableinfolist(tempList);
+					finalList.add(synBean);
+				}
+			}else{
+				finalList.add(synTableInfoAck);
+			}
+
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return finalList;
 	}
 
 	/**

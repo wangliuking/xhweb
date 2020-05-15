@@ -244,4 +244,8 @@ public interface TcpMapper {
 	 */
 	public Map<String,Object> searchAllFaultInfo(String serialnumber)throws  Exception;
 
+	/**
+	 * 根据条件同步故障派单信息
+	 */
+	public List<Map<String,Object>> synTableInfo(Map<String,Object> param)throws Exception;
 }

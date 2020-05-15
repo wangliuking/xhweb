@@ -331,4 +331,22 @@
 	<select id="searchAllFaultInfo" parameterType="String" resultType="map">
 		select a.*,b.name bsname,b.address bsposition from xhgmnet_operations_fault_task_order a left join xhgmnet_bs_station b on a.bsId=b.bsId where a.serialnumber=#{serialnumber}
 	</select>
+
+	<!-- 根据条件同步故障派单信息 -->
+	<select id="synTableInfo" parameterType="map" resultType="map">
+		select a.*,b.name bsname,b.address bsposition from xhgmnet_operations_fault_task_order a left join xhgmnet_bs_station b on a.bsId=b.bsId
+		where (recv_user like concat("%,",#{userId},",%") or recv_user like concat("%,",#{userId}) or recv_user like concat(#{userId},",%") or recv_user=#{userId}
+		or copy_user like concat("%,",#{userId},",%") or copy_user like concat("%,",#{userId}) or copy_user like concat(#{userId},",%") or copy_user=#{userId})
+		<if test="type == 1">
+			and a.dispatchtime &gt; #{time}
+		</if>
+		<if test="type == 2">
+			and a.dispatchtime &lt; #{time}
+		</if>
+		order by a.dispatchtime desc
+		<if test="num != null and num != ''">
+			limit #{num}
+		</if>
+	</select>
+
 </mapper>
