@@ -129,6 +129,7 @@ public class OrderService {
 			SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 			OrderMapper mapper=sqlSession.getMapper(OrderMapper.class);
 			int count=0;
+			System.out.println("=============：测试更新四方告警"+bean.toString());
 			try{
 				count=mapper.updateSfOrder(bean);
 				sqlSession.commit();
