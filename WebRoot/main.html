@@ -141,17 +141,17 @@ marquee {
 								href="Views/menu/menu_monitor.html" target="mainframe">系统监控</a></li>
 							<!-- <li ng-show="menu.m_11"><a href="Views/operations/bsFault.html"  target="mainframe">系统告警</a></li> -->
 							<li ng-show="menu.m_12"><a
-								href="Views/menu/menu_operations.html" target="mainframe">
+								href="Views/menu/menu_operations.html" target="mainframe" >
 									服务监管</a></li>
-									<li ng-if="roleType==2 || roleType==3 || roleType==0"><a href="Views/operations/meet.html"
+							<li ng-show="menu.m_14"><a href="Views/operations/meet.html"
                                 target="mainframe">会议纪要</a></li>
-						 <li ng-if="roleType==3 || roleType==0"><a href="Views/menu/menu_fault.html"
+						 <li ng-show="menu.m_16"><a href="Views/menu/menu_fault.html"
                                 target="mainframe">故障处理</a></li>
-							<li ng-show="menu.m_14"><a href="Views/menu/menu_count.html"
+							<li ng-show="menu.m_15"><a href="Views/menu/menu_count.html"
                                 target="mainframe">统计分析</a></li>
 							<li ng-show="menu.m_13"><a
 								href="Views/operations/appInspection.html" target="mainframe">运维巡检</a></li>
-								 <li ng-if="roleType==3 || roleType==0"><a href="Views/operations/record_ensure.html"
+								 <li ng-show="menu.m_17"><a href="Views/operations/record_ensure.html"
                                 target="mainframe">通信保障记录</a></li>
 							<!-- <li ng-if="roleType==3 || roleType==0"><a href="Views/operations/user_need.html"
                                 target="mainframe">用户需求处理</a></li>
@@ -163,7 +163,7 @@ marquee {
                                 target="mainframe">用户培训记录</a></li>
                                 <li ng-if="roleType==3 || roleType==0"><a href="Views/operations/record_net.html"
                                 target="mainframe">网络优化记录</a></li> -->
-                            <li ng-if="roleType==3 || roleType==0"><a href="Views/web/system-config.html"
+                            <li ng-show="menu.m_18"><a href="Views/web/system-config.html"
                                 target="mainframe">告警提示配置</a></li>
 
 						</ul></li>

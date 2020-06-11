@@ -78,7 +78,7 @@ public class UserRedis {
 		Set s = jedis.keys("*");
 		Iterator it = s.iterator();
 		// 标志状态位(是否查询到该用户session)
-		int status = 0;
+	/*	int status = 0;
 		//标志是否已添加此session
 		boolean sessionStatus = true;
 		while (it.hasNext()) {
@@ -94,11 +94,12 @@ public class UserRedis {
 					sessionStatus = false;
 				}				
 			}
-		}
+		}*/
 		// 若未查询到此用户session存在，则添加新的session
-		if (status == 0) {
+		/*if (status == 0) {
 			jedis.hmset(sessionId, finalInfo);
-		}
+		}*/
+		jedis.hmset(sessionId, finalInfo);
 		//设置redis1 key失效时间
 		jedis.expire(sessionId, sessionTimeOut);// redis1
 
@@ -108,7 +109,7 @@ public class UserRedis {
 		Set s2 = jedis.keys("*");
 		Iterator it2 = s2.iterator();
 		// 标志状态位(是否查询到该用户session)
-		int status2 = 0;
+		/*int status2 = 0;
 		//标志是否已添加此session
 		boolean sessionStatus2 = true;
 		while (it2.hasNext()) {
@@ -124,11 +125,12 @@ public class UserRedis {
 					sessionStatus2 = false;
 				}
 			}
-		}
+		}*/
 		// 若未查询到此用户session存在，则添加新的session
-		if (status2 == 0) {
+		/*if (status2 == 0) {
 			jedis.hmset(sessionId, powerInfo);
-		}
+		}*/
+		jedis.hmset(sessionId, powerInfo);
 		jedis.expire(sessionId, sessionTimeOut);// redis2
 		//释放redis连接资源
 		RedisUtil.returnResource(jedis);

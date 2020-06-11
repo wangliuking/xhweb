@@ -19,7 +19,7 @@
 
 </head>
 
-<body class="fixed-iframe">
+<body class="fixed-iframe" ng-app="app" ng-controller="menu">
 	<!-- splash screen-->
 	<div class="splash">
 		<!-- <div class="color-line"></div> -->
@@ -51,13 +51,13 @@
 		</div> -->
 		<div class="content animate-panel" style="margin-top:0px">
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-12" ng-show="menu.m_34">
 					<div class="hpanel">
 						<div class="panel-heading hbuilt">
 							<i class="fa fa-list"></i> 配置管理
 						</div>
 						<div class="panel-body">
-						<div class="menu-box text-center" style="cursor: pointer;">
+						<div class="menu-box text-center" style="cursor: pointer;" ng-show="menu.m_341">
                                 <a href="../operations/attachment-config.html" target="_self">
                                     <!--  <i
                                     class="fa fa-file-excel-o fa-4x text-success"></i> -->
@@ -65,7 +65,7 @@
                                     <p>备品备件配置</p>
                                 </a>
                             </div>
-                             <div class="menu-box text-center" style="cursor: pointer;">
+                             <div class="menu-box text-center" style="cursor: pointer;" ng-show="menu.m_342">
                                 <a href="../operations/attachment.html" target="_self">
                                     <!--  <i
                                     class="fa fa-file-excel-o fa-4x text-success"></i> -->
@@ -73,7 +73,7 @@
                                     <p>备品备件管理</p>
                                 </a>
                             </div>
-                             <div class="menu-box text-center" style="cursor: pointer;">
+                             <div class="menu-box text-center" style="cursor: pointer;" ng-show="menu.m_343">
                                 <a href="../operations/mplan.html" target="_self">
                                     <!--  <i
                                     class="fa fa-file-excel-o fa-4x text-success"></i> -->
@@ -81,63 +81,63 @@
                                     <p>维护作业</p>
                                 </a>
                             </div>
-                            <div class="menu-box text-center" style="cursor: pointer;">
+                            <div class="menu-box text-center" style="cursor: pointer;" ng-show="menu.m_344">
                                 <a href="../operations/contacts.html" target="_self">
                                 <img alt="" src="../../Resources/images/icon/64/17.png">
                                     <p>联系人管理</p>
                                 </a>
                             </div>
 						 
-							<div class="menu-box text-center" style="cursor: pointer;">
+							<div class="menu-box text-center" style="cursor: pointer;" ng-show="menu.m_345">
 								<a href="../operations/bsInfo.html" target="_self">
 								<img alt="" src="../../Resources/images/icon/64/15.png">
 									<p>基站配置</p>
 								</a>
 							</div>
-							<div class="menu-box text-center" style="cursor: pointer;">
+							<div class="menu-box text-center" style="cursor: pointer;" ng-show="menu.m_346">
                                 <a href="../operations/config_repeaterBs.html" target="_self">
                                 <img alt="" src="../../Resources/images/icon/64/15.png">
                                     <p>直放站配置</p>
                                 </a>
                             </div>
-                            <div class="menu-box text-center" style="cursor: pointer;">
+                            <div class="menu-box text-center" style="cursor: pointer;" ng-show="menu.m_347">
                                 <a href="../operations/config_coverageBs.html" target="_self">
                                 <img alt="" src="../../Resources/images/icon/64/15.png">
                                     <p>室内覆盖基站配置</p>
                                 </a>
                             </div>
-                             <div class="menu-box text-center" style="cursor: pointer;">
+                             <div class="menu-box text-center" style="cursor: pointer;" ng-show="menu.m_348">
                                 <a href="../operations/config_subwayBs.html" target="_self">
                                 <img alt="" src="../../Resources/images/icon/64/15.png">
                                     <p>地铁站配置</p>
                                 </a>
                             </div>
-                            <div class="menu-box text-center" style="cursor: pointer;">
+                            <div class="menu-box text-center" style="cursor: pointer;" ng-show="menu.m_349">
                                 <a href="../operations/config_protableBs.html" target="_self">
                                 <img alt="" src="../../Resources/images/icon/64/15.png">
                                     <p>卫星车载便携基站配置</p>
                                 </a>
                             </div>
-                            <div class="menu-box text-center" style="cursor: pointer;">
+                            <div class="menu-box text-center" style="cursor: pointer;" ng-show="menu.m_3410">
                                 <a href="../operations/config_moveBus.html" target="_self">
                                 <img alt="" src="../../Resources/images/icon/64/46.png">
                                     <p>移动通信车配置</p>
                                 </a>
                             </div>
-							<div class="menu-box text-center" style="cursor: pointer;">
+							<div class="menu-box text-center" style="cursor: pointer;" ng-show="menu.m_3411">
                                 <a href="../operations/dispatchstatus.html" target="_self">
                                 <img alt="" src="../../Resources/images/icon/64/13.png">
                                     <p>调度台配置</p>
                                 </a>
                             </div>
-							<div class="menu-box text-center" style="cursor: pointer;">
+							<div class="menu-box text-center" style="cursor: pointer;" ng-show="menu.m_3412">
 								<a href="../operations/bslimit.html" target="_self"><!--  <i
 									class="fa fa-edit fa-4x text-danger"></i> -->
 									<img alt="" src="../../Resources/images/icon/64/18.png">
 									<p>基站限制列表</p>
 								</a>
 							</div>
-							<div class="menu-box text-center" style="cursor: pointer;">
+							<div class="menu-box text-center" style="cursor: pointer;" ng-show="menu.m_3413">
 								<a href="../operations/onduty.html" target="_self">
 									<img alt="" src="../../Resources/images/icon/64/16.png">
 									<p>值班表管理</p>
@@ -149,19 +149,19 @@
 									<p>联系人管理</p>
 								</a>
 							</div> -->
-							<div class="menu-box text-center" style="cursor: pointer;">
+							<div class="menu-box text-center" style="cursor: pointer;" ng-show="menu.m_3414">
 								<a href="../operations/roadInfo.html" target="_self">
 									<img alt="" src="../../Resources/images/icon/64/19.png">
 									<p>路测数据导入</p>
 								</a>
 							</div>
-							<div class="menu-box text-center" style="cursor: pointer;">
+							<div class="menu-box text-center" style="cursor: pointer;" ng-show="menu.m_3415">
 								<a href="../web/news.html" target="_self">
 									<img alt="" src="../../Resources/images/icon/64/20.png">
 									<p>公告发布</p>
 								</a>
 							</div>
-							<div class="menu-box text-center" style="cursor: pointer;">
+							<div class="menu-box text-center" style="cursor: pointer;" ng-show="menu.m_3416">
                                 <a href="../operations/question.html" target="_self">
                                     <img alt="" src="../../Resources/images/icon/64/12.png">
                                     <p>遗留问题</p>
@@ -169,7 +169,7 @@
                             </div>
                             
                             
-                            <div class="menu-box text-center" style="cursor: pointer;">
+                            <div class="menu-box text-center" style="cursor: pointer;" ng-show="menu.m_3417">
                                 <a href="http://192.168.120.150:5555/loginseal.zz" target="_blank">
                                     <!--  <i
                                     class="fa fa-file-excel-o fa-4x text-success"></i> -->
@@ -177,7 +177,7 @@
                                     <p>印章管理</p>
                                 </a>
                             </div>
-                            <div class="menu-box text-center" style="cursor: pointer;">
+                            <div class="menu-box text-center" style="cursor: pointer;" ng-show="menu.m_3418">
                                 <a href="../operations/select.html" target="_self">
                                     <!--  <i
                                     class="fa fa-file-excel-o fa-4x text-success"></i> -->
@@ -206,6 +206,10 @@
 
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
+	<script type="text/javascript" src="../../Controllers/menu/menu.js"></script>
+<script type="text/javascript">
+		xh.load();
+</script>
 
 </body>
 </html>

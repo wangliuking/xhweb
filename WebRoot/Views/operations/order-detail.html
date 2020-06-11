@@ -107,18 +107,18 @@
 								<tr>
 									<td colspan="4" style="color:red">注：故障处理暂未恢复或预处理临时恢复，交付抢修组进行下一步处理。</td>
 								</tr>
-								<tr>
+								<tr ng-if="editData.status>3">
 									<td>处理结果</td>
 									<td colspan="3"><div contenteditable="true"
 											class="textarea-div" name="proresult">{{editData.proresult}}</div></td>
 								</tr>
-								<tr>
+								<tr ng-if="editData.status>1">
 									<td>处理人</td>
 									<td><div contenteditable="true" class="input-div"
 											name="workman">{{editData.workman}}</div></td>
-									<td>审核人</td>
-									<td><div contenteditable="true" class="input-div"
-											name="auditor">{{editData.auditor}}</div></td>
+									<td ng-if="editData.status>2">审核人</td>
+									<td ng-if="editData.status>2"><div contenteditable="true" class="input-div"
+											name="auditor">{{editData.auditorName}}</div></td>
 								</tr>
 							</tbody>
 						</table>

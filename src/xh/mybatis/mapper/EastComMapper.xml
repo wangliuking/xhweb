@@ -466,13 +466,15 @@
 	left join (select dsid,
 	    sum(totalActiveCalls) AS totalActiveCalls,
 		sum(totalActiveCallDuration) AS totalActiveCallDuration,
-		round(avg(averageCallDuration), 0) AS averageCallDuration from xhgmnet_gps_voice.pef_newdstotal where 1=1
+		round(avg(averageCallDuration), 0) AS averageCallDuration from 
 		<if test="type==1">
-			and date_format(begintime,'%Y-%m-%d') between #{time} and
+		    xhgmnet_gps_voice.chart_day_dstotal where 1=1
+			and begintime between #{time} and
 			#{endtime}
 		</if>
 		<if test="type==2">
-			and date_format(begintime,'%Y-%m') = #{time}
+		   xhgmnet_gps_voice.chart_month_dstotal where 1=1
+			and begintime = #{time}
 		</if>
 		 GROUP BY dsid) as b on a.dstId=b.dsid where a.flag=1 ORDER BY a.dstId ASC
 	</select>
@@ -483,15 +485,23 @@
 	left join (select groupid,
 	    sum(TotalActiveCalls) AS TotalActiveCalls,
 		sum(TotalActiveCallDuration) AS TotalActiveCallDuration,
-		round(avg(AverageCallDuration), 0) AS AverageCallDuration from xhgmnet_gps_voice.pef_newgroupcall where 1=1
+		round(avg(AverageCallDuration), 0) AS AverageCallDuration from 
 		<if test="type==1">
-			and date_format(starttime,'%Y-%m-%d') between #{time} and
+		    xhgmnet_gps_voice.chart_day_groupcall where 1=1 
+			and starttime between #{time} and
 			#{endtime}
 		</if>
 		<if test="type==2">
-			and date_format(starttime,'%Y-%m') = #{time}
+		    xhgmnet_gps_voice.chart_month_groupcall where 1=1
+			and starttime = #{time}
 		</if>
 		 GROUP BY groupid) as b on a.TalkgroupID=b.groupid ORDER BY a.TalkgroupID ASC
+		 <if test="start!=null and limit !=null">
+		 limit #{start},#{limit}
+		 </if>
+	</select>
+	<select id="chart_vpn_group_call_count" resultType="int">
+	select count(*) from xhgmnet.xhgmnet_talkgroup WHERE E_vpnId=2 AND time>=DATE_SUB(now(),INTERVAL 2 DAY)
 	</select>
 	<!-- 虚拟专网话务统计数据 -->
 	<select id="chart_vpn_call" parameterType="map"

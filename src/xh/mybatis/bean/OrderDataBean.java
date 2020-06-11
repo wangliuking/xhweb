@@ -1,7 +1,4 @@
 package xh.mybatis.bean;
-
-
-
 public class OrderDataBean {
 	private String cmdtype = "errprotable";
 	private int id;
@@ -30,7 +27,14 @@ public class OrderDataBean {
 	private String copy_user_name;
 	private String handlepower;//0:可接单；1：可处理；2：只读
 	private String handleUserid;
+	private String auditorName;
 	
+	public String getAuditorName() {
+		return auditorName;
+	}
+	public void setAuditorName(String auditorName) {
+		this.auditorName = auditorName;
+	}
 	private String zbdldm;
 	private String from;
 	private String status;

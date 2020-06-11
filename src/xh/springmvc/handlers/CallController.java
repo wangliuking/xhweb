@@ -775,14 +775,18 @@ public class CallController {
 		String time=request.getParameter("time");
 		String endtime=request.getParameter("endtime");
 		int type=Integer.parseInt(request.getParameter("type"));
+		int start=funUtil.StringToInt(request.getParameter("start"));
+		int limit=funUtil.StringToInt(request.getParameter("limit"));
 		Map<String,Object> map=new HashMap<String, Object>();
 		map.put("time", time);
 		map.put("type", type);
 		map.put("endtime", endtime);
+		map.put("start", start);
+		map.put("limit", limit);
 		List<EastGroupCallBean> list=EastComService.chart_vpn_group_call(map);
 		
 		HashMap result = new HashMap();
-		result.put("totals", list.size());
+		result.put("totals", EastComService.chart_vpn_group_call_count());
 		result.put("items", list);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);

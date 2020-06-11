@@ -58,6 +58,7 @@ public interface EastComMapper {
 	
 	
 	public int del_data(String time)throws Exception;
+	public int chart_vpn_group_call_count()throws Exception;
 	
 	
 	

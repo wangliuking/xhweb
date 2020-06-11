@@ -91,6 +91,7 @@ public class OrderController {
 		String dispatchman=request.getParameter("dispatchman");
 		String recv_user=request.getParameter("recv_user");
 		String type=request.getParameter("type");
+		String status=request.getParameter("status");
 		
 		String user = funUtil.loginUser(request);
 		WebUserBean userbean = WebUserServices.selectUserByUser(user);
@@ -108,6 +109,7 @@ public class OrderController {
 		map.put("dispatchman", dispatchman);
 		map.put("recv_user", recv_user);
 		map.put("errtype", type);
+		map.put("status", status);
 		map.put("starttime", starttime);
 		map.put("endtime", endtime);
 		
@@ -242,6 +244,8 @@ public class OrderController {
 		String zbdldm=request.getParameter("zbdldm");
 		String serialnumber=request.getParameter("serialnumber");
 		String userid=request.getParameter("userid");
+		String recvUser=request.getParameter("recvUser");
+		String copyUser=request.getParameter("copyUser");
 		
 		
 		
@@ -250,6 +254,7 @@ public class OrderController {
 		Map<String,Object> map=new HashMap<String, Object>();
 		map.put("status", status);
 		map.put("time", FunUtil.nowDate());
+		map.put("auditor", SingLoginListener.getLogUserMap().get(request.getSession().getId())+"");
 		map.put("id", id);
 		System.out.println(map);
 		
@@ -265,6 +270,19 @@ public class OrderController {
 		demo.startMessageThread(userid, errCheckAck);
 
 		if(code>0){
+			if(recvUser!=null && recvUser!=""){
+				String[] recvuser=recvUser.split(",");
+				for(String user:recvuser){
+					FunUtil.sendMsgToOneUser(user, "故障派单", "派单信息已经更新", request);
+				}
+			
+			}
+			if(copyUser!=null && copyUser!=""){
+				String[] copyuser=copyUser.split(",");
+				for(String user:copyuser){
+					FunUtil.sendMsgToOneUser(user, "故障派单", "派单信息已经更新", request);
+				}
+			}
 			/*if(status==3){
 				FaultThreeBean faultBean=new FaultThreeBean();
 				faultBean.setFault_id(alarmId);
@@ -412,7 +430,7 @@ public class OrderController {
 					/*bean.setWorkman(a2[i]);*/
 					bean.setHandlepower("0");
 					demo.startMessageThread(bean.getUserid(), bean);
-					
+					FunUtil.sendMsgToOneUser(bean.getUserid(), "故障派单", "你有新的故障派单信息", request);
 					log.info("派单：接收》userId="+bean.getUserid()+";bean="+bean);
 				}
 			}
@@ -426,6 +444,7 @@ public class OrderController {
 					//bean.setWorkman(b2[i]);
 					bean.setHandlepower("2");
 					demo.startMessageThread(bean.getUserid(), bean);
+					FunUtil.sendMsgToOneUser(bean.getUserid(), "故障派单", "你有新的故障派单信息", request);
 					log.info("派单：抄送》userId="+bean.getUserid()+";bean="+bean);
 				}
 			}

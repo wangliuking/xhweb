@@ -368,6 +368,8 @@ public class WebRoleController {
 			map.put("roleType", roleBean.getRoleType());
 			map.put("checkedstr", checked);
 			
+			log.info("map:--->"+map);
+			
 
 			if(MenuService.menuExistsByParentId(map)==0){			
 				if(MenuService.menuExists(map)==0){

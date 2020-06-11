@@ -5,9 +5,10 @@
 	<!--派单记录 -->
 	<select id="orderList" parameterType="map" resultType="xh.mybatis.bean.OrderDataBean"
 		useCache="true">
-		select a.*,b.userName,c.period,c.level from xhgmnet_operations_fault_task_order as a
+		select a.*,b.userName,c.period,c.level,d.userName as auditorName from xhgmnet_operations_fault_task_order as a
 		left join xhgmnet_web_user as b on a.handleUserid=b.user 
 		left join xhgmnet_bs_station as c on a.bsid=c.bsId
+		left join xhgmnet_web_user as d on a.auditor=d.user 
 		where 1=1
 		<if test="bs!=null and bs!=''">
 			and (a.bsid=#{bs} or a.bsname like concat(#{bs},'%'))
@@ -23,6 +24,9 @@
 		</if>
 		<if test="errtype!=null and errtype!=''">
 			and a.errtype =#{errtype}
+		</if>
+		<if test="status!=null and status!=''">
+			and a.status =#{status}
 		</if>
 		<if test="starttime!=null and starttime!=''">
 			and date_format(a.dispatchtime,"%Y-%m-%d") &gt;=#{starttime}
@@ -69,6 +73,9 @@
 		<if test="errtype!=null and errtype!=''">
 			and errtype =#{errtype}
 		</if>
+		<if test="status!=null and status!=''">
+			and status =#{status}
+		</if>
         <if test="starttime!=null and starttime!=''">
             and date_format(dispatchtime,"%Y-%m-%d") &gt;=#{starttime}
         </if>
@@ -96,7 +103,11 @@
 	</update>
 	<!-- 更新拍单记录 -->
 	<update id="updateOrder" parameterType="map">
-		update xhgmnet_operations_fault_task_order set `status`=#{status},endTime=#{time} where
+		update xhgmnet_operations_fault_task_order set `status`=#{status},endTime=#{time} 
+		<if test="status==3">
+		,auditor=#{auditor}
+		</if>
+		where
 		id=#{id}
 	</update>
 	<!-- 更新四方伟业派单记录 -->

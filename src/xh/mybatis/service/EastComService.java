@@ -525,6 +525,20 @@ public class EastComService {
 		}
 		return rs;
 	}
+	public static int chart_vpn_group_call_count(){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		EastComMapper mapper=session.getMapper(EastComMapper.class);
+		int rs=0;
+		try {
+
+			rs=mapper.chart_vpn_group_call_count();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+	}
 	
 	
 }

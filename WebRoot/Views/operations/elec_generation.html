@@ -167,15 +167,15 @@
 										<!-- <a  href="#" ng-if="x.status==0 && (roleType==0 || roleType==3 || loginUserRoleId==301)"
                                             ng-click="resend($index)">&nbsp;重发
                                         </a> -->
-                                        <a  href="#" ng-if="x.status==2 && (roleType==0 || roleType==3 || loginUserRoleId==301)"
+                                        <a  href="#" ng-if="x.status==2 && (roleType==0 || roleType==3 || loginUserRoleId==301) && up.o_order=='on'"
                                             ng-click="showCheckWin($index)">|&nbsp;<img
                             src="../../Resources/images/icon/record.png">审核是否已发电
                                         </a>
-                                         <a  href="#" ng-if="x.status==4 && (roleType==0 || roleType==3 || loginUserRoleId==301)"
+                                         <a  href="#" ng-if="x.status==4 && (roleType==0 || roleType==3 || loginUserRoleId==301) && up.o_order=='on'"
                                             ng-click="showCheckWin2($index)">|&nbsp;<img
                             src="../../Resources/images/icon/record.png">审核是否完成发电
                                         </a>
-                                        <a  href="#" ng-if="x.status<4 && (roleType==0 || roleType==3 || loginUserRoleId==301)"
+                                        <a  href="#" ng-if="x.status<4 && (roleType==0 || roleType==30 || loginUserRoleId==301) && up.o_order=='on'"
                                             ng-click="cancel_order($index)">|&nbsp;<img
                             src="../../Resources/images/icon/del.png">取消单号
                                         </a>

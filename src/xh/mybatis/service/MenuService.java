@@ -22,13 +22,13 @@ public class MenuService {
 	 * @return
 	 */
 	
-	public static Map<String,Object> menuList(int roleId){
+	public static Map<String,Object> menuList(Map<String, Object> paraMap){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		MenuMapper mapper=sqlSession.getMapper(MenuMapper.class);
 		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
 		Map<String,Object> menuMap=new HashMap<String, Object>();
 		try {
-			list=mapper.menuList(roleId);
+			list=mapper.menuList(paraMap);
 			
 			for (Map<String, Object> map : list) {
 				menuMap.put("m_"+map.get("id"), map.get("checked"));
