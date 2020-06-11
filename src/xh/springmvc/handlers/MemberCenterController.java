@@ -46,10 +46,12 @@ public class MemberCenterController {
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
 		String status=request.getParameter("status");
+		String type=request.getParameter("type");
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
 		map.put("status", status);
+		map.put("type", type);
 		map.put("loginUser", funUtil.loginUser(request));
 		HashMap result = new HashMap();
 		result.put("success", success);
@@ -226,6 +228,15 @@ public class MemberCenterController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+	}
+	@RequestMapping(value="/email/emailType",method = RequestMethod.GET)
+	@ResponseBody
+	public List<Map<String,Object>> emailType(HttpServletRequest request, HttpServletResponse response){
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("loginUser", funUtil.loginUser(request));
+		List<Map<String,Object>> list=EmailService.emailType(funUtil.loginUser(request));
+		return list;
 		
 	}
 

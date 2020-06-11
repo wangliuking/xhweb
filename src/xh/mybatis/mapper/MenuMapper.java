@@ -20,7 +20,7 @@ public interface MenuMapper {
 	 * @throws Exception
 	 */
 	
-	public List<Map<String,Object>> menuList(int roleId)throws Exception;
+	public List<Map<String,Object>> menuList(Map<String, Object> map)throws Exception;
 	
 	/**
 	 * 获取菜单子项

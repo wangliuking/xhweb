@@ -12,10 +12,15 @@
 
 
 <!-- 菜单列表 -->
-	<select id="menuList" parameterType="int" resultType="map"
+	<select id="menuList" parameterType="map" resultType="map"
 		useCache="true">
+		<if test="roleId==10000">
+		select * from xhgmnet_web_menu 
+		</if>
+		<if test="roleId!=10000">
 		select * from xhgmnet_web_role_menu where roleId=#{roleId}
 		 limit 100
+		</if>
 	</select>
 	<!-- 获取菜单子项 -->
 	<select id="menuExists" parameterType="map" resultType="int"
@@ -37,8 +42,8 @@
 	</select>
 	<!-- 新增菜单 -->
 	<insert id="addMenu" useGeneratedKeys="true" keyProperty="id" parameterType="map">
-		INSERT INTO xhgmnet_web_role_menu (id, name, pId, url,target, icon,iconSkin, checked, morder) 
-		select id, name, pId, url,target, icon,iconSkin, ${checkedstr}, morder from  xhgmnet_web_menu
+		INSERT INTO xhgmnet_web_role_menu (id, name, pId, url,target, icon,iconSkin, checked, morder,roleId) 
+		select id, name, pId, url,target, icon,iconSkin, ${checkedstr}, morder,0 from  xhgmnet_web_menu
 	</insert>
 		<!-- 新增菜单 -->
 	<insert id="addParentMenu" useGeneratedKeys="true" keyProperty="id" parameterType="map">

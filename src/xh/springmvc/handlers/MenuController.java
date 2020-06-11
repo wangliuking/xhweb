@@ -92,7 +92,11 @@ public class MenuController {
 		
 		String role=SingLoginListener.getLogUserInfoMap().get(request.getSession().getId()).get("roleId").toString();
 		int roleId=Integer.parseInt(role);
-		Map<String,Object> menuMap=MenuService.menuList(roleId);
+		log.info("roleId:--->"+roleId);
+		Map<String,Object> paramap=new HashMap<String, Object>();
+		paramap.put("roleId", roleId);
+		Map<String,Object> menuMap=MenuService.menuList(paramap);
+		menuMap.put("roleId", roleId);
 		HashMap result = new HashMap();
 		result.put("items", menuMap);
 		response.setContentType("application/json;charset=utf-8");

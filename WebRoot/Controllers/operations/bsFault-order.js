@@ -34,6 +34,7 @@ xh.load = function() {
 		$scope.time = $location.search().time;
 		$scope.id = $location.search().id;
 		$scope.neType=$location.search().neType;
+		$scope.faultRecoveryTime=$location.search().faultRecoveryTime;
 		if($scope.neType==4){
 			$scope.neType="断站故障";
 		}else{

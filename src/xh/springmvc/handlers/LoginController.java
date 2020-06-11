@@ -106,7 +106,9 @@ public class LoginController {
 					
 					String role=SingLoginListener.getLogUserInfoMap().get(request.getSession().getId()).get("roleId").toString();
 					int roleId=Integer.parseInt(role);
-					Map<String,Object> menuMap=MenuService.menuList(roleId);
+					Map<String,Object> paramap=new HashMap<String, Object>();
+					paramap.put("roleId", roleId);
+					Map<String,Object> menuMap=MenuService.menuList(paramap);
 					
 					if(menuMap!=null){
 						if(menuMap.get("m_5")!=null){

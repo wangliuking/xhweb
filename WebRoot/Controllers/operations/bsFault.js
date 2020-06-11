@@ -370,9 +370,14 @@ xh.load = function() {
 			
 			//$("#order").modal('show');
 			var url= xh.getUrl()+'/Views/operations/bsFault-order.html';
+			var faultRecoveryTime="";
 			url+="?bsId="+$scope.data[index].bsId;
 			url+="&name="+$scope.data[index].name;
 			url+="&time="+$scope.data[index].time;	
+			if($scope.data[index].faultRecoveryTime!=null){
+				faultRecoveryTime=$scope.data[index].faultRecoveryTime;
+			}
+			url+="&faultRecoveryTime="+faultRecoveryTime;
 			url+="&id="+$scope.data[index].id;
 			url+="&neType="+$scope.data[index].neType;
 			var index=layer.open({

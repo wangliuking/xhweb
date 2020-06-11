@@ -24,6 +24,7 @@ toastr.options = {
 	};
 xh.load = function() {
 	var app = angular.module("app", []);
+	var pageSize = $("#page-limit").val();
 	
 	app.filter('timeFormat', function() { //可以注入依赖
 	    return function(text) {
@@ -36,6 +37,7 @@ xh.load = function() {
 	app.controller("user", function($scope, $http) {
 		
 		$scope.count = "15";//每页数据显示默认值
+		$scope.page=1;
 		$scope.securityMenu=true; //菜单变色
 		$scope.starttime=xh.getPreMonth();
 		$scope.a=0;
@@ -56,15 +58,46 @@ xh.load = function() {
 			var time=$("#starttime").val()==""?xh.getPreMonth():$("#starttime").val();
 			var endtime=$("#endtime").val();
 			var type=$scope.type;
-			$http.get("../../call/chart_vpn_group_call?time="+time+"&type="+type+"&endtime="+endtime).
+			$http.get("../../call/chart_vpn_group_call?time="+time+"&type="+type+"&endtime="+endtime+"&start=0&limit=" + $scope.count).
 			success(function(response){
 				xh.maskHide();
 				$scope.vpnGrupCalldata = response.items;
 				$scope.vpnGrupCalltotals = response.totals;
+				//xh.pagging(1, parseInt(	$scope.vpnGrupCalltotals), $scope);
 				
 			});
 			
 		}
+		$scope.refresh = function() {
+			$('#xh-tabs a:first').tab('show');
+			$scope.search($scope.page);
+		};
+		/* 查询数据 */
+		$scope.search = function(page) {
+			var $scope = angular.element(appElement).scope();
+			var pageSize = $scope.count;
+			var time=$("#starttime").val();
+			var endtime=$("#endtime").val();
+			var type=$scope.type;
+			var start = 1, limit = pageSize;
+			frist = 0;
+			page = parseInt(page);
+			if (page <= 1) {
+				start = 0;
+
+			} else {
+				start = (page - 1) * pageSize;
+			}
+			$scope.page=page;
+			xh.maskShow();
+			$http.get("../../call/chart_vpn_group_call?time="+time+"&type="+type+"&endtime="+endtime+"&start="+start+"&limit=" + pageSize)
+					.success(function(response) {
+						xh.maskHide();
+						$scope.vpnGrupCalldata = response.items;
+						$scope.vpnGrupCalltotals = response.totals;
+						xh.pagging(page, parseInt($scope.vpnGrupCalltotals), $scope);
+					});
+		};
 		$scope.chart_vpn_zone_call=function(){
 			xh.maskShow();
 			var time=$("#starttime").val()==""?xh.getPreMonth():$("#starttime").val();
@@ -130,20 +163,51 @@ xh.load = function() {
 				$("input[name='endtime']").attr("placeholder",z);
 			}
 		}
+		// 分页点击
+		$scope.pageClick = function(page, totals, totalPages) {
+			var pageSize = $scope.count;
+			var time=$("#starttime").val();
+			var endtime=$("#endtime").val();
+			var type=$scope.type;
+			var start = 1, limit = pageSize;
+			page = parseInt(page);
+			if (page <= 1) {
+				start = 0;
+			} else {
+				start = (page - 1) * pageSize;
+			}
+			$scope.page=page;
+
+			xh.maskShow();
+			$http.get("../../call/chart_vpn_group_call?time="+time+"&type="+type+"&endtime="+endtime+"&start="+start+"&limit=" + pageSize).
+			success(function(response){
+				xh.maskHide();
+				$scope.start = (page - 1) * pageSize + 1;
+				$scope.lastIndex = page * pageSize;
+				if (page == totalPages) {
+					if (totals > 0) {
+						$scope.lastIndex = totals;
+					} else {
+						$scope.start = 0;
+						$scope.lastIndex = 0;
+					}
+				}
 		
-		
-		
-		
-       
-		
-		/* 刷新数据 */
-		$scope.refresh = function() {
-			
-			$('#xh-tabs a:first').tab('show');
-			$scope.chart_msc_call();
-		
+				$scope.vpnGrupCalldata = response.items;
+				$scope.vpnGrupCalltotals = response.totals;
+				
+				
+			});
+
 		};
-		$scope.chart_msc_call();
+		var tag=0;
+		setInterval(function(){
+			if(tag==0){
+				$scope.refresh();
+			}
+			tag=1;
+		
+		}, 1000)
 		
 		
 		
@@ -184,6 +248,42 @@ xh.excel=function(){
 		}
 	});
 	
+};
+/* 数据分页 */
+xh.pagging = function(currentPage, totals, $scope) {
+	var pageSize = $scope.count;
+	var totalPages = (parseInt(totals, 10) / pageSize) < 1 ? 1 : Math
+			.ceil(parseInt(totals, 10) / pageSize);
+	var start = (currentPage - 1) * pageSize + 1;
+	var end = currentPage * pageSize;
+	if (currentPage == totalPages) {
+		if (totals > 0) {
+			end = totals;
+		} else {
+			start = 0;
+			end = 0;
+		}
+	}
+	$scope.start = start;
+	$scope.lastIndex = end;
+	$scope.totals = totals;
+	if (totals > 0) {
+		$(".page-paging").html('<ul class="pagination"></ul>');
+		$('.pagination').twbsPagination({
+			totalPages : totalPages,
+			visiblePages : 10,
+			version : '1.1',
+			startPage : currentPage,
+			onPageClick : function(event, page) {
+				if (frist == 1) {
+					$scope.pageClick(page, totals, totalPages);
+				}
+				frist = 1;
+
+			}
+		});
+	}
+
 };
 function funccc(){
 

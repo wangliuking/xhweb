@@ -160,16 +160,17 @@ class PullThreeEmh extends TimerTask {
 		// TODO Auto-generated method stub
 		Long start = System.currentTimeMillis();
 		log.info("=========================================");
-		log.info("基站三期环控告警写入开始");
+		log.info("获取三期基站环控状态");
 		log.info("=========================================");
 		try {
-			List<ThreeEmhAlarmBean> list = SqlServerService.perDayAlarm();
+			//List<ThreeEmhAlarmBean> list = SqlServerService.perDayAlarm();
 
 			List<String> tablelist = SqlServerService.all_table();
 			int i = 0, j = 0;
 			for (String string : tablelist) {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("table", string);
+				log.info("获取基站表："+string);
 
 				List<EmhThreeBean> list2 = SqlServerService.tb_dev_info(map);
 				for (EmhThreeBean emhThreeBean : list2) {

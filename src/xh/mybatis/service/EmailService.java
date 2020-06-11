@@ -137,7 +137,7 @@ public class EmailService {
 		return count;
 	}
 	public static int updateVoice(){
-		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		EmailMapper mapper=sqlSession.getMapper(EmailMapper.class);
 		int count=0;
 		try{
@@ -149,6 +149,19 @@ public class EmailService {
 			e.printStackTrace();
 		}
 		return count;
+	}
+	public static  List<Map<String,Object>> emailType(String user){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		EmailMapper mapper=sqlSession.getMapper(EmailMapper.class);
+		 List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		try{
+			list=mapper.emailType(user);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 }

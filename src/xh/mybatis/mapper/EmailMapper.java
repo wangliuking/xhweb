@@ -53,5 +53,7 @@ public interface EmailMapper {
 	public int noVoiceEmailCount(Map<String, Object> map)throws Exception;
 	
 	public int updateVoice()throws Exception;
+	
+	public List<Map<String,Object>> emailType(String user) throws Exception;
 
 }

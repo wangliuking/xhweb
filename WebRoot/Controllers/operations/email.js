@@ -29,9 +29,10 @@ xh.load = function() {
 		xh.maskShow();
 		$scope.count = "20";//每页数据显示默认值
 		$scope.page=1;
+		$scope.emailType="";
 		$scope.READ_EMAIL="";
 		/*获取邮件信息*/
-		$http.get("../../center/email/list?start=0&limit="+pageSize).
+		$http.get("../../center/email/list?type="+$scope.emailType+"&start=0&limit="+pageSize).
 		success(function(response){
 			xh.maskHide();
 			$scope.data = response.items;
@@ -40,7 +41,7 @@ xh.load = function() {
 		});
 		$scope.hasRead = function(tag) {
 			$scope.READ_EMAIL=tag;
-			$http.get("../../center/email/list?status="+tag+"&start=0&limit="+pageSize).
+			$http.get("../../center/email/list?type="+$scope.emailType+"&status="+tag+"&start=0&limit="+pageSize).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -48,6 +49,13 @@ xh.load = function() {
 				xh.pagging(1, parseInt($scope.totals),$scope);
 			});
 		};
+		$scope.getEmailType=function(){
+			$http.get("../../center/email/emailType").
+			success(function(response){
+				$scope.emailTypeData = response;
+			});
+		}
+		$scope.getEmailType();
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$scope.search($scope.page);
@@ -57,6 +65,11 @@ xh.load = function() {
 			$scope.editData = $scope.data[id];
 			$scope.setReaded($scope.editData.id);
 		};
+		$scope.searchEmail=function(str){
+			console.log("dfdf->"+str);
+			$scope.emailType=str;
+			$scope.search(1);
+		}
 		/*标记为已读*/
 		$scope.setReaded = function(id) {
 			$.ajax({
@@ -113,7 +126,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../center/email/list?start="+start+"&limit="+pageSize).
+			$http.get("../../center/email/list?type="+$scope.emailType+"&start="+start+"&limit="+pageSize).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -137,7 +150,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../center/email/list?status="+$scope.READ_EMAIL+"&start="+start+"&limit="+pageSize).
+			$http.get("../../center/email/list?type="+$scope.emailType+"&status="+$scope.READ_EMAIL+"&start="+start+"&limit="+pageSize).
 			success(function(response){
 				xh.maskHide();
 				
@@ -213,9 +226,6 @@ xh.load = function() {
 			case "发电审核":
 				url="../operations/elec_generation.html";
 			    break;
-			case "派单审核":
-				url="../operations/order.html";
-			    break;
 			case "提交报告":
 				url="../operations/reportCheck.html";
 			    break;
@@ -243,17 +253,14 @@ xh.load = function() {
 			case "发电结束审核":
 				url="../operations/elec_generation.html";
 			    break;
-			case "会议纪要":
-				url="../operations/meet.html";
-			    break;
-			case "会议纪要":
-				url="../operations/meet.html";
+			case "故障派单":
+				url="../operations/order.html";
 			    break;
 			default:
 				url="email.html";
 				
 			}
-			
+		
 			$scope.setReaded($scope.editData.id);
 			window.location.href=url;
 		}

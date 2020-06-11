@@ -19,7 +19,21 @@
 <script src="../../Resources/js/html5shiv.js"></script>
 <![endif]-->
 <style type="text/css">
+.type-div{
 
+}
+.type-div li{
+ padding:5px;
+ margin-top:3px;
+ cursor:pointer;
+ border:1px solid #cccccc;
+}
+.type-div li:hover{
+ background:#ccc;
+}
+.type-div li.active{
+ background:#ccc;
+}
 </style>
 </head>
 <body ng-app="app" ng-controller="user"
@@ -55,13 +69,28 @@
 		<div class="content animate-panel">
 			<!-- row -->
 			<div class="row">
-				<div class="col-md-12">
+			    <div class="col-md-2">
+			    <div class="hpanel">
+					<div class="panel-heading hbuilt">
+							
+								邮件类型</div>
+						<div class="panel-body">
+						<ul ng-if="emailTypeData!=''" class="type-div">
+						<li style="color:green" ng-click="searchEmail('')" ng-class="{'active':emailType==''}"> 所有邮件</li>
+						<li ng-repeat="x in emailTypeData" ng-click="searchEmail(x.title)" ng-class="{'active':emailType==x.title}">{{x.title}}</li>
+						</ul>
+						<p ng-if="emailTypeData==''">当前没有数据</p>
+						
+						</div>
+						</div>
+			    </div>
+				<div class="col-md-10">
 					<div class="hpanel">
 					<div class="panel-heading hbuilt">
-								<div class="panel-tools">
+								<!-- <div class="panel-tools">
 								<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
 									class="closebox"><i class="fa fa-times"></i></a>
-							</div>
+							</div> -->
 								系统站内信列表</div>
 						<div class="panel-body">
 							<!-- row -->

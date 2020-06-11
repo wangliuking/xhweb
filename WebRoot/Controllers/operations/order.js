@@ -202,13 +202,15 @@ xh.load = function() {
 					dispatchtime:$scope.data[id].dispatchtime,
 					recvTime:$scope.data[id].recvTime,
 					level:$scope.data[id].level,
-					userid:$scope.data[id].handleUserid
+					userid:$scope.data[id].handleUserid,
+					recvUser:$scope.data[id].recv_user,
+                    copyUser:$scope.data[id].copy_user
 				},
 				success : function(data) {
 
 					if (data.success) {
 						$scope.refresh();
-						toastr.success("已确认改派单中的故障处理意见", '提示');
+						toastr.success("已确认该派单中的故障处理意见", '提示');
 					} else {
 						toastr.success("确认失败", '提示');
 					}
@@ -234,13 +236,15 @@ xh.load = function() {
 					dispatchtime:$scope.data[id].dispatchtime,
 					recvTime:$scope.data[id].recvTime,
 					level:$scope.data[id].level,
-                    userid:$scope.data[id].handleUserid
+                    userid:$scope.data[id].handleUserid,
+                    recvUser:$scope.data[id].recv_user,
+                    copyUser:$scope.data[id].copy_user
                 },
                 success : function(data) {
 
                     if (data.success) {
                         $scope.refresh();
-                        toastr.success("已确认改派单中的故障处理意见", '提示');
+                        toastr.success("已确认该派单中的故障处理意见", '提示');
                     } else {
                         toastr.success("确认失败", '提示');
                     }
@@ -322,6 +326,7 @@ xh.load = function() {
 			var dispatchman = $("#dispatchman").val();
 			var recv_user = $("#recv_user").val();
 			var type = $("#type").val();
+			var status = $("#status").val();
 			var starttime=$("#starttime").val();
 			var endtime=$("#endtime").val();
 			var start = 1, limit = pageSize;
@@ -333,12 +338,10 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			console.log("limit=" + limit);
-			xh.maskShow();
 			$http.get("../../order/orderlist?start="+start+"&bs="+bs+"&starttime="+starttime+"" +
 					"&copy_user="+copy_user+"&dispatchman="+dispatchman+"&recv_user="+recv_user+"&type="+type+"" +
-					"&endtime="+endtime+"&limit=" + pageSize).success(function(response) {
-				xh.maskHide();
+					"&endtime="+endtime+"&limit=" + pageSize+"&status="+status).success(function(response) {
+	
 				$scope.data = response.items;
 				$scope.totals = response.totals;
 				$scope.page=page
@@ -353,6 +356,7 @@ xh.load = function() {
 			var dispatchman = $("#dispatchman").val();
 			var recv_user = $("#recv_user").val();
 			var type = $("#type").val();
+			var status = $("#status").val();
 			var starttime=$("#starttime").val();
 			var endtime=$("#endtime").val();
 			var start = 1, limit = pageSize;
@@ -365,7 +369,7 @@ xh.load = function() {
 			xh.maskShow();
 			$http.get("../../order/orderlist?start="+start+"&bs="+bs+"&starttime="+starttime+"" +
 					"&copy_user="+copy_user+"&dispatchman="+dispatchman+"&recv_user="+recv_user+"&type="+type+"" +
-					"&endtime="+endtime+"&limit=" + pageSize).success(function(response) {
+					"&endtime="+endtime+"&limit=" + pageSize+"&status="+status).success(function(response) {
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
 				$scope.lastIndex = page * pageSize;
@@ -384,6 +388,10 @@ xh.load = function() {
 
 		};
 		$scope.search(1);
+		setInterval(function(){
+			$scope.search($scope.page);
+		}, 5000)
+		
 	});
 };
 //刷新数据
