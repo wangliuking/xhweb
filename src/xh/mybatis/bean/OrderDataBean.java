@@ -1,8 +1,6 @@
 package xh.mybatis.bean;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+
 
 public class OrderDataBean {
 	private String cmdtype = "errprotable";
