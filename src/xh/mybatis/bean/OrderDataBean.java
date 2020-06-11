@@ -1,7 +1,4 @@
 package xh.mybatis.bean;
-
-
-
 public class OrderDataBean {
 	private String cmdtype = "errprotable";
 	private int id;

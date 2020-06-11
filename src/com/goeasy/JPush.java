@@ -1,7 +1,12 @@
 package com.goeasy;
 
+import Decoder.BASE64Decoder;
+import Decoder.BASE64Encoder;
+
 import com.alibaba.fastjson.JSONArray;
+
 import net.sf.json.JSONObject;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -11,7 +16,6 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import sun.misc.BASE64Encoder;
 
 /**
  * 极光推送
@@ -153,8 +157,8 @@ public class JPush {
      */
     public static String encryptBASE64(String str) {
         byte[] key = str.getBytes();
-        BASE64Encoder base64Encoder = new BASE64Encoder();
-        String strs = base64Encoder.encodeBuffer(key);
+        BASE64Encoder encoder = new BASE64Encoder();
+        String strs = encoder.encode(key);
         return strs;
     }
 }
